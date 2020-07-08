@@ -34,6 +34,15 @@ class HVector2 {
 	}
 }
 
+
+class MyApplication extends Application
+{
+   public override function Setup() 
+   {
+	trace("hx MyApplication setup called ");
+   }
+}
+
 class Main {
 	static function fibR(n:Int):Int {
 		if (n < 2)
@@ -43,8 +52,8 @@ class Main {
 
 	static function main() {
 	
-		var context = new urho3d.Context();
-		var app = new Application(context);
+		
+		var app = new MyApplication();
 		app.Run();
 
 		/*

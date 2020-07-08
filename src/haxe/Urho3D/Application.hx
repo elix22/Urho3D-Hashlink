@@ -1,27 +1,36 @@
 package urho3d;
 
-private typedef HL_URHO3D_APPLICATION = hl.Abstract<"hl_urho3d_application">;
+class Application  
+{
+    public var abstractApplication:AbstractApplication;
 
-@:hlNative("Urho3D")
-abstract Application(HL_URHO3D_APPLICATION) {
-
-    public function new(context:urho3d.Context) 
+    public function new()
     {
-        trace("new application");
-        this = CreateApplication(context);
+        var context = new urho3d.Context();
+        abstractApplication = new AbstractApplication(context);
+        abstractApplication.RegisterSetupClosure(Setup);
+        abstractApplication.RegisterStartClosure(Start);
+        abstractApplication.RegisterStopClosure(Stop);
     }
 
     public function Run()
     {
-        RunApplication(this);
+        abstractApplication.Run();
     }
 
-    @:hlNative("Urho3D", "_create_application")
-    private static function CreateApplication(ptr:urho3d.Context):HL_URHO3D_APPLICATION {
-        return null;
+    public function Setup():Void
+    {
+        trace("hx Application setup called ");
+    }
+
+    public function Start():Void
+    {
+        trace("hx Application start called ");
     }
     
-    @:hlNative("Urho3D", "_run_application")
-    private static function RunApplication(HL_URHO3D_APPLICATION):Void {
-	}
+    public function Stop():Void
+    {
+        trace("hx Application Stop called ");
+    }
+
 }
