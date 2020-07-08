@@ -7,9 +7,6 @@ extern "C"
 #include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
-typedef void (* hl_finalizer)(void * v);
-
-#define URHO3D_VECTOR2(v)((Urho3D::Vector2 *)v->ptr)
 
 hl_urho3d_vector2 * hl_alloc_urho3d_vector2(hl_finalizer finalizer)
 {
@@ -22,7 +19,7 @@ hl_urho3d_vector2 * hl_alloc_urho3d_vector2(hl_finalizer finalizer)
     return p;
 }
 
-void finalize(void * v)
+void finalize_urho3d_vector2(void * v)
 {
     hl_urho3d_vector2  * v2ptr = (hl_urho3d_vector2  * )v;
     if(v2ptr)
@@ -40,7 +37,7 @@ void finalize(void * v)
 
 HL_PRIM  hl_urho3d_vector2  * HL_NAME(_create_vector2)()
 {
-    hl_urho3d_vector2 * v =  hl_alloc_urho3d_vector2(finalize);
+    hl_urho3d_vector2 * v =  hl_alloc_urho3d_vector2(finalize_urho3d_vector2);
     return v;
 }
 

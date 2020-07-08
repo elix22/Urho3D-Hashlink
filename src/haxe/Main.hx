@@ -42,10 +42,12 @@ class Main {
 	}
 
 	static function main() {
-		// trace("Hello, world!");
-
+	
 		var context = new urho3d.Context();
+		var app = new Application(context);
+		app.Run();
 
+		/*
 		for (i in 0...10) {
 			var s = Sys.time();
 			trace("fib=" + fibR(30));
@@ -67,8 +69,9 @@ class Main {
 		}
 		var end = Sys.time();
 		trace("time:" + (end - start));
+*/
 
-		// var app = new Application(context);
+		
 		// Urho3D.create(context);
 		//	Urho3D.StartUrho3DApplication();
 	}
