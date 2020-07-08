@@ -12,6 +12,7 @@ gcc  -O3 -o urho3d-main  -I out   main.o  Urho3DGlue.o  -lhl -lUrho3D  -L../Urho
 */
 
 #include <Urho3D/Urho3DAll.h>
+#include "global_types.h"
 
 class Sample : public Application
 {
@@ -74,4 +75,14 @@ HL_PRIM void HL_NAME(_start_urho3_dapplication)()
     application->Run();
 }
 
+
+
+ HL_PRIM void HL_NAME(_create_app)(urho3d_context * context)
+ {
+    Sample *application = new Sample(context);
+    application->Run();
+ }
+
+
 DEFINE_PRIM(_VOID, _start_urho3_dapplication, _NO_ARG);
+DEFINE_PRIM(_VOID, _create_app, URHO3D_CONTEXT);
