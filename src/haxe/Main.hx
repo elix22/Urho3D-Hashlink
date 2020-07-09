@@ -1,4 +1,6 @@
+import haxe.macro.Compiler.IncludePosition;
 import urho3d.*;
+
 
 // HASHLINK JIT
 // WINDOWS :  cl /c /MD Urho3DGlue.cpp /I . /I $(HASHLINK)
@@ -11,11 +13,11 @@ import urho3d.*;
 // haxe --main Main --hl out/main.c
 // gcc -O3 -o urho3d-test  -I out out/main.c  Urho3DGlue.cpp   -lhl -lUrho3D  -L../Urho3D/Lib
 
-class HVector2 {
+@:structInit class HVector2 {
 	public var x:Single;
 	public var y:Single;
 
-	public function new(?_x:Single = 0.0, ?_y:Single = 0.0) {
+	public function new(_x:Null<Single> = 0.0, _y:Null<Single> = 0.0) {
 		if (_x != null) {
 			x = _x;
 		}
@@ -32,6 +34,7 @@ class HVector2 {
 
 		return this;
 	}
+
 }
 
 
@@ -53,8 +56,7 @@ class Main {
 	static function main() {
 	
 		
-		var app = new MyApplication();
-		app.Run();
+	
 
 		/*
 		for (i in 0...10) {
@@ -63,23 +65,39 @@ class Main {
 			var e = Sys.time();
 			trace("time:" + (e - s));
 		}
-
-		trace("URho3D::Vector2 ");
-		var start = Sys.time();
-		for (i in 0...20000) {
-			var v1 = new Vector2(10, 10);
-			var v2 = new Vector2(20, 20);
-			// var v3 = v1+v2;
-			//	v1.add2(v2);
-			v1 += v2;
-			// trace(v1);
-			v1 = null;
-			v2 = null;
-		}
-		var end = Sys.time();
-		trace("time:" + (end - start));
 */
 
+		var v3 = new HVector2(10, 10);
+		var v4:HVector2 = {_x:10,_y:10};
+
+		var v4:Vector2 = {x:30,y:50};
+        
+		var hash:StringHash = "test hash function";
+/*
+		trace("URho3D::Vector2 ");
+		for (j in 0...10) {
+			var start = Sys.time();
+			for (i in 0...200000) {
+				//var v1 = new Vector2(10, 10);
+				//var v2 = new Vector2(20, 20);
+				var v1:Vector2 = {x:10,y:10};
+				var v2:Vector2 = {x:20,y:20};
+				// var v3 = v1+v2;
+				if(j%2 == 0)
+					v1.add2(v2);
+				else
+					v1 += v2;
+				// trace(v1);
+				v1 = null;
+				v2 = null;
+			}
+			var end = Sys.time();
+			trace("time:" + (end - start));
+		}
+*/
+
+		var app = new MyApplication();
+		app.Run();
 		
 		// Urho3D.create(context);
 		//	Urho3D.StartUrho3DApplication();

@@ -2,6 +2,8 @@ package urho3d;
 
 typedef HL_URHO3D_VECTOR2 = hl.Abstract<"hl_urho3d_vector2">;
 
+typedef StructVector2 = { x : Single, y : Single }
+
 @:hlNative("Urho3D")
 abstract Vector2(HL_URHO3D_VECTOR2) {
 
@@ -32,6 +34,12 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     {
         var s:String = x+":"+y;
         return s;
+    }
+
+    @:from
+    public static function fromStructVector2(m:StructVector2):Vector2
+    {
+        return new Vector2(m.x,m.y);
     }
 
     @:op(A == B)

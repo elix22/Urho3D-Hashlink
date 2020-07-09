@@ -17,6 +17,15 @@ typedef struct hl_urho3d_vector2
 
 #define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_vector2)
 
+typedef struct hl_urho3d_stringhash
+{
+    void * finalizer;
+    Urho3D::StringHash  * ptr;
+}hl_urho3d_stringhash;
+
+#define HL_URHO3D_STRINGHASH _ABSTRACT(hl_urho3d_stringhash)
+
+
 typedef struct hl_urho3d_application
 {
     void * finalizer;

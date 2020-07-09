@@ -8,8 +8,8 @@ INCLUDES=-I hashlink -I Urho3D/include -I Urho3D/include/Urho3D/ThirdParty -I sr
 cleanup: urho3d-main
 	$(RM) *.o
 
-urho3d-main: Urho3DGlue.o  urho3d_core_context.o urho3d_engine_application.o urho3d_math_vector2.o hashlink_main.o 
-	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o  Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_math_vector2.o   $(APPLE_FLAGS)
+urho3d-main: Urho3DGlue.o  urho3d_core_context.o urho3d_engine_application.o urho3d_math_vector2.o urho3d_math_stringhash.o hashlink_main.o 
+	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o  Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_math_vector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
 
 hashlink_main.o: hashlink-c 
 	$(CC) -c -O3 -o hashlink_main.o  $(INCLUDES) hashlink/hashlink_main.c 
@@ -29,6 +29,8 @@ urho3d_core_context.o:
 urho3d_math_vector2.o:
 	$(CC) -c -O3 -o urho3d_math_vector2.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_math_vector2.cpp   -std=c++11
 	
+urho3d_math_stringhash.o:
+	$(CC) -c -O3 -o urho3d_math_stringhash.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_math_stringhash.cpp   -std=c++11
 
 hdll:
 	$(CC) -o Urho3D.hdll $(INCLUDES)  $(SRC_DIR)/cpp/*.cpp  -shared  -Wall -O3  -I/usr/local/include $(APPLE_FLAGS)
