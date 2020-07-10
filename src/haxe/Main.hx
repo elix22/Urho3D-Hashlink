@@ -43,6 +43,7 @@ class MyApplication extends Application
 {
    public override function Setup() 
    {
+	   /*
 		var start = Sys.time();
 		for  (i in 0...100000)
 		{
@@ -56,10 +57,23 @@ class MyApplication extends Application
 		}
 		var end = Sys.time();
 		trace("time:" + (end - start));
-
+		*/
+/*
 		var t:Variant = 55;
 		var I:Int32 = t;
 		 trace ("int from variant " + I);
+
+		 var vc:Vector2 = {x:203.45,y:230.567};
+		 var v1:Variant = vc;
+		 var vc2:Vector2  = v1;
+		 trace ("Vector2 from variant " + vc2);
+
+
+		 var t2:Variant = 556.4563;
+		 var F:Single = 45.0;
+		 F = t2;
+		trace ("Single from variant " + F);
+*/
    }
 }
 

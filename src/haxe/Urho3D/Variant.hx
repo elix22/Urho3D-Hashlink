@@ -15,41 +15,25 @@ abstract Variant(URHO3D_VARIANT) {
         return null;
     }
 
-    @:from
-    public static function fromInt(m:Int):Variant
+    /////////////////////////////////////////////////////////////////
+    @:to
+    public function toSingle():Single
     {
-
-     //   trace("variant from int");
-        var v = new Variant();
-        Variant._setInt(v,m);
-        return v;
+        return Variant._getSingle(this);
     }
-    @:hlNative("Urho3D", "_variant_set_int")
-	private static function _setInt(variant:Variant,v:Int):Void {
+    @:hlNative("Urho3D", "_variant_get_float")
+	private static function _getSingle(variant:URHO3D_VARIANT):Single {
+        return 0;
     }
-
 
     @:to
     public function toInt():Int
     {
-
         return Variant._getInt(this);
     }
     @:hlNative("Urho3D", "_variant_get_int")
 	private static function _getInt(variant:URHO3D_VARIANT):Int {
         return 0;
-    }
-    
-    @:from
-    public static function fromVector2(m:Vector2):Variant
-    {
-       // trace("variant from Vector2");
-        var v = new Variant();
-        Variant._setVector(v,m);
-        return v;
-    }
-    @:hlNative("Urho3D", "_variant_set_vector2")
-	private static function _setVector(variant:Variant,vector2:Vector2):Void {
     }
 
     @:to
@@ -64,5 +48,51 @@ abstract Variant(URHO3D_VARIANT) {
     @:hlNative("Urho3D", "_variant_get_vector2")
 	private static function _getVector(variant:URHO3D_VARIANT,vector2:Vector2):Void {
     }
+
+    
+    /////////////////////////////////////////////////////////////////
+
+    @:from
+    public static function fromVector2(m:Vector2):Variant
+    {
+       // trace("variant from Vector2");
+        var v = new Variant();
+        Variant._setVector(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_vector2")
+	private static function _setVector(variant:Variant,vector2:Vector2):Void {
+    }
+
+    
+
+    @:from
+    public static function fromInt(m:Int):Variant
+    {
+        trace("from int " + m);
+     //   trace("variant from int");
+        var v = new Variant();
+        Variant._setInt(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_int")
+	private static function _setInt(variant:Variant,v:Int):Void {
+    }
+
+    @:from
+    public static function fromSingle(m:Single):Variant
+    {
+        trace("from single " + m);
+        var v = new Variant();
+        Variant._setSingle(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_float")
+	private static function _setSingle(variant:Variant,v:Single):Void {
+    }
+
+
+
+
 
 }
