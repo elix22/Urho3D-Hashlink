@@ -16,7 +16,7 @@ hl_urho3d_stringhash * hl_alloc_urho3d_stringhash(const char* str,hl_finalizer f
     Urho3D::StringHash *v = new Urho3D::StringHash(str);
     p->ptr = v;
 
-    printf("hl_alloc_urho3d_stringhash %s %s\n", str, v->ToString().CString());
+   // printf("hl_alloc_urho3d_stringhash %s %s\n", str, v->ToString().CString());
     return p;
 }
 

@@ -26,6 +26,14 @@ typedef struct hl_urho3d_stringhash
 #define HL_URHO3D_STRINGHASH _ABSTRACT(hl_urho3d_stringhash)
 
 
+typedef struct hl_urho3d_variant
+{
+    void * finalizer;
+    Urho3D::Variant  * ptr;
+}hl_urho3d_variant;
+
+#define HL_URHO3D_VARIANT _ABSTRACT(hl_urho3d_variant)
+
 typedef struct hl_urho3d_application
 {
     void * finalizer;

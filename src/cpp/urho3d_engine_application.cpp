@@ -37,7 +37,7 @@ class ProxyApp : public Application
         engineParameters_[EP_WINDOW_TITLE] = "UrhoHaxe";
         engineParameters_[EP_WINDOW_ICON] = "Textures/UrhoIcon.png";
 
-        
+
         if(callback_setup)
         {
             vdynamic *args[1];
@@ -71,7 +71,7 @@ class ProxyApp : public Application
 
 hl_urho3d_application * hl_alloc_urho3d_application(hl_finalizer finalizer,urho3d_context * context)
 {
-    printf("hl_alloc_urho3d_application enter \n");
+    //printf("hl_alloc_urho3d_application enter \n");
     hl_urho3d_application  * p= (hl_urho3d_application *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_application));
 
     p->finalizer = finalizer?(void*)finalizer:0;
@@ -79,7 +79,7 @@ hl_urho3d_application * hl_alloc_urho3d_application(hl_finalizer finalizer,urho3
     p->ptr = v;
 
     if(p->ptr)
-    printf("created application \n");
+   // printf("created application \n");
     return p;
 }
 
@@ -101,14 +101,14 @@ void finalize_urho3d_application(void * v)
 
 HL_PRIM  hl_urho3d_application  * HL_NAME(_create_application)(urho3d_context * context)
 {
-    printf("_create_application enter \n");
+   // printf("_create_application enter \n");
     hl_urho3d_application * v =  hl_alloc_urho3d_application(finalize_urho3d_application,context);
     return v;
 }
 
 HL_PRIM  void HL_NAME(_run_application)(hl_urho3d_application * app)
 {
-    printf("_run_application enter \n");
+   // printf("_run_application enter \n");
     Urho3D::Application  * ptr_app = app->ptr;
     if(ptr_app)
     {

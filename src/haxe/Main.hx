@@ -1,3 +1,4 @@
+import haxe.Int32;
 import haxe.macro.Compiler.IncludePosition;
 import urho3d.*;
 
@@ -42,7 +43,23 @@ class MyApplication extends Application
 {
    public override function Setup() 
    {
-	trace("hx MyApplication setup called ");
+		var start = Sys.time();
+		for  (i in 0...100000)
+		{
+		 var v = new Variant();
+		 var i:haxe.Int32 =45;
+		 var l:haxe.Int64 =45;
+		 var vc:Vector2 = {x:20,y:20};
+		 var v1:Variant = vc;
+		 //var v2:Variant = 5;
+		 var vec:Vector2 = v1;
+		}
+		var end = Sys.time();
+		trace("time:" + (end - start));
+
+		var t:Variant = 55;
+		var I:Int32 = t;
+		 trace ("int from variant " + I);
    }
 }
 
@@ -54,25 +71,11 @@ class Main {
 	}
 
 	static function main() {
-	
-		
-	
 
-		/*
-		for (i in 0...10) {
-			var s = Sys.time();
-			trace("fib=" + fibR(30));
-			var e = Sys.time();
-			trace("time:" + (e - s));
-		}
-*/
-
-		var v3 = new HVector2(10, 10);
-		var v4:HVector2 = {_x:10,_y:10};
-
-		var v4:Vector2 = {x:30,y:50};
+		var app = new MyApplication();
+		app.Run();
         
-		var hash:StringHash = "test hash function";
+	//	var hash:StringHash = "test hash function";
 /*
 		trace("URho3D::Vector2 ");
 		for (j in 0...10) {
@@ -96,8 +99,7 @@ class Main {
 		}
 */
 
-		var app = new MyApplication();
-		app.Run();
+
 		
 		// Urho3D.create(context);
 		//	Urho3D.StartUrho3DApplication();

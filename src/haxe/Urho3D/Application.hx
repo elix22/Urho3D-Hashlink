@@ -1,12 +1,16 @@
 package urho3d;
 
+typedef Long = haxe.Int64;
+
 class Application  
 {
     public var abstractApplication:AbstractApplication;
 
+    public static var context = null;
+
     public function new()
     {
-        var context = new urho3d.Context();
+        context = new urho3d.Context();
         abstractApplication = new AbstractApplication(context);
         abstractApplication.RegisterSetupClosure(Setup);
         abstractApplication.RegisterStartClosure(Start);
@@ -20,17 +24,19 @@ class Application
 
     public function Setup():Void
     {
-        trace("hx Application setup called ");
+       // trace("hx Application setup called ");
     }
 
     public function Start():Void
     {
-        trace("hx Application start called ");
+        //trace("hx Application start called ");
     }
     
     public function Stop():Void
     {
-        trace("hx Application Stop called ");
+        //trace("hx Application Stop called ");
     }
 
 }
+
+
