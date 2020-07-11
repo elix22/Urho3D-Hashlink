@@ -13,15 +13,6 @@ extern "C"
 #define finalize_urho3d finalize_urho3d_variant
 #define HL_URHO3D_TYPE HL_URHO3D_VARIANT
 
-hl_urho3d_type * hl_alloc_urho3d(hl_finalizer finalizer)
-{
-    hl_urho3d_type  * p= (hl_urho3d_type *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_type));
-    p->finalizer = finalizer?(void*)finalizer:0;
-    Urho3D_Type *v = new Urho3D_Type();
-    p->ptr = v;
-    return p;
-}
-
 void finalize_urho3d(void * v)
 {
     hl_urho3d_type  * hlt = (hl_urho3d_type  * )v;
@@ -38,9 +29,21 @@ void finalize_urho3d(void * v)
 }
 
 
+hl_urho3d_type * hl_alloc_urho3d()
+{
+    hl_urho3d_type  * p= (hl_urho3d_type *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_type));
+    p->finalizer = (void*)finalize_urho3d;
+    Urho3D_Type *v = new Urho3D_Type();
+    p->ptr = v;
+    return p;
+}
+
+
+
+
 HL_PRIM  hl_urho3d_type  * HL_NAME(_create_variant)()
 {
-    hl_urho3d_type * v =  hl_alloc_urho3d(finalize_urho3d);
+    hl_urho3d_type * v =  hl_alloc_urho3d();
     return v;
 }
 
@@ -76,7 +79,7 @@ HL_PRIM void HL_NAME(_variant_set_float)(hl_urho3d_variant * hl_var , float val)
     {
         *variant = val;
 
-      //  printf("variant set  float :%f\n",variant->GetFloat());
+       // printf("variant set  float :%f\n",variant->GetFloat());
     }
 }
 

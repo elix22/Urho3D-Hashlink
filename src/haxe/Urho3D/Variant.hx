@@ -5,7 +5,7 @@ typedef URHO3D_VARIANT = hl.Abstract<"hl_urho3d_variant">;
 @:hlNative("Urho3D")
 abstract Variant(URHO3D_VARIANT) {
 
-    public function new() 
+    public inline function new() 
     {
         this = CreateVariant();
     }
@@ -17,7 +17,7 @@ abstract Variant(URHO3D_VARIANT) {
 
     /////////////////////////////////////////////////////////////////
     @:to
-    public function toSingle():Single
+    public inline function toSingle():Single
     {
         return Variant._getSingle(this);
     }
@@ -27,7 +27,7 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     @:to
-    public function toInt():Int
+    public inline function toInt():Int
     {
         return Variant._getInt(this);
     }
@@ -37,7 +37,7 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     @:to
-    public function toVector2():Vector2
+    public inline function toVector2():Vector2
     {
         var v:Vector2 = new Vector2();
         _getVector(this,v);
@@ -53,7 +53,7 @@ abstract Variant(URHO3D_VARIANT) {
     /////////////////////////////////////////////////////////////////
 
     @:from
-    public static function fromVector2(m:Vector2):Variant
+    public static inline function fromVector2(m:Vector2):Variant
     {
        // trace("variant from Vector2");
         var v = new Variant();
@@ -64,12 +64,12 @@ abstract Variant(URHO3D_VARIANT) {
 	private static function _setVector(variant:Variant,vector2:Vector2):Void {
     }
 
-    
+
 
     @:from
-    public static function fromInt(m:Int):Variant
+    public static inline function fromInt(m:Int):Variant
     {
-        trace("from int " + m);
+       // trace("from int " + m);
      //   trace("variant from int");
         var v = new Variant();
         Variant._setInt(v,m);
@@ -80,9 +80,9 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     @:from
-    public static function fromSingle(m:Single):Variant
+    public static inline function fromSingle(m:Single):Variant
     {
-        trace("from single " + m);
+      // trace("from single " + m);
         var v = new Variant();
         Variant._setSingle(v,m);
         return v;

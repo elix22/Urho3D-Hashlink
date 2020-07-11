@@ -8,13 +8,13 @@ typedef HL_URHO3D_STRINGHASH = hl.Abstract<"hl_urho3d_stringhash">;
 abstract StringHash(HL_URHO3D_STRINGHASH) {
 
 
-    public function new(s:String) {
+    public inline function new(s:String) {
         this = Create(s);
 
     }
 
     @:from
-    public static function fromString(s:String):StringHash
+    public static inline function fromString(s:String):StringHash
     {
         return new StringHash(s);
     }

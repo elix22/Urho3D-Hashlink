@@ -8,17 +8,6 @@ extern "C"
 #include "global_types.h"
 
 
-hl_urho3d_vector2 * hl_alloc_urho3d_vector2(hl_finalizer finalizer)
-{
-    hl_urho3d_vector2  * p= (hl_urho3d_vector2 *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_vector2));
-
-    p->finalizer = finalizer?(void*)finalizer:0;
-    Urho3D::Vector2 *v = new Urho3D::Vector2();
-    p->ptr = v;
-
-    return p;
-}
-
 void finalize_urho3d_vector2(void * v)
 {
     hl_urho3d_vector2  * v2ptr = (hl_urho3d_vector2  * )v;
@@ -27,17 +16,32 @@ void finalize_urho3d_vector2(void * v)
          Urho3D::Vector2 *vector2 = (Urho3D::Vector2 *)v2ptr->ptr;
          if(vector2)
          {
+           //  printf("finalize_urho3d_vector2 %f:%f \n",vector2->x_,vector2->y_);
              delete vector2;
              v2ptr->ptr = NULL;
+             
          }
          v2ptr->finalizer = NULL;
     }
     
 }
 
+hl_urho3d_vector2 * hl_alloc_urho3d_vector2()
+{
+    hl_urho3d_vector2  * p= (hl_urho3d_vector2 *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_vector2));
+
+    p->finalizer = (void*)finalize_urho3d_vector2;
+    Urho3D::Vector2 *v = new Urho3D::Vector2();
+    p->ptr = v;
+
+    return p;
+}
+
+
+
 HL_PRIM  hl_urho3d_vector2  * HL_NAME(_create_vector2)()
 {
-    hl_urho3d_vector2 * v =  hl_alloc_urho3d_vector2(finalize_urho3d_vector2);
+    hl_urho3d_vector2 * v =  hl_alloc_urho3d_vector2();
     return v;
 }
 

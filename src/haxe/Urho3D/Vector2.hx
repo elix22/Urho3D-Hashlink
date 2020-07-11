@@ -7,7 +7,7 @@ typedef StructVector2 = { x : Single, y : Single }
 @:hlNative("Urho3D")
 abstract Vector2(HL_URHO3D_VECTOR2) {
 
-    public function new(?x_:Single = 0.0 , ?y_:Single=0.0) {
+    public inline function new(?x_:Single = 0.0 , ?y_:Single=0.0) {
         this = Create();
         if(x_ != null)
         {
@@ -19,9 +19,6 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
         }
     }
 
-    public function destroy() {
-        trace("Vector2 destroyed");
-	}
 
 	@:hlNative("Urho3D", "_create_vector2")
 	private static function Create():HL_URHO3D_VECTOR2 {
@@ -30,32 +27,32 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 
     // calling trace(Vector2) , will show x:y
     @:to
-    public function toString():String
+    public inline function toString():String
     {
         var s:String = x+":"+y;
         return s;
     }
 
     @:from
-    public static function fromStructVector2(m:StructVector2):Vector2
+    public static inline function fromStructVector2(m:StructVector2):Vector2
     {
         return new Vector2(m.x,m.y);
     }
 
     @:op(A == B)
-    public function isequal(rhs:Vector2):Bool {
+    public inline function isequal(rhs:Vector2):Bool {
 
         return (x == rhs.x && y == rhs.y);
     }
 
     @:op(A != B)
-    public function isnotequal(rhs:Vector2):Bool {
+    public inline function isnotequal(rhs:Vector2):Bool {
 
         return !(x == rhs.x && y == rhs.y);
     }
 
     @:op(A + B)
-    public function add(rhs:Vector2):Vector2 {
+    public inline function add(rhs:Vector2):Vector2 {
 
         var x1:Single = x + rhs.x;
         var y1:Single = y + rhs.y;
@@ -64,7 +61,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     }
 
     @:op(A += B)
-    public function add2(rhs:Vector2):HL_URHO3D_VECTOR2 {
+    public  inline function add2(rhs:Vector2):HL_URHO3D_VECTOR2 {
 
         x += rhs.x;
         y += rhs.y;
@@ -73,7 +70,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     }
 
     @:op(A - B)
-    public function sub(rhs:Vector2):Vector2 {
+    public inline function sub(rhs:Vector2):Vector2 {
 
         var x1:Single = x - rhs.x;
         var y1:Single = y - rhs.y;
@@ -82,7 +79,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     }
 
     @:op(A -= B)
-    public function sub2(rhs:Vector2):HL_URHO3D_VECTOR2 {
+    public inline function sub2(rhs:Vector2):HL_URHO3D_VECTOR2 {
 
         x -= rhs.x;
         y -= rhs.y;
@@ -90,31 +87,33 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
         return this;
     }
 
-    @:op(-A) public function neg():HL_URHO3D_VECTOR2 {
+    @:op(-A) 
+    public inline function neg():HL_URHO3D_VECTOR2 {
         x = -x;
         y = -y;
         return this;
     }
 
-    @:op(--A) public function preneg():HL_URHO3D_VECTOR2 {
+    @:op(--A) 
+    public inline function preneg():HL_URHO3D_VECTOR2 {
         x = --x;
         y = --y;
         return this;
     }
 
-    @:op(A--) public function postneg():HL_URHO3D_VECTOR2 {
+    @:op(A--) public inline function postneg():HL_URHO3D_VECTOR2 {
         x = x--;
         y = y--;
         return this;
     }
 
-    @:op(++A) public function preadd():HL_URHO3D_VECTOR2 {
+    @:op(++A) public inline function preadd():HL_URHO3D_VECTOR2 {
         x = ++x;
         y = ++y;
         return this;
     }
 
-    @:op(A++) public function postadd():HL_URHO3D_VECTOR2 {
+    @:op(A++) public inline function postadd():HL_URHO3D_VECTOR2 {
         x = x++;
         y = y++;
         return this;
@@ -126,7 +125,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     public var x(get, set):Single;
     public var y(get, set):Single;
 
-	function get_x() {
+	inline function get_x() {
 		return _get_x(this);
 	}
 	@:hlNative("Urho3D", "_get_x")
@@ -134,7 +133,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 		return 0.0;
     }
     
-	function set_x(x) {
+	inline function set_x(x) {
 		return _set_x(this, x);
 	}
 	@:hlNative("Urho3D", "_set_x")
@@ -143,7 +142,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     }
     
 
-    function get_y() {
+    inline function get_y() {
 		return _get_y(this);
 	}
 	@:hlNative("Urho3D", "_get_y")
@@ -151,7 +150,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 		return 0.0;
     }
     
-	function set_y(y) {
+	inline function set_y(y) {
 		return _set_y(this, y);
 	}
 	@:hlNative("Urho3D", "_set_y")

@@ -8,7 +8,7 @@ class Application
 
     public static var context = null;
 
-    public function new()
+    public inline function new()
     {
         context = new urho3d.Context();
         abstractApplication = new AbstractApplication(context);

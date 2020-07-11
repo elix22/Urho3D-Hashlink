@@ -8,8 +8,8 @@ INCLUDES=-I hashlink -I Urho3D/include -I Urho3D/include/Urho3D/ThirdParty -I sr
 cleanup: urho3d-main
 	$(RM) *.o
 
-urho3d-main: Urho3DGlue.o  urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_math_vector2.o urho3d_math_stringhash.o hashlink_main.o 
-	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o  Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_math_vector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
+urho3d-main: Urho3DGlue.o  urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_stringhash.o hashlink_main.o 
+	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o  Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
 
 hashlink_main.o: hashlink-c 
 	$(CC) -c -O3 -o hashlink_main.o  $(INCLUDES) hashlink/hashlink_main.c 
@@ -28,6 +28,9 @@ urho3d_core_context.o:
 
 urho3d_core_variant.o:
 	$(CC) -c -O3 -o urho3d_core_variant.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_core_variant.cpp   -std=c++11
+
+urho3d_core_variantmap.o:
+	$(CC) -c -O3 -o urho3d_core_variantmap.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_core_variantmap.cpp   -std=c++11	
 
 urho3d_math_vector2.o:
 	$(CC) -c -O3 -o urho3d_math_vector2.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_math_vector2.cpp   -std=c++11

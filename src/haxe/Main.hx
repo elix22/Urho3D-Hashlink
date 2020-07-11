@@ -2,7 +2,6 @@ import haxe.Int32;
 import haxe.macro.Compiler.IncludePosition;
 import urho3d.*;
 
-
 // HASHLINK JIT
 // WINDOWS :  cl /c /MD Urho3DGlue.cpp /I . /I $(HASHLINK)
 // WINDOWS :  cl /LD /MD glue_native.obj "$(HASHLINK_BIN)\libhl.lib"
@@ -35,46 +34,41 @@ import urho3d.*;
 
 		return this;
 	}
-
 }
 
+class MyApplication extends Application {
+	public override function Setup() {
+		trace("Setup");
+		/*
+		var t:Variant = 55;
+		var I:Int32 = t;
+		trace("int from variant " + I);
 
-class MyApplication extends Application
-{
-   public override function Setup() 
-   {
-	   /*
+		var vc:Vector2 = {x: 203.45, y: 230.567};
+		var v1:Variant = vc;
+		var vc2:Vector2 = v1;
+		trace("Vector2 from variant " + vc2);
+
+		var t2:Variant = 556.4563;
+		var F:Single = 45.0;
+		F = t2;
+		trace("Single from variant " + F);
+		*/
+	}
+
+	public override function Start() {
+		trace("Start");
+		/*
 		var start = Sys.time();
-		for  (i in 0...100000)
-		{
-		 var v = new Variant();
-		 var i:haxe.Int32 =45;
-		 var l:haxe.Int64 =45;
-		 var vc:Vector2 = {x:20,y:20};
-		 var v1:Variant = vc;
-		 //var v2:Variant = 5;
-		 var vec:Vector2 = v1;
+		for (i in 0...100000) {
+			var vc:Vector2 = {x: 20, y: 20};
+			var v1:Variant = vc;
+			var vec:Vector2 = v1;
 		}
 		var end = Sys.time();
 		trace("time:" + (end - start));
 		*/
-/*
-		var t:Variant = 55;
-		var I:Int32 = t;
-		 trace ("int from variant " + I);
-
-		 var vc:Vector2 = {x:203.45,y:230.567};
-		 var v1:Variant = vc;
-		 var vc2:Vector2  = v1;
-		 trace ("Vector2 from variant " + vc2);
-
-
-		 var t2:Variant = 556.4563;
-		 var F:Single = 45.0;
-		 F = t2;
-		trace ("Single from variant " + F);
-*/
-   }
+	}
 }
 
 class Main {
@@ -86,21 +80,28 @@ class Main {
 
 	static function main() {
 
-		var app = new MyApplication();
-		app.Run();
-        
-	//	var hash:StringHash = "test hash function";
-/*
+		/*
+		var vm = new VariantMap();
+
+		for (i in 100...110) {
+			var str:String = "test" + i;
+			vm[str] = i;
+			var s:Int = vm[str];
+			trace("got Int from Variantmap " + s);
+		}
+
+		var hash:StringHash = "test hash function";
+
 		trace("URho3D::Vector2 ");
 		for (j in 0...10) {
 			var start = Sys.time();
 			for (i in 0...200000) {
-				//var v1 = new Vector2(10, 10);
-				//var v2 = new Vector2(20, 20);
-				var v1:Vector2 = {x:10,y:10};
-				var v2:Vector2 = {x:20,y:20};
+				var v1 = new Vector2(10, 10);
+				var v2 = new Vector2(20, 20);
+				// var v1:Vector2 = {x:10,y:10};
+				// var v2:Vector2 = {x:20,y:20};
 				// var v3 = v1+v2;
-				if(j%2 == 0)
+				if (j % 2 == 0)
 					v1.add2(v2);
 				else
 					v1 += v2;
@@ -111,10 +112,11 @@ class Main {
 			var end = Sys.time();
 			trace("time:" + (end - start));
 		}
-*/
+		*/
 
+		var app = new MyApplication();
+		app.Run();
 
-		
 		// Urho3D.create(context);
 		//	Urho3D.StartUrho3DApplication();
 	}
