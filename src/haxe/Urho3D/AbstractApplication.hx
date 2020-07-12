@@ -19,9 +19,6 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
     @:keep
     public function Run()
     {
-        var stringHash:StringHash = new StringHash("test");
-        trace ("stringHash" + stringHash.GetString());
-        _passStringhash(this,stringHash);
         RunApplication(this);
     }
 
@@ -65,10 +62,6 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
     private static function CreateApplication(ptr:urho3d.Context):HL_URHO3D_APPLICATION {
         return null;
     }
-    
-
-    @:hlNative("Urho3D", "_pass_stringhash")
-    private static function _passStringhash(HL_URHO3D_APPLICATION,StringHash):Void {}
 
     @:hlNative("Urho3D", "_run_application")
     private static function RunApplication(HL_URHO3D_APPLICATION):Void {}

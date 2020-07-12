@@ -125,10 +125,6 @@ class ProxyApp : public Application
             vdynamic *obj = (vdynamic*)hl_alloc_dynobj();
 
             hl_dyn_seti(obj, hl_hash_gen(hl_to_utf16("testInt"), true), &hlt_i32, 458);
-            hl_dyn_setp(obj, hl_hash_gen(hl_to_utf16("stringHash"), true), &hl_abstract_urho3d_stringhash, test_stringhash);
-
-            vdynamic * hg = hl_make_dyn( test_stringhash, &hl_abstract_urho3d_stringhash );
-            hl_dyn_setp(obj, hl_hash_gen(hl_to_utf16("dynStringHash"), true), &hlt_dyn, hg);
 
             vdynamic *args[1];
             args[0] = obj;
@@ -176,7 +172,6 @@ class ProxyApp : public Application
 
     HashMap<StringHash, vclosure *>  hl_event_closures2;
 
-    hl_urho3d_stringhash* test_stringhash;
 };
 
 hl_urho3d_application * hl_alloc_urho3d_application(hl_finalizer finalizer,urho3d_context * context)
@@ -216,16 +211,6 @@ HL_PRIM  hl_urho3d_application  * HL_NAME(_create_application)(urho3d_context * 
     return v;
 }
 
-HL_PRIM  void HL_NAME(_pass_stringhash)(hl_urho3d_application * app,hl_urho3d_stringhash* stringhash)
-{
-   Urho3D::Application  * ptr_app = app->ptr;
-    if(ptr_app)
-    {
-        ProxyApp * proxyApp  = (ProxyApp *)ptr_app;
-        hl_add_root(&stringhash);
-        proxyApp->test_stringhash = stringhash;
-    }
-}
 
 HL_PRIM  void HL_NAME(_run_application)(hl_urho3d_application * app)
 {
@@ -298,5 +283,3 @@ DEFINE_PRIM(_VOID, _stop_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, 
 
 DEFINE_PRIM(_VOID, _application_subscribe_to_event, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH _FUN(_VOID, HL_URHO3D_STRINGHASH HL_URHO3D_VARIANTMAP));
 DEFINE_PRIM(_VOID, _application_subscribe_to_event2, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH _FUN(_VOID, _DYN));
-
-DEFINE_PRIM(_VOID, _pass_stringhash, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH);
