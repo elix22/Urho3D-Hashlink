@@ -79,8 +79,6 @@ class MyApplication extends Application {
 	public function HandleUpdate( eventType:StringHash,  eventData:VariantMap)
 	{
 		
-		//trace("update hx hash:" + eventType.GetString());
-
 		var  step:Single = eventData["TimeStep"];
 
 		trace("update hx hash:" + eventType.GetString() + " timestep:" + step );
