@@ -1,6 +1,7 @@
 import haxe.Int32;
 import haxe.macro.Compiler.IncludePosition;
 import urho3d.*;
+import urho3d.Application;
 
 // HASHLINK JIT
 // WINDOWS :  cl /c /MD Urho3DGlue.cpp /I . /I $(HASHLINK)
@@ -39,6 +40,9 @@ import urho3d.*;
 class MyApplication extends Application {
 	public override function Setup() {
 		trace("Setup");
+
+		SubscribeToEvent("Update",HandleUpdate);
+	//	SubscribeToEvent2("Update",HandleUpdate2);
 		/*
 		var t:Variant = 55;
 		var I:Int32 = t;
@@ -57,7 +61,7 @@ class MyApplication extends Application {
 	}
 
 	public override function Start() {
-		trace("Start");
+		
 		/*
 		var start = Sys.time();
 		for (i in 0...100000) {
@@ -68,6 +72,28 @@ class MyApplication extends Application {
 		var end = Sys.time();
 		trace("time:" + (end - start));
 		*/
+
+
+	}
+
+	public function HandleUpdate( eventType:StringHash,  eventData:VariantMap)
+	{
+		
+		//trace("update hx hash:" + eventType.GetString());
+
+		var  step:Single = eventData["TimeStep"];
+
+		trace("update hx hash:" + eventType.GetString() + " timestep:" + step );
+	}
+
+	public function HandleUpdate2(event:HLDynEvent)
+	{
+		//var stringHash:StringHash = event.stringHash;
+		//var dynStringHash:StringHash = event.dynStringHash;
+		
+		//trace("HandleUpdate2 hx " + stringHash.GetString());	
+		
+
 	}
 }
 

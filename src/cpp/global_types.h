@@ -1,3 +1,5 @@
+#ifndef _HL_URHO3D_GLOBAL_TYPES_
+#define _HL_URHO3D_GLOBAL_TYPES_
 
 #include <Urho3D/Urho3DAll.h>
 
@@ -27,6 +29,7 @@ typedef struct hl_urho3d_stringhash
 
 #define HL_URHO3D_STRINGHASH _ABSTRACT(hl_urho3d_stringhash)
 hl_urho3d_stringhash * hl_alloc_urho3d_stringhash(const char* str);
+hl_urho3d_stringhash * hl_alloc_urho3d_stringhash_no_finlizer();
 
 
 
@@ -48,6 +51,7 @@ typedef struct hl_urho3d_variantmap
 
 #define HL_URHO3D_VARIANTMAP _ABSTRACT(hl_urho3d_variantmap)
 hl_urho3d_variantmap * hl_alloc_urho3d_variantmap();
+hl_urho3d_variantmap * hl_alloc_urho3d_variantmap_no_finlizer();
 
 
 typedef struct hl_urho3d_application
@@ -57,3 +61,5 @@ typedef struct hl_urho3d_application
 }hl_urho3d_application;
 
 #define HL_URHO3D_APPLICATION _ABSTRACT(hl_urho3d_application)
+
+#endif

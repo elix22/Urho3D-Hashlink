@@ -2,6 +2,13 @@ package urho3d;
 
 typedef Long = haxe.Int64;
 
+
+typedef HLDynEvent = {
+    var stringHash:StringHash;
+    var testInt:Int;
+    var dynStringHash:Dynamic;
+}
+
 class Application  
 {
     public var abstractApplication:AbstractApplication;
@@ -36,6 +43,16 @@ class Application
     {
         //trace("hx Application Stop called ");
     }
+
+    public function SubscribeToEvent(stringHash:StringHash,callback_fun:StringHash->VariantMap->Void) {
+        abstractApplication.SubscribeToEvent(stringHash,callback_fun);
+    }
+
+    public function SubscribeToEvent2(stringHash:StringHash,callback_fun:HLDynEvent->Void) {
+        abstractApplication.SubscribeToEvent2(stringHash,callback_fun);
+    }
+
+    //
 
 }
 

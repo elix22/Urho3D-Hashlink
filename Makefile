@@ -8,14 +8,17 @@ INCLUDES=-I hashlink -I Urho3D/include -I Urho3D/include/Urho3D/ThirdParty -I sr
 cleanup: urho3d-main
 	$(RM) *.o
 
-urho3d-main: Urho3DGlue.o  urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_stringhash.o hashlink_main.o 
-	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o  Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
+urho3d-main: Urho3DGlue.o  hl_function_calls_utils.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_stringhash.o hashlink_main.o 
+	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o  hl_function_calls_utils.o Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
 
 hashlink_main.o: hashlink-c 
 	$(CC) -c -O3 -o hashlink_main.o  $(INCLUDES) hashlink/hashlink_main.c 
 
 hashlink-c:
 	$(HAXE) -cp src/haxe --main Main --hl hashlink/hashlink_main.c
+
+hl_function_calls_utils.o:
+	$(CC) -c -O3 -o hl_function_calls_utils.o  $(INCLUDES)  $(SRC_DIR)/cpp/hl_function_calls_utils.cpp -std=c++11
 
 Urho3DGlue.o:
 	$(CC) -c -O3 -o Urho3DGlue.o  $(INCLUDES)  $(SRC_DIR)/cpp/Urho3DGlue.cpp   -std=c++11
