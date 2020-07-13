@@ -5,9 +5,11 @@ typedef URHO3D_CONTEXT = hl.Abstract<"urho3d_context">;
 @:hlNative("Urho3D")
 abstract Context(URHO3D_CONTEXT) {
 
+    public static var context = null;
     public inline function new() 
     {
         this = CreateContext();
+        context =  this;
     }
 
     @:hlNative("Urho3D","_create_context")

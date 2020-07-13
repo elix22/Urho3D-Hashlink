@@ -20,21 +20,27 @@ class MyApplication extends Application {
 
 		SubscribeToEvent("PostUpdate", HandlePostUpdate);
 		SubscribeToEvent("Update", HandleUpdate);
+		
 	}
 
 	public override function Start() {
 		trace("Start");
+		var resource = new Texture2D("Textures/UrhoDecal.dds");
+		trace(resource);
+
+		trace(Graphics.height);
+		trace(Graphics.width);
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Single = eventData["TimeStep"];
 
-		trace("HandleUpdate hash:" + eventType.GetString() + " timestep:" + step);
+	//	trace("HandleUpdate hash:" + eventType.GetString() + " timestep:" + step);
 	}
 
 	public function HandlePostUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Single = eventData["TimeStep"];
-		trace("HandlePostUpdate hash:" + eventType.GetString() + " timestep:" + step);
+	//	trace("HandlePostUpdate hash:" + eventType.GetString() + " timestep:" + step);
 	}
 
 }

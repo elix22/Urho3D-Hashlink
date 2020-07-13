@@ -62,4 +62,27 @@ typedef struct hl_urho3d_application
 
 #define HL_URHO3D_APPLICATION _ABSTRACT(hl_urho3d_application)
 
+
+
+typedef struct hl_urho3d_resource
+{
+    void * finalizer;
+    Urho3D::Resource  * ptr;
+}hl_urho3d_resource;
+
+#define HL_URHO3D_RESOURCE _ABSTRACT(hl_urho3d_resource)
+hl_urho3d_vector2 * hl_alloc_urho3d_resource();
+
+
+typedef struct hl_urho3d_texture2d
+{
+    void * finalizer;
+    Urho3D::Texture2D  * ptr;
+}hl_urho3d_texture2d;
+
+#define HL_URHO3D_TEXTURE2D _ABSTRACT(hl_urho3d_texture2d)
+hl_urho3d_texture2d * hl_alloc_urho3d_texture2d();
+
+
+
 #endif
