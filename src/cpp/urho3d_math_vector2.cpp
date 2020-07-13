@@ -45,7 +45,7 @@ HL_PRIM  hl_urho3d_vector2  * HL_NAME(_create_vector2)()
     return v;
 }
 
-HL_PRIM float HL_NAME(_set_x)(hl_urho3d_vector2 * hv, float x)
+HL_PRIM float HL_NAME(_vector2_set_x)(hl_urho3d_vector2 * hv, float x)
 {
     Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
 
@@ -58,7 +58,7 @@ HL_PRIM float HL_NAME(_set_x)(hl_urho3d_vector2 * hv, float x)
         return 0.0f;
 }
 
-HL_PRIM float HL_NAME(_get_x)(hl_urho3d_vector2 * hv)
+HL_PRIM float HL_NAME(_vector2_get_x)(hl_urho3d_vector2 * hv)
 {
     Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
 
@@ -72,7 +72,7 @@ HL_PRIM float HL_NAME(_get_x)(hl_urho3d_vector2 * hv)
     }
 }
 
-HL_PRIM float HL_NAME(_set_y)(hl_urho3d_vector2 * hv, float y)
+HL_PRIM float HL_NAME(_vector2_set_y)(hl_urho3d_vector2 * hv, float y)
 {
      Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
     if(v != NULL)
@@ -84,7 +84,7 @@ HL_PRIM float HL_NAME(_set_y)(hl_urho3d_vector2 * hv, float y)
         return 0.0f;
 }
 
-HL_PRIM float HL_NAME(_get_y)(hl_urho3d_vector2 * hv)
+HL_PRIM float HL_NAME(_vector2_get_y)(hl_urho3d_vector2 * hv)
 {
      Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
     if(v != NULL)
@@ -99,7 +99,7 @@ HL_PRIM float HL_NAME(_get_y)(hl_urho3d_vector2 * hv)
 
 
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _create_vector2, _NO_ARG);
-DEFINE_PRIM(_F32, _set_x,HL_URHO3D_VECTOR2 _F32);
-DEFINE_PRIM(_F32, _get_x,HL_URHO3D_VECTOR2);
-DEFINE_PRIM(_F32, _set_y,HL_URHO3D_VECTOR2 _F32);
-DEFINE_PRIM(_F32, _get_y,HL_URHO3D_VECTOR2);
+DEFINE_PRIM(_F32, _vector2_set_x,HL_URHO3D_VECTOR2 _F32);
+DEFINE_PRIM(_F32, _vector2_get_x,HL_URHO3D_VECTOR2);
+DEFINE_PRIM(_F32, _vector2_set_y,HL_URHO3D_VECTOR2 _F32);
+DEFINE_PRIM(_F32, _vector2_get_y,HL_URHO3D_VECTOR2);

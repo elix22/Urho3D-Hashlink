@@ -39,10 +39,12 @@ hl_urho3d_texture2d * hl_alloc_urho3d_txture2d(urho3d_context *context , const c
         hl_urho3d_texture2d *p = (hl_urho3d_texture2d *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_resource));
         p->finalizer = (void *)finalize_urho3d_texture2d;
         p->ptr = resource;
+         //printf("hl_alloc_urho3d_txture2d success  name:%s \n",String(name).CString());
         return p;
     }
     else
     {
+       // printf("hl_alloc_urho3d_txture2d failure  name:%s \n",String(name).CString());
         return NULL;
     }
 

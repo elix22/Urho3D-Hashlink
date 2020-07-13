@@ -21,6 +21,19 @@ typedef struct hl_urho3d_vector2
 hl_urho3d_vector2 * hl_alloc_urho3d_vector2();
 
 
+
+typedef struct hl_urho3d_intvector2
+{
+    void * finalizer;
+    Urho3D::IntVector2  * ptr;
+}hl_urho3d_intvector2;
+
+#define HL_URHO3D_INTVECTOR2 _ABSTRACT(hl_urho3d_intvector2)
+hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2();
+
+
+
+
 typedef struct hl_urho3d_stringhash
 {
     void * finalizer;

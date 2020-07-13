@@ -128,7 +128,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 	inline function get_x() {
 		return _get_x(this);
 	}
-	@:hlNative("Urho3D", "_get_x")
+	@:hlNative("Urho3D", "_vector2_get_x")
 	private static function _get_x(vec2:HL_URHO3D_VECTOR2):Single {
 		return 0.0;
     }
@@ -136,7 +136,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 	inline function set_x(x) {
 		return _set_x(this, x);
 	}
-	@:hlNative("Urho3D", "_set_x")
+	@:hlNative("Urho3D", "_vector2_set_x")
 	private static function _set_x(vec2:HL_URHO3D_VECTOR2, x:Single):Single {
 		return 0.0;
     }
@@ -145,7 +145,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
     inline function get_y() {
 		return _get_y(this);
 	}
-	@:hlNative("Urho3D", "_get_y")
+	@:hlNative("Urho3D", "_vector2_get_y")
 	private static function _get_y(vec2:HL_URHO3D_VECTOR2):Single {
 		return 0.0;
     }
@@ -153,7 +153,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 	inline function set_y(y) {
 		return _set_y(this, y);
 	}
-	@:hlNative("Urho3D", "_set_y")
+	@:hlNative("Urho3D", "_vector2_set_y")
 	private static function _set_y(vec2:HL_URHO3D_VECTOR2, x:Single):Single {
 		return 0.0;
 	}
