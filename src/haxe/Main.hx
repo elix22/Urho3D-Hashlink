@@ -15,82 +15,88 @@ import urho3d.Application;
 // gcc -O3 -o urho3d-test  -I out out/main.c  Urho3DGlue.cpp   -lhl -lUrho3D  -L../Urho3D/Lib
 
 class MyApplication extends Application {
+	private final NUM_SPRITES = 100;
+	private var sprites = [];
 
-	private var counter = 0;
+
 
 	public override function Setup() {
 		trace("Setup");
-
-		SubscribeToEvent("PostUpdate", HandlePostUpdate);
-		SubscribeToEvent("Update", HandleUpdate);
-		
 	}
 
 	public override function Start() {
 		trace("Start");
+		CreateSprites();
+		SubscribeToEvents();
+	}
+
+	public function CreateSprites() {
+		var width = Graphics.width;
+		var height = Graphics.height;
+
+		var texture = new Texture2D("Textures/UrhoDecal.dds");
+
+		for (i in 0...NUM_SPRITES) {
+			var sprite:Sprite = new Sprite();
+			sprite.texture = texture;
+			sprite.position = new Vector2(Random() * width, Random() * height);
+			sprite.size = new IntVector2(128, 128);
+			sprite.hotSpot = new IntVector2(64, 64);
+
+			// Set random rotation in degrees and random scale
+			sprite.rotation = Random() * 360.0;
+			sprite.scale = new Vector2((Random() + 0.5), (Random() + 0.5));
+
+			UI.root.AddChild(sprite);
+
+			sprite.vars["Velocity"] = new Vector2(Random(200.0) - 100.0, Random(200.0) - 100.0);
+			sprites.push(sprite);
+		}
+	}
+
+	public function MoveSprites(timeStep:Single ) {
+		var width = Graphics.width;
+		var height = Graphics.height;
+
+		// Go through all sprites
+		for(sprite in sprites)
+		{
+			sprite.rotation = sprite.rotation + timeStep * 30.0;
 		
-		var texture2d = new Texture2D("Textures/UrhoDecal.dds");
-		trace(texture2d);
+			var velocity:Vector2 = sprite.vars["Velocity"];
+			velocity.x *= timeStep;
+			velocity.y *= timeStep;
+			var newPos = sprite.position + velocity;
+			if (newPos.x < 0.0)
+				newPos.x += width;
+			if (newPos.x >= width)
+				newPos.x -= width;
+			if (newPos.y < 0.0)
+				newPos.y += height;
+			if (newPos.y >= height)
+				newPos.y -= height;
+			sprite.position = newPos;
 
-		var sprite = new Sprite();
-		trace(sprite);
+		}
 
-		var ui_sprite:UIElement = sprite;
-		trace("ui_sprite" + ui_sprite);
-		
-		sprite.texture = texture2d;
-		for(i in 0...10)
-			trace(sprite.texture.name);
+	}
 
-
-		sprite.position = new Vector2(Std.random(45)+678.8,Std.random(45)+563.321);
-		trace("sprite position "+sprite.position);
-
-		sprite.size = new IntVector2(128, 128);
-		trace("sprite size "+sprite.size);
-
-		sprite.hotSpot = new IntVector2(64, 64);
-		trace("sprite hotSpot "+sprite.hotSpot);
-
-		sprite.rotation = 45.678;
-		trace("sprite rotation "+sprite.rotation);
-
-		sprite.scale = new Vector2(0.5,0.5);
-		trace("sprite scale "+sprite.scale);
-
-		sprite.vars["Velocity"] = new Vector2(35.5,65.7);
-		var Velocity:Vector2 = sprite.vars["Velocity"] ;
-		trace("sprite Velocity "+Velocity);
-
-		var ui = new UIElement();
-		trace("ui element " + ui);
-
-		trace(Graphics.height);
-		trace(Graphics.width);
+	public function SubscribeToEvents() {
+		SubscribeToEvent("Update", HandleUpdate);
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Single = eventData["TimeStep"];
-		
-		//trace("HandleUpdate hash:" + eventType.GetString() + " timestep:" + step);
+		MoveSprites(step);
 	}
-
-	public function HandlePostUpdate(eventType:StringHash, eventData:VariantMap) {
-		var step:Single = eventData["TimeStep"];
-	//	trace("HandlePostUpdate hash:" + eventType.GetString() + " timestep:" + step);
-	}
-
 }
 
 class Main {
 	static function main() {
-
 		var app = new MyApplication();
 		app.Run();
 	}
 }
-
-
 /*
 	var vm = new VariantMap();
 

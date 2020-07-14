@@ -51,7 +51,16 @@ class Application
         abstractApplication.SubscribeToEvent2(stringHash,callback_fun);
     }
 
-    //
+
+
+    //Utility functions
+    public function Random(?t:Null<Float>):Float {
+		if (t == null)
+			return Std.random(100000) / 100000.0;
+		else {
+			return Std.random(100000) / 100000.0 * t;
+		}
+	}
 
 }
 
