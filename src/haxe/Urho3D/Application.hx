@@ -2,7 +2,6 @@ package urho3d;
 
 typedef Long = haxe.Int64;
 
-
 typedef HLDynEvent = {
     var stringHash:StringHash;
     var testInt:Int;

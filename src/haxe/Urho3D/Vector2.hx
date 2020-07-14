@@ -39,6 +39,12 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
         return new Vector2(m.x,m.y);
     }
 
+    @:to
+    public inline function toStructVector2():StructVector2
+    {
+        return {x:x,y:y};
+    }
+
     @:op(A == B)
     public inline function isequal(rhs:Vector2):Bool {
 

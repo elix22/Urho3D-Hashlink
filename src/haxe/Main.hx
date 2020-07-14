@@ -15,6 +15,9 @@ import urho3d.Application;
 // gcc -O3 -o urho3d-test  -I out out/main.c  Urho3DGlue.cpp   -lhl -lUrho3D  -L../Urho3D/Lib
 
 class MyApplication extends Application {
+
+	private var counter = 0;
+
 	public override function Setup() {
 		trace("Setup");
 
@@ -31,11 +34,36 @@ class MyApplication extends Application {
 
 		var sprite = new Sprite();
 		trace(sprite);
+
+		var ui_sprite:UIElement = sprite;
+		trace("ui_sprite" + ui_sprite);
 		
 		sprite.texture = texture2d;
 		for(i in 0...10)
 			trace(sprite.texture.name);
-		
+
+
+		sprite.position = new Vector2(Std.random(45)+678.8,Std.random(45)+563.321);
+		trace("sprite position "+sprite.position);
+
+		sprite.size = new IntVector2(128, 128);
+		trace("sprite size "+sprite.size);
+
+		sprite.hotSpot = new IntVector2(64, 64);
+		trace("sprite hotSpot "+sprite.hotSpot);
+
+		sprite.rotation = 45.678;
+		trace("sprite rotation "+sprite.rotation);
+
+		sprite.scale = new Vector2(0.5,0.5);
+		trace("sprite scale "+sprite.scale);
+
+		sprite.vars["Velocity"] = new Vector2(35.5,65.7);
+		var Velocity:Vector2 = sprite.vars["Velocity"] ;
+		trace("sprite Velocity "+Velocity);
+
+		var ui = new UIElement();
+		trace("ui element " + ui);
 
 		trace(Graphics.height);
 		trace(Graphics.width);
@@ -43,7 +71,7 @@ class MyApplication extends Application {
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Single = eventData["TimeStep"];
-
+		
 		//trace("HandleUpdate hash:" + eventType.GetString() + " timestep:" + step);
 	}
 

@@ -8,8 +8,8 @@ INCLUDES=-I hashlink -I Urho3D/include -I Urho3D/include/Urho3D/ThirdParty -I sr
 cleanup: urho3d-main
 	$(RM) *.o
 
-urho3d-main: Urho3DGlue.o  urho3d_graphics_graphics.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_intvector2.o urho3d_math_stringhash.o hashlink_main.o 
-	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o urho3d_graphics_graphics.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_intvector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
+urho3d-main: Urho3DGlue.o  urho3d_graphics_graphics.o urho3d_ui_uielement.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_intvector2.o urho3d_math_stringhash.o hashlink_main.o 
+	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o urho3d_graphics_graphics.o urho3d_ui_uielement.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o Urho3DGlue.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_intvector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
 
 hashlink_main.o: hashlink-c 
 	$(CC) -c -O3 -o hashlink_main.o  $(INCLUDES) hashlink/hashlink_main.c 
@@ -52,6 +52,9 @@ urho3d_resource_resource.o:
 
 urho3d_graphics_texture2d.o:
 	$(CC) -c -O3 -o urho3d_graphics_texture2d.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_graphics_texture2d.cpp   -std=c++11
+
+urho3d_ui_uielement.o:
+	$(CC) -c -O3 -o urho3d_ui_uielement.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_ui_uielement.cpp   -std=c++11
 
 urho3d_ui_sprite.o:
 	$(CC) -c -O3 -o urho3d_ui_sprite.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_ui_sprite.cpp   -std=c++11

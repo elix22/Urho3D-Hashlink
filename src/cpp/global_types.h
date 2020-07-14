@@ -108,4 +108,14 @@ typedef struct hl_urho3d_sprite
 hl_urho3d_sprite * hl_alloc_urho3d_sprite();
 
 
+
+typedef struct hl_urho3d_uielement
+{
+    void * finalizer;
+    SharedPtr<Urho3D::UIElement> ptr;
+}hl_urho3d_uielement;
+
+#define HL_URHO3D_UIELEMENT _ABSTRACT(hl_urho3d_uielement)
+hl_urho3d_uielement * hl_alloc_urho3d_uilement();
+hl_urho3d_uielement * hl_alloc_urho3d_uielement(urho3d_context *context, Urho3D::UIElement * uielement );
 #endif
