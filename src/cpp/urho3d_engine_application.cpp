@@ -196,7 +196,7 @@ void finalize_urho3d_application(void * v)
          Urho3D::Application *app = (Urho3D::Application *)appptr->ptr;
          if(app)
          {
-             delete app;
+             /* appptr->ptr is a SharedPtr , setting to NULL , decreases the reference count*/
              appptr->ptr = NULL;
          }
          appptr->finalizer = NULL;

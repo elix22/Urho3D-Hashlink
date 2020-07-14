@@ -25,8 +25,17 @@ class MyApplication extends Application {
 
 	public override function Start() {
 		trace("Start");
-		var resource = new Texture2D("Textures/UrhoDecal.dds");
-		trace(resource);
+		
+		var texture2d = new Texture2D("Textures/UrhoDecal.dds");
+		trace(texture2d);
+
+		var sprite = new Sprite();
+		trace(sprite);
+		
+		sprite.texture = texture2d;
+		for(i in 0...10)
+			trace(sprite.texture.name);
+		
 
 		trace(Graphics.height);
 		trace(Graphics.width);
@@ -35,7 +44,7 @@ class MyApplication extends Application {
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Single = eventData["TimeStep"];
 
-	//	trace("HandleUpdate hash:" + eventType.GetString() + " timestep:" + step);
+		//trace("HandleUpdate hash:" + eventType.GetString() + " timestep:" + step);
 	}
 
 	public function HandlePostUpdate(eventType:StringHash, eventData:VariantMap) {
@@ -47,7 +56,7 @@ class MyApplication extends Application {
 
 class Main {
 	static function main() {
-		
+
 		var app = new MyApplication();
 		app.Run();
 	}

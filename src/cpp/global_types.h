@@ -59,7 +59,7 @@ hl_urho3d_variant * hl_alloc_urho3d_variant();
 typedef struct hl_urho3d_variantmap
 {
     void * finalizer;
-    Urho3D::VariantMap  * ptr;
+    Urho3D::VariantMap * ptr;
 }hl_urho3d_variantmap;
 
 #define HL_URHO3D_VARIANTMAP _ABSTRACT(hl_urho3d_variantmap)
@@ -70,7 +70,7 @@ hl_urho3d_variantmap * hl_alloc_urho3d_variantmap_no_finlizer();
 typedef struct hl_urho3d_application
 {
     void * finalizer;
-    Urho3D::Application  * ptr;
+    SharedPtr<Urho3D::Application> ptr;
 }hl_urho3d_application;
 
 #define HL_URHO3D_APPLICATION _ABSTRACT(hl_urho3d_application)
@@ -80,7 +80,7 @@ typedef struct hl_urho3d_application
 typedef struct hl_urho3d_resource
 {
     void * finalizer;
-    Urho3D::Resource  * ptr;
+    SharedPtr<Urho3D::Resource> ptr;
 }hl_urho3d_resource;
 
 #define HL_URHO3D_RESOURCE _ABSTRACT(hl_urho3d_resource)
@@ -90,12 +90,22 @@ hl_urho3d_vector2 * hl_alloc_urho3d_resource();
 typedef struct hl_urho3d_texture2d
 {
     void * finalizer;
-    Urho3D::Texture2D  * ptr;
+    SharedPtr<Urho3D::Texture2D>   ptr;
 }hl_urho3d_texture2d;
 
 #define HL_URHO3D_TEXTURE2D _ABSTRACT(hl_urho3d_texture2d)
 hl_urho3d_texture2d * hl_alloc_urho3d_texture2d();
+hl_urho3d_texture2d * hl_alloc_urho3d_texture2d(SharedPtr<Urho3D::Texture2D> texture2d);
 
+
+typedef struct hl_urho3d_sprite
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Sprite> ptr;
+}hl_urho3d_sprite;
+
+#define HL_URHO3D_SPRITE _ABSTRACT(hl_urho3d_sprite)
+hl_urho3d_sprite * hl_alloc_urho3d_sprite();
 
 
 #endif

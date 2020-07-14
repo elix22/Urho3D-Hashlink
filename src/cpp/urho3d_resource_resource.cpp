@@ -16,7 +16,7 @@ void finalize_urho3d_resource(void * v)
          Urho3D::Resource *vector2 = (Urho3D::Resource *)v2ptr->ptr;
          if(vector2)
          {
-             delete vector2;
+             /* v2ptr->ptr is a SharedPtr , setting to NULL , decreases the reference count*/
              v2ptr->ptr = NULL;
              
          }
