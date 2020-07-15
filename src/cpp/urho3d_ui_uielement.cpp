@@ -31,6 +31,7 @@ hl_urho3d_uielement * hl_alloc_urho3d_uielement(urho3d_context *context )
 
 
         hl_urho3d_uielement *p = (hl_urho3d_uielement *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_uielement));
+        memset(p,0,sizeof(hl_urho3d_uielement));
         p->finalizer = (void *)finalize_urho3d_uielement;
         p->ptr = new Urho3D::UIElement(context);
         return p;
@@ -41,6 +42,7 @@ hl_urho3d_uielement * hl_alloc_urho3d_uielement(urho3d_context *context, Urho3D:
 
 
         hl_urho3d_uielement *p = (hl_urho3d_uielement *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_uielement));
+        memset(p,0,sizeof(hl_urho3d_uielement));
         p->finalizer = (void *)finalize_urho3d_uielement;
         p->ptr = uielement;
         return p;

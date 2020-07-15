@@ -28,6 +28,7 @@ hl_urho3d_sprite *hl_alloc_urho3d_sprite(urho3d_context *context)
 {
 
     hl_urho3d_sprite *p = (hl_urho3d_sprite *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_sprite));
+    memset(p,0,sizeof(hl_urho3d_sprite));
     p->finalizer = (void *)finalize_urho3d_sprite;
     p->ptr = new Sprite(context);
     return p;

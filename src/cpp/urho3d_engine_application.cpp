@@ -178,13 +178,11 @@ hl_urho3d_application * hl_alloc_urho3d_application(hl_finalizer finalizer,urho3
 {
     //printf("hl_alloc_urho3d_application enter \n");
     hl_urho3d_application  * p= (hl_urho3d_application *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_application));
-
+    memset(p,0,sizeof(hl_urho3d_application));
+    
     p->finalizer = finalizer?(void*)finalizer:0;
-    Urho3D::Application *v = new ProxyApp(context);
-    p->ptr = v;
+    p->ptr = new ProxyApp(context);
 
-    if(p->ptr)
-   // printf("created application \n");
     return p;
 }
 

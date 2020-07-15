@@ -34,11 +34,11 @@ hl_urho3d_texture2d * hl_alloc_urho3d_txture2d(urho3d_context *context , const c
     ResourceCache *cache = context->GetSubsystem<ResourceCache>();
   
     SharedPtr<Urho3D::Texture2D> resource(cache->GetResource<Texture2D>(String(name)));
-
     //printf("refs:%d\n", resource->Refs());
     if (resource)
     {
         hl_urho3d_texture2d *p = (hl_urho3d_texture2d *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_texture2d));
+        memset(p,0,sizeof(hl_urho3d_texture2d));
         p->finalizer = (void *)finalize_urho3d_texture2d;
         p->ptr = resource;
         //printf("refs:%d\n", resource->Refs());

@@ -37,6 +37,7 @@ hl_urho3d_resource * hl_alloc_urho3d_resource(urho3d_context *context,hl_urho3d_
     if (resource)
     {
         hl_urho3d_resource *p = (hl_urho3d_resource *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_resource));
+        memset(p,0,sizeof(hl_urho3d_resource));
         p->finalizer = (void *)finalize_urho3d_resource;
         p->ptr = resource;
         return p;
