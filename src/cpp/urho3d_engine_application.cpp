@@ -16,7 +16,12 @@ class ProxyApp : public Application
     // Enable type information.
     URHO3D_OBJECT(ProxyApp, Application);
 
-    explicit ProxyApp(Context *context) : Application(context)
+    explicit ProxyApp(Context *context) : Application(context),
+    touchEnabled_(false),
+    useMouseMode_(MM_ABSOLUTE),
+    screenJoystickIndex_(M_MAX_UNSIGNED),
+    screenJoystickSettingsIndex_(M_MAX_UNSIGNED),
+    paused_(false)
     {
         callback_setup = NULL;
         callback_start = NULL;
@@ -135,7 +140,7 @@ class ProxyApp : public Application
         if(callback_fn)
         {
             hl_type hl_abstract_urho3d_stringhash = {HABSTRACT};
-            hl_abstract_urho3d_stringhash.abs_name = (const uchar *)hl_to_utf16("hl_urho3d_stringhash");
+            //TBD ELI causing exception on Windows hl_abstract_urho3d_stringhash.abs_name = (const uchar *)hl_to_utf16("hl_urho3d_stringhash");
 
             vdynamic *obj = (vdynamic*)hl_alloc_dynobj();
 
@@ -157,14 +162,14 @@ class ProxyApp : public Application
             hl_urho3d_stringhash * hl_stringhsh = hl_alloc_urho3d_stringhash_no_finlizer();
             hl_stringhsh->ptr = &eventType;
             hl_type hl_stringhsh_abstract = {HABSTRACT};
-            hl_stringhsh_abstract.abs_name = hl_to_utf16("hl_urho3d_stringhash");
+           //TBD ELI causing exception on Windows hl_stringhsh_abstract.abs_name = hl_to_utf16("hl_urho3d_stringhash");
             vdynamic * dyn_urho3d_stringhash = hl_alloc_dynamic(&hl_stringhsh_abstract);
             dyn_urho3d_stringhash->v.ptr = hl_stringhsh;
 
             hl_urho3d_variantmap * hl_variantmap = hl_alloc_urho3d_variantmap_no_finlizer();
             hl_variantmap->ptr = &eventData;
             hl_type hl_variantmap_abstract = {HABSTRACT};
-            hl_variantmap_abstract.abs_name = hl_to_utf16("hl_urho3d_variantmap");
+           //TBD ELI causing exception on Windows hl_variantmap_abstract.abs_name = hl_to_utf16("hl_urho3d_variantmap");
             vdynamic * dyn_urho3d_variantmap = hl_alloc_dynamic(&hl_stringhsh_abstract);
             dyn_urho3d_variantmap->v.ptr = hl_variantmap;
 
