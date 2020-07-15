@@ -50,6 +50,21 @@ class ProxyApp : public Application
 
     void Start() override
     {
+        if (GetPlatform() == "Android" || GetPlatform() == "iOS")
+            // On mobile platform, enable touch by adding a screen joystick
+            InitTouchInput();
+        else if (GetSubsystem<Input>()->GetNumJoysticks() == 0)
+            // On desktop platform, do not detect touch when we already got a joystick
+            SubscribeToEvent(E_TOUCHBEGIN, URHO3D_HANDLER(ProxyApp, HandleTouchBegin));
+        
+        CreateConsoleAndDebugHud();
+        
+        // Subscribe key down event
+        SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(ProxyApp, HandleKeyDown));
+        // Subscribe key up event
+        SubscribeToEvent(E_KEYUP, URHO3D_HANDLER(ProxyApp, HandleKeyUp));
+        
+        /*============*/
         if(callback_start)
         {
             vdynamic *args[1];
@@ -161,8 +176,220 @@ class ProxyApp : public Application
            hl_dyn_abstract_call(callback_fn, args, 2);
         }
     }
+    
+    
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    
+    void HandleTouchBegin(StringHash /*eventType*/, VariantMap& eventData)
+    {
+        // On some platforms like Windows the presence of touch input can only be detected dynamically
+        InitTouchInput();
+        UnsubscribeFromEvent("TouchBegin");
+    }
+    
+    
+
+    void HandleKeyUp(StringHash /*eventType*/, VariantMap& eventData)
+    {
+        using namespace KeyUp;
+
+        int key = eventData[P_KEY].GetInt();
+
+        // Close console (if open) or exit when ESC is pressed
+        if (key == KEY_ESCAPE)
+        {
+            Console* console = GetSubsystem<Console>();
+            if (console->IsVisible())
+                console->SetVisible(false);
+            else
+            {
+                if (GetPlatform() == "Web")
+                {
+                    GetSubsystem<Input>()->SetMouseVisible(true);
+                    if (useMouseMode_ != MM_ABSOLUTE)
+                        GetSubsystem<Input>()->SetMouseMode(MM_FREE);
+                }
+                else
+                    engine_->Exit();
+            }
+        }
+    }
+    
+    void HandleKeyDown(StringHash /*eventType*/, VariantMap& eventData)
+    {
+        using namespace KeyDown;
+
+        int key = eventData[P_KEY].GetInt();
+
+        // Toggle console with F1
+        if (key == KEY_F1)
+            GetSubsystem<Console>()->Toggle();
+
+        // Toggle debug HUD with F2
+        else if (key == KEY_F2)
+            GetSubsystem<DebugHud>()->ToggleAll();
+
+        // Common rendering quality controls, only when UI has no focused element
+        else if (!GetSubsystem<UI>()->GetFocusElement())
+        {
+            Renderer* renderer = GetSubsystem<Renderer>();
+
+            // Preferences / Pause
+            if (key == KEY_SELECT && touchEnabled_)
+            {
+                paused_ = !paused_;
+
+                Input* input = GetSubsystem<Input>();
+                if (screenJoystickSettingsIndex_ == M_MAX_UNSIGNED)
+                {
+                    // Lazy initialization
+                    ResourceCache* cache = GetSubsystem<ResourceCache>();
+                    screenJoystickSettingsIndex_ = (unsigned)input->AddScreenJoystick(cache->GetResource<XMLFile>("UI/ScreenJoystickSettings_Samples.xml"), cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+                }
+                else
+                    input->SetScreenJoystickVisible(screenJoystickSettingsIndex_, paused_);
+            }
+
+            // Texture quality
+            else if (key == '1')
+            {
+                auto quality = (unsigned)renderer->GetTextureQuality();
+                ++quality;
+                if (quality > QUALITY_HIGH)
+                    quality = QUALITY_LOW;
+                renderer->SetTextureQuality((MaterialQuality)quality);
+            }
+
+            // Material quality
+            else if (key == '2')
+            {
+                auto quality = (unsigned)renderer->GetMaterialQuality();
+                ++quality;
+                if (quality > QUALITY_HIGH)
+                    quality = QUALITY_LOW;
+                renderer->SetMaterialQuality((MaterialQuality)quality);
+            }
+
+            // Specular lighting
+            else if (key == '3')
+                renderer->SetSpecularLighting(!renderer->GetSpecularLighting());
+
+            // Shadow rendering
+            else if (key == '4')
+                renderer->SetDrawShadows(!renderer->GetDrawShadows());
+
+            // Shadow map resolution
+            else if (key == '5')
+            {
+                int shadowMapSize = renderer->GetShadowMapSize();
+                shadowMapSize *= 2;
+                if (shadowMapSize > 2048)
+                    shadowMapSize = 512;
+                renderer->SetShadowMapSize(shadowMapSize);
+            }
+
+            // Shadow depth and filtering quality
+            else if (key == '6')
+            {
+                ShadowQuality quality = renderer->GetShadowQuality();
+                quality = (ShadowQuality)(quality + 1);
+                if (quality > SHADOWQUALITY_BLUR_VSM)
+                    quality = SHADOWQUALITY_SIMPLE_16BIT;
+                renderer->SetShadowQuality(quality);
+            }
+
+            // Occlusion culling
+            else if (key == '7')
+            {
+                bool occlusion = renderer->GetMaxOccluderTriangles() > 0;
+                occlusion = !occlusion;
+                renderer->SetMaxOccluderTriangles(occlusion ? 5000 : 0);
+            }
+
+            // Instancing
+            else if (key == '8')
+                renderer->SetDynamicInstancing(!renderer->GetDynamicInstancing());
+
+            // Take screenshot
+            else if (key == '9')
+            {
+                Graphics* graphics = GetSubsystem<Graphics>();
+                Image screenshot(context_);
+                graphics->TakeScreenShot(screenshot);
+                // Here we save in the Data folder with date and time appended
+                screenshot.SavePNG(GetSubsystem<FileSystem>()->GetProgramDir() + "Data/Screenshot_" +
+                    Time::GetTimeStamp().Replaced(':', '_').Replaced('.', '_').Replaced(' ', '_') + ".png");
+            }
+        }
+    }
+    
+    // If the user clicks the canvas, attempt to switch to relative mouse mode on web platform
+    void HandleMouseModeRequest(StringHash /*eventType*/, VariantMap& eventData)
+    {
+        Console* console = GetSubsystem<Console>();
+        if (console && console->IsVisible())
+            return;
+        Input* input = GetSubsystem<Input>();
+        if (useMouseMode_ == MM_ABSOLUTE)
+            input->SetMouseVisible(false);
+        else if (useMouseMode_ == MM_FREE)
+            input->SetMouseVisible(true);
+        input->SetMouseMode(useMouseMode_);
+    }
+
+    void HandleMouseModeChange(StringHash /*eventType*/, VariantMap& eventData)
+    {
+        Input* input = GetSubsystem<Input>();
+        bool mouseLocked = eventData[MouseModeChanged::P_MOUSELOCKED].GetBool();
+        input->SetMouseVisible(!mouseLocked);
+    }
+
+    void InitTouchInput()
+    {
+        touchEnabled_ = true;
+
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
+        Input* input = GetSubsystem<Input>();
+        XMLFile* layout = cache->GetResource<XMLFile>("UI/ScreenJoystick_Samples.xml");
+        const String& patchString = GetScreenJoystickPatchString();
+        if (!patchString.Empty())
+        {
+            // Patch the screen joystick layout further on demand
+            SharedPtr<XMLFile> patchFile(new XMLFile(context_));
+            if (patchFile->FromString(patchString))
+                layout->Patch(patchFile);
+        }
+        screenJoystickIndex_ = (unsigned)input->AddScreenJoystick(layout, cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+        input->SetScreenJoystickVisible(screenJoystickSettingsIndex_, true);
+    }
+    
+    virtual String GetScreenJoystickPatchString() const { return String::EMPTY; }
 
 
+    void CreateConsoleAndDebugHud()
+    {
+        // Get default style
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
+        XMLFile* xmlFile = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
+
+        // Create console
+        Console* console = engine_->CreateConsole();
+        console->SetDefaultStyle(xmlFile);
+        console->GetBackground()->SetOpacity(0.8f);
+
+        // Create debug HUD.
+        DebugHud* debugHud = engine_->CreateDebugHud();
+        debugHud->SetDefaultStyle(xmlFile);
+    }
+    
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    
     public :
     vclosure *callback_setup;
     vclosure *callback_start;
@@ -171,6 +398,36 @@ class ProxyApp : public Application
     HashMap<StringHash, vclosure *>  hl_event_closures;
 
     HashMap<StringHash, vclosure *>  hl_event_closures2;
+    
+    
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
+    protected:
+
+    /// Logo sprite.
+    SharedPtr<Sprite> logoSprite_;
+    /// Scene.
+    SharedPtr<Scene> scene_;
+    /// Camera scene node.
+    SharedPtr<Node> cameraNode_;
+    /// Camera yaw angle.
+    float yaw_;
+    /// Camera pitch angle.
+    float pitch_;
+    /// Flag to indicate whether touch input has been enabled.
+    bool touchEnabled_;
+    /// Mouse mode option to use in the sample.
+    MouseMode useMouseMode_;
+    
+    /// Screen joystick index for navigational controls (mobile platforms only).
+     unsigned screenJoystickIndex_;
+     /// Screen joystick index for settings (mobile platforms only).
+     unsigned screenJoystickSettingsIndex_;
+     /// Pause flag.
+     bool paused_;
+    /*=================================================================================================================*/
+    /*=================================================================================================================*/
 
 };
 
