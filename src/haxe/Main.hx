@@ -2,7 +2,7 @@ import haxe.Int32;
 import haxe.macro.Compiler.IncludePosition;
 import urho3d.*;
 import urho3d.Application;
-
+import urho3d.Graphics.BlendMode;
 // HASHLINK JIT
 // WINDOWS :  cl /c /MD Urho3DGlue.cpp /I . /I $(HASHLINK)
 // WINDOWS :  cl /LD /MD glue_native.obj "$(HASHLINK_BIN)\libhl.lib"
@@ -46,7 +46,8 @@ class MyApplication extends Application {
 			// Set random rotation in degrees and random scale
 			sprite.rotation = Random() * 360.0;
 			sprite.scale = new Vector2((Random() + 0.5), (Random() + 0.5));
-
+			sprite.color = new Color(Random(0.5) + 0.5, Random(0.5) + 0.5, Random(0.5) + 0.5);
+			sprite.blendMode = BlendMode.BLEND_ADD;
 			UI.root.AddChild(sprite);
 
 			sprite.vars["Velocity"] = new Vector2(Random(200.0) - 100.0, Random(200.0) - 100.0);
@@ -62,11 +63,7 @@ class MyApplication extends Application {
 		for(sprite in sprites)
 		{
 			sprite.rotation = sprite.rotation + timeStep * 30.0;
-		
-			var velocity:Vector2 = sprite.vars["Velocity"];
-			velocity.x *= timeStep;
-			velocity.y *= timeStep;
-			var newPos = sprite.position + velocity;
+			var newPos = sprite.position + sprite.vars["Velocity"].GetVector2()*timeStep;
 			if (newPos.x < 0.0)
 				newPos.x += width;
 			if (newPos.x >= width)

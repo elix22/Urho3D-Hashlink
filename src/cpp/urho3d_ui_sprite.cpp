@@ -264,6 +264,81 @@ HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_get_scale)(urho3d_context *context, h
 }
 
 
+
+
+HL_PRIM hl_urho3d_color *HL_NAME(_sprite_set_color)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_color *color)
+{
+
+    SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
+    if (urho3d_sprite && color->ptr)
+    {
+        
+        urho3d_sprite->SetColor(*(color->ptr));
+    }
+    else
+    {
+        printf("_sprite_set_color NULL\n");
+    }
+    
+
+    return color;
+}
+
+
+
+HL_PRIM hl_urho3d_color *HL_NAME(_sprite_get_color)(urho3d_context *context, hl_urho3d_sprite *sprite)
+{
+
+    Urho3D::Sprite *urho3d_sprite = sprite->ptr;
+    hl_urho3d_color *hl_color = NULL;
+    if (urho3d_sprite)
+    {
+        Color c = urho3d_sprite->GetColor(Corner::C_TOPLEFT);
+        hl_color = hl_alloc_urho3d_color(c.r_,c.g_,c.g_,c.a_);
+    }
+
+    return hl_color;
+}
+
+
+HL_PRIM int  HL_NAME(_sprite_set_blend_mode)(urho3d_context *context, hl_urho3d_sprite *sprite, int blendMode)
+{
+
+    SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
+    if (urho3d_sprite )
+    {
+      //  printf("_sprite_set_rotation %f \n",angle);
+        urho3d_sprite->SetBlendMode((BlendMode)blendMode);
+    }
+    else
+    {
+        printf("_sprite_set_blend_mode NULL\n");
+    }
+    
+
+    return blendMode;
+}
+
+HL_PRIM int  HL_NAME(_sprite_get_blend_mode)(urho3d_context *context, hl_urho3d_sprite *sprite)
+{
+
+    SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
+    if (urho3d_sprite )
+    {
+      //  printf("_sprite_get_rotation %f \n",urho3d_sprite->GetRotation());
+        return urho3d_sprite->GetBlendMode();
+    }
+    else
+    {
+        printf("_sprite_get_blend_mode NULL\n");
+    }
+    
+
+    return 0;
+}
+
+
+
 HL_PRIM hl_urho3d_variantmap  *HL_NAME(_sprite_get_vars)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
@@ -316,6 +391,11 @@ DEFINE_PRIM(_F32, _sprite_get_rotation, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _sprite_set_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_VECTOR2);
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _sprite_get_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 
+DEFINE_PRIM(HL_URHO3D_COLOR, _sprite_set_color, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_COLOR);
+DEFINE_PRIM(HL_URHO3D_COLOR, _sprite_get_color, URHO3D_CONTEXT HL_URHO3D_SPRITE );
+
+DEFINE_PRIM(_I32, _sprite_set_blend_mode, URHO3D_CONTEXT HL_URHO3D_SPRITE _I32);
+DEFINE_PRIM(_I32, _sprite_get_blend_mode, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 
 DEFINE_PRIM(HL_URHO3D_VARIANTMAP, _sprite_get_vars, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 

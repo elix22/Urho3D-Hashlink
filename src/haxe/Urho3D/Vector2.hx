@@ -93,6 +93,24 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
         return this;
     }
 
+    @:op(A * B)
+    public inline function mul(rhs:Single):Vector2 {
+
+        var x1:Single = x * rhs;
+        var y1:Single = y * rhs;
+
+        return new Vector2(x1,y1);
+    }
+
+    @:op(A *= B)
+    public inline function mul2(rhs:Single):HL_URHO3D_VECTOR2 {
+
+        x *= rhs;
+        y *= rhs;
+
+        return this;
+    }
+
     @:op(-A) 
     public inline function neg():HL_URHO3D_VECTOR2 {
         x = -x;

@@ -10,16 +10,14 @@ typedef  Urho3D::Context urho3d_context;
 #define URHO3D_CONTEXT _ABSTRACT(urho3d_context)
 
 
-
-typedef struct hl_urho3d_vector2
+typedef struct hl_urho3d_color
 {
     void * finalizer;
-    Urho3D::Vector2  * ptr;
-}hl_urho3d_vector2;
+    Urho3D::Color  * ptr;
+}hl_urho3d_color;
 
-#define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_vector2)
-hl_urho3d_vector2 * hl_alloc_urho3d_vector2();
-
+#define HL_URHO3D_COLOR _ABSTRACT(hl_urho3d_color)
+hl_urho3d_color * hl_alloc_urho3d_color(float r,float g,float b,float a);
 
 
 typedef struct hl_urho3d_intvector2
@@ -31,6 +29,15 @@ typedef struct hl_urho3d_intvector2
 #define HL_URHO3D_INTVECTOR2 _ABSTRACT(hl_urho3d_intvector2)
 hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2();
 
+
+typedef struct hl_urho3d_vector2
+{
+    void * finalizer;
+    Urho3D::Vector2  * ptr;
+}hl_urho3d_vector2;
+
+#define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_vector2)
+hl_urho3d_vector2 * hl_alloc_urho3d_vector2();
 
 
 

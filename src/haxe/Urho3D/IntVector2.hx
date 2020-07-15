@@ -87,6 +87,24 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
         return this;
     }
 
+    @:op(A * B)
+    public inline function mul(rhs:Int):IntVector2 {
+
+        var x1:Int = x * rhs;
+        var y1:Int = y * rhs;
+
+        return new IntVector2(x1,y1);
+    }
+
+    @:op(A *= B)
+    public inline function mul2(rhs:Int):HL_URHO3D_INTVECTOR2 {
+
+        x *= rhs;
+        y *= rhs;
+
+        return this;
+    }
+
     @:op(-A) 
     public inline function neg():HL_URHO3D_INTVECTOR2 {
         x = -x;

@@ -17,7 +17,7 @@ abstract Variant(URHO3D_VARIANT) {
 
     /////////////////////////////////////////////////////////////////
     @:to
-    public inline function toSingle():Single
+    public inline function GetSingle():Single
     {
         return Variant._getSingle(this);
     }
@@ -27,7 +27,7 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     @:to
-    public inline function toInt():Int
+    public inline function GetInt():Int
     {
         return Variant._getInt(this);
     }
@@ -37,7 +37,7 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     @:to
-    public inline function toVector2():Vector2
+    public inline function GetVector2():Vector2
     {
         var v:Vector2 = new Vector2();
         _getVector(this,v);
