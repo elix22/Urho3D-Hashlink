@@ -46,13 +46,7 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
         _SubscribeToEvent(this,stringHash,callback_fun);
     }
 
-    public function SubscribeToEvent2(stringHash:StringHash,callback_fun:HLDynEvent->Void) {
-        _SubscribeToEvent2(this,stringHash,callback_fun);
-    }
 
-    @:hlNative("Urho3D", "_application_subscribe_to_event2")
-    private static function _SubscribeToEvent2(ptr:HL_URHO3D_APPLICATION,tringHash:StringHash,callback_fun:Dyn<{stringHash:StringHash, testInt:Int,dynStringHash:Dynamic}>->Void):Void {
-    }
 
     @:hlNative("Urho3D", "_application_subscribe_to_event")
     private static function _SubscribeToEvent(ptr:HL_URHO3D_APPLICATION,tringHash:StringHash,callback_fun:StringHash->VariantMap->Void):Void {

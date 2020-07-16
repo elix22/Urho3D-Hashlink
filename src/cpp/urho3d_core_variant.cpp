@@ -69,6 +69,8 @@ HL_PRIM int HL_NAME(_variant_get_int)(hl_urho3d_variant * hl_var)
     {
         return variant->GetInt();
     }
+
+    return 0;
 }
 
 HL_PRIM void HL_NAME(_variant_set_float)(hl_urho3d_variant * hl_var , float val)
@@ -92,6 +94,8 @@ HL_PRIM float HL_NAME(_variant_get_float)(hl_urho3d_variant * hl_var)
         // printf("variant get  float :%f\n",variant->GetFloat());
         return variant->GetFloat();
     }
+
+    return 0.0;
 }
 
 

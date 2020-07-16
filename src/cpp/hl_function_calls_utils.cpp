@@ -1,7 +1,9 @@
 #include <hl.h>
 
 
-
+#ifdef hl_error
+#undef hl_error
+#endif
 #define hl_error(msg, ...) hl_throw(hl_alloc_strbytes(hl_to_utf16(msg), ## __VA_ARGS__))
 
 #define HL_MAX_ARGS 9

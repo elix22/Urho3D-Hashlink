@@ -15,7 +15,7 @@ import urho3d.Graphics.BlendMode;
 // gcc -O3 -o urho3d-test  -I out out/main.c  Urho3DGlue.cpp   -lhl -lUrho3D  -L../Urho3D/Lib
 
 class MyApplication extends Application {
-	private final NUM_SPRITES = 100;
+	private var NUM_SPRITES = 500;
 	private var sprites = [];
 
 

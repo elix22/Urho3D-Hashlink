@@ -10,9 +10,9 @@ extern "C"
 
 
 
-HL_PRIM  urho3d_context * HL_NAME(_create_context)()
+HL_PRIM  Urho3D::Context * HL_NAME(_create_context)()
 {
-    urho3d_context *context = new Urho3D::Context();
+    Urho3D::Context *context = new Urho3D::Context();
     return context;
 }
 

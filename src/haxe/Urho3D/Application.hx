@@ -41,9 +41,6 @@ class Application {
 		abstractApplication.SubscribeToEvent(stringHash, callback_fun);
 	}
 
-	public function SubscribeToEvent2(stringHash:StringHash, callback_fun:HLDynEvent->Void) {
-		abstractApplication.SubscribeToEvent2(stringHash, callback_fun);
-	}
 
 	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand = Std.random(100000) / 100000.0;

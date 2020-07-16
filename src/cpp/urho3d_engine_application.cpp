@@ -117,41 +117,7 @@ class ProxyApp : public Application
         }
     }
 
-    void subscribeToEvent2(hl_urho3d_stringhash* stringhash,vclosure *callback_fn)
-    {
-        if(stringhash)
-        {
-            Urho3D::StringHash *  urho3d_stringhash  = stringhash->ptr;
-            if(urho3d_stringhash)
-            {
-                hl_add_root(&callback_fn);
-                printf("subscribeToEvent2 %s",urho3d_stringhash->ToString().CString());
-                hl_event_closures2[*urho3d_stringhash] = callback_fn;
 
-                SubscribeToEvent(*urho3d_stringhash,URHO3D_HANDLER(ProxyApp, HandlEvents2));
-            }
-        }
-    }
-
-
-    void HandlEvents2(StringHash eventType, VariantMap& eventData)
-    {
-       vclosure *callback_fn = hl_event_closures2[eventType];
-        if(callback_fn)
-        {
-            hl_type hl_abstract_urho3d_stringhash = {HABSTRACT};
-            //TBD ELI causing exception on Windows hl_abstract_urho3d_stringhash.abs_name = (const uchar *)hl_to_utf16("hl_urho3d_stringhash");
-
-            vdynamic *obj = (vdynamic*)hl_alloc_dynobj();
-
-            hl_dyn_seti(obj, hl_hash_gen(hl_to_utf16("testInt"), true), &hlt_i32, 458);
-
-            vdynamic *args[1];
-            args[0] = obj;
-            hl_dyn_call(callback_fn, args, 1);
-
-        }
-    }
 
     void HandlEvents(StringHash eventType, VariantMap& eventData)
     {
@@ -525,15 +491,7 @@ HL_PRIM  void HL_NAME(_application_subscribe_to_event)(hl_urho3d_application * a
     }
 }
 
-HL_PRIM  void HL_NAME(_application_subscribe_to_event2)(hl_urho3d_application * app,hl_urho3d_stringhash* stringhash,vclosure *callback_fn)
-{
-    Urho3D::Application  * ptr_app = app->ptr;
-    if(ptr_app)
-    {
-        ProxyApp * proxyApp  = (ProxyApp *)ptr_app;
-        proxyApp->subscribeToEvent2(stringhash,callback_fn);
-    }
-}
+
 
 DEFINE_PRIM(HL_URHO3D_APPLICATION, _create_application, URHO3D_CONTEXT);
 DEFINE_PRIM(_VOID, _run_application, HL_URHO3D_APPLICATION);
@@ -542,4 +500,4 @@ DEFINE_PRIM(_VOID, _start_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID,
 DEFINE_PRIM(_VOID, _stop_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));
 
 DEFINE_PRIM(_VOID, _application_subscribe_to_event, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH _FUN(_VOID, HL_URHO3D_STRINGHASH HL_URHO3D_VARIANTMAP));
-DEFINE_PRIM(_VOID, _application_subscribe_to_event2, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH _FUN(_VOID, _DYN));
+
