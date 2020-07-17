@@ -1,5 +1,4 @@
-import haxe.Int32;
-import haxe.macro.Compiler.IncludePosition;
+
 import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
@@ -14,8 +13,8 @@ import urho3d.Graphics.BlendMode;
 // haxe --main Main --hl out/main.c
 // gcc -O3 -o urho3d-test  -I out out/main.c  Urho3DGlue.cpp   -lhl -lUrho3D  -L../Urho3D/Lib
 
-class MyApplication extends Application {
-	private var NUM_SPRITES = 500;
+class SpritesApp extends Application {
+	private var NUM_SPRITES = 700;
 	private var sprites = [];
 
 
@@ -90,40 +89,32 @@ class MyApplication extends Application {
 
 class Main {
 	static function main() {
-		var app = new MyApplication();
+		var app = new SpritesApp();
 		app.Run();
 	}
 }
+
+
+
 /*
-	var vm = new VariantMap();
-
-	for (i in 100...110) {
-		var str:String = "test" + i;
-		vm[str] = i;
-		var s:Int = vm[str];
-		trace("got Int from Variantmap " + s);
-	}
-
-	var hash:StringHash = "test hash function";
-
-	trace("URho3D::Vector2 ");
-	for (j in 0...10) {
-		var start = Sys.time();
-		for (i in 0...200000) {
-			var v1 = new Vector2(10, 10);
-			var v2 = new Vector2(20, 20);
-			// var v1:Vector2 = {x:10,y:10};
-			// var v2:Vector2 = {x:20,y:20};
-			// var v3 = v1+v2;
-			if (j % 2 == 0)
-				v1.add2(v2);
-			else
-				v1 += v2;
-			// trace(v1);
-			v1 = null;
-			v2 = null;
+		trace("URho3D::Vector2 ");
+		for (j in 0...10) {
+			var start = Sys.time();
+			for (i in 0...200000) {
+				var v1 = new Vector2(10, 10);
+				var v2 = new Vector2(20, 20);
+				
+				if (j % 2 == 0)
+				{
+					var newPos = (v1 += v2*0.3);
+				}
+				else
+				{
+					var newPos = {x:v1.x + v2.x*0.3,y:v1.y + v2.y*0.3};
+				}
+				
+			}
+			var end = Sys.time();
+			trace("time:" + (end - start));
 		}
-		var end = Sys.time();
-		trace("time:" + (end - start));
-	}
  */

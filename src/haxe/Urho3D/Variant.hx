@@ -19,20 +19,20 @@ abstract Variant(URHO3D_VARIANT) {
     @:to
     public inline function GetSingle():Single
     {
-        return Variant._getSingle(this);
+        return Variant._getSingle(cast this);
     }
     @:hlNative("Urho3D", "_variant_get_float")
-	private static function _getSingle(variant:URHO3D_VARIANT):Single {
+	private static function _getSingle(variant:Variant):Single {
         return 0;
     }
 
     @:to
     public inline function GetInt():Int
     {
-        return Variant._getInt(this);
+        return Variant._getInt(cast this);
     }
     @:hlNative("Urho3D", "_variant_get_int")
-	private static function _getInt(variant:URHO3D_VARIANT):Int {
+	private static function _getInt(variant:Variant):Int {
         return 0;
     }
 
@@ -40,13 +40,13 @@ abstract Variant(URHO3D_VARIANT) {
     public inline function GetVector2():Vector2
     {
         var v:Vector2 = new Vector2();
-        _getVector(this,v);
+        _getVector(cast this,v);
 
         return v;
 
     }
     @:hlNative("Urho3D", "_variant_get_vector2")
-	private static function _getVector(variant:URHO3D_VARIANT,vector2:Vector2):Void {
+	private static function _getVector(variant:Variant,vector2:Vector2):Void {
     }
 
     

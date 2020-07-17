@@ -17,7 +17,7 @@ typedef struct hl_urho3d_color
 }hl_urho3d_color;
 
 #define HL_URHO3D_COLOR _ABSTRACT(hl_urho3d_color)
-hl_urho3d_color * hl_alloc_urho3d_color(float r,float g,float b,float a);
+hl_urho3d_color * hl_alloc_urho3d_color(float r=0.0,float g=0.0,float b=0.0,float a=1.0);
 
 
 typedef struct hl_urho3d_intvector2
@@ -27,7 +27,7 @@ typedef struct hl_urho3d_intvector2
 }hl_urho3d_intvector2;
 
 #define HL_URHO3D_INTVECTOR2 _ABSTRACT(hl_urho3d_intvector2)
-hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2();
+hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2(int x=0,int y=0);
 
 
 typedef struct hl_urho3d_vector2
@@ -37,7 +37,8 @@ typedef struct hl_urho3d_vector2
 }hl_urho3d_vector2;
 
 #define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_vector2)
-hl_urho3d_vector2 * hl_alloc_urho3d_vector2();
+hl_urho3d_vector2 * hl_alloc_urho3d_vector2(float x=0.0,float y=0.0);
+hl_urho3d_vector2 * hl_alloc_urho3d_vector2(const Urho3D::Vector2 &);
 
 
 

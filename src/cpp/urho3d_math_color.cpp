@@ -26,7 +26,7 @@ void finalize_urho3d_color(void * v)
     
 }
 
-hl_urho3d_color * hl_alloc_urho3d_color(float r=0.0,float g=0.0,float b=0.0,float a=1.0)
+hl_urho3d_color * hl_alloc_urho3d_color(float r,float g,float b,float a)
 {
     hl_urho3d_color  * p= (hl_urho3d_color *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_color));
 

@@ -26,12 +26,12 @@ void finalize_urho3d_intvector2(void * v)
     
 }
 
-hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2()
+hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2(int x, int y)
 {
     hl_urho3d_intvector2  * p= (hl_urho3d_intvector2 *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_intvector2));
 
     p->finalizer = (void*)finalize_urho3d_intvector2;
-    Urho3D::IntVector2 *v = new Urho3D::IntVector2();
+    Urho3D::IntVector2 *v = new Urho3D::IntVector2(x,y);
     p->ptr = v;
 
     return p;
@@ -39,9 +39,9 @@ hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2()
 
 
 
-HL_PRIM  hl_urho3d_intvector2  * HL_NAME(_create_intvector2)()
+HL_PRIM  hl_urho3d_intvector2  * HL_NAME(_create_intvector2)(int x, int y)
 {
-    hl_urho3d_intvector2 * v =  hl_alloc_urho3d_intvector2();
+    hl_urho3d_intvector2 * v =  hl_alloc_urho3d_intvector2(x,y);
     return v;
 }
 
@@ -98,7 +98,7 @@ HL_PRIM int HL_NAME(_intvector2_get_y)(hl_urho3d_intvector2 * hv)
 }
 
 
-DEFINE_PRIM(HL_URHO3D_INTVECTOR2, _create_intvector2, _NO_ARG);
+DEFINE_PRIM(HL_URHO3D_INTVECTOR2, _create_intvector2, _I32 _I32);
 DEFINE_PRIM(_I32, _intvector2_set_x,HL_URHO3D_INTVECTOR2 _I32);
 DEFINE_PRIM(_I32, _intvector2_get_x,HL_URHO3D_INTVECTOR2);
 DEFINE_PRIM(_I32, _intvector2_set_y,HL_URHO3D_INTVECTOR2 _I32);

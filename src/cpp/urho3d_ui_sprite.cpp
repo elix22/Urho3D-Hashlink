@@ -102,11 +102,7 @@ HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_get_position)(urho3d_context *context
     hl_urho3d_vector2 *hl_vector2 = NULL;
     if (urho3d_sprite)
     {
-        hl_vector2 = hl_alloc_urho3d_vector2();
-        if(hl_vector2)
-        {
-            *(hl_vector2->ptr) = urho3d_sprite->GetPosition();
-        }
+        hl_vector2 = hl_alloc_urho3d_vector2(urho3d_sprite->GetPosition());
     }
 
     return hl_vector2;

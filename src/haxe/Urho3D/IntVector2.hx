@@ -1,5 +1,7 @@
 package urho3d;
 
+import haxe.macro.Compiler.IncludePosition;
+
 typedef HL_URHO3D_INTVECTOR2 = hl.Abstract<"hl_urho3d_intvector2">;
 
 typedef StructIntVector2 = { x : Int, y : Int }
@@ -7,21 +9,13 @@ typedef StructIntVector2 = { x : Int, y : Int }
 @:hlNative("Urho3D")
 abstract IntVector2(HL_URHO3D_INTVECTOR2) {
 
-    public inline function new(?x_:Int = 0 , ?y_:Int=0) {
-        this = Create();
-        if(x_ != null)
-        {
-            x=x_;
-        }
-        if(y_ != null)
-        {
-            y=y_;
-        }
+    public inline function new(x_:Int = 0 , y_:Int=0) {
+        this = Create(x_,y_);        
     }
 
 
 	@:hlNative("Urho3D", "_create_intvector2")
-	private static function Create():HL_URHO3D_INTVECTOR2 {
+	private static function Create(x:Int,y:Int):HL_URHO3D_INTVECTOR2 {
 		return null;
     }
 
@@ -61,12 +55,12 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
     }
 
     @:op(A += B)
-    public  inline function add2(rhs:IntVector2):HL_URHO3D_INTVECTOR2 {
+    public  inline function addTo(rhs:IntVector2):IntVector2 {
 
         x += rhs.x;
         y += rhs.y;
 
-        return this;
+        return cast this;
     }
 
     @:op(A - B)
@@ -79,12 +73,12 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
     }
 
     @:op(A -= B)
-    public inline function sub2(rhs:IntVector2):HL_URHO3D_INTVECTOR2 {
+    public inline function subFrom(rhs:IntVector2):IntVector2 {
 
         x -= rhs.x;
         y -= rhs.y;
 
-        return this;
+        return cast this;
     }
 
     @:op(A * B)
@@ -97,44 +91,44 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
     }
 
     @:op(A *= B)
-    public inline function mul2(rhs:Int):HL_URHO3D_INTVECTOR2 {
+    public inline function mulWith(rhs:Int):IntVector2 {
 
         x *= rhs;
         y *= rhs;
 
-        return this;
+        return cast this;
     }
 
     @:op(-A) 
-    public inline function neg():HL_URHO3D_INTVECTOR2 {
+    public inline function neg():IntVector2 {
         x = -x;
         y = -y;
-        return this;
+        return cast this;
     }
 
     @:op(--A) 
-    public inline function preneg():HL_URHO3D_INTVECTOR2 {
+    public inline function preneg():IntVector2 {
         x = --x;
         y = --y;
-        return this;
+        return cast this;
     }
 
-    @:op(A--) public inline function postneg():HL_URHO3D_INTVECTOR2 {
+    @:op(A--) public inline function postneg():IntVector2 {
         x = x--;
         y = y--;
-        return this;
+        return cast this;
     }
 
-    @:op(++A) public inline function preadd():HL_URHO3D_INTVECTOR2 {
+    @:op(++A) public inline function preadd():IntVector2 {
         x = ++x;
         y = ++y;
-        return this;
+        return cast this;
     }
 
-    @:op(A++) public inline function postadd():HL_URHO3D_INTVECTOR2 {
+    @:op(A++) public inline function postadd():IntVector2 {
         x = x++;
         y = y++;
-        return this;
+        return cast this;
     }
 
   
@@ -144,35 +138,35 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
     public var y(get, set):Int;
 
 	inline function get_x() {
-		return _get_x(this);
+		return _get_x(cast this);
 	}
 	@:hlNative("Urho3D", "_intvector2_get_x")
-	private static function _get_x(vec2:HL_URHO3D_INTVECTOR2):Int {
+	private static function _get_x(vec2:IntVector2):Int {
 		return 0;
     }
     
 	inline function set_x(x) {
-		return _set_x(this, x);
+		return _set_x(cast this, x);
 	}
 	@:hlNative("Urho3D", "_intvector2_set_x")
-	private static function _set_x(vec2:HL_URHO3D_INTVECTOR2, x:Int):Int {
+	private static function _set_x(vec2:IntVector2, x:Int):Int {
 		return 0;
     }
     
 
     inline function get_y() {
-		return _get_y(this);
+		return _get_y(cast this);
 	}
 	@:hlNative("Urho3D", "_intvector2_get_y")
-	private static function _get_y(vec2:HL_URHO3D_INTVECTOR2):Int {
+	private static function _get_y(vec2:IntVector2):Int {
 		return 0;
     }
     
 	inline function set_y(y) {
-		return _set_y(this, y);
+		return _set_y(cast this, y);
 	}
 	@:hlNative("Urho3D", "_intvector2_set_y")
-	private static function _set_y(vec2:HL_URHO3D_INTVECTOR2, y:Int):Int {
+	private static function _set_y(vec2:IntVector2, y:Int):Int {
 		return 0;
 	}
 }
