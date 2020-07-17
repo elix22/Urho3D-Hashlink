@@ -97,6 +97,23 @@ class Main {
 
 
 /*
+
+		var v1 = new Vector2(10, 10);
+		var v2 = new Vector2(20, 80);
+		trace(v1);
+		trace(v1.DotProduct(v2));
+		trace(v1.ProjectOntoAxis(v2));
+		trace(v1.Angle(v2));
+		trace(v1.Lerp(v2,0.5));
+		v1.Normalize();
+		trace(Vector2.ZERO);
+		trace(Vector2.LEFT);
+		trace(Vector2.RIGHT);
+		trace(Vector2.UP);
+		trace(Vector2.DOWN);
+		trace(Vector2.ONE);
+		trace(v1);
+
 		trace("URho3D::Vector2 ");
 		for (j in 0...10) {
 			var start = Sys.time();

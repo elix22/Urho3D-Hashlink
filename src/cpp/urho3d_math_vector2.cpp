@@ -110,9 +110,66 @@ HL_PRIM float HL_NAME(_vector2_get_y)(hl_urho3d_vector2 * hv)
     }
 }
 
+HL_PRIM void HL_NAME(_vector2_normalize)(hl_urho3d_vector2 * hv)
+{
+     Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
+    if(v != NULL)
+    {
+         v->Normalize();
+    }
+}
+
+HL_PRIM float HL_NAME(_vector2_project_onto_axis)(hl_urho3d_vector2 * hv,hl_urho3d_vector2 * haxis)
+{
+     Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
+      Urho3D::Vector2 *  axis = (Urho3D::Vector2 *)haxis->ptr;
+    if(v != NULL && axis != NULL)
+    {
+        return v->ProjectOntoAxis(*axis);
+    }
+    else
+    {
+        return 0.0f;
+    }
+}
+
+HL_PRIM float HL_NAME(_vector2_angle)(hl_urho3d_vector2 * hv,hl_urho3d_vector2 * haxis)
+{
+     Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
+    Urho3D::Vector2 *  axis = (Urho3D::Vector2 *)haxis->ptr;
+    if(v != NULL && axis != NULL)
+    {
+        return v->Angle(*axis);
+    }
+    else
+    {
+        return 0.0f;
+    }
+}
+
+HL_PRIM hl_urho3d_vector2 * HL_NAME(_vector2_lerp)(hl_urho3d_vector2 * hv,hl_urho3d_vector2 * haxis, float t)
+{
+    Urho3D::Vector2 *  v = (Urho3D::Vector2 *)hv->ptr;
+    Urho3D::Vector2 *  axis = (Urho3D::Vector2 *)haxis->ptr;
+    if(v != NULL && axis != NULL)
+    {
+        Vector2 temp =  v->Lerp(*axis,t);
+        return hl_alloc_urho3d_vector2(temp);
+    }
+
+    return NULL;
+}
+
+
+
 
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _create_vector2, _F32 _F32);
 DEFINE_PRIM(_F32, _vector2_set_x,HL_URHO3D_VECTOR2 _F32);
 DEFINE_PRIM(_F32, _vector2_get_x,HL_URHO3D_VECTOR2);
 DEFINE_PRIM(_F32, _vector2_set_y,HL_URHO3D_VECTOR2 _F32);
 DEFINE_PRIM(_F32, _vector2_get_y,HL_URHO3D_VECTOR2);
+DEFINE_PRIM(_VOID, _vector2_normalize,HL_URHO3D_VECTOR2);
+
+DEFINE_PRIM(_F32, _vector2_project_onto_axis,HL_URHO3D_VECTOR2 HL_URHO3D_VECTOR2);
+DEFINE_PRIM(_F32, _vector2_angle,HL_URHO3D_VECTOR2 HL_URHO3D_VECTOR2);
+DEFINE_PRIM(HL_URHO3D_VECTOR2, _vector2_lerp,HL_URHO3D_VECTOR2 HL_URHO3D_VECTOR2 _F32);
