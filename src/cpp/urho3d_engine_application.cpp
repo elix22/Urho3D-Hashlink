@@ -31,11 +31,13 @@ class ProxyApp : public Application
     void Setup() override
     {
         
-               //
-        engineParameters_[EP_RESOURCE_PREFIX_PATHS] = GetSubsystem<FileSystem>()->GetProgramDir();
+             
+        engineParameters_[EP_RESOURCE_PREFIX_PATHS] = "GetSubsystem<FileSystem>()->GetProgramDir()";
 #if URHO3D_HAXE_HASHLINK
          engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;";
 #else
+        // TBD ELI , should be dynamically modified
+        engineParameters_[EP_RESOURCE_PREFIX_PATHS] = "/Users/elialoni/projects/Urho3D-Hashlink";
         engineParameters_[EP_RESOURCE_PATHS] = "bin/Data;bin/CoreData;";
 #endif
         engineParameters_[EP_LOG_NAME] = GetSubsystem<FileSystem>()->GetProgramDir() + "UrhoHaxe.log";

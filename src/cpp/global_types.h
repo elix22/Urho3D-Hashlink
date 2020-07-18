@@ -30,15 +30,26 @@ typedef struct hl_urho3d_intvector2
 hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2(int x=0,int y=0);
 
 
-typedef struct hl_urho3d_vector2
+typedef struct hl_urho3d_math_vector2
 {
     void * finalizer;
     Urho3D::Vector2  * ptr;
-}hl_urho3d_vector2;
+}hl_urho3d_math_vector2;
 
-#define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_vector2)
-hl_urho3d_vector2 * hl_alloc_urho3d_vector2(float x=0.0,float y=0.0);
-hl_urho3d_vector2 * hl_alloc_urho3d_vector2(const Urho3D::Vector2 &);
+#define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_math_vector2)
+hl_urho3d_math_vector2 * hl_alloc_urho3d_math_vector2(float x=0.0,float y=0.0);
+hl_urho3d_math_vector2 * hl_alloc_urho3d_math_vector2(const Urho3D::Vector2 &);
+
+
+typedef struct hl_urho3d_math_vector3
+{
+    void * finalizer;
+    Urho3D::Vector3  * ptr;
+}hl_urho3d_math_vector3;
+
+#define HL_URHO3D_VECTOR3 _ABSTRACT(hl_urho3d_math_vector3)
+hl_urho3d_math_vector3 * hl_alloc_urho3d_math_vector3(float x=0.0,float y=0.0,float z=0.0);
+hl_urho3d_math_vector3 * hl_alloc_urho3d_math_vector3(const Urho3D::Vector3 &);
 
 
 
@@ -92,7 +103,7 @@ typedef struct hl_urho3d_resource
 }hl_urho3d_resource;
 
 #define HL_URHO3D_RESOURCE _ABSTRACT(hl_urho3d_resource)
-hl_urho3d_vector2 * hl_alloc_urho3d_resource();
+hl_urho3d_resource * hl_alloc_urho3d_resource();
 
 
 typedef struct hl_urho3d_texture2d

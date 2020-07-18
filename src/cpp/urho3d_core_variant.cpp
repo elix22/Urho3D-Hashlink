@@ -99,7 +99,7 @@ HL_PRIM float HL_NAME(_variant_get_float)(hl_urho3d_variant * hl_var)
 }
 
 
-HL_PRIM void HL_NAME(_variant_set_vector2)(hl_urho3d_variant * hl_var , hl_urho3d_vector2 * hl_vec)
+HL_PRIM void HL_NAME(_variant_set_vector2)(hl_urho3d_variant * hl_var , hl_urho3d_math_vector2 * hl_vec)
 {
      Urho3D::Variant *  variant = (Urho3D::Variant *)hl_var->ptr;
      Urho3D::Vector2 *  vector2 = (Urho3D::Vector2 *)hl_vec->ptr;
@@ -111,7 +111,7 @@ HL_PRIM void HL_NAME(_variant_set_vector2)(hl_urho3d_variant * hl_var , hl_urho3
     }
 }
 
-HL_PRIM void HL_NAME(_variant_get_vector2)(hl_urho3d_variant * hl_var , hl_urho3d_vector2 * hl_vec)
+HL_PRIM void HL_NAME(_variant_get_vector2)(hl_urho3d_variant * hl_var , hl_urho3d_math_vector2 * hl_vec)
 {
      Urho3D::Variant *  variant = (Urho3D::Variant *)hl_var->ptr;
      Urho3D::Vector2 *  vector2 = (Urho3D::Vector2 *)hl_vec->ptr;

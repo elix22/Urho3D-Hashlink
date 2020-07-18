@@ -1,4 +1,5 @@
 
+
 import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
@@ -88,7 +89,7 @@ class SpritesApp extends Application {
 }
 
 class Main {
-	static function main() {
+	static function main() {	
 		var app = new SpritesApp();
 		app.Run();
 	}
@@ -98,13 +99,20 @@ class Main {
 
 /*
 
+		
 		var v1 = new Vector2(10, 10);
 		var v2 = new Vector2(20, 80);
+		var v3 = new Vector2(10, 10);
 		trace(v1);
 		trace(v1.DotProduct(v2));
 		trace(v1.ProjectOntoAxis(v2));
 		trace(v1.Angle(v2));
 		trace(v1.Lerp(v2,0.5));
+		trace(v1.Equals(v3));
+		trace(v1.Equals(v2));
+		trace(v1.IsInf());
+		trace(v1.IsNaN());
+		trace(v1.isNotEqual(v3));
 		v1.Normalize();
 		trace(Vector2.ZERO);
 		trace(Vector2.LEFT);
@@ -113,6 +121,7 @@ class Main {
 		trace(Vector2.DOWN);
 		trace(Vector2.ONE);
 		trace(v1);
+		
 
 		trace("URho3D::Vector2 ");
 		for (j in 0...10) {

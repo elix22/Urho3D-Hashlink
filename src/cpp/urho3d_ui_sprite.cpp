@@ -75,7 +75,7 @@ HL_PRIM hl_urho3d_texture2d *HL_NAME(_sprite_get_texture)(urho3d_context *contex
 }
 
 
-HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_set_position)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_vector2 *position)
+HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_set_position)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_math_vector2 *position)
 {
 
     SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
@@ -95,14 +95,14 @@ HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_set_position)(urho3d_context *context
 
 
 
-HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_get_position)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_get_position)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_vector2 *hl_vector2 = NULL;
+    hl_urho3d_math_vector2 *hl_vector2 = NULL;
     if (urho3d_sprite)
     {
-        hl_vector2 = hl_alloc_urho3d_vector2(urho3d_sprite->GetPosition());
+        hl_vector2 = hl_alloc_urho3d_math_vector2(urho3d_sprite->GetPosition());
     }
 
     return hl_vector2;
@@ -223,7 +223,7 @@ HL_PRIM float  HL_NAME(_sprite_get_rotation)(urho3d_context *context, hl_urho3d_
 
 
 
-HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_set_scale)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_vector2 *scale)
+HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_set_scale)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_math_vector2 *scale)
 {
 
     SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
@@ -243,14 +243,14 @@ HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_set_scale)(urho3d_context *context, h
 
 
 
-HL_PRIM hl_urho3d_vector2 *HL_NAME(_sprite_get_scale)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_get_scale)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_vector2 *hl_vector2 = NULL;
+    hl_urho3d_math_vector2 *hl_vector2 = NULL;
     if (urho3d_sprite)
     {
-        hl_vector2 = hl_alloc_urho3d_vector2();
+        hl_vector2 = hl_alloc_urho3d_math_vector2();
         if(hl_vector2)
         {
             *(hl_vector2->ptr) = urho3d_sprite->GetScale();
