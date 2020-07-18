@@ -20,7 +20,7 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 
     }
 
-    @:hlNative("Urho3D", "_create_scene_component")
+    @:hlNative("Urho3D", "_scene_component_create")
 	private static function Create(c:Context):HL_URHO3D_COMPONENT {
 		return null;
     }

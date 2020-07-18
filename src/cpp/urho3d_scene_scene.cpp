@@ -31,18 +31,18 @@ hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene(urho3d_context *context)
     return p;
 }
 
-HL_PRIM hl_urho3d_scene_scene *HL_NAME(_create_scene_scene)(urho3d_context *context)
+HL_PRIM hl_urho3d_scene_scene *HL_NAME(_scene_scene_create)(urho3d_context *context)
 {
     hl_urho3d_scene_scene *v = hl_alloc_urho3d_scene_scene(context);
     return v;
 }
 
-HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_cast_scene_to_node)(urho3d_context *context, hl_urho3d_scene_scene * scene)
+HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_scene_cast_to_node)(urho3d_context *context, hl_urho3d_scene_scene * scene)
 {
     hl_urho3d_scene_node * hl_node = hl_alloc_urho3d_scene_node(context, scene->ptr);
     return hl_node;
 }
 
 
-DEFINE_PRIM(HL_URHO3D_SCENE, _create_scene_scene, URHO3D_CONTEXT);
-DEFINE_PRIM(HL_URHO3D_NODE, _scene_cast_scene_to_node, URHO3D_CONTEXT HL_URHO3D_SCENE);
+DEFINE_PRIM(HL_URHO3D_SCENE, _scene_scene_create, URHO3D_CONTEXT);
+DEFINE_PRIM(HL_URHO3D_NODE, _scene_scene_cast_to_node, URHO3D_CONTEXT HL_URHO3D_SCENE);

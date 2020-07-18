@@ -31,11 +31,11 @@ hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(urho3d_context *conte
     return p;
 }
 
-HL_PRIM hl_urho3d_scene_component *HL_NAME(_create_scene_component)(urho3d_context *context)
+HL_PRIM hl_urho3d_scene_component *HL_NAME(_scene_component_create)(urho3d_context *context)
 {
     hl_urho3d_scene_component *v = hl_alloc_urho3d_scene_component(context);
     return v;
 }
 
 
-DEFINE_PRIM(HL_URHO3D_COMPONENT, _create_scene_component, URHO3D_CONTEXT);
+DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_component_create, URHO3D_CONTEXT);

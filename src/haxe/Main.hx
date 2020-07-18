@@ -4,8 +4,8 @@ import urho3d.Graphics.BlendMode;
 
 class Main {
 	static function main() {	
-		var app = new SpritesSample();
-		//var app = new AnimatingSceneSample();
+		//var app = new SpritesSample();
+		var app = new AnimatingSceneSample();
 		app.Run();
 	}
 }

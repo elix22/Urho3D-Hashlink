@@ -18,6 +18,8 @@ class AnimatingSceneSample extends Application {
         
         scene = new Scene();
         trace (scene);
+        var zone = scene.CreateChild("Zone");
+        trace(zone);
 		SubscribeToEvents();
     }
     

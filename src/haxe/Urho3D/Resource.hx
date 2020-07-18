@@ -16,7 +16,7 @@ abstract Resource(HL_URHO3D_RESOURCE) {
    
 
     @:hlNative("Urho3D", "_create_resource")
-	private static function Create(context:hl.Abstract<"urho3d_context"> ,type:StringHash,name:String):HL_URHO3D_RESOURCE {
+	private static function Create(context:Context ,type:StringHash,name:String):HL_URHO3D_RESOURCE {
 		return null;
     }
 
