@@ -17,12 +17,12 @@ abstract UIElement(HL_URHO3D_UIELEMENT) {
     }
 
     @:hlNative("Urho3D", "_create_uielement")
-	private static function Create(context:hl.Abstract<"urho3d_context">):HL_URHO3D_UIELEMENT {
+	private static function Create(context:Context):HL_URHO3D_UIELEMENT {
 		return null;
     }
 
     @:hlNative("Urho3D", "_ui_uielement_addchild")
-	private static function _addChild(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_UIELEMENT, child:UIElement) {
+	private static function _addChild(context:Context, t:HL_URHO3D_UIELEMENT, child:UIElement) {
     }
 
 

@@ -8,14 +8,19 @@ INCLUDES=-I hashlink -I Urho3D/include -I Urho3D/include/Urho3D/ThirdParty -I sr
 cleanup: urho3d-main
 	$(RM) *.o
 
-urho3d-main:  urho3d_graphics_graphics.o urho3d_ui_ui.o urho3d_ui_uielement.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_vector3.o urho3d_math_color.o urho3d_math_intvector2.o urho3d_math_stringhash.o hashlink_main.o 
-	$(CC)  -O3 -o urho3d-main  $(INCLUDES)   hashlink_main.o urho3d_graphics_graphics.o urho3d_ui_ui.o urho3d_ui_uielement.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o  urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_color.o urho3d_math_vector2.o urho3d_math_vector3.o urho3d_math_intvector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
+urho3d-main: all_urho3d_cpp_files hashlink_main.o 
+	$(CC)  -O3 -o urho3d-main  $(INCLUDES) *.o  $(APPLE_FLAGS)
+#urho3d-main:  urho3d_scene_component.o urho3d_scene_node.o urho3d_scene_scene.o urho3d_graphics_graphics.o urho3d_ui_ui.o urho3d_ui_uielement.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_vector2.o urho3d_math_vector3.o urho3d_math_color.o urho3d_math_intvector2.o urho3d_math_stringhash.o hashlink_main.o 
+#	$(CC)  -O3 -o urho3d-main  $(INCLUDES)  urho3d_scene_component.o urho3d_scene_node.o urho3d_scene_scene.o hashlink_main.o urho3d_graphics_graphics.o urho3d_ui_ui.o urho3d_ui_uielement.o urho3d_ui_sprite.o urho3d_graphics_texture2d.o urho3d_resource_resource.o hl_function_calls_utils.o  urho3d_core_context.o urho3d_engine_application.o urho3d_core_variant.o urho3d_core_variantmap.o urho3d_math_color.o urho3d_math_vector2.o urho3d_math_vector3.o urho3d_math_intvector2.o urho3d_math_stringhash.o   $(APPLE_FLAGS)
 
 hashlink_main.o: hashlink-c 
 	$(CC) -c -O3 -o hashlink_main.o  $(INCLUDES) hashlink/hashlink_main.c 
 
 hashlink-c:
 	$(HAXE) -cp src/haxe --main Main --hl hashlink/hashlink_main.c
+
+all_urho3d_cpp_files:
+	$(CC) -c -O3  $(INCLUDES)  $(SRC_DIR)/cpp/*.cpp -std=c++11
 
 hl_function_calls_utils.o:
 	$(CC) -c -O3 -o hl_function_calls_utils.o  $(INCLUDES)  $(SRC_DIR)/cpp/hl_function_calls_utils.cpp -std=c++11
@@ -55,6 +60,16 @@ urho3d_resource_resource.o:
 
 urho3d_graphics_texture2d.o:
 	$(CC) -c -O3 -o urho3d_graphics_texture2d.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_graphics_texture2d.cpp   -std=c++11
+
+
+urho3d_scene_component.o:
+	$(CC) -c -O3 -o urho3d_scene_component.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_scene_component.cpp   -std=c++11
+
+urho3d_scene_node.o:
+	$(CC) -c -O3 -o urho3d_scene_node.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_scene_node.cpp   -std=c++11
+
+urho3d_scene_scene.o:
+	$(CC) -c -O3 -o urho3d_scene_scene.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_scene_scene.cpp   -std=c++11
 
 urho3d_ui_ui.o:
 	$(CC) -c -O3 -o urho3d_ui_ui.o  $(INCLUDES)  $(SRC_DIR)/cpp/urho3d_ui_ui.cpp   -std=c++11

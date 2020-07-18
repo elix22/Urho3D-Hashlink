@@ -137,4 +137,41 @@ typedef struct hl_urho3d_uielement
 #define HL_URHO3D_UIELEMENT _ABSTRACT(hl_urho3d_uielement)
 hl_urho3d_uielement * hl_alloc_urho3d_uilement();
 hl_urho3d_uielement * hl_alloc_urho3d_uielement(urho3d_context *context, Urho3D::UIElement * uielement );
+
+
+
+
+typedef struct hl_urho3d_scene_component
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Component> ptr;
+}hl_urho3d_scene_component;
+
+#define HL_URHO3D_COMPONENT _ABSTRACT(hl_urho3d_scene_component)
+hl_urho3d_scene_component * hl_alloc_urho3d_scene_component();
+
+
+
+typedef struct hl_urho3d_scene_node
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Node> ptr;
+}hl_urho3d_scene_node;
+
+#define HL_URHO3D_NODE _ABSTRACT(hl_urho3d_scene_node)
+hl_urho3d_scene_node * hl_alloc_urho3d_scene_node();
+hl_urho3d_scene_node *hl_alloc_urho3d_scene_node(urho3d_context *context, Node * node);
+
+
+typedef struct hl_urho3d_scene_scene
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Scene> ptr;
+}hl_urho3d_scene_scene;
+
+#define HL_URHO3D_SCENE _ABSTRACT(hl_urho3d_scene_scene)
+hl_urho3d_scene_scene * hl_alloc_urho3d_scene_scene();
+
+
+
 #endif

@@ -22,7 +22,7 @@ abstract Texture2D(HL_URHO3D_TEXTURE2D) {
 	}
 
     @:hlNative("Urho3D", "_create_texture2d")
-	private static function Create(context:hl.Abstract<"urho3d_context"> ,name:String):HL_URHO3D_TEXTURE2D {
+	private static function Create(context:Context ,name:String):HL_URHO3D_TEXTURE2D {
 		return null;
     }
 

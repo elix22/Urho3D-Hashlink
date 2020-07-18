@@ -12,7 +12,7 @@ class UI {
     }
     
     @:hlNative("Urho3D","_ui_get_root")
-    private static function getRoot(context:hl.Abstract<"urho3d_context">):UIElement {
+    private static function getRoot(context:Context):UIElement {
         return null;
     }
 

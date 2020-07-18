@@ -18,12 +18,12 @@ class Graphics {
 
     
     @:hlNative("Urho3D","_graphics_get_width")
-    private static function getWidth(context:hl.Abstract<"urho3d_context">):Int {
+    private static function getWidth(context:Context):Int {
         return 0;
     }
 
     @:hlNative("Urho3D","_graphics_get_height")
-    private static function getHeight(context:hl.Abstract<"urho3d_context">):Int {
+    private static function getHeight(context:Context):Int {
         return 0;
     }
 

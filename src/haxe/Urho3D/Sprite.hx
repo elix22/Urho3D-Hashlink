@@ -119,97 +119,97 @@ abstract Sprite(HL_URHO3D_SPRITE) {
 
 
 	@:hlNative("Urho3D", "_create_sprite")
-	private static function Create(context:hl.Abstract<"urho3d_context">):HL_URHO3D_SPRITE {
+	private static function Create(context:Context):HL_URHO3D_SPRITE {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_texture")
-	private static function _set_texture(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE, t:Texture2D):Texture2D {
+	private static function _set_texture(context:Context, v:HL_URHO3D_SPRITE, t:Texture2D):Texture2D {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_texture")
-	private static function _get_texture(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE):Texture2D {
+	private static function _get_texture(context:Context, v:HL_URHO3D_SPRITE):Texture2D {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_position")
-	private static function _set_position(context:hl.Abstract<"urho3d_context">, s:HL_URHO3D_SPRITE, v:Vector2):Vector2 {
+	private static function _set_position(context:Context, s:HL_URHO3D_SPRITE, v:Vector2):Vector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_position")
-	private static function _get_position(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE):Vector2 {
+	private static function _get_position(context:Context, v:HL_URHO3D_SPRITE):Vector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_size")
-	private static function _set_size(context:hl.Abstract<"urho3d_context">,v:HL_URHO3D_SPRITE, t:IntVector2):IntVector2 {
+	private static function _set_size(context:Context,v:HL_URHO3D_SPRITE, t:IntVector2):IntVector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_size")
-	private static function _get_size(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE):IntVector2 {
+	private static function _get_size(context:Context, v:HL_URHO3D_SPRITE):IntVector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_hotspot")
-	private static function _set_hotspot(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE, t:IntVector2):IntVector2 {
+	private static function _set_hotspot(context:Context, v:HL_URHO3D_SPRITE, t:IntVector2):IntVector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_hotspot")
-	private static function _get_hotspot(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE):IntVector2 {
+	private static function _get_hotspot(context:Context, v:HL_URHO3D_SPRITE):IntVector2 {
 		return null;
     }
     
     @:hlNative("Urho3D", "_sprite_set_rotation")
-	private static function _set_rotation(context:hl.Abstract<"urho3d_context">, v:HL_URHO3D_SPRITE, t:Single):Single {
+	private static function _set_rotation(context:Context, v:HL_URHO3D_SPRITE, t:Single):Single {
 		return 0;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_rotation")
-	private static function _get_rotation(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE):Single {
+	private static function _get_rotation(context:Context, t:HL_URHO3D_SPRITE):Single {
 		return 0;
     }
     
     @:hlNative("Urho3D", "_sprite_set_scale")
-	private static function _set_scale(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE, v:Vector2):Vector2 {
+	private static function _set_scale(context:Context, t:HL_URHO3D_SPRITE, v:Vector2):Vector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_scale")
-	private static function _get_scale(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE):Vector2 {
+	private static function _get_scale(context:Context, t:HL_URHO3D_SPRITE):Vector2 {
 		return null;
     }
 
     @:hlNative("Urho3D", "_sprite_set_color")
-	private static function _set_color(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE, c:Color):Color {
+	private static function _set_color(context:Context, t:HL_URHO3D_SPRITE, c:Color):Color {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_color")
-	private static function _get_color(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE):Color {
+	private static function _get_color(context:Context, t:HL_URHO3D_SPRITE):Color {
 		return null;
     }
 
     @:hlNative("Urho3D", "_sprite_set_blend_mode")
-	private static function _set_blendMode(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE, c:BlendMode):BlendMode {
+	private static function _set_blendMode(context:Context, t:HL_URHO3D_SPRITE, c:BlendMode):BlendMode {
 		return BlendMode.BLEND_REPLACE;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_blend_mode")
-	private static function _get_blendMode(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE):BlendMode {
+	private static function _get_blendMode(context:Context, t:HL_URHO3D_SPRITE):BlendMode {
 		return BlendMode.BLEND_REPLACE;
     }
     
     @:hlNative("Urho3D", "_sprite_get_vars")
-	private static function _get_vars(context:hl.Abstract<"urho3d_context">, t:HL_URHO3D_SPRITE):VariantMap {
+	private static function _get_vars(context:Context, t:HL_URHO3D_SPRITE):VariantMap {
 		return null;
     }
     
     @:hlNative("Urho3D", "_cast_sprite_to_uielement")
-	private static function CastToUIElement(context:hl.Abstract<"urho3d_context"> , t:HL_URHO3D_SPRITE):UIElement {
+	private static function CastToUIElement(context:Context , t:HL_URHO3D_SPRITE):UIElement {
 		return null;
     }
 }
