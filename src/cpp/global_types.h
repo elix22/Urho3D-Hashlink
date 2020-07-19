@@ -149,6 +149,7 @@ typedef struct hl_urho3d_scene_component
 
 #define HL_URHO3D_COMPONENT _ABSTRACT(hl_urho3d_scene_component)
 hl_urho3d_scene_component * hl_alloc_urho3d_scene_component();
+hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(Component *component);
 
 
 
@@ -171,6 +172,19 @@ typedef struct hl_urho3d_scene_scene
 
 #define HL_URHO3D_SCENE _ABSTRACT(hl_urho3d_scene_scene)
 hl_urho3d_scene_scene * hl_alloc_urho3d_scene_scene();
+
+
+
+typedef struct hl_urho3d_graphics_zone
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Zone> ptr;
+}hl_urho3d_graphics_zone;
+
+#define HL_URHO3D_ZONE _ABSTRACT(hl_urho3d_graphics_zone)
+hl_urho3d_graphics_zone * hl_alloc_urho3d_graphics_zone();
+hl_urho3d_graphics_zone *hl_alloc_urho3d_graphics_zone(Zone *zone);
+
 
 
 

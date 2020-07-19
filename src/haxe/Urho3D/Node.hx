@@ -1,4 +1,5 @@
 package urho3d;
+import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
 
@@ -34,6 +35,13 @@ class Node {
         var absNode:AbstractNode = AbstractNode.CreatChild(Context.context,abstractNode,name,mode,id,temporary);
         return new Node(absNode);
     }
+
+    public function CreateComponent(type:String, mode:CreateMode=CreateMode.REPLICATED , id:Int=0)
+    {
+        var absComp:AbstractComponent = AbstractNode.CreateComponent(Context.context,abstractNode,type,mode,id);
+        return new Component(absComp);
+    }
+    
 }
 
 @:hlNative("Urho3D")
@@ -49,6 +57,12 @@ abstract AbstractNode(HL_URHO3D_NODE) {
     
     @:hlNative("Urho3D", "_scene_node_create_child")
     public static function CreatChild(c:Context , n:AbstractNode , name:String , mode:CreateMode , id:Int , temporary:Bool ):AbstractNode
+    {
+            return null;
+    }
+
+    @:hlNative("Urho3D", "_scene_node_create_component")
+    public static function CreateComponent(c:Context , n:AbstractNode , name:String , mode:CreateMode , id:Int ):AbstractComponent
     {
             return null;
     }

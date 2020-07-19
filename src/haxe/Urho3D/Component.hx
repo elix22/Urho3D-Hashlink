@@ -1,28 +1,35 @@
 package urho3d;
-
+import urho3d.Zone.AbstractZone;
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
+class Component {
+	private var abstractComponent:AbstractComponent = null;
 
-class Component
-{
-    private var abstractComponent:AbstractComponent = null;
-
-    public inline function new() {
-        abstractComponent = new AbstractComponent();
+	public inline function new(?absComponent:AbstractComponent) {
+		if (absComponent != null)
+			abstractComponent = absComponent;
+		else
+			abstractComponent = new AbstractComponent();
     }
+
+    @:to
+	public inline function toZone():Zone {
+        trace("component to zone");
+        var abstractZone:AbstractZone = AbstractZone.CastFromComponent(Context.context,this.abstractComponent);
+		return new Zone(abstractZone);
+	}
+    
 }
 
 @:hlNative("Urho3D")
 abstract AbstractComponent(HL_URHO3D_COMPONENT) {
+	public inline function new() {
+		this = Create(Context.context);
+	}
 
-    public inline function new() {
-        this = Create(Context.context);
-
-    }
-
-    @:hlNative("Urho3D", "_scene_component_create")
+	@:hlNative("Urho3D", "_scene_component_create")
 	private static function Create(c:Context):HL_URHO3D_COMPONENT {
 		return null;
     }
-
+    
 }

@@ -31,6 +31,16 @@ hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(urho3d_context *conte
     return p;
 }
 
+hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(Component *component)
+{
+
+    hl_urho3d_scene_component *p = (hl_urho3d_scene_component *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_component));
+    memset(p,0,sizeof(hl_urho3d_scene_component));
+    p->finalizer = (void *)finalize_urho3d_scene_component;
+    p->ptr = component;
+    return p;
+}
+
 HL_PRIM hl_urho3d_scene_component *HL_NAME(_scene_component_create)(urho3d_context *context)
 {
     hl_urho3d_scene_component *v = hl_alloc_urho3d_scene_component(context);

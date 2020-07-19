@@ -54,17 +54,31 @@ HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_create)(urho3d_context *contex
     return v;
 }
 
-HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_create_child)( urho3d_context *context,hl_urho3d_scene_node * this_node , vstring * vname, int mode , int id , bool temporary )
- {
-     const char *name = (char*)hl_to_utf8(vname->bytes);
-     Node * child = this_node->ptr->CreateChild(String(name),(CreateMode)mode,id,temporary);
-     if(child)
-     {
-         return hl_alloc_urho3d_scene_node(context, child);
-     }
-     return NULL;
- }
+HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_create_child)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *vname, int mode, int id, bool temporary)
+{
+    const char *name = (char *)hl_to_utf8(vname->bytes);
+    Node *child = this_node->ptr->CreateChild(String(name), (CreateMode)mode, id, temporary);
+    if (child)
+    {
+        return hl_alloc_urho3d_scene_node(context, child);
+    }
+    return NULL;
+}
 
+HL_PRIM hl_urho3d_scene_component * HL_NAME(_scene_node_create_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *vtype, int mode, unsigned id)
+{
+    const char *type = (char *)hl_to_utf8(vtype->bytes);
+    Component *component = this_node->ptr->CreateComponent(StringHash(String(type)), (CreateMode)mode, id);
+    if (component)
+    {
+        return hl_alloc_urho3d_scene_component(component);
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create_child, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _I32 _I32 _BOOL);
+DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_create_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _I32 _I32);

@@ -18,8 +18,12 @@ class AnimatingSceneSample extends Application {
         
         scene = new Scene();
         trace (scene);
-        var zone = scene.CreateChild("Zone");
+        var zoneNode = scene.CreateChild("Zone");
+        scene.CreateComponent("Octree");
+        var zone:Zone =  zoneNode.CreateComponent("Zone").toZone();
+        
         trace(zone);
+
 		SubscribeToEvents();
     }
     
