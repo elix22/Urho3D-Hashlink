@@ -33,13 +33,13 @@ class Node {
     public function CreateChild(name:String="" , mode:CreateMode=CreateMode.REPLICATED , id:Int=0, temporary:Bool=false):Node{
 
         var absNode:AbstractNode = AbstractNode.CreatChild(Context.context,abstractNode,name,mode,id,temporary);
-        return new Node(absNode);
+        return absNode;
     }
 
     public function CreateComponent(type:String, mode:CreateMode=CreateMode.REPLICATED , id:Int=0)
     {
         var absComp:AbstractComponent = AbstractNode.CreateComponent(Context.context,abstractNode,type,mode,id);
-        return new Component(absComp);
+        return absComp;
     }
     
 }
@@ -48,7 +48,13 @@ class Node {
 abstract AbstractNode(HL_URHO3D_NODE) {
 	public inline function new() {
 		this = Create(Context.context);
-	}
+    }
+    
+    @:to
+	public inline function toNode():Node {
+		//trace("AbstractNode to Node");
+		return new Node(cast this);
+    }
 
 	@:hlNative("Urho3D", "_scene_node_create")
 	private static function Create(c:Context):HL_URHO3D_NODE {
@@ -66,4 +72,5 @@ abstract AbstractNode(HL_URHO3D_NODE) {
     {
             return null;
     }
+
 }

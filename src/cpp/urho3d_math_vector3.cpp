@@ -323,11 +323,13 @@ HL_PRIM hl_urho3d_math_vector3 * HL_NAME(_math_vector3_renormalized)(hl_urho3d_m
 
 
 
-DEFINE_PRIM(HL_URHO3D_VECTOR3, _math_vector3_create, _F32 _F32);
+DEFINE_PRIM(HL_URHO3D_VECTOR3, _math_vector3_create, _F32 _F32 _F32);
 DEFINE_PRIM(_F32, _math_vector3_set_x,HL_URHO3D_VECTOR3 _F32);
 DEFINE_PRIM(_F32, _math_vector3_get_x,HL_URHO3D_VECTOR3);
 DEFINE_PRIM(_F32, _math_vector3_set_y,HL_URHO3D_VECTOR3 _F32);
 DEFINE_PRIM(_F32, _math_vector3_get_y,HL_URHO3D_VECTOR3);
+DEFINE_PRIM(_F32, _math_vector3_set_z,HL_URHO3D_VECTOR3 _F32);
+DEFINE_PRIM(_F32, _math_vector3_get_z,HL_URHO3D_VECTOR3);
 DEFINE_PRIM(_VOID, _math_vector3_normalize,HL_URHO3D_VECTOR3);
 DEFINE_PRIM(_F32, _math_vector3_length,HL_URHO3D_VECTOR3);
 DEFINE_PRIM(_F32, _math_vector3_length_squared,HL_URHO3D_VECTOR3);
