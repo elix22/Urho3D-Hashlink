@@ -53,6 +53,18 @@ hl_urho3d_math_vector3 * hl_alloc_urho3d_math_vector3(const Urho3D::Vector3 &);
 
 
 
+typedef struct hl_urho3d_math_boundingbox
+{
+    void * finalizer;
+    Urho3D::BoundingBox  * ptr;
+}hl_urho3d_math_boundingbox;
+
+#define HL_URHO3D_BOUNDINGBOX _ABSTRACT(hl_urho3d_math_boundingbox)
+hl_urho3d_math_boundingbox * hl_alloc_urho3d_math_boundingbox(float x,float y);
+hl_urho3d_math_boundingbox * hl_alloc_urho3d_math_boundingbox(const Urho3D::Vector3 & a,const Urho3D::Vector3 & b);
+
+
+
 typedef struct hl_urho3d_stringhash
 {
     void * finalizer;

@@ -8,15 +8,27 @@ typedef StructVector3 = {x:Single, y:Single, z:Single};
 
 @:hlNative("Urho3D")
 abstract Vector3(HL_URHO3D_VECTOR3) {
-	public static var ZERO:Vector3 = new Vector3(0.0, 0.0,0.0);
-	public static var LEFT:Vector3 = new Vector3(-1.0, 0.0,0.0);
-	public static var RIGHT:Vector3 = new Vector3(1.0, 0.0,0.0);
-	public static var UP:Vector3 = new Vector3(0.0, 1.0,0.0);
-	public static var DOWN:Vector3 = new Vector3(0.0, -1.0,0.0);
-	public static var ONE:Vector3 = new Vector3(1.0, 1.0,1.0);
+	public static var ZERO:Vector3 = new Vector3(0.0, 0.0, 0.0);
+	public static var LEFT:Vector3 = new Vector3(-1.0, 0.0, 0.0);
+	public static var RIGHT:Vector3 = new Vector3(1.0, 0.0, 0.0);
+	public static var UP:Vector3 = new Vector3(0.0, 1.0, 0.0);
+	public static var DOWN:Vector3 = new Vector3(0.0, -1.0, 0.0);
+	public static var ONE:Vector3 = new Vector3(1.0, 1.0, 1.0);
 
-	public inline function new(x_:Single = 0.0, y_:Single = 0.0,  z_:Single = 0.0) {
-		this = Create(x_, y_,z_);
+	public inline function new(x_:Single = 0.0, y_:Single = 0.0, z_:Single = 0.0) {
+		this = Create(x_, y_, z_);
+	}
+
+	public static function isTypeOf(a:Dynamic):Bool {
+		try {
+			var t:Vector3 = cast a;
+			if (t != null) {
+				return true;
+			}
+		} catch (e) {
+			//trace(e.message);
+		}
+		return false;
 	}
 
 	@:hlNative("Urho3D", "_math_vector3_create")
@@ -28,18 +40,18 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 
 	@:to
 	public inline function toString():String {
-		var s:String = x + ":" + y + ":" + z;
+		var s:String = "Vector3 " + x + ":" + y + ":" + z;
 		return s;
 	}
 
 	@:from
 	public static inline function fromStructVector3(m:StructVector3):Vector3 {
-		return new Vector3(m.x, m.y,m.z);
+		return new Vector3(m.x, m.y, m.z);
 	}
 
 	@:to
 	public inline function toStructVector3():StructVector3 {
-		return {x: x, y: y,z:z};
+		return {x: x, y: y, z: z};
 	}
 
 	@:op(A == B)
@@ -56,24 +68,24 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function add(rhs:Vector3):Vector3 {
 		var x1:Single = x + rhs.x;
 		var y1:Single = y + rhs.y;
-        var z1:Single = z + rhs.z;
+		var z1:Single = z + rhs.z;
 
-		return new Vector3(x1, y1,z1);
+		return new Vector3(x1, y1, z1);
 	}
 
 	@:op(A += B)
 	public inline function addTo(rhs:Vector3):Vector3 {
 		x += rhs.x;
-        y += rhs.y;
-        z += rhs.z;
+		y += rhs.y;
+		z += rhs.z;
 		return cast this;
 	}
 
 	@:op(A - B)
 	public inline function sub(rhs:Vector3):Vector3 {
 		var x1:Single = x - rhs.x;
-        var y1:Single = y - rhs.y;
-        var z1:Single = z - rhs.z;
+		var y1:Single = y - rhs.y;
+		var z1:Single = z - rhs.z;
 
 		return new Vector3(x1, y1);
 	}
@@ -82,7 +94,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function subFrom(rhs:Vector3):Vector3 {
 		x -= rhs.x;
 		y -= rhs.y;
-        z -= rhs.z;
+		z -= rhs.z;
 		return cast this;
 	}
 
@@ -90,7 +102,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function mul(rhs:Single):Vector3 {
 		var x1:Single = x * rhs;
 		var y1:Single = y * rhs;
-        var z1:Single = z * rhs;
+		var z1:Single = z * rhs;
 		return new Vector3(x1, y1, z1);
 	}
 
@@ -98,7 +110,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function mulWith(rhs:Single):Vector3 {
 		x *= rhs;
 		y *= rhs;
-        z *= rhs;
+		z *= rhs;
 		return cast this;
 	}
 
@@ -106,7 +118,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function mulVector2(rhs:Vector3):Vector3 {
 		var x1:Single = x * rhs.x;
 		var y1:Single = y * rhs.y;
-        var z1:Single = z * rhs.z;
+		var z1:Single = z * rhs.z;
 		return new Vector3(x1, y1, z1);
 	}
 
@@ -114,7 +126,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function mulWithVector2(rhs:Vector3):Vector3 {
 		x *= rhs.x;
 		y *= rhs.y;
-        z *= rhs.z;
+		z *= rhs.z;
 		return cast this;
 	}
 
@@ -122,7 +134,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function div(rhs:Single):Vector3 {
 		var x1:Single = x / rhs;
 		var y1:Single = y / rhs;
-        var z1:Single = z / rhs;
+		var z1:Single = z / rhs;
 		return new Vector3(x1, y1, z1);
 	}
 
@@ -130,7 +142,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function divWith(rhs:Single):Vector3 {
 		x /= rhs;
 		y /= rhs;
-        z /= rhs;
+		z /= rhs;
 
 		return cast this;
 	}
@@ -139,7 +151,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function divVector2(rhs:Vector3):Vector3 {
 		var x1:Single = x / rhs.x;
 		var y1:Single = y / rhs.y;
-        var z1:Single = z / rhs.z;
+		var z1:Single = z / rhs.z;
 
 		return new Vector3(x1, y1);
 	}
@@ -148,44 +160,44 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public inline function divWithVector2(rhs:Vector3):Vector3 {
 		x /= rhs.x;
 		y /= rhs.y;
-        z /= rhs.z;
+		z /= rhs.z;
 		return cast this;
 	}
 
 	@:op(-A)
 	public inline function neg():Vector3 {
 		x = -x;
-        y = -y;
-        z = -z;
+		y = -y;
+		z = -z;
 		return cast this;
 	}
 
 	@:op(--A)
 	public inline function preNeg():Vector3 {
 		x = --x;
-        y = --y;
-        z = --z;
+		y = --y;
+		z = --z;
 		return cast this;
 	}
 
 	@:op(A--) public inline function postNeg():Vector3 {
 		x = x--;
-        y = y--;
-        z = z--;
+		y = y--;
+		z = z--;
 		return cast this;
 	}
 
 	@:op(++A) public inline function preAdd():Vector3 {
 		x = ++x;
-        y = ++y;
-        z = ++z;
+		y = ++y;
+		z = ++z;
 		return cast this;
 	}
 
 	@:op(A++) public inline function postAdd():Vector3 {
 		x = x++;
-        y = y++;
-        z = z++;
+		y = y++;
+		z = z++;
 		return cast this;
 	}
 
@@ -330,9 +342,9 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	 */
 	public var x(get, set):Single;
 
-    public var y(get, set):Single;
-    
-    public var z(get, set):Single;
+	public var y(get, set):Single;
+
+	public var z(get, set):Single;
 
 	inline function get_x() {
 		return _get_x(cast this);
@@ -368,10 +380,9 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	@:hlNative("Urho3D", "_math_vector3_set_y")
 	private static function _set_y(vec:Vector3, x:Single):Single {
 		return 0.0;
-    }
-    
+	}
 
-    inline function get_z() {
+	inline function get_z() {
 		return _get_z(cast this);
 	}
 

@@ -28,7 +28,7 @@ abstract Vector2(HL_URHO3D_VECTOR2) {
 
 	@:to
 	public inline function toString():String {
-		var s:String = x + ":" + y;
+		var s:String = "Vector2 "+x + ":" + y;
 		return s;
 	}
 
