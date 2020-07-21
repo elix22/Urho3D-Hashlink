@@ -179,6 +179,16 @@ hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(Component *component)
 
 
 
+typedef struct hl_urho3d_scene_logic_component
+{
+    void * finalizer;
+    SharedPtr<Urho3D::LogicComponent> ptr;
+}hl_urho3d_scene_logic_component;
+
+#define HL_URHO3D_LOGIC_COMPONENT _ABSTRACT(hl_urho3d_scene_logic_component)
+hl_urho3d_scene_logic_component * hl_alloc_urho3d_scene_logic_component();
+
+
 typedef struct hl_urho3d_scene_node
 {
     void * finalizer;

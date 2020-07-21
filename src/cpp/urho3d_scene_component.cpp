@@ -7,6 +7,19 @@ extern "C"
 #include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
+class ProxyComponent : public Component
+{
+    URHO3D_OBJECT(ProxyComponent, Component);
+
+    explicit ProxyComponent(Context *context) : Component(context)
+    {
+    }
+
+    ~ProxyComponent()
+    {
+    }
+};
+
 void finalize_urho3d_scene_component(void *v)
 {
     hl_urho3d_scene_component *hl_ptr = (hl_urho3d_scene_component *)v;
@@ -25,7 +38,7 @@ hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(urho3d_context *conte
 {
 
     hl_urho3d_scene_component *p = (hl_urho3d_scene_component *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_component));
-    memset(p,0,sizeof(hl_urho3d_scene_component));
+    memset(p, 0, sizeof(hl_urho3d_scene_component));
     p->finalizer = (void *)finalize_urho3d_scene_component;
     p->ptr = new Component(context);
     return p;
@@ -35,7 +48,7 @@ hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(Component *component)
 {
 
     hl_urho3d_scene_component *p = (hl_urho3d_scene_component *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_component));
-    memset(p,0,sizeof(hl_urho3d_scene_component));
+    memset(p, 0, sizeof(hl_urho3d_scene_component));
     p->finalizer = (void *)finalize_urho3d_scene_component;
     p->ptr = component;
     return p;
@@ -46,6 +59,5 @@ HL_PRIM hl_urho3d_scene_component *HL_NAME(_scene_component_create)(urho3d_conte
     hl_urho3d_scene_component *v = hl_alloc_urho3d_scene_component(context);
     return v;
 }
-
 
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_component_create, URHO3D_CONTEXT);

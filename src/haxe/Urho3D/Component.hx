@@ -5,7 +5,7 @@ import urho3d.Zone.AbstractZone;
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
 class Component {
-	private var abstractComponent:AbstractComponent = null;
+	public var abstractComponent:AbstractComponent = null;
 
 	public inline function new(?absComponent:AbstractComponent) {
 		if (absComponent != null)

@@ -41,6 +41,11 @@ class Node {
         var absComp:AbstractComponent = AbstractNode.CreateComponent(Context.context,abstractNode,type,mode,id);
         return absComp;
     }
+
+    public function AddComponent( component:Component, id:Int=0,  mode:CreateMode=CreateMode.REPLICATED)
+    {
+        AbstractNode.AddComponent(Context.context,abstractNode , component.abstractComponent , mode , id );
+    }
     
 }
 
@@ -73,4 +78,9 @@ abstract AbstractNode(HL_URHO3D_NODE) {
             return null;
     }
 
+    @:hlNative("Urho3D", "_scene_node_add_component")
+    public static function AddComponent(c:Context , n:AbstractNode , component:AbstractComponent , mode:CreateMode , id:Int ):Void
+    {
+ 
+    }
 }
