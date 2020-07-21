@@ -17,6 +17,7 @@ typedef struct hl_urho3d_color
 }hl_urho3d_color;
 
 #define HL_URHO3D_COLOR _ABSTRACT(hl_urho3d_color)
+hl_urho3d_color * hl_alloc_urho3d_color(const Urho3D::Color & color);
 hl_urho3d_color * hl_alloc_urho3d_color(float r=0.0,float g=0.0,float b=0.0,float a=1.0);
 
 
@@ -28,6 +29,18 @@ typedef struct hl_urho3d_intvector2
 
 #define HL_URHO3D_INTVECTOR2 _ABSTRACT(hl_urho3d_intvector2)
 hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2(int x=0,int y=0);
+
+
+typedef struct hl_urho3d_math_quaternion
+{
+    void * finalizer;
+    Urho3D::Quaternion  * ptr;
+}hl_urho3d_math_quaternion;
+
+#define HL_URHO3D_QUATERNION _ABSTRACT(hl_urho3d_math_quaternion)
+hl_urho3d_math_quaternion * hl_alloc_urho3d_math_quaternion(float x,float y,float z);
+hl_urho3d_math_quaternion * hl_alloc_urho3d_math_quaternion(const Urho3D::Quaternion &);
+
 
 
 typedef struct hl_urho3d_math_vector2
@@ -60,6 +73,7 @@ typedef struct hl_urho3d_math_boundingbox
 }hl_urho3d_math_boundingbox;
 
 #define HL_URHO3D_BOUNDINGBOX _ABSTRACT(hl_urho3d_math_boundingbox)
+hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(const Urho3D::BoundingBox & box);
 hl_urho3d_math_boundingbox * hl_alloc_urho3d_math_boundingbox(float x,float y);
 hl_urho3d_math_boundingbox * hl_alloc_urho3d_math_boundingbox(const Urho3D::Vector3 & a,const Urho3D::Vector3 & b);
 

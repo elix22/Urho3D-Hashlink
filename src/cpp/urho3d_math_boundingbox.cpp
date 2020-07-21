@@ -21,6 +21,17 @@ void finalize_urho3d_math_boundingbox(void *v)
     }
 }
 
+hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(const Urho3D::BoundingBox & box)
+{
+    hl_urho3d_math_boundingbox *p = (hl_urho3d_math_boundingbox *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_math_boundingbox));
+
+    p->finalizer = (void *)finalize_urho3d_math_boundingbox;
+    p->ptr = new Urho3D::BoundingBox(box);
+
+    return p;
+}
+
+
 hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(const Urho3D::Vector3 &a, const Urho3D::Vector3 &b)
 {
     hl_urho3d_math_boundingbox *p = (hl_urho3d_math_boundingbox *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_math_boundingbox));
@@ -57,6 +68,8 @@ HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_math_boundingbox_create_v3_v3)(hl_u
 
     return NULL;
 }
+
+
 
 DEFINE_PRIM(HL_URHO3D_BOUNDINGBOX, _math_boundingbox_create_ff, _F32 _F32);
 DEFINE_PRIM(HL_URHO3D_BOUNDINGBOX, _math_boundingbox_create_v3_v3, HL_URHO3D_VECTOR3 HL_URHO3D_VECTOR3);

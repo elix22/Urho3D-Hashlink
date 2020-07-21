@@ -62,7 +62,75 @@ HL_PRIM hl_urho3d_graphics_zone *HL_NAME(_graphics_zone_cast_from_component)(urh
 }
 
 
+HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_graphics_zone_set_boundingbox)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_math_boundingbox * boundingbox)
+{
+    zone->ptr->SetBoundingBox(*(boundingbox->ptr));
+    return boundingbox;
+}
+
+HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_graphics_zone_get_boundingbox)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
+{
+    return hl_alloc_urho3d_math_boundingbox(zone->ptr->GetBoundingBox());
+
+}
+
+
+HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_set_ambient_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_color * color)
+{
+    zone->ptr->SetAmbientColor(*(color->ptr));
+    return color;
+}
+
+HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_get_ambient_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
+{
+    return  hl_alloc_urho3d_color(zone->ptr->GetAmbientColor());
+}
+
+HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_set_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_color * color)
+{
+    zone->ptr->SetFogColor(*(color->ptr));
+    return color;
+}
+
+HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_get_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
+{
+    return  hl_alloc_urho3d_color(zone->ptr->GetFogColor());
+}
+
+HL_PRIM float HL_NAME(_graphics_zone_set_fog_start)(urho3d_context * context,hl_urho3d_graphics_zone *zone,float start)
+{
+    zone->ptr->SetFogStart(start);
+    return start;
+}
+
+HL_PRIM float HL_NAME(_graphics_zone_get_fog_start)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
+{
+    return zone->ptr->GetFogStart();
+}
+
+
+HL_PRIM float HL_NAME(_graphics_zone_set_fog_end)(urho3d_context * context,hl_urho3d_graphics_zone *zone,float start)
+{
+    zone->ptr->SetFogEnd(start);
+    return start;
+}
+
+HL_PRIM float HL_NAME(_graphics_zone_get_fog_end)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
+{
+    return zone->ptr->GetFogEnd();
+}
+
 
 DEFINE_PRIM(HL_URHO3D_ZONE, _graphics_zone_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_zone_cast_to_component, URHO3D_CONTEXT HL_URHO3D_ZONE);
 DEFINE_PRIM(HL_URHO3D_ZONE, _graphics_zone_cast_from_component,URHO3D_CONTEXT HL_URHO3D_COMPONENT );
+DEFINE_PRIM(HL_URHO3D_BOUNDINGBOX, _graphics_zone_set_boundingbox,URHO3D_CONTEXT HL_URHO3D_ZONE HL_URHO3D_BOUNDINGBOX);
+DEFINE_PRIM(HL_URHO3D_BOUNDINGBOX, _graphics_zone_get_boundingbox,URHO3D_CONTEXT HL_URHO3D_ZONE);
+DEFINE_PRIM(HL_URHO3D_COLOR, _graphics_zone_set_ambient_color,URHO3D_CONTEXT HL_URHO3D_ZONE HL_URHO3D_COLOR);
+DEFINE_PRIM(HL_URHO3D_COLOR, _graphics_zone_get_ambient_color,URHO3D_CONTEXT HL_URHO3D_ZONE);
+DEFINE_PRIM(HL_URHO3D_COLOR, _graphics_zone_set_fog_color,URHO3D_CONTEXT HL_URHO3D_ZONE HL_URHO3D_COLOR);
+DEFINE_PRIM(HL_URHO3D_COLOR, _graphics_zone_get_fog_color,URHO3D_CONTEXT HL_URHO3D_ZONE);
+DEFINE_PRIM(_F32, _graphics_zone_set_fog_start,URHO3D_CONTEXT HL_URHO3D_ZONE _F32);
+DEFINE_PRIM(_F32, _graphics_zone_get_fog_start,URHO3D_CONTEXT HL_URHO3D_ZONE);
+DEFINE_PRIM(_F32, _graphics_zone_set_fog_end,URHO3D_CONTEXT HL_URHO3D_ZONE _F32);
+DEFINE_PRIM(_F32, _graphics_zone_get_fog_end,URHO3D_CONTEXT HL_URHO3D_ZONE);
