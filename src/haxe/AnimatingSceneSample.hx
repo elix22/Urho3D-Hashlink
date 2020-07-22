@@ -8,14 +8,23 @@ class Rotator extends LogicComponent {
 		super();
 	}
 
-	public override function Update(timeStep:Single) {
-		//trace("Rotator Update " + timeStep);
+	public override function Start():Void {
+		//trace("Rotator Start ");
+	}
+
+	public override function DelayedStart():Void {
+		//trace("Rotator DelayedStart ");
+	}
+
+	public override function Update(timeStep:Float) {
+	//	 trace(timeStep);
 	}
 }
 
 class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
-	var logicComponent = null;
+
+	public final NUM_OBJECTS = 2000;
 
 	public override function Setup() {
 		trace("Setup");
@@ -39,9 +48,13 @@ class AnimatingSceneSample extends Application {
 		zone.fogStart = 10.0;
 		zone.fogEnd = 100.0;
 
-		var boxNode = scene.CreateChild("Boxes");
-		logicComponent = new Rotator();
-		boxNode.AddComponent(logicComponent);
+		for (i in 0...NUM_OBJECTS) {
+			var boxNode = scene.CreateChild("Box");
+			boxNode.position = new Vector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
+			boxNode.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
+			var rotator = new Rotator();
+			boxNode.AddComponent(rotator);
+		}
 	}
 
 	public function SubscribeToEvents() {

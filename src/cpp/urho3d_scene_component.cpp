@@ -60,4 +60,10 @@ HL_PRIM hl_urho3d_scene_component *HL_NAME(_scene_component_create)(urho3d_conte
     return v;
 }
 
+HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_component_get_node)(urho3d_context *context,hl_urho3d_scene_component *component)
+{
+    return hl_alloc_urho3d_scene_node(context,component->ptr->GetNode());
+}
+
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_component_create, URHO3D_CONTEXT);
+DEFINE_PRIM(HL_URHO3D_NODE, _scene_component_get_node, URHO3D_CONTEXT HL_URHO3D_COMPONENT);

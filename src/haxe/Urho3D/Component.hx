@@ -1,10 +1,13 @@
 package urho3d;
 
+import urho3d.Node.AbstractNode;
 import urho3d.Zone.AbstractZone;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
 class Component {
+	public  var _node:Node = null;
+	public var node(get,never):Node;
 	public var abstractComponent:AbstractComponent = null;
 
 	public inline function new(?absComponent:AbstractComponent) {
@@ -12,6 +15,15 @@ class Component {
 			abstractComponent = absComponent;
 		else
 			abstractComponent = new AbstractComponent();
+	}
+
+	public function get_node()
+	{
+		if(_node == null)
+		{
+			_node = new Node(AbstractComponent.GetNode(Context.context,abstractComponent));	
+		}
+		return _node;
 	}
 }
 
@@ -38,5 +50,11 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 	private static function Create(c:Context):HL_URHO3D_COMPONENT {
 		return null;
 	}
+
+	@:hlNative("Urho3D", "_scene_component_get_node")
+	public static function GetNode(c:Context,d:AbstractComponent):AbstractNode {
+		return null;
+	}
+	//
 
 }

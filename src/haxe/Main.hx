@@ -3,9 +3,10 @@ import urho3d.Application;
 import urho3d.Graphics.BlendMode;
 
 class Main {
+	private static var app =null;
 	static function main() {	
 		//var app = new SpritesSample();
-		var app = new AnimatingSceneSample();
+		app = new AnimatingSceneSample();
 		app.Run();
 	}
 }

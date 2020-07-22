@@ -7,37 +7,36 @@ typedef HL_URHO3D_LOGIC_COMPONENT = hl.Abstract<"hl_urho3d_scene_logic_component
 class LogicComponent extends Component{
     private var abstractLogicComponent:AbstractLogicComponent = null;
     public inline function new() {
-        abstractLogicComponent = new AbstractLogicComponent();
-        AbstractLogicComponent.BindCallbacks(abstractLogicComponent,Start,DelayedStart,Stop,Update,PostUpdate,FixedUpdate,FixedPostUpdate);
-
+        abstractLogicComponent = new AbstractLogicComponent(this);
         super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
     }
 
+    @:keep
     public function Start():Void {
 		// trace("Start");
 	}
-
+    @:keep
 	public function DelayedStart():Void {
 	//	 trace(" DelayedStart  ");
 	}
-
+    @:keep
 	public function Stop():Void {
 	//	 trace("  Stop  ");
     }
-    
-    public function Update(timeStep:Single):Void {
+    @:keep
+    public function Update(timeStep:Float):Void {
 	//	 trace("Update " + timeStep);
 	}
-    
-    public function PostUpdate(timeStep:Single):Void {
+    @:keep
+    public function PostUpdate(timeStep:Float):Void {
       //  trace("PostUpdate " + timeStep);
     }
-   
-    public function FixedUpdate(timeStep:Single):Void {
+    @:keep
+    public function FixedUpdate(timeStep:Float):Void {
        // trace("FixedUpdate " + timeStep);
     }
-    
-    public function FixedPostUpdate(timeStep:Single):Void {
+    @:keep
+    public function FixedPostUpdate(timeStep:Float):Void {
        // trace("FixedPostUpdate " + timeStep);
     }
     
@@ -46,18 +45,14 @@ class LogicComponent extends Component{
 
 @:hlNative("Urho3D")
 abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
-	public inline function new() {
-		this = Create(Context.context);
+	public inline function new(d:Dynamic) {
+		this = Create(Context.context,d);
 	}
 
 
 	@:hlNative("Urho3D", "_scene_logic_component_create")
-	private static function Create(c:Context):HL_URHO3D_LOGIC_COMPONENT {
+	private static function Create(c:Context , d:Dynamic):HL_URHO3D_LOGIC_COMPONENT {
 		return null;
-    }
-
-    @:hlNative("Urho3D", "_scene_logic_component_bind_callbacks")
-    public static function BindCallbacks(ptr:AbstractLogicComponent,callback_start:Void->Void,callback_delayed_start:Void->Void,callback_stop:Void->Void,callback_update:Single->Void,callback_post_update:Single->Void,callback_fixed_update:Single->Void,callback_fixed_post_update:Single->Void):Void {
     }
 
     @:hlNative("Urho3D", "_scene_logic_component_cast_from_component")

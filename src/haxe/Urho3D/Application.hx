@@ -9,6 +9,8 @@ typedef HLDynEvent = {
 }
 
 class Application {
+	private static var application:Application = null;
+
 	public var abstractApplication:AbstractApplication;
 
 	public static var context = null;
@@ -19,6 +21,7 @@ class Application {
 		abstractApplication.RegisterSetupClosure(Setup);
 		abstractApplication.RegisterStartClosure(Start);
 		abstractApplication.RegisterStopClosure(Stop);
+		application = this;
 	}
 
 	public function Run() {
@@ -38,9 +41,10 @@ class Application {
 	}
 
 	public function SubscribeToEvent(stringHash:StringHash, callback_fun:StringHash->VariantMap->Void) {
-		abstractApplication.SubscribeToEvent(stringHash, callback_fun);
+		if (abstractApplication != null) {
+			abstractApplication.SubscribeToEvent(stringHash, callback_fun);
+		}
 	}
-
 
 	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand = Std.random(100000) / 100000.0;
@@ -49,7 +53,7 @@ class Application {
 		else if (min != null && max == null) {
 			return rand * min;
 		} else {
-			return rand * (max - min)+min;
+			return rand * (max - min) + min;
 		}
 	}
 }
