@@ -5,6 +5,10 @@ import urho3d.Node.AbstractNode;
 typedef HL_URHO3D_SCENE = hl.Abstract<"hl_urho3d_scene_scene">;
 
 class Scene extends Node {
+
+	public static var currentScene:Scene = null;
+
+	public var nodes = [];
 	private var abstractScene:AbstractScene = null;
 	public inline function new(?rhs:AbstractScene) {
 		if (rhs != null)
@@ -12,7 +16,8 @@ class Scene extends Node {
 		else
 			abstractScene = new AbstractScene();
 
-        super(AbstractScene.CastToNode(Context.context, abstractScene));
+		super(AbstractScene.CastToNode(Context.context, abstractScene));
+		currentScene = this;
 	}
 }
 

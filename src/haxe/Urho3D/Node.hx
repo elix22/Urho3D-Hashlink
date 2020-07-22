@@ -17,9 +17,8 @@ typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
 }
 
 class Node {
-
-    private static var nodes = [];
-    private  var components = [];
+	public var children = [];
+    public  var components = [];
 	private var abstractNode:AbstractNode = null;
 
 	public var position(get, set):Vector3;
@@ -30,8 +29,10 @@ class Node {
 			abstractNode = rhs;
 		} else {
 			abstractNode = new AbstractNode();
-        }
-        nodes.push(this);
+		}
+
+		if(Scene.currentScene != null)
+			Scene.currentScene.nodes.push(this);
 	}
 
 	public function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
@@ -46,7 +47,6 @@ class Node {
 
 	public function AddComponent(component:Component, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
         component._node = this;
-        components.push(component);
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
     }
     

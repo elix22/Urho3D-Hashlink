@@ -17,7 +17,7 @@ class Rotator extends LogicComponent {
 	}
 
 	public override function Update(timeStep:Float) {
-	//	 trace(timeStep);
+		 trace(timeStep);
 	}
 }
 
@@ -52,8 +52,10 @@ class AnimatingSceneSample extends Application {
 			var boxNode = scene.CreateChild("Box");
 			boxNode.position = new Vector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
 			boxNode.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
-			var rotator = new Rotator();
-			boxNode.AddComponent(rotator);
+			var boxObject:StaticModel = boxNode.CreateComponent("StaticModel");
+
+
+			boxNode.AddComponent(new Rotator());
 		}
 	}
 

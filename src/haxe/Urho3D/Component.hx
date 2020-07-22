@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.StaticModel.AbstractStaticModel;
 import urho3d.Node.AbstractNode;
 import urho3d.Zone.AbstractZone;
 
@@ -15,6 +16,8 @@ class Component {
 			abstractComponent = absComponent;
 		else
 			abstractComponent = new AbstractComponent();
+
+		get_node().components.push(this);
 	}
 
 	public function get_node()
@@ -44,6 +47,12 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 		//trace("AbstractComponent to zone");
 		var abstractZone:AbstractZone = AbstractZone.CastFromComponent(Context.context, cast this);
 		return new Zone(abstractZone);
+	}
+
+	@:to
+	public inline function toStaticModel():StaticModel {
+		var abstract_ = AbstractStaticModel.CastFromComponent(Context.context, cast this);
+		return new StaticModel(abstract_);
 	}
 
 	@:hlNative("Urho3D", "_scene_component_create")

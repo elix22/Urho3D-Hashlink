@@ -211,6 +211,73 @@ hl_urho3d_scene_scene * hl_alloc_urho3d_scene_scene();
 
 
 
+typedef struct hl_urho3d_graphics_camera
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Camera> ptr;
+}hl_urho3d_graphics_camera;
+
+#define HL_URHO3D_CAMERA _ABSTRACT(hl_urho3d_graphics_camera)
+hl_urho3d_graphics_camera * hl_alloc_urho3d_graphics_camera();
+hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera(Camera *camera);
+
+
+typedef struct hl_urho3d_graphics_light
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Light> ptr;
+}hl_urho3d_graphics_light;
+
+#define HL_URHO3D_LIGHT _ABSTRACT(hl_urho3d_graphics_light)
+hl_urho3d_graphics_light * hl_alloc_urho3d_graphics_light();
+hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light(Light *light);
+
+
+typedef struct hl_urho3d_graphics_material
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Material> ptr;
+}hl_urho3d_graphics_material;
+
+#define HL_URHO3D_MATERIAL _ABSTRACT(hl_urho3d_graphics_material)
+hl_urho3d_graphics_material * hl_alloc_urho3d_graphics_material(urho3d_context *context, const char *name);
+
+
+typedef struct hl_urho3d_graphics_model
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Model> ptr;
+}hl_urho3d_graphics_model;
+
+#define HL_URHO3D_MODEL _ABSTRACT(hl_urho3d_graphics_model)
+hl_urho3d_graphics_model * hl_alloc_urho3d_graphics_model(urho3d_context *context, const char *name);
+
+
+
+
+typedef struct hl_urho3d_graphics_staticmodel
+{
+    void * finalizer;
+    SharedPtr<Urho3D::StaticModel> ptr;
+}hl_urho3d_graphics_staticmodel;
+
+#define HL_URHO3D_STATICMODEL _ABSTRACT(hl_urho3d_graphics_staticmodel)
+hl_urho3d_graphics_staticmodel * hl_alloc_urho3d_graphics_staticmodel();
+hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(StaticModel *model);
+
+
+typedef struct hl_urho3d_graphics_viewport
+{
+    void * finalizer;
+    SharedPtr<Urho3D::Viewport> ptr;
+}hl_urho3d_graphics_viewport;
+
+#define HL_URHO3D_VIEWPORT _ABSTRACT(hl_urho3d_graphics_viewport)
+hl_urho3d_graphics_viewport * hl_alloc_urho3d_graphics_viewport(hl_urho3d_scene_scene * scene ,hl_urho3d_graphics_camera * camera);
+
+
+
+
 typedef struct hl_urho3d_graphics_zone
 {
     void * finalizer;
