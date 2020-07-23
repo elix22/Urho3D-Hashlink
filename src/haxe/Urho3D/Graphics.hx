@@ -45,3 +45,5 @@ class Graphics {
     var BLEND_SUBTRACTALPHA=8;
     var MAX_BLENDMODES;
 }
+
+

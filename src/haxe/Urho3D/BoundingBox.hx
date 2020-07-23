@@ -9,8 +9,12 @@ typedef HL_URHO3D_BOUNDINGBOX = hl.Abstract<"hl_urho3d_math_boundingbox">;
 abstract BoundingBox(HL_URHO3D_BOUNDINGBOX) {
 	public inline function new(x:Dynamic, y:Dynamic) {
 		if (x != null && y != null) {
-			if (Type.typeof(x) == TFloat && Type.typeof(y) == TFloat) {
-				this = CreateFF(x, y);
+			trace("BoundingBox " + x+":"+y + "  "+Type.typeof(x)+":"+Type.typeof(y));
+			if ((Type.typeof(x) == TFloat || Type.typeof(x) == TInt) && (Type.typeof(y) == TFloat || Type.typeof(y) == TInt)) {
+				x = x *1.0;
+				y = y*1.0;
+				trace("BoundingBox CreateFF" + x+":"+y);
+				this = CreateFF(cast(x,Float), cast(y,Float));
 			} else if (Vector3.isTypeOf(x) == true && Vector3.isTypeOf(y) == true) {
 				this = CreateV3V3(x, y);
 			} else {

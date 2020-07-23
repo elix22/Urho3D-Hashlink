@@ -46,6 +46,7 @@ hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(float x, float y)
 {
     hl_urho3d_math_boundingbox *p = (hl_urho3d_math_boundingbox *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_math_boundingbox));
 
+    printf("hl_alloc_urho3d_math_boundingbox %f %f \n",x,y);
     p->finalizer = (void *)finalize_urho3d_math_boundingbox;
     p->ptr = new Urho3D::BoundingBox(x, y);
 

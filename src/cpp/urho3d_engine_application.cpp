@@ -32,7 +32,7 @@ class ProxyApp : public Application
     {
         
              
-        engineParameters_[EP_RESOURCE_PREFIX_PATHS] = "GetSubsystem<FileSystem>()->GetProgramDir()";
+        engineParameters_[EP_RESOURCE_PREFIX_PATHS] = GetSubsystem<FileSystem>()->GetProgramDir();
 #if URHO3D_HAXE_HASHLINK
          engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;";
 #else

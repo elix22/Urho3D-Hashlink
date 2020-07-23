@@ -59,6 +59,32 @@ HL_PRIM hl_urho3d_graphics_staticmodel *HL_NAME(_graphics_staticmodel_cast_from_
     return  hl_alloc_urho3d_graphics_staticmodel(dynamic_cast<StaticModel*>(cmp));
 }
 
+HL_PRIM void HL_NAME(_graphics_staticmodel_set_model)(urho3d_context *context, hl_urho3d_graphics_staticmodel * staticmodel , hl_urho3d_graphics_model *model)
+{
+   staticmodel->ptr->SetModel(model->ptr);
+}
+
+HL_PRIM hl_urho3d_graphics_model * HL_NAME(_graphics_staticmodel_get_model)(urho3d_context *context, hl_urho3d_graphics_staticmodel * staticmodel)
+{
+   return hl_alloc_urho3d_graphics_model(staticmodel->ptr->GetModel());
+}
+
+
+HL_PRIM void HL_NAME(_graphics_staticmodel_set_material)(urho3d_context *context, hl_urho3d_graphics_staticmodel * staticmodel , hl_urho3d_graphics_material *material)
+{
+   staticmodel->ptr->SetMaterial(material->ptr);
+}
+
+HL_PRIM hl_urho3d_graphics_material * HL_NAME(_graphics_staticmodel_get_material)(urho3d_context *context, hl_urho3d_graphics_staticmodel * staticmodel)
+{
+   return hl_alloc_urho3d_graphics_material(staticmodel->ptr->GetMaterial());
+}
+
+
 DEFINE_PRIM(HL_URHO3D_STATICMODEL, _graphics_staticmodel_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_staticmodel_cast_to_component, URHO3D_CONTEXT HL_URHO3D_STATICMODEL);
 DEFINE_PRIM(HL_URHO3D_STATICMODEL, _graphics_staticmodel_cast_from_component,URHO3D_CONTEXT HL_URHO3D_COMPONENT );
+DEFINE_PRIM(_VOID, _graphics_staticmodel_set_model, URHO3D_CONTEXT HL_URHO3D_STATICMODEL HL_URHO3D_MODEL);
+DEFINE_PRIM(HL_URHO3D_MODEL, _graphics_staticmodel_get_model, URHO3D_CONTEXT HL_URHO3D_STATICMODEL );
+DEFINE_PRIM(_VOID, _graphics_staticmodel_set_material, URHO3D_CONTEXT HL_URHO3D_STATICMODEL HL_URHO3D_MATERIAL);
+DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_staticmodel_get_material, URHO3D_CONTEXT HL_URHO3D_STATICMODEL );

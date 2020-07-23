@@ -241,7 +241,7 @@ typedef struct hl_urho3d_graphics_material
 
 #define HL_URHO3D_MATERIAL _ABSTRACT(hl_urho3d_graphics_material)
 hl_urho3d_graphics_material * hl_alloc_urho3d_graphics_material(urho3d_context *context, const char *name);
-
+hl_urho3d_graphics_material *hl_alloc_urho3d_graphics_material(Material *material);
 
 typedef struct hl_urho3d_graphics_model
 {
@@ -251,7 +251,7 @@ typedef struct hl_urho3d_graphics_model
 
 #define HL_URHO3D_MODEL _ABSTRACT(hl_urho3d_graphics_model)
 hl_urho3d_graphics_model * hl_alloc_urho3d_graphics_model(urho3d_context *context, const char *name);
-
+hl_urho3d_graphics_model *hl_alloc_urho3d_graphics_model(Model *model);
 
 
 

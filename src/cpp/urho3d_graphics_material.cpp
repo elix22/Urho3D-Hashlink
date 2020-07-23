@@ -33,10 +33,12 @@ hl_urho3d_graphics_material *hl_alloc_urho3d_graphics_material(urho3d_context *c
         memset(p, 0, sizeof(hl_urho3d_graphics_material));
         p->finalizer = (void *)finalize_urho3d_graphics_material;
         p->ptr = resource;
+       // printf("hl_alloc_urho3d_graphics_material success \n");
         return p;
     }
     else
     {
+      //  printf("hl_alloc_urho3d_graphics_material = NULL \n");
         return NULL;
     }
 }

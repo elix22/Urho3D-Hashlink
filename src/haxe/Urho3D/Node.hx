@@ -18,7 +18,8 @@ typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
 
 class Node {
 	public var children = [];
-    public  var components = [];
+	public var components = [];
+
 	private var abstractNode:AbstractNode = null;
 
 	public var position(get, set):Vector3;
@@ -31,7 +32,7 @@ class Node {
 			abstractNode = new AbstractNode();
 		}
 
-		if(Scene.currentScene != null)
+		if (Scene.currentScene != null)
 			Scene.currentScene.nodes.push(this);
 	}
 
@@ -45,27 +46,36 @@ class Node {
 		return absComp;
 	}
 
+	public function GetComponent(type:String) {
+		var absComp:AbstractComponent = AbstractNode.GetComponent(Context.context, abstractNode, type);
+		return absComp;
+	}
+
 	public function AddComponent(component:Component, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
-        component._node = this;
+		component._node = this;
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
-    }
-    
-    public function get_position() {
-		return AbstractNode.GetPosition(Context.context,abstractNode);
+	}
+
+	public function get_position() {
+		return AbstractNode.GetPosition(Context.context, abstractNode);
 	}
 
 	public function set_position(p) {
-        AbstractNode.SetPosition(Context.context,abstractNode,p);
+		AbstractNode.SetPosition(Context.context, abstractNode, p);
 		return p;
 	}
 
 	public function get_rotation() {
-		return AbstractNode.GetRotation(Context.context,abstractNode);
+		return AbstractNode.GetRotation(Context.context, abstractNode);
 	}
 
 	public function set_rotation(r) {
-        AbstractNode.SetRotation(Context.context,abstractNode,r);
+		AbstractNode.SetRotation(Context.context, abstractNode, r);
 		return r;
+	}
+
+	public function Rotate(q:Quaternion, s:TransformSpace = TS_LOCAL) {
+		AbstractNode.Rotate(Context.context, abstractNode, q, s);
 	}
 }
 
@@ -96,6 +106,11 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 		return null;
 	}
 
+	@:hlNative("Urho3D", "_scene_node_get_component")
+	public static function GetComponent(c:Context, n:AbstractNode, name:String):AbstractComponent {
+		return null;
+	}
+
 	@:hlNative("Urho3D", "_scene_node_add_component")
 	public static function AddComponent(c:Context, n:AbstractNode, component:AbstractComponent, mode:CreateMode, id:Int):Void {}
 
@@ -114,6 +129,9 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	public static function GetRotation(c:Context, n:AbstractNode):Quaternion {
 		return null;
 	}
+
+	@:hlNative("Urho3D", "_scene_node_rotate")
+	public static function Rotate(c:Context, n:AbstractNode, position:Quaternion, s:TransformSpace):Void {}
 
 	//
 }

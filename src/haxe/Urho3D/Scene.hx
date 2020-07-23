@@ -9,7 +9,7 @@ class Scene extends Node {
 	public static var currentScene:Scene = null;
 
 	public var nodes = [];
-	private var abstractScene:AbstractScene = null;
+	public var abstractScene:AbstractScene = null;
 	public inline function new(?rhs:AbstractScene) {
 		if (rhs != null)
 			abstractScene = rhs;

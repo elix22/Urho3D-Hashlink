@@ -33,10 +33,12 @@ hl_urho3d_graphics_model *hl_alloc_urho3d_graphics_model(urho3d_context *context
         memset(p, 0, sizeof(hl_urho3d_graphics_model));
         p->finalizer = (void *)finalize_urho3d_graphics_model;
         p->ptr = resource;
+       // printf("hl_alloc_urho3d_graphics_model success \n");
         return p;
     }
     else
     {
+      //  printf("hl_alloc_urho3d_graphics_model = NULL \n");
         return NULL;
     }
 }

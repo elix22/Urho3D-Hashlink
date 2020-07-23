@@ -16,6 +16,31 @@ class StaticModel extends Component {
 
 		super(AbstractStaticModel.CastToComponent(Context.context, _abstract));
     }
+
+    public var model(get,set):Model;
+    public var material(get,set):Material;
+
+    public function set_model(m)
+    {
+        AbstractStaticModel.SetModel(Context.context,_abstract,m);
+        return m;
+    }
+
+    public function get_model()
+    {
+        return AbstractStaticModel.GetModel(Context.context,_abstract);
+    }
+
+    public function set_material(m)
+    {
+        AbstractStaticModel.SetMaterial(Context.context,_abstract,m);
+        return m;
+    }
+
+    public function get_material()
+    {
+        return AbstractStaticModel.GetMaterial(Context.context,_abstract);
+    }
     
 }
 
@@ -46,6 +71,24 @@ abstract AbstractStaticModel(HL_URHO3D_STATICMODEL) {
 	@:hlNative("Urho3D", "_graphics_staticmodel_cast_to_component")
 	public static function CastToComponent(c:Context, s:AbstractStaticModel):AbstractComponent {
 		return null;
+    }
+
+    @:hlNative("Urho3D", "_graphics_staticmodel_set_model")
+	public static function SetModel(c:Context, s:AbstractStaticModel , m:Model):Void {
+    }
+
+    @:hlNative("Urho3D", "_graphics_staticmodel_get_model")
+	public static function GetModel(c:Context, s:AbstractStaticModel ):Model {
+        return null;
+    }
+
+    @:hlNative("Urho3D", "_graphics_staticmodel_set_material")
+	public static function SetMaterial(c:Context, s:AbstractStaticModel , m:Material):Void {
+    }
+
+    @:hlNative("Urho3D", "_graphics_staticmodel_get_material")
+	public static function GetMaterial(c:Context, s:AbstractStaticModel ):Material {
+        return null;
     }
     
 }
