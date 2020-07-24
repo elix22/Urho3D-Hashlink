@@ -15,7 +15,8 @@ static int hl_hash_post_update = 0;
 static int hl_hash_fixed_update = 0;
 static int hl_hash_fixed_post_update = 0;
 
-void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield);
+// very fast function
+void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
 class ProxyLogicComponent : public LogicComponent
 {
@@ -71,11 +72,9 @@ public:
         {
 
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_start, &hlt_dyn);
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_start, hl_hash_start);
-            if (closure)
-            {
-                hl_dyn_call(closure, NULL, 0);
-            }
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_start, hl_hash_start, &closure);
+            hl_dyn_call(&closure, NULL, 0);
 
             /*
             hl_field_lookup *hl_lookup = obj_resolve_field(dyn_obj->t->obj, hl_hash_utf8("Start"));
@@ -94,9 +93,9 @@ public:
         if (dyn_obj)
         {
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_delayed_start, &hlt_dyn);
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_delayed_start, hl_hash_delayed_start);
-            if (closure)
-                hl_dyn_call(closure, NULL, 0);
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_delayed_start, hl_hash_delayed_start, &closure);
+            hl_dyn_call(&closure, NULL, 0);
         }
     }
 
@@ -105,10 +104,10 @@ public:
     {
         if (dyn_obj)
         {
-           // vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_stop, hl_hash_stop);
-            if (closure)
-                hl_dyn_call(closure, NULL, 0);
+            // vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_stop, hl_hash_stop, &closure);
+            hl_dyn_call(&closure, NULL, 0);
 
             hl_remove_root(&dyn_obj);
             dyn_obj = NULL;
@@ -123,16 +122,14 @@ public:
         {
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_update, &hlt_dyn);
             /*faster way , caching the field*/
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_update , hl_hash_update);
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_update, hl_hash_update, &closure);
 
-           // if (closure)
-            {
-                vdynamic args[1];
-                vdynamic *vargs[1] = {&args[0]};
-                args[0].t = &hlt_f32;
-                args[0].v.f = timeStep;
-                hl_dyn_call(closure, vargs, 1);
-            }
+            vdynamic args[1];
+            vdynamic *vargs[1] = {&args[0]};
+            args[0].t = &hlt_f32;
+            args[0].v.f = timeStep;
+            hl_dyn_call(&closure, vargs, 1);
         }
     }
     /// Called on scene post-update, variable timestep.
@@ -141,16 +138,16 @@ public:
         if (dyn_obj)
         {
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_post_update, &hlt_dyn);
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_post_update , hl_hash_post_update);
-            if (closure)
-            {
-                vdynamic args[1];
-                vdynamic *vargs[1] = {&args[0]};
 
-                args[0].t = &hlt_f32;
-                args[0].v.f = timeStep;
-                hl_dyn_call(closure, vargs, 1);
-            }
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_post_update, hl_hash_post_update, &closure);
+
+            vdynamic args[1];
+            vdynamic *vargs[1] = {&args[0]};
+
+            args[0].t = &hlt_f32;
+            args[0].v.f = timeStep;
+            hl_dyn_call(&closure, vargs, 1);
         }
     }
     /// Called on physics update, fixed timestep.
@@ -159,16 +156,15 @@ public:
         if (dyn_obj)
         {
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_fixed_update, &hlt_dyn);
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_fixed_update , hl_hash_fixed_update);
-            if (closure)
-            {
-                vdynamic args[1];
-                vdynamic *vargs[1] = {&args[0]};
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_fixed_update, hl_hash_fixed_update, &closure);
 
-                args[0].t = &hlt_f32;
-                args[0].v.f = timeStep;
-                hl_dyn_call(closure, vargs, 1);
-            }
+            vdynamic args[1];
+            vdynamic *vargs[1] = {&args[0]};
+
+            args[0].t = &hlt_f32;
+            args[0].v.f = timeStep;
+            hl_dyn_call(&closure, vargs, 1);
         }
     }
     /// Called on physics post-update, fixed timestep.
@@ -177,16 +173,15 @@ public:
         if (dyn_obj)
         {
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_fixed_post_update, &hlt_dyn);
-            vclosure *closure =  (vclosure *)hl_dyn_getp_internal( dyn_obj,&dyn_obj_field_fixed_post_update , hl_hash_fixed_post_update);
-            if (closure)
-            {
-                vdynamic args[1];
-                vdynamic *vargs[1] = {&args[0]};
+            vclosure closure;
+            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_fixed_post_update, hl_hash_fixed_post_update, &closure);
 
-                args[0].t = &hlt_f32;
-                args[0].v.f = timeStep;
-                hl_dyn_call(closure, vargs, 1);
-            }
+            vdynamic args[1];
+            vdynamic *vargs[1] = {&args[0]};
+
+            args[0].t = &hlt_f32;
+            args[0].v.f = timeStep;
+            hl_dyn_call(&closure, vargs, 1);
         }
     }
 

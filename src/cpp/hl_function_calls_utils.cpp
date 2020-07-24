@@ -606,10 +606,42 @@ static hl_field_lookup *obj_resolve_field_internal(hl_type_obj *o, int hfield)
 /*********************************************************************************************************************************************************/
 /*********************************************************************************************************************************************************/
 /*********************************************************************************************************************************************************/
-vdynamic *hl_obj_get_hobj_internal(vdynamic *d, hl_field_lookup *f)
+static hl_type *hl_get_closure_type_internal( hl_type *t ) {
+    hl_type_fun *ft = t->fun;
+    if( ft->closure_type.kind != HFUN ) {
+        if( ft->nargs == 0 ) hl_fatal("assert");
+        ft->closure_type.kind = HFUN;
+        ft->closure_type.p = &ft->closure;
+        ft->closure.nargs = ft->nargs - 1;
+        ft->closure.args = ft->closure.nargs ? ft->args + 1 : NULL;
+        ft->closure.ret = ft->ret;
+        ft->closure.parent = t;
+    }
+    return (hl_type*)&ft->closure_type;
+}
+
+vclosure *hl_alloc_closure_ptr_internal( hl_type *fullt, void *fvalue, void *v, vclosure *c ) {
+    hl_type *t = hl_get_closure_type_internal(fullt);
+    c->t = t;
+    c->fun = fvalue;
+    c->hasValue = 1;
+    c->value = v;
+    return c;
+}
+
+vdynamic *hl_obj_get_hobj_internal(vdynamic *d, hl_field_lookup *f, vclosure *c = NULL)
 {
 	if (f && f->field_index < 0)
-		return (vdynamic *)hl_alloc_closure_ptr(f->t, d->t->obj->rt->methods[-f->field_index - 1], d);
+    {
+        if(c != NULL)
+        {
+            return (vdynamic *)hl_alloc_closure_ptr_internal(f->t, d->t->obj->rt->methods[-f->field_index - 1], d,c);
+        }
+        else
+        {
+            return (vdynamic *)hl_alloc_closure_ptr(f->t, d->t->obj->rt->methods[-f->field_index - 1], d);
+        }
+    }
 	return NULL;
 }
 
@@ -633,12 +665,12 @@ void *hl_dyn_getp_internal(vdynamic *d, int hfield)
 	return d == NULL ? NULL : hl_dyn_castp(&d, &hlt_dyn, &hlt_dyn);
 }
 
-void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield)
+void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL)
 {
 	if ((*f) == NULL)
 	{
 		*f = hl_obj_resolve_field_internal(d, hfield);
 	}
-	d = hl_obj_get_hobj_internal(d, *f);
+	d = hl_obj_get_hobj_internal(d, *f,c);
 	return d == NULL ? NULL : hl_dyn_castp(&d, &hlt_dyn, &hlt_dyn);
 }
