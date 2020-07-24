@@ -27,10 +27,7 @@ hl_urho3d_graphics_viewport *hl_alloc_urho3d_graphics_viewport(urho3d_context *c
     hl_urho3d_graphics_viewport *p = (hl_urho3d_graphics_viewport *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_viewport));
     memset(p,0,sizeof(hl_urho3d_graphics_viewport));
     p->finalizer = (void *)finalize_urho3d_graphics_viewport;
-
-   
     p->ptr = new Viewport(context,scene->ptr,camera->ptr);
-     printf("hl_alloc_urho3d_graphics_viewport %d %d \n",p->ptr->GetScene()->GetID(),p->ptr->GetCamera()->GetID());
     return p;
 }
 

@@ -85,5 +85,5 @@ DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_cast_from_component, URHO3D_CONTEXT
 DEFINE_PRIM(_VOID, _graphics_light_set_light_type, URHO3D_CONTEXT HL_URHO3D_LIGHT _I32);
 DEFINE_PRIM(_I32, _graphics_light_get_light_type, URHO3D_CONTEXT HL_URHO3D_LIGHT );
 
-DEFINE_PRIM(_VOID, _graphics_light_set_range, URHO3D_CONTEXT HL_URHO3D_LIGHT _F64);
-DEFINE_PRIM(_F64, _graphics_light_get_range, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+DEFINE_PRIM(_VOID, _graphics_light_set_range, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_range, URHO3D_CONTEXT HL_URHO3D_LIGHT );

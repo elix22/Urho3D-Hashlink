@@ -23,7 +23,7 @@ class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
 
-	public final NUM_OBJECTS = 2000;
+	public final NUM_OBJECTS = 3000;
 
 	public override function Setup() {
 		trace("Setup");
@@ -42,7 +42,7 @@ class AnimatingSceneSample extends Application {
 
 		var zoneNode = scene.CreateChild("Zone");
 		var zone:Zone = zoneNode.CreateComponent("Zone");
-		zone.boundingBox = new BoundingBox(-1000.1, 1000.1);
+		zone.boundingBox = new BoundingBox(-1000.0, 1000.0);
 		zone.ambientColor = new Color(0.05, 0.1, 0.15);
 		zone.fogColor = new Color(0.1, 0.2, 0.3);
 		zone.fogStart = 10.0;
@@ -67,7 +67,7 @@ class AnimatingSceneSample extends Application {
 
 		var light:Light = cameraNode.CreateComponent("Light");
 		light.lightType = LIGHT_POINT;
-		light.range = 30.0;
+		light.range = 100.0;
 	}
 
 	public function SetupViewport() {

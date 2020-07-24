@@ -49,6 +49,16 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 		return new Vector3(m.x, m.y, m.z);
 	}
 
+	@:from
+	public static inline function fromFloat(m:Float):Vector3 {
+		return new Vector3(m, m, m);
+	}
+
+	@:from
+	public static inline function fromSingle(m:Single):Vector3 {
+		return new Vector3(m, m, m);
+	}
+
 	@:to
 	public inline function toStructVector3():StructVector3 {
 		return {x: x, y: y, z: z};

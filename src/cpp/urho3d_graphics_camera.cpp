@@ -24,7 +24,7 @@ void finalize_urho3d_graphics_camera(void *v)
 hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera(urho3d_context *context)
 {
 
- printf("hl_alloc_urho3d_graphics_camera %d \n",__LINE__);
+// printf("hl_alloc_urho3d_graphics_camera %d \n",__LINE__);
     hl_urho3d_graphics_camera *p = (hl_urho3d_graphics_camera *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_camera));
     memset(p,0,sizeof(hl_urho3d_graphics_camera));
     p->finalizer = (void *)finalize_urho3d_graphics_camera;
@@ -34,7 +34,7 @@ hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera(urho3d_context *conte
 
 hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera(Camera *model)
 {
- printf("hl_alloc_urho3d_graphics_camera %d \n",__LINE__);
+ //printf("hl_alloc_urho3d_graphics_camera %d \n",__LINE__);
     hl_urho3d_graphics_camera *p = (hl_urho3d_graphics_camera *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_camera));
     memset(p,0,sizeof(hl_urho3d_graphics_camera));
     p->finalizer = (void *)finalize_urho3d_graphics_camera;

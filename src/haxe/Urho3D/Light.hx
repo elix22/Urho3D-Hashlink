@@ -35,7 +35,7 @@ class Light extends Component {
     
 
 
-    public var range(get, set):Float;
+    public var range(get, set):Single;
 
 	public function set_range(t) {
 		AbstractLight.SetRange(Context.context, _abstract, t);
@@ -84,10 +84,10 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 	}
 
 	@:hlNative("Urho3D", "_graphics_light_set_range")
-	public static function SetRange(c:Context, s:AbstractLight, t:Float):Void {}
+	public static function SetRange(c:Context, s:AbstractLight, t:Single):Void {}
 
 	@:hlNative("Urho3D", "_graphics_light_get_range")
-	public static function GetRange(c:Context, s:AbstractLight):Float {
+	public static function GetRange(c:Context, s:AbstractLight):Single {
 		return 0.0;
 	}
 }

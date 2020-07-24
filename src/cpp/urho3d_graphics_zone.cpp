@@ -65,10 +65,11 @@ HL_PRIM hl_urho3d_graphics_zone *HL_NAME(_graphics_zone_cast_from_component)(urh
 HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_graphics_zone_set_boundingbox)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_math_boundingbox * boundingbox)
 {
     zone->ptr->SetBoundingBox(*(boundingbox->ptr));
+    return boundingbox; 
 
-    BoundingBox box = zone->ptr->GetBoundingBox();
-    printf("_graphics_zone_set_boundingbox %f %f %f %f \n", box.min_.x_,box.min_.y_,box.max_.x_,box.max_.y_);
-    return boundingbox;
+  // BoundingBox box = zone->ptr->GetBoundingBox();
+  //  printf("_graphics_zone_set_boundingbox %f %f %f %f \n", box.min_.x_,box.min_.y_,box.max_.x_,box.max_.y_);
+    
 }
 
 HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_graphics_zone_get_boundingbox)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
@@ -81,8 +82,6 @@ HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_graphics_zone_get_boundingbox)(urho
 HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_set_ambient_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_color * color)
 {
     zone->ptr->SetAmbientColor(*(color->ptr));
-    Color c = zone->ptr->GetAmbientColor();
-    printf("_graphics_zone_set_ambient_color %f %f %f %f  \n",c.r_,c.g_,c.b_,c.a_);
     return color;
 }
 
@@ -94,8 +93,6 @@ HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_get_ambient_color)(urho3d_contex
 HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_set_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_color * color)
 {
     zone->ptr->SetFogColor(*(color->ptr));
-    Color c = zone->ptr->GetFogColor();
-    printf("_graphics_zone_set_fog_color %f %f %f %f  \n",c.r_,c.g_,c.b_,c.a_);
     return color;
 }
 
@@ -107,8 +104,6 @@ HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_get_fog_color)(urho3d_context * 
 HL_PRIM float HL_NAME(_graphics_zone_set_fog_start)(urho3d_context * context,hl_urho3d_graphics_zone *zone,float start)
 {
     zone->ptr->SetFogStart(start);
-    float s = zone->ptr->GetFogStart();
-    printf("_graphics_zone_set_fog_start %f  \n",s);
     return start;
 }
 
@@ -121,8 +116,6 @@ HL_PRIM float HL_NAME(_graphics_zone_get_fog_start)(urho3d_context * context,hl_
 HL_PRIM float HL_NAME(_graphics_zone_set_fog_end)(urho3d_context * context,hl_urho3d_graphics_zone *zone,float start)
 {
     zone->ptr->SetFogEnd(start);
-        float s = zone->ptr->GetFogEnd();
-    printf("_graphics_zone_set_fog_end %f  \n",s);
     return start;
 }
 
