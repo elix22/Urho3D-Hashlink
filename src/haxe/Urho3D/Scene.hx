@@ -17,7 +17,7 @@ class Scene extends Node {
 			abstractScene = new AbstractScene();
 
 		super(AbstractScene.CastToNode(Context.context, abstractScene));
-		currentScene = this;
+	//	currentScene = this;
 	}
 }
 

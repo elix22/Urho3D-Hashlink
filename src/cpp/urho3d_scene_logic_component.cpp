@@ -52,8 +52,10 @@ public:
     /// Destruct.
     ~ProxyLogicComponent() override
     {
+        //printf("~ProxyLogicComponent \n");
         if (dyn_obj)
         {
+
             hl_remove_root(&dyn_obj);
             dyn_obj = NULL;
         }
@@ -104,13 +106,15 @@ public:
     {
         if (dyn_obj)
         {
+           // printf("ProxyLogicComponent.Stop \n");
+            vdynamic *dyn_temp = dyn_obj;
+            dyn_obj = NULL;
             // vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
             vclosure closure;
-            hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_stop, hl_hash_stop, &closure);
+            hl_dyn_getp_internal(dyn_temp, &dyn_obj_field_stop, hl_hash_stop, &closure);
             hl_dyn_call(&closure, NULL, 0);
 
-            hl_remove_root(&dyn_obj);
-            dyn_obj = NULL;
+            hl_remove_root(&dyn_temp);
         }
     }
 
@@ -197,13 +201,12 @@ public:
 
 void finalize_urho3d_scene_logic_component(void *v)
 {
-    printf("finalize_urho3d_scene_logic_component \n");
+    // printf("finalize_urho3d_scene_logic_component \n");
     hl_urho3d_scene_logic_component *hl_ptr = (hl_urho3d_scene_logic_component *)v;
     if (hl_ptr)
     {
         if (hl_ptr->ptr)
         {
-            /* hl_ptr->ptr is a SharedPtr , setting to NULL , decreases the reference count*/
             hl_ptr->ptr = NULL;
         }
         hl_ptr->finalizer = NULL;

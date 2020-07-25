@@ -27,6 +27,8 @@ void finalize_urho3d_scene_component(void *v)
     {
         if (hl_ptr->ptr)
         {
+          //   printf("finalize_urho3d_scene_component %d %s \n",hl_ptr->ptr->Refs(), hl_ptr->ptr->GetTypeName().CString());
+            
             /* hl_ptr->ptr is a SharedPtr , setting to NULL , decreases the reference count*/
             hl_ptr->ptr = NULL;
         }

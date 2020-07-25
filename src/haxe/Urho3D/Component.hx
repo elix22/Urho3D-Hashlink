@@ -9,8 +9,8 @@ import urho3d.Light.AbstractLight;
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
 class Component {
-	public  var _node:Node = null;
-	public var node(get,never):Node;
+	private  var _node:Node = null;
+	public var node(get,set):Node;
 	public var abstractComponent:AbstractComponent = null;
 
 	public inline function new(?absComponent:AbstractComponent) {
@@ -19,10 +19,10 @@ class Component {
 		else
 			abstractComponent = new AbstractComponent();
 
-		get_node().components.push(this);
+		node.bindComponent(this);
 	}
 
-	public function get_node()
+	function get_node()
 	{
 		if(_node == null)
 		{
@@ -30,6 +30,12 @@ class Component {
 		}
 		return _node;
 	}
+
+	function set_node(n)
+		{
+			_node = n;
+			return _node;
+		}
 }
 
 @:hlNative("Urho3D")

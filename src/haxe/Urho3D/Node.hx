@@ -17,8 +17,8 @@ typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
 }
 
 class Node {
-	public var children = [];
-	public var components = [];
+	private var children = [];
+	private var components = [];
 
 	private var abstractNode:AbstractNode = null;
 
@@ -36,9 +36,17 @@ class Node {
 			Scene.currentScene.nodes.push(this);
 	}
 
+	public function bindComponent(component:Component) {
+		//	trace ("bindComponent :" + component);
+		components.push(component);
+		component.node = this;
+	}
+
 	public function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
 		var absNode:AbstractNode = AbstractNode.CreatChild(Context.context, abstractNode, name, mode, id, temporary);
-		return absNode;
+		var node:Node = new Node(absNode);
+		this.children.push(node);
+		return node;
 	}
 
 	public function CreateComponent(type:String, mode:CreateMode = CreateMode.REPLICATED, id:Int = 0) {
@@ -52,30 +60,35 @@ class Node {
 	}
 
 	public function AddComponent(component:Component, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
-		component._node = this;
+		// component.node = this;
+		bindComponent(component);
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
 	}
 
-	public function get_position() {
+	private function get_position() {
 		return AbstractNode.GetPosition(Context.context, abstractNode);
 	}
 
-	public function set_position(p) {
+	private function set_position(p) {
 		AbstractNode.SetPosition(Context.context, abstractNode, p);
 		return p;
 	}
 
-	public function get_rotation() {
+	private function get_rotation() {
 		return AbstractNode.GetRotation(Context.context, abstractNode);
 	}
 
-	public function set_rotation(r) {
+	private function set_rotation(r) {
 		AbstractNode.SetRotation(Context.context, abstractNode, r);
 		return r;
 	}
 
 	public function Rotate(q:Quaternion, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Rotate(Context.context, abstractNode, q, s);
+	}
+
+	public function RotateEuler(x:Single, y:Single, z:Single, s:TransformSpace = TS_LOCAL) {
+		AbstractNode.RotateEuler(Context.context, abstractNode, x, y, z, s);
 	}
 }
 
@@ -131,7 +144,10 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	}
 
 	@:hlNative("Urho3D", "_scene_node_rotate")
-	public static function Rotate(c:Context, n:AbstractNode, position:Quaternion, s:TransformSpace):Void {}
+	public static function Rotate(c:Context, n:AbstractNode, rotation:Quaternion, s:TransformSpace):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_rotate_euler")
+	public static function RotateEuler(c:Context, n:AbstractNode, x:Single, y:Single, z:Single, s:TransformSpace):Void {}
 
 	//
 }

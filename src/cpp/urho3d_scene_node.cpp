@@ -9,7 +9,7 @@ extern "C"
 
 void finalize_urho3d_scene_node(void *v)
 {
-    printf("finalize_urho3d_scene_node \n");
+ //   printf("finalize_urho3d_scene_node \n");
     hl_urho3d_scene_node *hl_ptr = (hl_urho3d_scene_node *)v;
     if (hl_ptr)
     {
@@ -134,6 +134,11 @@ HL_PRIM void HL_NAME(_scene_node_rotate)(urho3d_context *context, hl_urho3d_scen
     this_node->ptr->Rotate(*(qt->ptr),(TransformSpace)space);
 }
 
+HL_PRIM void HL_NAME(_scene_node_rotate_euler)(urho3d_context *context, hl_urho3d_scene_node *this_node, float x, float y, float z, int space )
+{
+    this_node->ptr->Rotate(Quaternion(x,y,z),(TransformSpace)space);
+}
+
 
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create_child, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _I32 _I32 _BOOL);
@@ -148,3 +153,4 @@ DEFINE_PRIM(_VOID, _scene_node_set_rotation, URHO3D_CONTEXT HL_URHO3D_NODE HL_UR
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _scene_node_get_rotation, URHO3D_CONTEXT HL_URHO3D_NODE );
 
 DEFINE_PRIM(_VOID, _scene_node_rotate, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_QUATERNION _I32);
+DEFINE_PRIM(_VOID, _scene_node_rotate_euler, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _F32 _F32 _I32);

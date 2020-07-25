@@ -487,7 +487,7 @@ HL_PRIM  void HL_NAME(_application_subscribe_to_event)(hl_urho3d_application * a
     if(ptr_app)
     {
         ProxyApp * proxyApp  = (ProxyApp *)ptr_app;
-       // proxyApp->subscribeToEvent(stringhash,callback_fn);
+        proxyApp->subscribeToEvent(stringhash,callback_fn);
     }
 }
 

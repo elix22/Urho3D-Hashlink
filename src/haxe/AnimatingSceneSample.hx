@@ -4,7 +4,6 @@ import urho3d.Graphics.BlendMode;
 import urho3d.Zone.AbstractZone;
 
 class Rotator extends LogicComponent {
-
 	private var rotationSpeed:Vector3;
 
 	private var quat:Quaternion = null;
@@ -19,9 +18,11 @@ class Rotator extends LogicComponent {
 	}
 
 	public override function Update(timeStep:Float) {
-		quat.SetAngles(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
-		node.Rotate(quat);
-		//node.Rotate(new Quaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
+		// quat.SetAngles(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
+		// node.Rotate(quat);
+		// node.Rotate(new Quaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
+
+		node.RotateEuler(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
 	}
 }
 
@@ -30,6 +31,8 @@ class AnimatingSceneSample extends Application {
 	private var cameraNode:Node = null;
 
 	public final NUM_OBJECTS = 4000;
+
+	var counter:Int = 0;
 
 	public override function Setup() {
 		trace("Setup");
@@ -87,5 +90,12 @@ class AnimatingSceneSample extends Application {
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Single = eventData["TimeStep"];
+		counter++;
+
+		if ((counter % 1000 == 0)) {
+			trace("create scene");
+			CreateScene();
+			SetupViewport();
+		}
 	}
 }
