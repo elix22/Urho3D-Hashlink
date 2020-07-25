@@ -97,7 +97,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 		var y1:Single = y - rhs.y;
 		var z1:Single = z - rhs.z;
 
-		return new Vector3(x1, y1);
+		return new Vector3(x1, y1,z1);
 	}
 
 	@:op(A -= B)
