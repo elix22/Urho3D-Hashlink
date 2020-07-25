@@ -23,6 +23,8 @@ class Node {
 	private var abstractNode:AbstractNode = null;
 
 	public var position(get, set):Vector3;
+	public var direction(get, set):Vector3;
+	public var scale(get, set):Vector3;
 	public var rotation(get, set):Quaternion;
 
 	public inline function new(?rhs:AbstractNode) {
@@ -71,6 +73,24 @@ class Node {
 
 	private function set_position(p) {
 		AbstractNode.SetPosition(Context.context, abstractNode, p);
+		return p;
+	}
+
+	private function get_direction() {
+		return AbstractNode.GetDirection(Context.context, abstractNode);
+	}
+
+	private function set_direction(p) {
+		AbstractNode.SetDirection(Context.context, abstractNode, p);
+		return p;
+	}
+
+	private function get_scale() {
+		return AbstractNode.GetSCale(Context.context, abstractNode);
+	}
+
+	private function set_scale(p) {
+		AbstractNode.SetScale(Context.context, abstractNode, p);
 		return p;
 	}
 
@@ -132,6 +152,22 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_get_position")
 	public static function GetPosition(c:Context, n:AbstractNode):Vector3 {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_set_direction")
+	public static function SetDirection(c:Context, n:AbstractNode, position:Vector3):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_get_direction")
+	public static function GetDirection(c:Context, n:AbstractNode):Vector3 {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_set_scale")
+	public static function SetScale(c:Context, n:AbstractNode, position:Vector3):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_get_scale")
+	public static function GetSCale(c:Context, n:AbstractNode):Vector3 {
 		return null;
 	}
 

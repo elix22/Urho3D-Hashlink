@@ -118,6 +118,29 @@ HL_PRIM hl_urho3d_math_vector3 * HL_NAME(_scene_node_get_position)(urho3d_contex
 }
 
 
+HL_PRIM void HL_NAME(_scene_node_set_direction)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_vector3 * vector )
+{
+    this_node->ptr->SetDirection(*(vector->ptr));
+}
+
+HL_PRIM hl_urho3d_math_vector3 * HL_NAME(_scene_node_get_direction)(urho3d_context *context, hl_urho3d_scene_node *this_node )
+{
+    return hl_alloc_urho3d_math_vector3(this_node->ptr->GetDirection());
+}
+
+
+
+HL_PRIM void HL_NAME(_scene_node_set_scale)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_vector3 * vector )
+{
+    this_node->ptr->SetScale(*(vector->ptr));
+}
+
+HL_PRIM hl_urho3d_math_vector3 * HL_NAME(_scene_node_get_scale)(urho3d_context *context, hl_urho3d_scene_node *this_node )
+{
+    return hl_alloc_urho3d_math_vector3(this_node->ptr->GetScale());
+}
+
+
 HL_PRIM void HL_NAME(_scene_node_set_rotation)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_quaternion * qt )
 {
     this_node->ptr->SetRotation(*(qt->ptr));
@@ -148,6 +171,12 @@ DEFINE_PRIM(_VOID, _scene_node_add_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_U
 
 DEFINE_PRIM(_VOID, _scene_node_set_position, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_VECTOR3);
 DEFINE_PRIM(HL_URHO3D_VECTOR3, _scene_node_get_position, URHO3D_CONTEXT HL_URHO3D_NODE );
+
+DEFINE_PRIM(_VOID, _scene_node_set_direction, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_VECTOR3);
+DEFINE_PRIM(HL_URHO3D_VECTOR3, _scene_node_get_direction, URHO3D_CONTEXT HL_URHO3D_NODE );
+
+DEFINE_PRIM(_VOID, _scene_node_set_scale, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_VECTOR3);
+DEFINE_PRIM(HL_URHO3D_VECTOR3, _scene_node_get_scale, URHO3D_CONTEXT HL_URHO3D_NODE );
 
 DEFINE_PRIM(_VOID, _scene_node_set_rotation, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_QUATERNION);
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _scene_node_get_rotation, URHO3D_CONTEXT HL_URHO3D_NODE );
