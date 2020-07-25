@@ -41,15 +41,15 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
     }
 
     @:keep
-    public function SubscribeToEvent(stringHash:StringHash,callback_fun:StringHash->VariantMap->Void)
+    public function SubscribeToEvent(stringHash:StringHash,d:Dynamic,s:String)
     {
-        _SubscribeToEvent(this,stringHash,callback_fun);
+        _SubscribeToEvent(this,stringHash,d,s);
     }
 
 
 
     @:hlNative("Urho3D", "_application_subscribe_to_event")
-    private static function _SubscribeToEvent(ptr:HL_URHO3D_APPLICATION,tringHash:StringHash,callback_fun:StringHash->VariantMap->Void):Void {
+    private static function _SubscribeToEvent(ptr:HL_URHO3D_APPLICATION,tringHash:StringHash,d:Dynamic ,s:String):Void {
     }
 
     @:hlNative("Urho3D", "_create_application")

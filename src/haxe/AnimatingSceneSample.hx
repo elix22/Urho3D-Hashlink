@@ -6,11 +6,12 @@ import urho3d.Zone.AbstractZone;
 class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
 
-	private var quat:Quaternion = null;
+	private var quat:Quaternion = new Quaternion();
+
+	var counter = 1;
 
 	public function new() {
 		super();
-		quat = new Quaternion();
 	}
 
 	public function SetRotationSpeed(speed:Vector3) {
@@ -18,11 +19,22 @@ class Rotator extends LogicComponent {
 	}
 
 	public override function Update(timeStep:Float) {
-		// quat.SetAngles(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
-		// node.Rotate(quat);
+		quat.SetAngles(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
+		node.Rotate(quat);
 		// node.Rotate(new Quaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 
-		node.RotateEuler(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
+		// node.RotateEuler(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
+
+		counter++;
+
+		if (counter % 200 == 0) {
+		   CallMethod("ResetRotation", [counter , counter]);
+		}
+		
+	}
+
+	public function ResetRotation(x:Int , y:Int) {
+		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
 	}
 }
 
@@ -85,7 +97,7 @@ class AnimatingSceneSample extends Application {
 	}
 
 	public function SubscribeToEvents() {
-		SubscribeToEvent("Update", HandleUpdate);
+		SubscribeToEvent("Update", "HandleUpdate");
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {

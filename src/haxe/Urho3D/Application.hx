@@ -40,9 +40,9 @@ class Application {
 		// trace("hx Application Stop called ");
 	}
 
-	public function SubscribeToEvent(stringHash:StringHash, callback_fun:StringHash->VariantMap->Void) {
+	public function SubscribeToEvent(stringHash:StringHash,s:String) {
 		if (abstractApplication != null) {
-			abstractApplication.SubscribeToEvent(stringHash, callback_fun);
+			abstractApplication.SubscribeToEvent(stringHash, this,s);
 		}
 	}
 
