@@ -47,6 +47,7 @@ class LogicComponent extends Component {
 		// trace("FixedPostUpdate " + timeStep);
 	}
 
+     /* reflection doesnlt work on iOS
 	@:keep
 	public function CallMethod(f:String, args:Array<Dynamic>) {
 		try {
@@ -57,6 +58,7 @@ class LogicComponent extends Component {
 		} catch (e) {}
 	}
 
+   
 	@:keep
 	public function CallObjectMethod(dyn:Dynamic, f:String, args:Array<Dynamic>) {
 		try {
@@ -66,7 +68,7 @@ class LogicComponent extends Component {
 			}
 		} catch (e) {}
 	}
-
+*/
 	@:keep
 	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand = Std.random(100000) / 100000.0;
@@ -77,7 +79,8 @@ class LogicComponent extends Component {
 		} else {
 			return rand * (max - min) + min;
 		}
-	}
+    }
+    
 }
 
 @:hlNative("Urho3D")

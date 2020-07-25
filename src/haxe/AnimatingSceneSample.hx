@@ -28,12 +28,12 @@ class Rotator extends LogicComponent {
 		counter++;
 
 		if (counter % 200 == 0) {
-		   CallMethod("ResetRotation", [counter , counter]);
+		   ResetRotation();
 		}
 		
 	}
 
-	public function ResetRotation(x:Int , y:Int) {
+	public function ResetRotation() {
 		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
 	}
 }
