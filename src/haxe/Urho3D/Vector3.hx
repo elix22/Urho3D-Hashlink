@@ -4,7 +4,7 @@ import urho3d.MathDefs.Mathdefs;
 import haxe.ds.Vector;
 
 typedef HL_URHO3D_VECTOR3 = hl.Abstract<"hl_urho3d_math_vector3">;
-typedef StructVector3 = {x:Single, y:Single, z:Single};
+typedef StructVector3 = {x:Float, y:Float, z:Float};
 
 @:hlNative("Urho3D")
 abstract Vector3(HL_URHO3D_VECTOR3) {
@@ -15,7 +15,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public static var DOWN:Vector3 = new Vector3(0.0, -1.0, 0.0);
 	public static var ONE:Vector3 = new Vector3(1.0, 1.0, 1.0);
 
-	public inline function new(x_:Single = 0.0, y_:Single = 0.0, z_:Single = 0.0) {
+	public inline function new(x_:Float = 0.0, y_:Float = 0.0, z_:Float = 0.0) {
 		this = Create(x_, y_, z_);
 	}
 
@@ -40,7 +40,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 
 	@:to
 	public inline function toString():String {
-		var s:String = "Vector3 " + x + ":" + y + ":" + z;
+		var s:String = "Vector3 (" + x + ":" + y + ":" + z+")";
 		return s;
 	}
 
@@ -350,11 +350,11 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	/**
 	 * =====================================================================
 	 */
-	public var x(get, set):Single;
+	public var x(get, set):Float;
 
-	public var y(get, set):Single;
+	public var y(get, set):Float;
 
-	public var z(get, set):Single;
+	public var z(get, set):Float;
 
 	inline function get_x() {
 		return _get_x(cast this);

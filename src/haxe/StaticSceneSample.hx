@@ -1,11 +1,12 @@
 import urho3d.*;
 import urho3d.Application;
-import urho3d.Graphics.BlendMode;
-import urho3d.Zone.AbstractZone;
+
 
 class StaticSceneSample extends Application {
 	private var scene:Scene = null;
-	private var cameraNode:Node = null;
+    private var cameraNode:Node = null;
+    private var yaw:Float;
+    private var pitch:Float;
 
 	public final NUM_OBJECTS = 200;
 
@@ -65,14 +66,26 @@ class StaticSceneSample extends Application {
 	public function SetupViewport() {
 		var viewport = new Viewport(scene, cameraNode.GetComponent("Camera"));
 		Renderer.SetViewport(0, viewport);
-	}
+    }
 
 	public function SubscribeToEvents() {
 		SubscribeToEvent("Update", "HandleUpdate");
-	}
+    }
+    
+    function MoveCamera(timeStep:Single)
+    {
+          final MOVE_SPEED = 20.0;
+          final MOUSE_SENSITIVITY = 0.1;
+          yaw += MOUSE_SENSITIVITY * Input.mouseMove.x;
+          pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
+          pitch = Clamp(pitch, -90.0, 90.0);
+
+          cameraNode.rotation = new Quaternion(pitch,yaw,0.0);
+    }
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
-		var step:Single = eventData["TimeStep"];
+        var step:Single = eventData["TimeStep"];
+        MoveCamera(step);
 
 	}
 }

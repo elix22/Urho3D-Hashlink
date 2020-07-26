@@ -40,9 +40,9 @@ class Application {
 		// trace("hx Application Stop called ");
 	}
 
-	public function SubscribeToEvent(stringHash:StringHash,s:String) {
+	public function SubscribeToEvent(stringHash:StringHash, s:String) {
 		if (abstractApplication != null) {
-			abstractApplication.SubscribeToEvent(stringHash, this,s);
+			abstractApplication.SubscribeToEvent(stringHash, this, s);
 		}
 	}
 
@@ -56,4 +56,15 @@ class Application {
 			return rand * (max - min) + min;
 		}
 	}
+
+	//public function Clamp<T:Int & Single & Float>(value:T, min:T, max:T) {
+	public function Clamp(value:Dynamic, min:Dynamic, max:Dynamic) {
+		if (value < min)
+			return min;
+		else if (value > max)
+			return max;
+		else
+			return value;
+	}
+
 }

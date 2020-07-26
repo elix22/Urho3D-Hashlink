@@ -1,7 +1,6 @@
 package urho3d;
 
-import urho3d.Scene.AbstractScene;
-import urho3d.Camera.AbstractCamera;
+
 class Renderer {
 	public static function SetViewport(index:Int, viewport:Viewport) {
 		_SetViewport(Context.context, index, viewport);

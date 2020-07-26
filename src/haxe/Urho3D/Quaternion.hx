@@ -2,12 +2,12 @@ package urho3d;
 
 
 typedef HL_URHO3D_QUATERNION = hl.Abstract<"hl_urho3d_math_quaternion">;
-typedef StructQuaternion = {x:Single, y:Single, z:Single};
+typedef StructQuaternion = {x:Float, y:Float, z:Float};
 
 @:hlNative("Urho3D")
 abstract Quaternion(HL_URHO3D_QUATERNION) {
 
-	public inline function new(x_:Single = 0.0, y_:Single = 0.0, z_:Single = 0.0) {
+	public inline function new(x_:Float = 0.0, y_:Float = 0.0, z_:Float = 0.0) {
 		this = Create(x_, y_,z_);
 	}
 	

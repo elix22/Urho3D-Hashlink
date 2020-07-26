@@ -1,5 +1,21 @@
 package urho3d;
 
+
+/// Blending mode.
+@:enum abstract BlendMode(Int)
+{
+    var BLEND_REPLACE = 0;
+    var BLEND_ADD = 1;
+    var BLEND_MULTIPLY =2;
+    var BLEND_ALPHA=3;
+    var BLEND_ADDALPHA=4;
+    var BLEND_PREMULALPHA=5;
+    var BLEND_INVDESTALPHA=6;
+    var BLEND_SUBTRACT=7;
+    var BLEND_SUBTRACTALPHA=8;
+    var MAX_BLENDMODES;
+}
+
 class Graphics {
 
 
@@ -31,19 +47,6 @@ class Graphics {
 }
 
 
-/// Blending mode.
-@:enum abstract BlendMode(Int)
-{
-    var BLEND_REPLACE = 0;
-    var BLEND_ADD = 1;
-    var BLEND_MULTIPLY =2;
-    var BLEND_ALPHA=3;
-    var BLEND_ADDALPHA=4;
-    var BLEND_PREMULALPHA=5;
-    var BLEND_INVDESTALPHA=6;
-    var BLEND_SUBTRACT=7;
-    var BLEND_SUBTRACTALPHA=8;
-    var MAX_BLENDMODES;
-}
+
 
 

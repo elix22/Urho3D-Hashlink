@@ -23,13 +23,14 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
     @:to
     public inline function toString():String
     {
-        var s:String = x+":"+y;
+        var s:String = "IntVector2("+x+":"+y+")";
         return s;
     }
 
     @:from
     public static inline function fromStructVector2(m:StructIntVector2):IntVector2
     {
+        trace("fromStructVector2");
         return new IntVector2(m.x,m.y);
     }
 
@@ -98,6 +99,61 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
 
         return cast this;
     }
+
+	@:op(A * B)
+	public inline function mulVector2(rhs:IntVector2):IntVector2 {
+		var x1:Int = x * rhs.x;
+		var y1:Int = y * rhs.y;
+
+		return new IntVector2(x1, y1);
+	}
+
+	@:op(A *= B)
+	public inline function mulWithVector2(rhs:IntVector2):IntVector2 {
+		x *= rhs.x;
+		y *= rhs.y;
+
+		return cast this;
+	}    
+
+
+    @:op(A / B)
+	public inline function div(rhs:Single):IntVector2 {
+		var x1 = x / rhs;
+		var y1 = y / rhs;
+
+		return new IntVector2(cast(x1,Int), cast(y1,Int));
+	}
+
+	@:op(A /= B)
+	public inline function divWith(rhs:Single):IntVector2 {
+        var x1 = x / rhs;
+        var y1 = y / rhs;
+        
+		x = cast(x1,Int);
+		y = cast(y1,Int);
+
+		return cast this;
+	}
+
+	@:op(A / B)
+	public inline function divVector2(rhs:IntVector2):IntVector2 {
+		var x1 = x / rhs.x;
+		var y1 = y / rhs.y;
+
+		return new IntVector2(cast(x1,Int), cast(y1,Int));
+	}
+
+	@:op(A /= B)
+	public inline function divWithVector2(rhs:IntVector2):IntVector2 {
+        var x1 = x / rhs.x;
+        var y1 = y / rhs.y;
+        
+		x = cast(x1,Int);
+		y = cast(y1,Int);
+
+		return cast this;
+	}
 
     @:op(-A) 
     public inline function neg():IntVector2 {
