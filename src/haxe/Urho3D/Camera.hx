@@ -25,6 +25,18 @@ class Camera extends Component {
 
 	public function get_farClip() {
 		return AbstractCamera.GetFarclip(Context.context,_abstract);
+    }
+    
+
+    public var fov(get, set):Float;
+
+    public function set_fov(f) {
+        AbstractCamera.SetFOV(Context.context,_abstract,f);
+		return f;
+    }
+    
+    public function get_fov() {
+		return AbstractCamera.GetFOV(Context.context,_abstract);
 	}
 }
 
@@ -62,5 +74,16 @@ abstract AbstractCamera(HL_URHO3D_CAMERA) {
 	@:hlNative("Urho3D", "_graphics_camera_get_far_clip")
 	public static function GetFarclip(c:Context, s:AbstractCamera):Single {
 		return 0.0;
-	}
+    }
+
+
+    @:hlNative("Urho3D", "_graphics_camera_set_fov")
+    public static function SetFOV(c:Context, s:AbstractCamera, f:Single):Void {}
+    
+    @:hlNative("Urho3D", "_graphics_camera_get_fov")
+	public static function GetFOV(c:Context, s:AbstractCamera):Single {
+		return 0.0;
+    }
+    
+    //
 }

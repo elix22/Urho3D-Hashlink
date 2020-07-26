@@ -71,9 +71,23 @@ HL_PRIM float HL_NAME(_graphics_camera_get_far_clip)(urho3d_context *context, hl
     return t->ptr->GetFarClip();
 }
 
+
+HL_PRIM void HL_NAME(_graphics_camera_set_fov)(urho3d_context *context, hl_urho3d_graphics_camera * t , float fov)
+{
+    t->ptr->SetFov(fov);
+}
+
+HL_PRIM float HL_NAME(_graphics_camera_get_fov)(urho3d_context *context, hl_urho3d_graphics_camera * t )
+{
+    return t->ptr->GetFov();
+}
+
 DEFINE_PRIM(HL_URHO3D_CAMERA, _graphics_camera_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_camera_cast_to_component, URHO3D_CONTEXT HL_URHO3D_CAMERA);
 DEFINE_PRIM(HL_URHO3D_CAMERA, _graphics_camera_cast_from_component,URHO3D_CONTEXT HL_URHO3D_COMPONENT );
 
 DEFINE_PRIM(_VOID, _graphics_camera_set_far_clip, URHO3D_CONTEXT HL_URHO3D_CAMERA _F32);
 DEFINE_PRIM(_F32, _graphics_camera_get_far_clip, URHO3D_CONTEXT HL_URHO3D_CAMERA);
+
+DEFINE_PRIM(_VOID, _graphics_camera_set_fov, URHO3D_CONTEXT HL_URHO3D_CAMERA _F32);
+DEFINE_PRIM(_F32, _graphics_camera_get_fov, URHO3D_CONTEXT HL_URHO3D_CAMERA);
