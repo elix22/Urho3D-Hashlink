@@ -12,7 +12,7 @@ abstract Quaternion(HL_URHO3D_QUATERNION) {
 	}
 	
 
-	public inline function SetAngles(x:Single, y:Single, z:Single):Void
+	public inline function SetAngles(x:Float, y:Float, z:Float):Void
 		{
 			_SetAngles(cast this,x, y, z);
 		}

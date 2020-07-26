@@ -35,7 +35,7 @@ class Light extends Component {
     
 
 
-    public var range(get, set):Single;
+    public var range(get, set):Float;
 
 	public function set_range(t) {
 		AbstractLight.SetRange(Context.context, _abstract, t);

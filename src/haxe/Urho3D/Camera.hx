@@ -16,7 +16,7 @@ class Camera extends Component {
 		super(AbstractCamera.CastToComponent(Context.context, _abstract));
 	}
 
-	public var farClip(get, set):Single;
+	public var farClip(get, set):Float;
 
 	public function set_farClip(f) {
         AbstractCamera.SetFarclip(Context.context,_abstract,f);

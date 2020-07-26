@@ -107,7 +107,7 @@ class Node {
 		AbstractNode.Rotate(Context.context, abstractNode, q, s);
 	}
 
-	public function RotateEuler(x:Single, y:Single, z:Single, s:TransformSpace = TS_LOCAL) {
+	public function RotateEuler(x:Float, y:Float, z:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.RotateEuler(Context.context, abstractNode, x, y, z, s);
 	}
 }

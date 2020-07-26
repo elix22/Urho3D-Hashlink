@@ -44,7 +44,7 @@ class SpritesSample extends Application {
 		}
 	}
 
-	public function MoveSprites(timeStep:Single ) {
+	public function MoveSprites(timeStep:Float ) {
 		var width = Graphics.width;
 		var height = Graphics.height;
 
@@ -68,11 +68,11 @@ class SpritesSample extends Application {
 	}
 
 	public function SubscribeToEvents() {
-		SubscribeToEvent("Update", HandleUpdate);
+		SubscribeToEvent("Update", "HandleUpdate");
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
-		var step:Single = eventData["TimeStep"];
+		var step:Float = eventData["TimeStep"];
 		MoveSprites(step);
 	}
 }

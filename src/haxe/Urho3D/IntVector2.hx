@@ -118,7 +118,7 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
 
 
     @:op(A / B)
-	public inline function div(rhs:Single):IntVector2 {
+	public inline function div(rhs:Float):IntVector2 {
 		var x1 = x / rhs;
 		var y1 = y / rhs;
 
@@ -126,7 +126,7 @@ abstract IntVector2(HL_URHO3D_INTVECTOR2) {
 	}
 
 	@:op(A /= B)
-	public inline function divWith(rhs:Single):IntVector2 {
+	public inline function divWith(rhs:Float):IntVector2 {
         var x1 = x / rhs;
         var y1 = y / rhs;
         

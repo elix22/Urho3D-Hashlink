@@ -102,7 +102,7 @@ class AnimatingSceneSample extends Application {
 		SubscribeToEvent("Update", "HandleUpdate");
 	}
 
-	function MoveCamera(timeStep:Single)
+	function MoveCamera(timeStep:Float)
 		{
 			  final MOVE_SPEED = 20.0;
 			  final MOUSE_SENSITIVITY = 0.1;
@@ -114,7 +114,7 @@ class AnimatingSceneSample extends Application {
 		}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
-		var step:Single = eventData["TimeStep"];
+		var step:Float = eventData["TimeStep"];
 		MoveCamera(step);
 		counter++;
 

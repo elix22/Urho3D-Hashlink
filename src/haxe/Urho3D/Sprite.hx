@@ -14,7 +14,7 @@ abstract Sprite(HL_URHO3D_SPRITE) {
 	public var position(get, set):Vector2;
 	public var size(get, set):IntVector2;
     public var hotSpot(get, set):IntVector2;
-    public var rotation(get, set):Single;
+    public var rotation(get, set):Float;
     public var scale(get, set):Vector2;
     public var color(get, set):Color;
     public var vars(get, never):VariantMap;

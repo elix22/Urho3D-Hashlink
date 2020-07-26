@@ -17,7 +17,7 @@ abstract Variant(URHO3D_VARIANT) {
 
     /////////////////////////////////////////////////////////////////
     @:to
-    public inline function GetSingle():Single
+    public inline function GetSingle():Float
     {
         return Variant._getSingle(cast this);
     }
@@ -80,7 +80,7 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     @:from
-    public static inline function fromSingle(m:Single):Variant
+    public static inline function fromFloat(m:Float):Variant
     {
       // trace("from single " + m);
         var v = new Variant();

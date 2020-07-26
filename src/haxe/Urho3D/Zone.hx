@@ -46,7 +46,7 @@ class Zone extends Component {
 		return AbstractZone.GetFogColor(Context.context,abstractZone);
 	}
 
-	public var fogStart(get, set):Single;
+	public var fogStart(get, set):Float;
 
 	public function set_fogStart(b) {
 		return AbstractZone.SetFogStart(Context.context,abstractZone,b);
@@ -55,7 +55,7 @@ class Zone extends Component {
 	public function get_fogStart() {
 		return AbstractZone.GetFogStart(Context.context,abstractZone);
 	}
-	public var fogEnd(get, set):Single;
+	public var fogEnd(get, set):Float;
 
 	public function set_fogEnd(b) {
 		return AbstractZone.SetFogStart(Context.context,abstractZone,b);
