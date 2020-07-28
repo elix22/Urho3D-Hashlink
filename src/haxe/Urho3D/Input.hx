@@ -4,6 +4,17 @@ import urho3d.IntVector2.StructIntVector2;
 
 typedef TouchState = {touchID:Int, position:StructIntVector2, lastPosition:StructIntVector2, delta:StructIntVector2, pressure:Float}
 
+/*
+@:structInit class TouchState {
+    public var touchID:Int;
+public var position:StructIntVector2;
+public var lastPosition:StructIntVector2;
+public var delta:StructIntVector2;
+public var pressure:Float;
+
+}
+*/
+
 class Input {
 	public static var mouseMove(get, never):StructIntVector2;
 	public static var numTouches(get, never):Int;
@@ -17,7 +28,7 @@ class Input {
 	}
 
 	public static inline function touchState(index:Int):TouchState {
-		var t = {
+		var t:TouchState = {
 			touchID: GetTouchID(Context.context,index),
 			position: {x: GetTouchPositionX(Context.context,index), y: GetTouchPositionY(Context.context,index)},
 			lastPosition: {x: GetTouchLastPositionX(Context.context,index), y: GetTouchLastPositionY(Context.context,index)},

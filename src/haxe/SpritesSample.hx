@@ -1,4 +1,3 @@
-
 import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
@@ -6,8 +5,6 @@ import urho3d.Graphics.BlendMode;
 class SpritesSample extends Application {
 	private var NUM_SPRITES = 700;
 	private var sprites = [];
-
-
 
 	public override function Setup() {
 		trace("Setup");
@@ -44,15 +41,14 @@ class SpritesSample extends Application {
 		}
 	}
 
-	public function MoveSprites(timeStep:Float ) {
+	public function MoveSprites(timeStep:Float) {
 		var width = Graphics.width;
 		var height = Graphics.height;
 
 		// Go through all sprites
-		for(sprite in sprites)
-		{
+		for (sprite in sprites) {
 			sprite.rotation = sprite.rotation + timeStep * 30.0;
-			var newPos = sprite.position + sprite.vars["Velocity"].GetVector2()*timeStep;
+			var newPos = sprite.position + sprite.vars["Velocity"].GetVector2() * timeStep;
 			if (newPos.x < 0.0)
 				newPos.x += width;
 			if (newPos.x >= width)
@@ -62,9 +58,7 @@ class SpritesSample extends Application {
 			if (newPos.y >= height)
 				newPos.y -= height;
 			sprite.position = newPos;
-
 		}
-
 	}
 
 	public function SubscribeToEvents() {

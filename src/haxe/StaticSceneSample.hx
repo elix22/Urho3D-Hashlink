@@ -1,3 +1,4 @@
+import urho3d.Input.TouchState;
 import urho3d.*;
 import urho3d.Application;
 
@@ -74,7 +75,7 @@ class StaticSceneSample extends Application {
 
 			if (camera != null) {
 				for (i in 0...Input.numTouches) {
-					var state = Input.touchState(i);
+					var state:TouchState = Input.touchState(i);
 
 					if (state.delta.x != 0 || state.delta.y != 0) {
 						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;

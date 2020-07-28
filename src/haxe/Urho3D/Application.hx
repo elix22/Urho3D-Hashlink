@@ -58,7 +58,16 @@ class Application {
 	}
 
 	//public function Clamp<T:Int & Single & Float>(value:T, min:T, max:T) {
-	public function Clamp(value:Dynamic, min:Dynamic, max:Dynamic) {
+	public function Clamp(value:Float, min:Float, max:Float) {
+		if (value < min)
+			return min;
+		else if (value > max)
+			return max;
+		else
+			return value;
+	}
+
+	public function IClamp(value:Int, min:Int, max:Int) {
 		if (value < min)
 			return min;
 		else if (value > max)
