@@ -75,14 +75,14 @@ HL_PRIM hl_urho3d_texture2d *HL_NAME(_sprite_get_texture)(urho3d_context *contex
 }
 
 
-HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_set_position)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_math_vector2 *position)
+HL_PRIM Urho3D::Vector2  *HL_NAME(_sprite_set_position)(urho3d_context *context, hl_urho3d_sprite *sprite, Urho3D::Vector2 *position)
 {
 
     SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
-    if (urho3d_sprite && position->ptr)
+    if (urho3d_sprite)
     {
         
-        urho3d_sprite->SetPosition(*(position->ptr));
+        urho3d_sprite->SetPosition(*(position));
     }
     else
     {
@@ -95,17 +95,17 @@ HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_set_position)(urho3d_context *co
 
 
 
-HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_get_position)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM Urho3D::Vector2  *HL_NAME(_sprite_get_position)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_math_vector2 *hl_vector2 = NULL;
+    Urho3D::Vector2 *hl_tvector2 = NULL;
     if (urho3d_sprite)
     {
-        hl_vector2 = hl_alloc_urho3d_math_vector2(urho3d_sprite->GetPosition());
+        hl_tvector2 = hl_alloc_urho3d_math_tvector2(urho3d_sprite->GetPosition());
     }
 
-    return hl_vector2;
+    return hl_tvector2;
 }
 
 
@@ -121,7 +121,7 @@ HL_PRIM hl_urho3d_intvector2 *HL_NAME(_sprite_set_size)(urho3d_context *context,
     }
     else
     {
-        printf("_sprite_set_position NULL\n");
+        printf("_sprite_set_size NULL\n");
     }
     
 
@@ -223,18 +223,18 @@ HL_PRIM float  HL_NAME(_sprite_get_rotation)(urho3d_context *context, hl_urho3d_
 
 
 
-HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_set_scale)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_math_vector2 *scale)
+HL_PRIM Urho3D::Vector2 * HL_NAME(_sprite_set_scale)(urho3d_context *context, hl_urho3d_sprite *sprite, Urho3D::Vector2 *scale)
 {
 
     SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
-    if (urho3d_sprite && scale->ptr)
+    if (urho3d_sprite && scale)
     {
         
-        urho3d_sprite->SetScale(*(scale->ptr));
+        urho3d_sprite->SetScale(*(scale));
     }
     else
     {
-        printf("_sprite_set_position NULL\n");
+        printf("_sprite_set_scale NULL\n");
     }
     
 
@@ -243,18 +243,14 @@ HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_set_scale)(urho3d_context *conte
 
 
 
-HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_sprite_get_scale)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM  Urho3D::Vector2  *HL_NAME(_sprite_get_scale)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_math_vector2 *hl_vector2 = NULL;
+     Urho3D::Vector2  *hl_vector2 = NULL;
     if (urho3d_sprite)
     {
-        hl_vector2 = hl_alloc_urho3d_math_vector2();
-        if(hl_vector2)
-        {
-            *(hl_vector2->ptr) = urho3d_sprite->GetScale();
-        }
+        hl_vector2 = hl_alloc_urho3d_math_tvector2(urho3d_sprite->GetScale());
     }
 
     return hl_vector2;
@@ -373,8 +369,8 @@ DEFINE_PRIM(HL_URHO3D_SPRITE, _create_sprite, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _sprite_set_texture, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TEXTURE2D);
 DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _sprite_get_texture, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 
-DEFINE_PRIM(HL_URHO3D_VECTOR2, _sprite_set_position, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_VECTOR2);
-DEFINE_PRIM(HL_URHO3D_VECTOR2, _sprite_get_position, URHO3D_CONTEXT HL_URHO3D_SPRITE );
+DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_set_position, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TVECTOR2);
+DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_get_position, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 
 DEFINE_PRIM(HL_URHO3D_INTVECTOR2, _sprite_set_size, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_INTVECTOR2);
 DEFINE_PRIM(HL_URHO3D_INTVECTOR2, _sprite_get_size, URHO3D_CONTEXT HL_URHO3D_SPRITE );
@@ -385,8 +381,8 @@ DEFINE_PRIM(HL_URHO3D_INTVECTOR2, _sprite_get_hotspot, URHO3D_CONTEXT HL_URHO3D_
 DEFINE_PRIM(_F32, _sprite_set_rotation, URHO3D_CONTEXT HL_URHO3D_SPRITE _F32);
 DEFINE_PRIM(_F32, _sprite_get_rotation, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 
-DEFINE_PRIM(HL_URHO3D_VECTOR2, _sprite_set_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_VECTOR2);
-DEFINE_PRIM(HL_URHO3D_VECTOR2, _sprite_get_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE );
+DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_set_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TVECTOR2);
+DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_get_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE );
 
 DEFINE_PRIM(HL_URHO3D_COLOR, _sprite_set_color, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_COLOR);
 DEFINE_PRIM(HL_URHO3D_COLOR, _sprite_get_color, URHO3D_CONTEXT HL_URHO3D_SPRITE );

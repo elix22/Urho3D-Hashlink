@@ -22,6 +22,16 @@ abstract TVector2(HL_URHO3D_TVECTOR2) {
 		return s;
 	}
 
+	@:to
+	public inline function toVector2():Vector2 {
+		return _CastToVector2(cast this);
+	}
+
+	@:from
+	public static inline function fromVector2(v:Vector2):TVector2 {
+		return _CastFromVector2(v);
+	}
+
 
 	@:op(A == B)
 	public inline function isEqual(rhs:TVector2):Bool {
@@ -205,4 +215,16 @@ abstract TVector2(HL_URHO3D_TVECTOR2) {
 	private static function _set_y(vec2:TVector2, x:Single):Single {
 		return 0.0;
 	}
+
+
+	@:hlNative("Urho3D", "_math_tvector2_cast_from_vector2")
+	private static function _CastFromVector2(vec2:Vector2):TVector2 {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_math_tvector2_cast_to_vector2")
+	private static function _CastToVector2(vec2:TVector2):Vector2 {
+		return null;
+	}
+	
 }

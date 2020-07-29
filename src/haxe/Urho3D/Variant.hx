@@ -49,8 +49,34 @@ abstract Variant(URHO3D_VARIANT) {
 	private static function _getVector(variant:Variant,vector2:Vector2):Void {
     }
 
+
+    @:to
+    public inline function GetTVector2():TVector2
+    {
+        var v:TVector2 = new TVector2();
+        _getTVector(cast this,v);
+
+        return v;
+
+    }
+    @:hlNative("Urho3D", "_variant_get_tvector2")
+	private static function _getTVector(variant:Variant,vector2:TVector2):Void {
+    }
     
     /////////////////////////////////////////////////////////////////
+
+    @:from
+    public static inline function fromTVector2(m:TVector2):Variant
+    {
+       // trace("variant from Vector2");
+        var v = new Variant();
+        Variant._setTVector(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_tvector2")
+	private static function _setTVector(variant:Variant,vector2:TVector2):Void {
+    }
+
 
     @:from
     public static inline function fromVector2(m:Vector2):Variant

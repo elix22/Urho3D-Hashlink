@@ -3,6 +3,9 @@
 
 #include <Urho3D/Urho3DAll.h>
 
+// TBD ELI size should depend on platform mobile/console/PC
+#define TVECTOR2_STACK_SIZE 20000
+
 typedef void (*hl_finalizer)(void *v);
 
 typedef Urho3D::Context urho3d_context;
@@ -49,6 +52,8 @@ hl_urho3d_math_vector2 *hl_alloc_urho3d_math_vector2(const Urho3D::Vector2 &);
 
 typedef Urho3D::Vector2  hl_urho3d_math_tvector2;
 #define HL_URHO3D_TVECTOR2 _ABSTRACT(hl_urho3d_math_tvector2)
+Urho3D::Vector2 *hl_alloc_urho3d_math_tvector2(float x = 0.0, float y = 0.0);
+Urho3D::Vector2 *hl_alloc_urho3d_math_tvector2(const Urho3D::Vector2 &rhs);
 
 typedef struct hl_urho3d_math_vector3
 {

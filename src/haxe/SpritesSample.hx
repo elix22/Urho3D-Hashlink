@@ -25,18 +25,18 @@ class SpritesSample extends Application {
 		for (i in 0...NUM_SPRITES) {
 			var sprite:Sprite = new Sprite();
 			sprite.texture = texture;
-			sprite.position = new Vector2(Random() * width, Random() * height);
+			sprite.position = new TVector2(Random() * width, Random() * height);
 			sprite.size = new IntVector2(128, 128);
 			sprite.hotSpot = new IntVector2(64, 64);
 
 			// Set random rotation in degrees and random scale
 			sprite.rotation = Random() * 360.0;
-			sprite.scale = new Vector2((Random() + 0.5), (Random() + 0.5));
+			sprite.scale = new TVector2((Random() + 0.5), (Random() + 0.5));
 			sprite.color = new Color(Random(0.5) + 0.5, Random(0.5) + 0.5, Random(0.5) + 0.5);
 			sprite.blendMode = BlendMode.BLEND_ADD;
 			UI.root.AddChild(sprite);
 
-			sprite.vars["Velocity"] = new Vector2(Random(200.0) - 100.0, Random(200.0) - 100.0);
+			sprite.vars["Velocity"] = new TVector2(Random(200.0) - 100.0, Random(200.0) - 100.0);
 			sprites.push(sprite);
 		}
 	}
@@ -48,7 +48,7 @@ class SpritesSample extends Application {
 		// Go through all sprites
 		for (sprite in sprites) {
 			sprite.rotation = sprite.rotation + timeStep * 30.0;
-			var newPos = sprite.position + sprite.vars["Velocity"].GetVector2() * timeStep;
+			var newPos = sprite.position + sprite.vars["Velocity"].GetTVector2() * timeStep;
 			if (newPos.x < 0.0)
 				newPos.x += width;
 			if (newPos.x >= width)
