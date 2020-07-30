@@ -16,7 +16,7 @@ abstract Sprite(HL_URHO3D_SPRITE) {
     public var hotSpot(get, set):TIntVector2;
     public var rotation(get, set):Float;
     public var scale(get, set):TVector2;
-    public var color(get, set):Color;
+    public var color(get, set):TColor;
     public var vars(get, never):VariantMap;
     public var blendMode(get,set):BlendMode;
 
@@ -184,12 +184,12 @@ abstract Sprite(HL_URHO3D_SPRITE) {
     }
 
     @:hlNative("Urho3D", "_sprite_set_color")
-	private static function _set_color(context:Context, t:HL_URHO3D_SPRITE, c:Color):Color {
+	private static function _set_color(context:Context, t:HL_URHO3D_SPRITE, c:TColor):TColor {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_color")
-	private static function _get_color(context:Context, t:HL_URHO3D_SPRITE):Color {
+	private static function _get_color(context:Context, t:HL_URHO3D_SPRITE):TColor {
 		return null;
     }
 

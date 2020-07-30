@@ -228,14 +228,13 @@ HL_PRIM Urho3D::Vector2 *HL_NAME(_sprite_get_scale)(urho3d_context *context, hl_
     return hl_vector2;
 }
 
-HL_PRIM hl_urho3d_color *HL_NAME(_sprite_set_color)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_color *color)
+HL_PRIM Urho3D::Color *HL_NAME(_sprite_set_color)(urho3d_context *context, hl_urho3d_sprite *sprite, Urho3D::Color *color)
 {
 
     SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
-    if (urho3d_sprite && color->ptr)
+    if (urho3d_sprite && color)
     {
-
-        urho3d_sprite->SetColor(*(color->ptr));
+        urho3d_sprite->SetColor(*(color));
     }
     else
     {
@@ -245,15 +244,14 @@ HL_PRIM hl_urho3d_color *HL_NAME(_sprite_set_color)(urho3d_context *context, hl_
     return color;
 }
 
-HL_PRIM hl_urho3d_color *HL_NAME(_sprite_get_color)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM Urho3D::Color *HL_NAME(_sprite_get_color)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_color *hl_color = NULL;
+    Urho3D::Color *hl_color = NULL;
     if (urho3d_sprite)
     {
-        Color c = urho3d_sprite->GetColor(Corner::C_TOPLEFT);
-        hl_color = hl_alloc_urho3d_color(c.r_, c.g_, c.g_, c.a_);
+        hl_color = hl_alloc_urho3d_math_tcolor(urho3d_sprite->GetColor(Corner::C_TOPLEFT));
     }
 
     return hl_color;
@@ -343,8 +341,8 @@ DEFINE_PRIM(_F32, _sprite_get_rotation, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_set_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TVECTOR2);
 DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_get_scale, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 
-DEFINE_PRIM(HL_URHO3D_COLOR, _sprite_set_color, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_COLOR);
-DEFINE_PRIM(HL_URHO3D_COLOR, _sprite_get_color, URHO3D_CONTEXT HL_URHO3D_SPRITE);
+DEFINE_PRIM(HL_URHO3D_TCOLOR, _sprite_set_color, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TCOLOR);
+DEFINE_PRIM(HL_URHO3D_TCOLOR, _sprite_get_color, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 
 DEFINE_PRIM(_I32, _sprite_set_blend_mode, URHO3D_CONTEXT HL_URHO3D_SPRITE _I32);
 DEFINE_PRIM(_I32, _sprite_get_blend_mode, URHO3D_CONTEXT HL_URHO3D_SPRITE);

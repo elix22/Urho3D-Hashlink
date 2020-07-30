@@ -32,7 +32,7 @@ class SpritesSample extends Application {
 			// Set random rotation in degrees and random scale
 			sprite.rotation = Random() * 360.0;
 			sprite.scale = new TVector2((Random() + 0.5), (Random() + 0.5));
-			sprite.color = new Color(Random(0.5) + 0.5, Random(0.5) + 0.5, Random(0.5) + 0.5);
+			sprite.color = new TColor(Random(0.5) + 0.5, Random(0.5) + 0.5, Random(0.5) + 0.5);
 			sprite.blendMode = BlendMode.BLEND_ADD;
 			UI.root.AddChild(sprite);
 

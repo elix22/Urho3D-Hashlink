@@ -6,6 +6,7 @@
 // TBD ELI size should depend on platform mobile/console/PC
 #define TVECTOR2_STACK_SIZE 20000
 #define TINTVECTOR2_STACK_SIZE 20000
+#define TCOLOR_STACK_SIZE 20000
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -21,6 +22,13 @@ typedef struct hl_urho3d_color
 #define HL_URHO3D_COLOR _ABSTRACT(hl_urho3d_color)
 hl_urho3d_color *hl_alloc_urho3d_color(const Urho3D::Color &color);
 hl_urho3d_color *hl_alloc_urho3d_color(float r = 0.0, float g = 0.0, float b = 0.0, float a = 1.0);
+
+
+typedef Urho3D::Color  hl_urho3d_tcolor;
+#define HL_URHO3D_TCOLOR _ABSTRACT(hl_urho3d_tcolor)
+Urho3D::Color *hl_alloc_urho3d_math_tcolor(const Urho3D::Color &color);
+Urho3D::Color *hl_alloc_urho3d_math_tcolor(float r = 0.0, float g = 0.0, float b = 0.0, float a = 1.0);
+
 
 typedef struct hl_urho3d_intvector2
 {
