@@ -4,9 +4,10 @@
 #include <Urho3D/Urho3DAll.h>
 
 // TBD ELI size should depend on platform mobile/console/PC
-#define TVECTOR2_STACK_SIZE 20000
-#define TINTVECTOR2_STACK_SIZE 20000
-#define TCOLOR_STACK_SIZE 20000
+#define TVECTOR2_STACK_SIZE 10000
+#define TINTVECTOR2_STACK_SIZE 10000
+#define TCOLOR_STACK_SIZE 10000
+#define TVARIANT_STACK_SIZE 10000
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -110,6 +111,13 @@ typedef struct hl_urho3d_variant
 
 #define HL_URHO3D_VARIANT _ABSTRACT(hl_urho3d_variant)
 hl_urho3d_variant *hl_alloc_urho3d_variant();
+hl_urho3d_variant * hl_alloc_urho3d_variant(Variant & rhs);
+
+
+typedef Urho3D::Variant  hl_urho3d_tvariant;
+#define HL_URHO3D_TVARIANT _ABSTRACT(hl_urho3d_tvariant)
+hl_urho3d_tvariant *hl_alloc_urho3d_tvariant();
+
 
 typedef struct hl_urho3d_variantmap
 {

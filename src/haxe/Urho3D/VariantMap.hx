@@ -15,22 +15,22 @@ abstract VariantMap(URHO3D_VARIANTMAP) {
 	}
 
 	@:arrayAccess
-	public inline function getValue(key:StringHash):Variant {
+	public inline function getValue(key:StringHash):TVariant {
 		return GetKeyValue(this,key);
     }
     @:hlNative("Urho3D", "_get_value")
-	private static function GetKeyValue(vm:URHO3D_VARIANTMAP,key:StringHash):Variant {
+	private static function GetKeyValue(vm:URHO3D_VARIANTMAP,key:StringHash):TVariant {
 		return null;
     }
     
     
     @:arrayAccess
-	public inline function setKeyValue(key:StringHash,vr:Variant):Variant {
+	public inline function setKeyValue(key:StringHash,vr:TVariant):TVariant {
 
 		return SetKeyValue(this,key,vr);
     }
     @:hlNative("Urho3D", "_set_key_value")
-	private static function SetKeyValue(vm:URHO3D_VARIANTMAP,key:StringHash,vr:Variant):Variant {
+	private static function SetKeyValue(vm:URHO3D_VARIANTMAP,key:StringHash,vr:TVariant):TVariant {
 		return null;
 	}
 }

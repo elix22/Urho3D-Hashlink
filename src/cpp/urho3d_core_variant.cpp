@@ -33,6 +33,15 @@ hl_urho3d_variant * hl_alloc_urho3d_variant()
     return p;
 }
 
+hl_urho3d_variant * hl_alloc_urho3d_variant(Variant & rhs)
+{
+    hl_urho3d_variant  * p= (hl_urho3d_variant *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_variant));
+    p->finalizer = (void*)finalize_urho3d_variant;
+    Urho3D::Variant *v = new Urho3D::Variant(rhs);
+    p->ptr = v;
+    return p;
+}
+
 
 
 

@@ -11,6 +11,12 @@ abstract TColor(HL_URHO3D_TCOLOR) {
 
     }
 
+    @:hlNative("Urho3D", "_math_tcolor_create")
+	private static function Create(r:Single,g:Single,b:Single,a:Single):HL_URHO3D_TCOLOR {
+		return null;
+    }
+
+
     @:to
 	public inline function toColor():Color {
 		return _CastToColor(cast this);
@@ -22,10 +28,6 @@ abstract TColor(HL_URHO3D_TCOLOR) {
     }
     
 
-    @:hlNative("Urho3D", "_math_tcolor_create")
-	private static function Create(r:Single,g:Single,b:Single,a:Single):HL_URHO3D_TCOLOR {
-		return null;
-    }
 
     @:hlNative("Urho3D", "_math_tcolor_cast_from_color")
 	private static function _CastFromColor(vec2:Color):TColor {
