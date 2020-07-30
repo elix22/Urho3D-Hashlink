@@ -12,8 +12,8 @@ abstract Sprite(HL_URHO3D_SPRITE) {
 
 	public var texture(get, set):Texture2D;
 	public var position(get, set):TVector2;
-	public var size(get, set):IntVector2;
-    public var hotSpot(get, set):IntVector2;
+	public var size(get, set):TIntVector2;
+    public var hotSpot(get, set):TIntVector2;
     public var rotation(get, set):Float;
     public var scale(get, set):TVector2;
     public var color(get, set):Color;
@@ -144,22 +144,22 @@ abstract Sprite(HL_URHO3D_SPRITE) {
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_size")
-	private static function _set_size(context:Context,v:HL_URHO3D_SPRITE, t:IntVector2):IntVector2 {
+	private static function _set_size(context:Context,v:HL_URHO3D_SPRITE, t:TIntVector2):TIntVector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_size")
-	private static function _get_size(context:Context, v:HL_URHO3D_SPRITE):IntVector2 {
+	private static function _get_size(context:Context, v:HL_URHO3D_SPRITE):TIntVector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_hotspot")
-	private static function _set_hotspot(context:Context, v:HL_URHO3D_SPRITE, t:IntVector2):IntVector2 {
+	private static function _set_hotspot(context:Context, v:HL_URHO3D_SPRITE, t:TIntVector2):TIntVector2 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_hotspot")
-	private static function _get_hotspot(context:Context, v:HL_URHO3D_SPRITE):IntVector2 {
+	private static function _get_hotspot(context:Context, v:HL_URHO3D_SPRITE):TIntVector2 {
 		return null;
     }
     

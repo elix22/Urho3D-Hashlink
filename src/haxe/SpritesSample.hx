@@ -26,8 +26,8 @@ class SpritesSample extends Application {
 			var sprite:Sprite = new Sprite();
 			sprite.texture = texture;
 			sprite.position = new TVector2(Random() * width, Random() * height);
-			sprite.size = new IntVector2(128, 128);
-			sprite.hotSpot = new IntVector2(64, 64);
+			sprite.size = new TIntVector2(128, 128);
+			sprite.hotSpot = new TIntVector2(64, 64);
 
 			// Set random rotation in degrees and random scale
 			sprite.rotation = Random() * 360.0;

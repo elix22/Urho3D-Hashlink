@@ -5,6 +5,7 @@
 
 // TBD ELI size should depend on platform mobile/console/PC
 #define TVECTOR2_STACK_SIZE 20000
+#define TINTVECTOR2_STACK_SIZE 20000
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -29,6 +30,13 @@ typedef struct hl_urho3d_intvector2
 
 #define HL_URHO3D_INTVECTOR2 _ABSTRACT(hl_urho3d_intvector2)
 hl_urho3d_intvector2 *hl_alloc_urho3d_intvector2(int x = 0, int y = 0);
+
+
+typedef Urho3D::IntVector2  hl_urho3d_math_tintvector2;
+#define HL_URHO3D_TINTVECTOR2 _ABSTRACT(hl_urho3d_math_tintvector2)
+Urho3D::IntVector2 *hl_alloc_urho3d_math_tintvector2(int x = 0, int y = 0);
+Urho3D::IntVector2 *hl_alloc_urho3d_math_tintvector2(const Urho3D::IntVector2 &rhs);
+
 
 typedef struct hl_urho3d_math_quaternion
 {

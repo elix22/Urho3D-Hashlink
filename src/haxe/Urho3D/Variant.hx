@@ -39,31 +39,51 @@ abstract Variant(URHO3D_VARIANT) {
     @:to
     public inline function GetVector2():Vector2
     {
-        var v:Vector2 = new Vector2();
-        _getVector(cast this,v);
-
-        return v;
-
+       return _getVector(cast this);
     }
     @:hlNative("Urho3D", "_variant_get_vector2")
-	private static function _getVector(variant:Variant,vector2:Vector2):Void {
+	private static function _getVector(variant:Variant):Vector2 {
+        return null;
     }
 
 
     @:to
     public inline function GetTVector2():TVector2
     {
-        var v:TVector2 = new TVector2();
-        _getTVector(cast this,v);
-
-        return v;
-
+        return _getTVector(cast this);
     }
+
     @:hlNative("Urho3D", "_variant_get_tvector2")
-	private static function _getTVector(variant:Variant,vector2:TVector2):Void {
+	private static function _getTVector(variant:Variant):TVector2 {
+        return null;
     }
     
+
+
+    @:to
+    public inline function GetTIntVector2():TIntVector2
+    {
+        return _getTIntVector(cast this);
+    }
+
+    @:hlNative("Urho3D", "_variant_get_tintvector2")
+	private static function _getTIntVector(variant:Variant):TIntVector2 {
+        return null;
+    }
+
     /////////////////////////////////////////////////////////////////
+
+    @:from
+    public static inline function fromTIntVector2(m:TIntVector2):Variant
+    {
+       // trace("variant from Vector2");
+        var v = new Variant();
+        Variant._setTIntVector(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_tintvector2")
+	private static function _setTIntVector(variant:Variant,vector2:TIntVector2):Void {
+    }
 
     @:from
     public static inline function fromTVector2(m:TVector2):Variant
