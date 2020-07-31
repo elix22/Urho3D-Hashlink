@@ -3,8 +3,8 @@ import urho3d.Application;
 import urho3d.Graphics.BlendMode;
 
 class SpritesSample extends Application {
-	private var NUM_SPRITES = 700;
-	private var sprites = [];
+	final NUM_SPRITES = 700;
+	private var sprites:Array<Sprite> = [];
 
 	public override function Setup() {
 		trace("Setup");
@@ -23,7 +23,7 @@ class SpritesSample extends Application {
 		var texture = new Texture2D("Textures/UrhoDecal.dds");
 
 		for (i in 0...NUM_SPRITES) {
-			var sprite:Sprite = new Sprite();
+			var sprite = new Sprite();
 			sprite.texture = texture;
 			sprite.position = new TVector2(Random() * width, Random() * height);
 			sprite.size = new TIntVector2(128, 128);
@@ -49,6 +49,7 @@ class SpritesSample extends Application {
 		for (sprite in sprites) {
 			sprite.rotation = sprite.rotation + timeStep * 30.0;
 			var newPos = sprite.position + sprite.vars["Velocity"].GetTVector2() * timeStep;
+
 			if (newPos.x < 0.0)
 				newPos.x += width;
 			if (newPos.x >= width)
@@ -57,6 +58,7 @@ class SpritesSample extends Application {
 				newPos.y += height;
 			if (newPos.y >= height)
 				newPos.y -= height;
+
 			sprite.position = newPos;
 		}
 	}

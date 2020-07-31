@@ -19,6 +19,11 @@ abstract StringHash(HL_URHO3D_STRINGHASH) {
         return new StringHash(s);
     }
 
+    @:to
+	public inline function toString():String {
+		return "StringHash :"+GetString();
+	}
+
     public function GetString() @:privateAccess {
 		return String.fromUTF8( _getString(this) );
 	}

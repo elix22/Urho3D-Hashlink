@@ -8,6 +8,7 @@
 #define TINTVECTOR2_STACK_SIZE 10000
 #define TCOLOR_STACK_SIZE 10000
 #define TVARIANT_STACK_SIZE 10000
+#define TSTRINGHASH_STACK_SIZE 10000
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -102,6 +103,13 @@ typedef struct hl_urho3d_stringhash
 #define HL_URHO3D_STRINGHASH _ABSTRACT(hl_urho3d_stringhash)
 hl_urho3d_stringhash *hl_alloc_urho3d_stringhash(const char *str);
 hl_urho3d_stringhash *hl_alloc_urho3d_stringhash_no_finlizer();
+hl_urho3d_stringhash *hl_alloc_urho3d_stringhash(Urho3D::StringHash &rhs);
+
+typedef Urho3D::StringHash  hl_urho3d_tstringhash;
+#define HL_URHO3D_TSTRINGHASH _ABSTRACT(hl_urho3d_tstringhash)
+hl_urho3d_tstringhash *hl_alloc_urho3d_tstringhash(const char *str);
+hl_urho3d_tstringhash *hl_alloc_urho3d_tstringhash(Urho3D::StringHash &rhs);
+
 
 typedef struct hl_urho3d_variant
 {

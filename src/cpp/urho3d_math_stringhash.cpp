@@ -35,7 +35,18 @@ void finalize_urho3d_stringhash(void * v)
     
 }
 
+hl_urho3d_stringhash *hl_alloc_urho3d_stringhash(Urho3D::StringHash &rhs)
+{
 
+       hl_urho3d_stringhash  * p= (hl_urho3d_stringhash *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_stringhash));
+
+    p->finalizer = (void*)finalize_urho3d_stringhash;
+    Urho3D::StringHash *v = new Urho3D::StringHash(rhs);
+    p->ptr = v;
+
+   // printf("hl_alloc_urho3d_stringhash %s %s\n", str, v->ToString().CString());
+    return p; 
+}
 hl_urho3d_stringhash * hl_alloc_urho3d_stringhash(const char* str)
 {
     hl_urho3d_stringhash  * p= (hl_urho3d_stringhash *) hl_gc_alloc_finalizer(sizeof(hl_urho3d_stringhash));
