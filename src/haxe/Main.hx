@@ -6,8 +6,8 @@ class Main {
 	private static var app = null;
 
 	static function main() {
-		 app = new SpritesSample();
-		// app = new AnimatingSceneSample();
+		// app = new SpritesSample();
+		 app = new AnimatingSceneSample();
 		// app = new StaticSceneSample();
 		 app.Run();
 	}

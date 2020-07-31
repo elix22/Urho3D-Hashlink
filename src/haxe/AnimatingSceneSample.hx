@@ -6,9 +6,7 @@ import urho3d.Zone.AbstractZone;
 class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
 
-	private var quat:Quaternion = new Quaternion();
-
-	var counter = 1;
+	var counter = 0;
 
 	public function new() {
 		super();
@@ -19,18 +17,14 @@ class Rotator extends LogicComponent {
 	}
 
 	public override function Update(timeStep:Float) {
-		quat.SetAngles(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
-		node.Rotate(quat);
-		// node.Rotate(new Quaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
+		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 
-		// node.RotateEuler(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep);
-
-		counter++;
-
-		if (counter % 200 == 0) {
-		   ResetRotation();
-		}
-		
+		/*
+			 counter++;
+			if (counter % 200 == 0) {
+			   ResetRotation();
+			}
+		 */
 	}
 
 	public function ResetRotation() {
@@ -42,7 +36,7 @@ class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
 	private var yaw:Float = 0.0;
-    private var pitch:Float = 0.0;
+	private var pitch:Float = 0.0;
 
 	public final NUM_OBJECTS = 4000;
 
@@ -73,14 +67,14 @@ class AnimatingSceneSample extends Application {
 
 		for (i in 0...NUM_OBJECTS) {
 			var boxNode = scene.CreateChild("Box");
-			boxNode.position = new Vector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
-			boxNode.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
+			boxNode.position = new TVector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
+			boxNode.rotation = new TQuaternion(Random(360.0), Random(360.0), Random(360.0));
 			var boxObject:StaticModel = boxNode.CreateComponent("StaticModel");
 			boxObject.model = new Model("Models/Box.mdl");
 			boxObject.material = new Material("Materials/Stone.xml");
 
 			var rotator = new Rotator();
-			rotator.SetRotationSpeed(new Vector3(10.0, 20.0, 30.0));
+			rotator.SetRotationSpeed(new TVector3(10.0, 20.0, 30.0));
 			boxNode.AddComponent(rotator);
 		}
 
@@ -102,26 +96,26 @@ class AnimatingSceneSample extends Application {
 		SubscribeToEvent("Update", "HandleUpdate");
 	}
 
-	function MoveCamera(timeStep:Float)
-		{
-			  final MOVE_SPEED = 20.0;
-			  final MOUSE_SENSITIVITY = 0.1;
-			  yaw += MOUSE_SENSITIVITY * Input.mouseMove.x;
-			  pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
-			  pitch = Clamp(pitch, -90.0, 90.0);
-	
-			  cameraNode.rotation = new Quaternion(pitch,yaw,0.0);
-		}
+	function MoveCamera(timeStep:Float) {
+		final MOVE_SPEED = 20.0;
+		final MOUSE_SENSITIVITY = 0.1;
+		yaw += MOUSE_SENSITIVITY * Input.mouseMove.x;
+		pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
+		pitch = Clamp(pitch, -90.0, 90.0);
+
+		cameraNode.rotation = new Quaternion(pitch, yaw, 0.0);
+	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
 		MoveCamera(step);
 		counter++;
-
-		if ((counter % 1000 == 0)) {
-			trace("create scene");
-			CreateScene();
-			SetupViewport();
-		}
+		/*
+			if ((counter % 10000 == 0)) {
+				trace("create scene");
+				CreateScene();
+				SetupViewport();
+			}
+		 */
 	}
 }

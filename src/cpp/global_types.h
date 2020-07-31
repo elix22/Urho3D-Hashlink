@@ -6,6 +6,8 @@
 // TBD ELI size should depend on platform mobile/console/PC
 #define TVECTOR2_STACK_SIZE 10000
 #define TINTVECTOR2_STACK_SIZE 10000
+#define TVECTOR3_STACK_SIZE 10000
+#define TQUATERNION_STACK_SIZE 10000
 #define TCOLOR_STACK_SIZE 10000
 #define TVARIANT_STACK_SIZE 10000
 #define TSTRINGHASH_STACK_SIZE 10000
@@ -59,6 +61,11 @@ typedef struct hl_urho3d_math_quaternion
 hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(float x, float y, float z);
 hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(const Urho3D::Quaternion &);
 
+typedef Urho3D::Quaternion  hl_urho3d_math_tquaternion;
+#define HL_URHO3D_TQUATERNION _ABSTRACT(hl_urho3d_math_tquaternion)
+hl_urho3d_math_tquaternion *hl_alloc_urho3d_math_tquaternion(float x, float y, float z);
+hl_urho3d_math_tquaternion *hl_alloc_urho3d_math_tquaternion(const Urho3D::Quaternion &);
+
 typedef struct hl_urho3d_math_vector2
 {
     void *finalizer;
@@ -83,6 +90,11 @@ typedef struct hl_urho3d_math_vector3
 #define HL_URHO3D_VECTOR3 _ABSTRACT(hl_urho3d_math_vector3)
 hl_urho3d_math_vector3 *hl_alloc_urho3d_math_vector3(float x = 0.0, float y = 0.0, float z = 0.0);
 hl_urho3d_math_vector3 *hl_alloc_urho3d_math_vector3(const Urho3D::Vector3 &);
+
+typedef Urho3D::Vector3  hl_urho3d_math_tvector3;
+#define HL_URHO3D_TVECTOR3 _ABSTRACT(hl_urho3d_math_tvector3)
+Urho3D::Vector3 *hl_alloc_urho3d_math_tvector3(float x = 0.0, float y = 0.0, float z = 0.0);
+Urho3D::Vector3 *hl_alloc_urho3d_math_tvector3(const Urho3D::Vector3 &rhs);
 
 typedef struct hl_urho3d_math_boundingbox
 {

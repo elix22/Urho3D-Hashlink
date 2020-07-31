@@ -22,10 +22,10 @@ class Node {
 
 	private var abstractNode:AbstractNode = null;
 
-	public var position(get, set):Vector3;
-	public var direction(get, set):Vector3;
-	public var scale(get, set):Vector3;
-	public var rotation(get, set):Quaternion;
+	public var position(get, set):TVector3;
+	public var direction(get, set):TVector3;
+	public var scale(get, set):TVector3;
+	public var rotation(get, set):TQuaternion;
 
 	public inline function new(?rhs:AbstractNode) {
 		if (rhs != null) {
@@ -103,7 +103,7 @@ class Node {
 		return r;
 	}
 
-	public function Rotate(q:Quaternion, s:TransformSpace = TS_LOCAL) {
+	public function Rotate(q:TQuaternion, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Rotate(Context.context, abstractNode, q, s);
 	}
 
@@ -148,39 +148,39 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	public static function AddComponent(c:Context, n:AbstractNode, component:AbstractComponent, mode:CreateMode, id:Int):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_set_position")
-	public static function SetPosition(c:Context, n:AbstractNode, position:Vector3):Void {}
+	public static function SetPosition(c:Context, n:AbstractNode, position:TVector3):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_get_position")
-	public static function GetPosition(c:Context, n:AbstractNode):Vector3 {
+	public static function GetPosition(c:Context, n:AbstractNode):TVector3 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_scene_node_set_direction")
-	public static function SetDirection(c:Context, n:AbstractNode, position:Vector3):Void {}
+	public static function SetDirection(c:Context, n:AbstractNode, position:TVector3):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_get_direction")
-	public static function GetDirection(c:Context, n:AbstractNode):Vector3 {
+	public static function GetDirection(c:Context, n:AbstractNode):TVector3 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_scene_node_set_scale")
-	public static function SetScale(c:Context, n:AbstractNode, position:Vector3):Void {}
+	public static function SetScale(c:Context, n:AbstractNode, position:TVector3):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_get_scale")
-	public static function GetSCale(c:Context, n:AbstractNode):Vector3 {
+	public static function GetSCale(c:Context, n:AbstractNode):TVector3 {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_scene_node_set_rotation")
-	public static function SetRotation(c:Context, n:AbstractNode, position:Quaternion):Void {}
+	public static function SetRotation(c:Context, n:AbstractNode, position:TQuaternion):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_get_rotation")
-	public static function GetRotation(c:Context, n:AbstractNode):Quaternion {
+	public static function GetRotation(c:Context, n:AbstractNode):TQuaternion {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_scene_node_rotate")
-	public static function Rotate(c:Context, n:AbstractNode, rotation:Quaternion, s:TransformSpace):Void {}
+	public static function Rotate(c:Context, n:AbstractNode, rotation:TQuaternion, s:TransformSpace):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_rotate_euler")
 	public static function RotateEuler(c:Context, n:AbstractNode, x:Single, y:Single, z:Single, s:TransformSpace):Void {}
