@@ -48,7 +48,7 @@ class SpritesSample extends Application {
 		// Go through all sprites
 		for (sprite in sprites) {
 			sprite.rotation = sprite.rotation + timeStep * 30.0;
-			var newPos = sprite.position + sprite.vars["Velocity"].GetTVector2() * timeStep;
+			var newPos = sprite.position + sprite.vars["Velocity"].tvector2 * timeStep;
 
 			if (newPos.x < 0.0)
 				newPos.x += width;
@@ -68,7 +68,7 @@ class SpritesSample extends Application {
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
-		var step:Float = eventData["TimeStep"];
+		var step= eventData["TimeStep"].float;
 		MoveSprites(step);
 	}
 }

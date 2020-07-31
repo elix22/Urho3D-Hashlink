@@ -291,18 +291,21 @@ HL_PRIM int HL_NAME(_sprite_get_blend_mode)(urho3d_context *context, hl_urho3d_s
     return 0;
 }
 
-HL_PRIM hl_urho3d_variantmap *HL_NAME(_sprite_get_vars)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM hl_urho3d_tvariantmap *HL_NAME(_sprite_get_vars)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_variantmap *hl_variantmap = NULL;
+    hl_urho3d_tvariantmap *hl_variantmap = NULL;
     if (urho3d_sprite)
     {
+        /*
         hl_variantmap = hl_alloc_urho3d_variantmap_no_finlizer();
         if (hl_variantmap)
         {
             (hl_variantmap->ptr) = (VariantMap *)(&(urho3d_sprite->GetVars()));
         }
+        */
+       hl_variantmap= (VariantMap *)(&(urho3d_sprite->GetVars()));
     }
     return hl_variantmap;
 }
@@ -347,6 +350,6 @@ DEFINE_PRIM(HL_URHO3D_TCOLOR, _sprite_get_color, URHO3D_CONTEXT HL_URHO3D_SPRITE
 DEFINE_PRIM(_I32, _sprite_set_blend_mode, URHO3D_CONTEXT HL_URHO3D_SPRITE _I32);
 DEFINE_PRIM(_I32, _sprite_get_blend_mode, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 
-DEFINE_PRIM(HL_URHO3D_VARIANTMAP, _sprite_get_vars, URHO3D_CONTEXT HL_URHO3D_SPRITE);
+DEFINE_PRIM(HL_URHO3D_TVARIANTMAP, _sprite_get_vars, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 
 DEFINE_PRIM(HL_URHO3D_UIELEMENT, _cast_sprite_to_uielement, URHO3D_CONTEXT HL_URHO3D_SPRITE);

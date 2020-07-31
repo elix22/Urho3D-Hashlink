@@ -47,7 +47,7 @@ class Application {
 	}
 
 	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
-		var rand = Std.random(100000) / 100000.0;
+		var rand:Float = Std.random(1000000) / 1000000.0;
 		if (min == null)
 			return rand;
 		else if (min != null && max == null) {

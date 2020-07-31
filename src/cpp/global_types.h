@@ -9,6 +9,7 @@
 #define TCOLOR_STACK_SIZE 10000
 #define TVARIANT_STACK_SIZE 10000
 #define TSTRINGHASH_STACK_SIZE 10000
+#define TVARIANTMAP_STACK_SIZE 10000
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -136,6 +137,11 @@ typedef struct hl_urho3d_variantmap
 #define HL_URHO3D_VARIANTMAP _ABSTRACT(hl_urho3d_variantmap)
 hl_urho3d_variantmap *hl_alloc_urho3d_variantmap();
 hl_urho3d_variantmap *hl_alloc_urho3d_variantmap_no_finlizer();
+
+typedef Urho3D::VariantMap  hl_urho3d_tvariantmap;
+#define HL_URHO3D_TVARIANTMAP _ABSTRACT(hl_urho3d_tvariantmap)
+hl_urho3d_tvariantmap *hl_alloc_urho3d_tvariantmap();
+
 
 typedef struct hl_urho3d_application
 {

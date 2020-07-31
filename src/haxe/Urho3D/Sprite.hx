@@ -17,7 +17,7 @@ abstract Sprite(HL_URHO3D_SPRITE) {
     public var rotation(get, set):Float;
     public var scale(get, set):TVector2;
     public var color(get, set):TColor;
-    public var vars(get, never):VariantMap;
+    public var vars(get, never):TVariantMap;
     public var blendMode(get,set):BlendMode;
 
 
@@ -204,7 +204,7 @@ abstract Sprite(HL_URHO3D_SPRITE) {
     }
     
     @:hlNative("Urho3D", "_sprite_get_vars")
-	private static function _get_vars(context:Context, t:HL_URHO3D_SPRITE):VariantMap {
+	private static function _get_vars(context:Context, t:HL_URHO3D_SPRITE):TVariantMap {
 		return null;
     }
     

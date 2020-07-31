@@ -42,6 +42,7 @@ hl_urho3d_type *hl_alloc_urho3d()
     hl_urho3d_type *p = (hl_urho3d_type *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_type));
     p->finalizer = (void *)finalize_urho3d;
     Urho3D_Type *v = new Urho3D_Type();
+    v->Clear();
     p->ptr = v;
     return p;
 }
@@ -52,10 +53,9 @@ HL_PRIM hl_urho3d_type *HL_NAME(_create_variantmap)()
     return v;
 }
 
-HL_PRIM hl_urho3d_tvariant *HL_NAME(_set_key_value)(hl_urho3d_variantmap *type, hl_urho3d_stringhash *stringhash, hl_urho3d_tvariant *variant)
+HL_PRIM hl_urho3d_tvariant *HL_NAME(_set_key_value)(hl_urho3d_variantmap *type, hl_urho3d_tstringhash *sh, hl_urho3d_tvariant *variant)
 {
     Urho3D::VariantMap *vm = (Urho3D::VariantMap *)type->ptr;
-    Urho3D::StringHash *sh = (Urho3D::StringHash *)stringhash->ptr;
 
     if (vm != NULL && sh != NULL && variant != NULL)
     {
@@ -64,10 +64,9 @@ HL_PRIM hl_urho3d_tvariant *HL_NAME(_set_key_value)(hl_urho3d_variantmap *type, 
     return variant;
 }
 
-HL_PRIM hl_urho3d_tvariant *HL_NAME(_get_value)(hl_urho3d_variantmap *type, hl_urho3d_stringhash *stringhash)
+HL_PRIM hl_urho3d_tvariant *HL_NAME(_get_value)(hl_urho3d_variantmap *type, hl_urho3d_tstringhash *sh)
 {
     Urho3D::VariantMap *vm = (Urho3D::VariantMap *)type->ptr;
-    Urho3D::StringHash *sh = (Urho3D::StringHash *)stringhash->ptr;
 
     hl_urho3d_tvariant *vr = hl_alloc_urho3d_tvariant();
 
@@ -77,5 +76,5 @@ HL_PRIM hl_urho3d_tvariant *HL_NAME(_get_value)(hl_urho3d_variantmap *type, hl_u
 }
 
 DEFINE_PRIM(HL_URHO3D_TYPE, _create_variantmap, _NO_ARG);
-DEFINE_PRIM(HL_URHO3D_TVARIANT, _set_key_value, HL_URHO3D_VARIANTMAP HL_URHO3D_STRINGHASH HL_URHO3D_TVARIANT);
-DEFINE_PRIM(HL_URHO3D_TVARIANT, _get_value, HL_URHO3D_VARIANTMAP HL_URHO3D_STRINGHASH);
+DEFINE_PRIM(HL_URHO3D_TVARIANT, _set_key_value, HL_URHO3D_VARIANTMAP HL_URHO3D_TSTRINGHASH HL_URHO3D_TVARIANT);
+DEFINE_PRIM(HL_URHO3D_TVARIANT, _get_value, HL_URHO3D_VARIANTMAP HL_URHO3D_TSTRINGHASH);
