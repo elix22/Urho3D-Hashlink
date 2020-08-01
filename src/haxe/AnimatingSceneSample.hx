@@ -2,6 +2,7 @@ import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
 import urho3d.Zone.AbstractZone;
+import urho3d.Input.TouchState;
 
 class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
@@ -16,19 +17,27 @@ class Rotator extends LogicComponent {
 		rotationSpeed = speed;
 	}
 
+	public override function Start() {
+	//	trace("start");
+	}
+
+	public override function DelayedStart() {
+	//	trace("DelayedStart");
+	}
+
 	public override function Update(timeStep:Float) {
 		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 
 		/*
-			 counter++;
-			if (counter % 200 == 0) {
-			   ResetRotation();
-			}
-		 */
+		counter++;
+		if (counter % 200 == 0) {
+			ResetRotation();
+		}
+		*/
 	}
 
 	public function ResetRotation() {
-		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
+		node.rotation = new TQuaternion(Random(360.0), Random(360.0), Random(360.0));
 	}
 }
 
@@ -40,7 +49,7 @@ class AnimatingSceneSample extends Application {
 
 	public final NUM_OBJECTS = 4000;
 
-	var counter:Int = 0;
+	var counter:Int = 1;
 
 	public override function Setup() {
 		trace("Setup");
@@ -97,25 +106,41 @@ class AnimatingSceneSample extends Application {
 	}
 
 	function MoveCamera(timeStep:Float) {
-		final MOVE_SPEED = 20.0;
-		final MOUSE_SENSITIVITY = 0.1;
-		yaw += MOUSE_SENSITIVITY * Input.mouseMove.x;
-		pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
-		pitch = Clamp(pitch, -90.0, 90.0);
+		if (Input.numTouches > 0) {
+			var camera:Camera = cameraNode.GetComponent("Camera");
+			final TOUCH_SENSITIVITY = 2.0;
 
-		cameraNode.rotation = new Quaternion(pitch, yaw, 0.0);
+			if (camera != null) {
+				for (i in 0...Input.numTouches) {
+					var state:TouchState = Input.touchState(i);
+
+					if (state.delta.x != 0 || state.delta.y != 0) {
+						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
+						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
+						cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
+					}
+				}
+			}
+		} else {
+			final MOUSE_SENSITIVITY = 0.1;
+			yaw += MOUSE_SENSITIVITY * Input.mouseMove.x;
+			pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
+			pitch = Clamp(pitch, -90.0, 90.0);
+
+			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
+		}
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
 		MoveCamera(step);
+		
 		counter++;
-		/*
-			if ((counter % 10000 == 0)) {
-				trace("create scene");
-				CreateScene();
-				SetupViewport();
-			}
-		 */
+		if ((counter % 1000 == 0)) {
+			trace("create scene");
+			CreateScene();
+			SetupViewport();
+		}
+		
 	}
 }

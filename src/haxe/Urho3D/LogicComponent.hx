@@ -23,11 +23,6 @@ class LogicComponent extends Component {
 	}
 
 	@:keep
-	public function Stop():Void {
-		//	 trace("  Stop  ");
-	}
-
-	@:keep
 	public function Update(timeStep:Float):Void {
 		//	 trace("Update " + timeStep);
 	}

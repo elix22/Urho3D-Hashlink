@@ -34,20 +34,20 @@ class StaticSceneSample extends Application {
 		zone.fogEnd = 100.0;
 
 		var planeNode = scene.CreateChild("Plane");
-		planeNode.scale = new Vector3(100.0, 1.0, 100.0);
+		planeNode.scale = new TVector3(100.0, 1.0, 100.0);
 		var planeObject:StaticModel = planeNode.CreateComponent("StaticModel");
 		planeObject.model = new Model("Models/Plane.mdl");
 		planeObject.material = new Material("Materials/StoneTiled.xml");
 
 		var lightNode = scene.CreateChild("DirectionalLight");
-		lightNode.direction = new Vector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
+		lightNode.direction = new TVector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
 		var light:Light = lightNode.CreateComponent("Light");
 		light.lightType = LIGHT_DIRECTIONAL;
 
 		for (i in 0...NUM_OBJECTS) {
 			var mushroomNode = scene.CreateChild("Mushroom");
-			mushroomNode.position = new Vector3(Random(90.0) - 45.0, 0.0, Random(90.0) - 45.0);
-			mushroomNode.rotation = new Quaternion(0.0, Random(360.0), 0.0);
+			mushroomNode.position = new TVector3(Random(90.0) - 45.0, 0.0, Random(90.0) - 45.0);
+			mushroomNode.rotation = new TQuaternion(0.0, Random(360.0), 0.0);
 			mushroomNode.scale = (0.5 + Random(2.0));
 			var mushroomObject:StaticModel = mushroomNode.CreateComponent("StaticModel");
 			mushroomObject.model = new Model("Models/Mushroom.mdl");
@@ -56,7 +56,7 @@ class StaticSceneSample extends Application {
 
 		cameraNode = scene.CreateChild("Camera");
 		var camera:Camera = cameraNode.CreateComponent("Camera");
-		cameraNode.position = new Vector3(0.0, 5.0, 0.0);
+		cameraNode.position = new TVector3(0.0, 5.0, 0.0);
 	}
 
 	public function SetupViewport() {
@@ -80,7 +80,7 @@ class StaticSceneSample extends Application {
 					if (state.delta.x != 0 || state.delta.y != 0) {
 						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
 						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
-						cameraNode.rotation = new Quaternion(pitch, yaw, 0.0);
+						cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 					}
 				}
 			}
@@ -90,7 +90,7 @@ class StaticSceneSample extends Application {
 			pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
 			pitch = Clamp(pitch, -90.0, 90.0);
 
-			cameraNode.rotation = new Quaternion(pitch, yaw, 0.0);
+			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 		}
 	}
 

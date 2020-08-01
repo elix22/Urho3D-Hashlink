@@ -76,7 +76,8 @@ public:
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_start, &hlt_dyn);
             vclosure closure;
             hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_start, hl_hash_start, &closure);
-            hl_dyn_call(&closure, NULL, 0);
+            ((void (*)(vdynamic *))closure.fun)((vdynamic *)closure.value);
+            // hl_dyn_call(&closure, NULL, 0);
 
             /*
             hl_field_lookup *hl_lookup = obj_resolve_field(dyn_obj->t->obj, hl_hash_utf8("Start"));
@@ -97,25 +98,29 @@ public:
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_delayed_start, &hlt_dyn);
             vclosure closure;
             hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_delayed_start, hl_hash_delayed_start, &closure);
-            hl_dyn_call(&closure, NULL, 0);
+            ((void (*)(vdynamic *))closure.fun)((vdynamic *)closure.value);
+            // hl_dyn_call(&closure, NULL, 0);
         }
     }
 
     /// Called when the component is detached from a scene node, usually on destruction. Note that you will no longer have access to the node and scene at that point.
     virtual void Stop()
     {
-        if (dyn_obj)
-        {
-           // printf("ProxyLogicComponent.Stop \n");
-            vdynamic *dyn_temp = dyn_obj;
-            dyn_obj = NULL;
-            // vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
-            vclosure closure;
-            hl_dyn_getp_internal(dyn_temp, &dyn_obj_field_stop, hl_hash_stop, &closure);
-            hl_dyn_call(&closure, NULL, 0);
+        dyn_obj = NULL;
 
-            hl_remove_root(&dyn_temp);
-        }
+       // if (dyn_obj)
+       // {
+            // printf("ProxyLogicComponent.Stop \n");
+       //     vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
+            // vclosure closure;
+            // hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_stop, hl_hash_stop, &closure);
+            // ((void (*)(vdynamic*))closure.fun)((vdynamic*)closure.value);
+           // if (closure != NULL)
+           //     hl_dyn_call(closure, NULL, 0);
+
+            // hl_remove_root(&dyn_obj);
+        //     dyn_obj = NULL;
+       // }
     }
 
     /// Called on scene update, variable timestep.
@@ -128,12 +133,14 @@ public:
             /*faster way , caching the field*/
             vclosure closure;
             hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_update, hl_hash_update, &closure);
-
+            ((void (*)(vdynamic *, double))closure.fun)((vdynamic *)closure.value, (double)timeStep);
+            /*
             vdynamic args[1];
             vdynamic *vargs[1] = {&args[0]};
             args[0].t = &hlt_f32;
             args[0].v.f = timeStep;
             hl_dyn_call(&closure, vargs, 1);
+            */
         }
     }
     /// Called on scene post-update, variable timestep.
@@ -145,13 +152,15 @@ public:
 
             vclosure closure;
             hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_post_update, hl_hash_post_update, &closure);
-
+            ((void (*)(vdynamic *, double))closure.fun)((vdynamic *)closure.value, (double)timeStep);
+            /*
             vdynamic args[1];
             vdynamic *vargs[1] = {&args[0]};
 
             args[0].t = &hlt_f32;
             args[0].v.f = timeStep;
             hl_dyn_call(&closure, vargs, 1);
+            */
         }
     }
     /// Called on physics update, fixed timestep.
@@ -162,13 +171,15 @@ public:
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_fixed_update, &hlt_dyn);
             vclosure closure;
             hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_fixed_update, hl_hash_fixed_update, &closure);
-
+            ((void (*)(vdynamic *, double))closure.fun)((vdynamic *)closure.value, (double)timeStep);
+            /*
             vdynamic args[1];
             vdynamic *vargs[1] = {&args[0]};
 
             args[0].t = &hlt_f32;
             args[0].v.f = timeStep;
             hl_dyn_call(&closure, vargs, 1);
+            */
         }
     }
     /// Called on physics post-update, fixed timestep.
@@ -179,13 +190,15 @@ public:
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_fixed_post_update, &hlt_dyn);
             vclosure closure;
             hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_fixed_post_update, hl_hash_fixed_post_update, &closure);
-
+            ((void (*)(vdynamic *, double))closure.fun)((vdynamic *)closure.value, (double)timeStep);
+            /*
             vdynamic args[1];
             vdynamic *vargs[1] = {&args[0]};
 
             args[0].t = &hlt_f32;
             args[0].v.f = timeStep;
             hl_dyn_call(&closure, vargs, 1);
+            */
         }
     }
 
@@ -223,7 +236,7 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(urho3d_co
     p->finalizer = (void *)finalize_urho3d_scene_logic_component;
     ProxyLogicComponent *c = new ProxyLogicComponent(context);
     c->dyn_obj = dyn_obj;
-    hl_add_root(&dyn_obj);
+   // hl_add_root(&dyn_obj);
     p->ptr = c;
     return p;
 }

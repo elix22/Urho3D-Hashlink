@@ -58,11 +58,11 @@ class Zone extends Component {
 	public var fogEnd(get, set):Float;
 
 	public function set_fogEnd(b) {
-		return AbstractZone.SetFogStart(Context.context,abstractZone,b);
+		return AbstractZone.SetFogEnd(Context.context,abstractZone,b);
 	}
 
 	public function get_fogEnd() {
-		return AbstractZone.GetFogStart(Context.context,abstractZone);
+		return AbstractZone.GetFogEnd(Context.context,abstractZone);
 	}
 }
 
