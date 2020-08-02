@@ -1,4 +1,4 @@
-import urho3d.Input.TouchState;
+
 import urho3d.*;
 import urho3d.Application;
 
@@ -47,21 +47,22 @@ class SkeletalAnimationSample extends Application {
 		lightNode.direction = new TVector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
 		var light:Light = lightNode.CreateComponent("Light");
         light.lightType = LIGHT_DIRECTIONAL;
-       // light.color = new Color(0.5, 0.5, 0.5);
-      //  light.castShadows = true;
-      //  light.shadowBias = BiasParameters(0.00025f, 0.5f);
+        light.color = new Color(0.5, 0.5, 0.5);
+        light.castShadows = true;
+        light.shadowBias = new BiasParameters(0.00025, 0.5);
         // Set cascade splits at 10, 50 and 200 world units, fade shadows out at 80% of maximum shadow distance
-      //  light.shadowCascade = CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f);
+        light.shadowCascade = new CascadeParameters(10.0, 50.0, 200.0, 0.0, 0.8);
 
 		for (i in 0...NUM_MODELS) {
 
             var modelNode = scene.CreateChild("Jill");
-            modelNode.position = new TVector3(Random(40.0) - 20.0, 0.0, Random(40.0) - 20.0);
-            modelNode.rotation = new TQuaternion(0.0, Random(360.0), 0.0);
+            modelNode.position = new Vector3(Random(40.0) - 20.0, 0.0, Random(40.0) - 20.0);
+            modelNode.rotation = new Quaternion(0.0, Random(360.0), 0.0);
     
             var modelObject:AnimatedModel = modelNode.CreateComponent("AnimatedModel");
             modelObject.model = new Model("Models/Kachujin/Kachujin.mdl");
             modelObject.material = new Material("Models/Kachujin/Materials/Kachujin.xml");
+            modelObject.castShadows = true;
 
             var walkAnimation = new Animation("Models/Kachujin/Kachujin_Walk.ani");
             var state = modelObject.AddAnimationState(walkAnimation);
@@ -96,11 +97,11 @@ class SkeletalAnimationSample extends Application {
 
 			if (camera != null) {
 				for (i in 0...Input.numTouches) {
-					var state:TouchState = Input.touchState(i);
+					var touchState= Input.GetTouch(i);
 
-					if (state.delta.x != 0 || state.delta.y != 0) {
-						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
-						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
+					if (touchState.delta.x != 0 || touchState.delta.y != 0) {
+						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * touchState.delta.x;
+						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * touchState.delta.y;
 						cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 					}
 				}

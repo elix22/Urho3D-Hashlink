@@ -90,6 +90,18 @@ HL_PRIM hl_urho3d_graphics_tanimation_state HL_NAME(_graphics_animatedmodel_get_
     //return hl_alloc_urho3d_graphics_animation_state(state);
 }
 
+HL_PRIM void HL_NAME(_graphics_animatedmodel_set_cast_shadows)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, bool cast)
+{
+     animatedmodel->ptr->SetCastShadows(cast);
+
+}
+
+HL_PRIM bool HL_NAME(_graphics_animatedmodel_get_cast_shadows)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel)
+{
+     return animatedmodel->ptr->GetCastShadows();
+
+}
+
 
 DEFINE_PRIM(HL_URHO3D_ANIMATEDMODEL, _graphics_animatedmodel_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_animatedmodel_cast_to_component, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
@@ -100,3 +112,5 @@ DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_material, URHO3D_CONTEXT HL_URHO3
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_animatedmodel_get_material, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
 DEFINE_PRIM(HL_URHO3D_TANIMATION_STATE, _graphics_animatedmodel_add_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_ANIMATION);
 DEFINE_PRIM(HL_URHO3D_TANIMATION_STATE, _graphics_animatedmodel_get_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _I32);
+DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_cast_shadows, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _BOOL);
+DEFINE_PRIM(_BOOL, _graphics_animatedmodel_get_cast_shadows, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL );

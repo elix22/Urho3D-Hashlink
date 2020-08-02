@@ -2,18 +2,6 @@ package urho3d;
 
 import urho3d.IntVector2.StructIntVector2;
 
-typedef TouchState = {touchID:Int, position:StructIntVector2, lastPosition:StructIntVector2, delta:StructIntVector2, pressure:Float}
-
-/*
-@:structInit class TouchState {
-    public var touchID:Int;
-public var position:StructIntVector2;
-public var lastPosition:StructIntVector2;
-public var delta:StructIntVector2;
-public var pressure:Float;
-
-}
-*/
 
 class Input {
 	public static var mouseMove(get, never):StructIntVector2;
@@ -27,19 +15,13 @@ class Input {
 		return GetNumTouches(Context.context);
 	}
 
-	public static inline function touchState(index:Int):TouchState {
-		var t:TouchState = {
-			touchID: GetTouchID(Context.context,index),
-			position: {x: GetTouchPositionX(Context.context,index), y: GetTouchPositionY(Context.context,index)},
-			lastPosition: {x: GetTouchLastPositionX(Context.context,index), y: GetTouchLastPositionY(Context.context,index)},
-			delta: {x: GetTouchDeltaX(Context.context,index), y: GetTouchDeltaY(Context.context,index)},
-			pressure: cast(GetTouchPressure(Context.context,index),Float)
-		};
-		return t;
-	}
 
 	public static inline function touchID(index:Int):Int {
 		return GetTouchID(Context.context, index);
+	}
+
+	public static inline function GetTouch(index:Int):TouchState {
+		return _GetTouch(Context.context, index);
 	}
 
 	@:hlNative("Urho3D", "_input_get_mousemove")
@@ -100,5 +82,10 @@ class Input {
 	@:hlNative("Urho3D", "_input_get_touch_pressure")
 	private static function GetTouchPressure(context:Context, index:Int):Single {
 		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_input_touch_state_get")
+	private static function _GetTouch(context:Context, index:Int):TouchState {
+		return null;
 	}
 }

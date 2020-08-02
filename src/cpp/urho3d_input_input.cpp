@@ -244,3 +244,6 @@ DEFINE_PRIM(_I32, _input_get_touch_delta_x, URHO3D_CONTEXT _I32);
 DEFINE_PRIM(_I32, _input_get_touch_delta_y, URHO3D_CONTEXT _I32);
 DEFINE_PRIM(_I32, _input_get_num_touches, URHO3D_CONTEXT );
 DEFINE_PRIM(_F32, _input_get_touch_pressure, URHO3D_CONTEXT _I32);
+
+
+

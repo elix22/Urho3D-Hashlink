@@ -12,6 +12,7 @@
 #define TVARIANT_STACK_SIZE 10000
 #define TSTRINGHASH_STACK_SIZE 10000
 #define TVARIANTMAP_STACK_SIZE 10000
+#define TOUCHSTATE_STACK_SIZE 100
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -259,6 +260,20 @@ typedef struct hl_urho3d_graphics_light
 hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light();
 hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light(Light *light);
 
+typedef struct hl_urho3d_graphics_light_bias_parameters
+{
+    void *finalizer;
+    BiasParameters*  ptr;
+} hl_urho3d_graphics_light_bias_parameters;
+#define HL_URHO3D_LIGHT_BIAS_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_bias_parameters)
+
+typedef struct hl_urho3d_graphics_light_cascade_parameters
+{
+    void *finalizer;
+    CascadeParameters*  ptr;
+} hl_urho3d_graphics_light_cascade_parameters;
+#define HL_URHO3D_LIGHT_CASCADE_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_cascade_parameters)
+
 typedef struct hl_urho3d_graphics_material
 {
     void *finalizer;
@@ -345,5 +360,9 @@ typedef struct hl_urho3d_graphics_zone
 #define HL_URHO3D_ZONE _ABSTRACT(hl_urho3d_graphics_zone)
 hl_urho3d_graphics_zone *hl_alloc_urho3d_graphics_zone();
 hl_urho3d_graphics_zone *hl_alloc_urho3d_graphics_zone(Zone *zone);
+
+
+typedef Urho3D::TouchState*  hl_urho3d_input_touch_state;
+#define HL_URHO3D_TOUCH_STATE _ABSTRACT(hl_urho3d_input_touch_state)
 
 #endif

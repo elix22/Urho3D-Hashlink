@@ -45,6 +45,51 @@ class Light extends Component {
 	public function get_range() {
 		return AbstractLight.GetRange(Context.context, _abstract);
 	}
+
+	public var color(get,set):Color;
+
+	public function set_color(t) {
+		AbstractLight.SetColor(Context.context, _abstract, t);
+		return t;
+	}
+
+	public function get_color() {
+		return AbstractLight.GetColor(Context.context, _abstract);
+	}
+
+	public var castShadows(get, set):Bool;
+
+	public function set_castShadows(t) {
+		AbstractLight.SetCastShadows(Context.context, _abstract, t);
+		return t;
+	}
+
+	public function get_castShadows() {
+		return AbstractLight.GetCastShadows(Context.context, _abstract);
+	}
+
+	public var shadowBias(get,set):BiasParameters;
+
+	public function set_shadowBias(t) {
+		AbstractLight.SetShadowBias(Context.context, _abstract, t);
+		return t;
+	}
+
+	public function get_shadowBias() {
+		return AbstractLight.GetShadowBias(Context.context, _abstract);
+	}
+
+	public var shadowCascade(get,set):CascadeParameters;
+
+	public function set_shadowCascade(t) {
+		AbstractLight.SetShadowCascade(Context.context, _abstract, t);
+		return t;
+	}
+
+	public function get_shadowCascade() {
+		return AbstractLight.GetShadowCascade(Context.context, _abstract);
+	}
+
 }
 
 @:hlNative("Urho3D")
@@ -90,4 +135,41 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 	public static function GetRange(c:Context, s:AbstractLight):Single {
 		return 0.0;
 	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_color")
+	public static function SetColor(c:Context, s:AbstractLight,c:Color):Void {
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_get_color")
+	public static function GetColor(c:Context, s:AbstractLight):Color {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_cast_shadows")
+	public static function SetCastShadows(c:Context, s:AbstractLight,c:Bool):Void {
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_get_cast_shadows")
+	public static function GetCastShadows(c:Context, s:AbstractLight):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_shadow_bias")
+	public static function SetShadowBias(c:Context, s:AbstractLight,b:BiasParameters):Void {
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_get_shadow_bias")
+	public static function GetShadowBias(c:Context, s:AbstractLight):BiasParameters {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_shadow_cascade")
+	public static function SetShadowCascade(c:Context, s:AbstractLight,b:CascadeParameters):Void {
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_get_shadow_cascade")
+	public static function GetShadowCascade(c:Context, s:AbstractLight):CascadeParameters {
+		return null;
+	}
+
 }

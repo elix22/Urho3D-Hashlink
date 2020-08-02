@@ -7,6 +7,34 @@ extern "C"
 #include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
+
+void finalize_urho3d_graphics_light_bias_parameters(void *v)
+{
+    hl_urho3d_graphics_light_bias_parameters *hl_ptr = (hl_urho3d_graphics_light_bias_parameters *)v;
+    if (hl_ptr)
+    {
+        if (hl_ptr->ptr)
+        {
+            delete(hl_ptr->ptr);
+        }
+        hl_ptr->finalizer = NULL;
+    }
+}
+
+
+void finalize_urho3d_graphics_light_cascade_parameters(void *v)
+{
+    hl_urho3d_graphics_light_cascade_parameters *hl_ptr = (hl_urho3d_graphics_light_cascade_parameters *)v;
+    if (hl_ptr)
+    {
+        if (hl_ptr->ptr)
+        {
+            delete(hl_ptr->ptr);
+        }
+        hl_ptr->finalizer = NULL;
+    }
+}
+
 void finalize_urho3d_graphics_light(void *v)
 {
     hl_urho3d_graphics_light *hl_ptr = (hl_urho3d_graphics_light *)v;
@@ -19,6 +47,47 @@ void finalize_urho3d_graphics_light(void *v)
         }
         hl_ptr->finalizer = NULL;
     }
+}
+
+
+
+hl_urho3d_graphics_light_bias_parameters *hl_alloc_urho3d_graphics_light_bias_parameters(float constantBias, float slopeScaledBias, float normalOffset )
+{
+    hl_urho3d_graphics_light_bias_parameters *p = (hl_urho3d_graphics_light_bias_parameters *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_light_bias_parameters));
+
+    p->finalizer = (void *)finalize_urho3d_graphics_light_bias_parameters;
+    p->ptr = new Urho3D::BiasParameters(constantBias, slopeScaledBias,normalOffset);
+
+    return p;
+}
+
+hl_urho3d_graphics_light_bias_parameters *hl_alloc_urho3d_graphics_light_bias_parameters(const Urho3D::BiasParameters & rhs )
+{
+    hl_urho3d_graphics_light_bias_parameters *p = (hl_urho3d_graphics_light_bias_parameters *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_light_bias_parameters));
+
+    p->finalizer = (void *)finalize_urho3d_graphics_light_bias_parameters;
+    p->ptr = new Urho3D::BiasParameters(rhs);
+    return p;
+}
+
+hl_urho3d_graphics_light_cascade_parameters *hl_alloc_urho3d_graphics_light_cascade_parameters(float split1, float split2, float split3, float split4, float fadeStart, float biasAutoAdjust )
+{
+    hl_urho3d_graphics_light_cascade_parameters *p = (hl_urho3d_graphics_light_cascade_parameters *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_light_cascade_parameters));
+
+    p->finalizer = (void *)finalize_urho3d_graphics_light_cascade_parameters;
+    p->ptr = new Urho3D::CascadeParameters(split1,split2,split3,split4,fadeStart,biasAutoAdjust);
+
+    return p;
+}
+
+hl_urho3d_graphics_light_cascade_parameters *hl_alloc_urho3d_graphics_light_cascade_parameters(const CascadeParameters & rhs)
+{
+    hl_urho3d_graphics_light_cascade_parameters *p = (hl_urho3d_graphics_light_cascade_parameters *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_light_cascade_parameters));
+
+    p->finalizer = (void *)finalize_urho3d_graphics_light_cascade_parameters;
+    p->ptr = new Urho3D::CascadeParameters(rhs);
+
+    return p;
 }
 
 hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light(urho3d_context *context)
@@ -77,6 +146,60 @@ HL_PRIM float HL_NAME(_graphics_light_get_range)(urho3d_context *context, hl_urh
     return t->ptr->GetRange();
 }
 
+HL_PRIM void HL_NAME(_graphics_light_set_color)(urho3d_context * context,hl_urho3d_graphics_light *t,hl_urho3d_color * color)
+{
+    t->ptr->SetColor(*(color->ptr));
+}
+
+HL_PRIM hl_urho3d_color *HL_NAME(_graphics_light_get_color)(urho3d_context * context,hl_urho3d_graphics_light *t)
+{
+    return hl_alloc_urho3d_color( t->ptr->GetColor());
+}
+
+
+HL_PRIM void HL_NAME(_graphics_light_set_cast_shadows)(urho3d_context * context,hl_urho3d_graphics_light *t,bool cast)
+{
+    t->ptr->SetCastShadows(cast);
+}
+HL_PRIM bool  HL_NAME(_graphics_light_get_cast_shadows)(urho3d_context * context,hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetCastShadows();
+}
+
+HL_PRIM  hl_urho3d_graphics_light_bias_parameters * HL_NAME(_graphics_light_bias_parameters_create)(float constantBias, float slopeScaledBias, float normalOffset)
+{
+    return hl_alloc_urho3d_graphics_light_bias_parameters(constantBias,slopeScaledBias,normalOffset);
+}
+
+HL_PRIM  hl_urho3d_graphics_light_cascade_parameters * HL_NAME(_graphics_light_cascade_parameters_create)(float split1, float split2, float split3, float split4, float fadeStart, float biasAutoAdjust)
+{
+    return hl_alloc_urho3d_graphics_light_cascade_parameters(split1,split2,split3,split4,fadeStart,biasAutoAdjust);
+}
+
+HL_PRIM void HL_NAME(_graphics_light_set_shadow_bias)(urho3d_context * context,hl_urho3d_graphics_light *t,hl_urho3d_graphics_light_bias_parameters *p)
+{
+    t->ptr->SetShadowBias(*(p->ptr));
+}
+
+HL_PRIM hl_urho3d_graphics_light_bias_parameters * HL_NAME(_graphics_light_get_shadow_bias)(urho3d_context * context,hl_urho3d_graphics_light *t)
+{
+    return hl_alloc_urho3d_graphics_light_bias_parameters(t->ptr->GetShadowBias());
+}
+
+HL_PRIM void HL_NAME(_graphics_light_set_shadow_cascade)(urho3d_context * context,hl_urho3d_graphics_light *t,hl_urho3d_graphics_light_cascade_parameters *p)
+{
+    t->ptr->SetShadowCascade(*(p->ptr));
+}
+
+HL_PRIM hl_urho3d_graphics_light_cascade_parameters * HL_NAME(_graphics_light_get_shadow_cascade)(urho3d_context * context,hl_urho3d_graphics_light *t)
+{
+    return hl_alloc_urho3d_graphics_light_cascade_parameters(t->ptr->GetShadowCascade());
+}
+
+
+//BiasParameters(float constantBias, float slopeScaledBias, float normalOffset = 0.0f)
+//CascadeParameters(float split1, float split2, float split3, float split4, float fadeStart, float biasAutoAdjust = 1.0f) :
+
 DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_light_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LIGHT);
 DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
@@ -87,3 +210,19 @@ DEFINE_PRIM(_I32, _graphics_light_get_light_type, URHO3D_CONTEXT HL_URHO3D_LIGHT
 
 DEFINE_PRIM(_VOID, _graphics_light_set_range, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
 DEFINE_PRIM(_F32, _graphics_light_get_range, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+
+DEFINE_PRIM(_VOID, _graphics_light_set_color,URHO3D_CONTEXT HL_URHO3D_LIGHT HL_URHO3D_COLOR);
+DEFINE_PRIM(HL_URHO3D_COLOR, _graphics_light_get_color,URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+DEFINE_PRIM(_VOID, _graphics_light_set_cast_shadows,URHO3D_CONTEXT HL_URHO3D_LIGHT _BOOL);
+DEFINE_PRIM(_BOOL, _graphics_light_get_cast_shadows,URHO3D_CONTEXT HL_URHO3D_LIGHT);
+
+DEFINE_PRIM(HL_URHO3D_LIGHT_BIAS_PARAMETERS, _graphics_light_bias_parameters_create, _F32 _F32 _F32);
+DEFINE_PRIM(HL_URHO3D_LIGHT_CASCADE_PARAMETERS, _graphics_light_cascade_parameters_create, _F32 _F32 _F32 _F32 _F32 _F32);
+
+DEFINE_PRIM(_VOID, _graphics_light_set_shadow_bias,URHO3D_CONTEXT HL_URHO3D_LIGHT HL_URHO3D_LIGHT_BIAS_PARAMETERS);
+DEFINE_PRIM(HL_URHO3D_LIGHT_BIAS_PARAMETERS, _graphics_light_get_shadow_bias,URHO3D_CONTEXT HL_URHO3D_LIGHT);
+
+DEFINE_PRIM(_VOID, _graphics_light_set_shadow_cascade,URHO3D_CONTEXT HL_URHO3D_LIGHT HL_URHO3D_LIGHT_CASCADE_PARAMETERS);
+DEFINE_PRIM(HL_URHO3D_LIGHT_CASCADE_PARAMETERS, _graphics_light_get_shadow_cascade,URHO3D_CONTEXT HL_URHO3D_LIGHT);
