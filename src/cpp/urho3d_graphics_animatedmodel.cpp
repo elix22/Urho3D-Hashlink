@@ -1,0 +1,101 @@
+#define HL_NAME(n) Urho3D_##n
+extern "C"
+{
+#include <hl.h>
+}
+
+#include <Urho3D/Urho3DAll.h>
+#include "global_types.h"
+
+void finalize_urho3d_graphics_animatedmodel(void *v)
+{
+    hl_urho3d_graphics_animatedmodel *hl_ptr = (hl_urho3d_graphics_animatedmodel *)v;
+    if (hl_ptr)
+    {
+        if (hl_ptr->ptr)
+        {
+            /* hl_ptr->ptr is a SharedPtr , setting to NULL , decreases the reference count*/
+            hl_ptr->ptr = NULL;
+        }
+        hl_ptr->finalizer = NULL;
+    }
+}
+
+hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(urho3d_context *context)
+{
+
+    hl_urho3d_graphics_animatedmodel *p = (hl_urho3d_graphics_animatedmodel *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_animatedmodel));
+    memset(p, 0, sizeof(hl_urho3d_graphics_animatedmodel));
+    p->finalizer = (void *)finalize_urho3d_graphics_animatedmodel;
+    p->ptr = new Urho3D::AnimatedModel(context);
+    return p;
+}
+
+hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(Urho3D::AnimatedModel *model)
+{
+
+    hl_urho3d_graphics_animatedmodel *p = (hl_urho3d_graphics_animatedmodel *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_animatedmodel));
+    memset(p, 0, sizeof(hl_urho3d_graphics_animatedmodel));
+    p->finalizer = (void *)finalize_urho3d_graphics_animatedmodel;
+    p->ptr = model;
+    return p;
+}
+
+HL_PRIM hl_urho3d_graphics_animatedmodel *HL_NAME(_graphics_animatedmodel_create)(urho3d_context *context)
+{
+    return hl_alloc_urho3d_graphics_animatedmodel(context);
+}
+
+HL_PRIM hl_urho3d_scene_component *HL_NAME(_graphics_animatedmodel_cast_to_component)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *t)
+{
+    return hl_alloc_urho3d_scene_component(t->ptr);
+}
+
+HL_PRIM hl_urho3d_graphics_animatedmodel *HL_NAME(_graphics_animatedmodel_cast_from_component)(urho3d_context *context, hl_urho3d_scene_component *component)
+{
+    Component *cmp = component->ptr;
+    return hl_alloc_urho3d_graphics_animatedmodel(dynamic_cast<Urho3D::AnimatedModel *>(cmp));
+}
+
+HL_PRIM void HL_NAME(_graphics_animatedmodel_set_model)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_model *model)
+{
+    animatedmodel->ptr->SetModel(model->ptr);
+}
+
+HL_PRIM hl_urho3d_graphics_model *HL_NAME(_graphics_animatedmodel_get_model)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel)
+{
+    return hl_alloc_urho3d_graphics_model(animatedmodel->ptr->GetModel());
+}
+
+HL_PRIM void HL_NAME(_graphics_animatedmodel_set_material)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_material *material)
+{
+    animatedmodel->ptr->SetMaterial(material->ptr);
+}
+
+HL_PRIM hl_urho3d_graphics_material *HL_NAME(_graphics_animatedmodel_get_material)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel)
+{
+    return hl_alloc_urho3d_graphics_material(animatedmodel->ptr->GetMaterial());
+}
+
+HL_PRIM hl_urho3d_graphics_animation_state *HL_NAME(_graphics_animatedmodel_add_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_animation *animation)
+{
+    AnimationState *state = animatedmodel->ptr->AddAnimationState(animation->ptr);
+    return hl_alloc_urho3d_graphics_animation_state(state);
+}
+
+HL_PRIM hl_urho3d_graphics_animation_state *HL_NAME(_graphics_animatedmodel_get_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, int index)
+{
+    AnimationState *state = animatedmodel->ptr->GetAnimationState(index);
+    return hl_alloc_urho3d_graphics_animation_state(state);
+}
+
+
+DEFINE_PRIM(HL_URHO3D_ANIMATEDMODEL, _graphics_animatedmodel_create, URHO3D_CONTEXT);
+DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_animatedmodel_cast_to_component, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
+DEFINE_PRIM(HL_URHO3D_ANIMATEDMODEL, _graphics_animatedmodel_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
+DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_model, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_MODEL);
+DEFINE_PRIM(HL_URHO3D_MODEL, _graphics_animatedmodel_get_model, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
+DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_material, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_MATERIAL);
+DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_animatedmodel_get_material, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
+DEFINE_PRIM(HL_URHO3D_ANIMATION_STATE, _graphics_animatedmodel_add_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_ANIMATION);
+DEFINE_PRIM(HL_URHO3D_ANIMATION_STATE, _graphics_animatedmodel_get_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _I32);

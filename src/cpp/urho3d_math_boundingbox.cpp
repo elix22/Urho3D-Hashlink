@@ -70,7 +70,34 @@ HL_PRIM hl_urho3d_math_boundingbox *HL_NAME(_math_boundingbox_create_v3_v3)(hl_u
     return NULL;
 }
 
+HL_PRIM void HL_NAME(_math_boundingbox_set_min)(hl_urho3d_math_boundingbox *this_inst, hl_urho3d_math_tvector3 * vector )
+{
+    this_inst->ptr->min_ = *vector;
+}
+
+HL_PRIM hl_urho3d_math_tvector3 * HL_NAME(_math_boundingbox_get_min)( hl_urho3d_math_boundingbox *this_inst )
+{
+    Vector3 * vec = hl_alloc_urho3d_math_tvector3(this_inst->ptr->min_);
+    return vec;
+}
+
+HL_PRIM void HL_NAME(_math_boundingbox_set_max)( hl_urho3d_math_boundingbox *this_inst, hl_urho3d_math_tvector3 * vector )
+{
+    this_inst->ptr->min_ = *vector;
+}
+
+HL_PRIM hl_urho3d_math_tvector3 * HL_NAME(_math_boundingbox_get_max)( hl_urho3d_math_boundingbox *this_inst )
+{
+    return hl_alloc_urho3d_math_tvector3(this_inst->ptr->max_);
+}
+
 
 
 DEFINE_PRIM(HL_URHO3D_BOUNDINGBOX, _math_boundingbox_create_ff, _F32 _F32);
 DEFINE_PRIM(HL_URHO3D_BOUNDINGBOX, _math_boundingbox_create_v3_v3, HL_URHO3D_VECTOR3 HL_URHO3D_VECTOR3);
+
+DEFINE_PRIM(_VOID, _math_boundingbox_set_min, HL_URHO3D_BOUNDINGBOX HL_URHO3D_TVECTOR3);
+DEFINE_PRIM(HL_URHO3D_TVECTOR3, _math_boundingbox_get_min, HL_URHO3D_BOUNDINGBOX );
+
+DEFINE_PRIM(_VOID, _math_boundingbox_set_max, HL_URHO3D_BOUNDINGBOX HL_URHO3D_TVECTOR3);
+DEFINE_PRIM(HL_URHO3D_TVECTOR3, _math_boundingbox_get_max, HL_URHO3D_BOUNDINGBOX );

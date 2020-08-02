@@ -56,8 +56,8 @@ class Node {
 		return absComp;
 	}
 
-	public function GetComponent(type:String) {
-		var absComp:AbstractComponent = AbstractNode.GetComponent(Context.context, abstractNode, type);
+	public function GetComponent(type:String, recursive:Bool = false) {
+		var absComp:AbstractComponent = AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
 		return absComp;
 	}
 
@@ -110,6 +110,22 @@ class Node {
 	public function RotateEuler(x:Float, y:Float, z:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.RotateEuler(Context.context, abstractNode, x, y, z, s);
 	}
+
+	public function Translate(delta:TVector3, s:TransformSpace= TS_LOCAL) {
+		AbstractNode.Translate(Context.context, abstractNode, delta, s);
+	}
+
+	public function Yaw(a:Float, s:TransformSpace = TS_LOCAL) {
+		AbstractNode.Yaw(Context.context, abstractNode, a, s);
+	}
+
+	public function Pitch(a:Float, s:TransformSpace = TS_LOCAL) {
+		AbstractNode.Pitch(Context.context, abstractNode, a, s);
+	}
+
+	public function Roll(a:Float, s:TransformSpace = TS_LOCAL) {
+		AbstractNode.Roll(Context.context, abstractNode, a, s);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -140,7 +156,7 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	}
 
 	@:hlNative("Urho3D", "_scene_node_get_component")
-	public static function GetComponent(c:Context, n:AbstractNode, name:String):AbstractComponent {
+	public static function GetComponent(c:Context, n:AbstractNode, name:String, recursive:Bool):AbstractComponent {
 		return null;
 	}
 
@@ -185,5 +201,15 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	@:hlNative("Urho3D", "_scene_node_rotate_euler")
 	public static function RotateEuler(c:Context, n:AbstractNode, x:Single, y:Single, z:Single, s:TransformSpace):Void {}
 
-	//
+	@:hlNative("Urho3D", "_scene_node_translate")
+	public static function Translate(c:Context, n:AbstractNode, position:TVector3, s:TransformSpace):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_yaw")
+	public static function Yaw(c:Context, n:AbstractNode, a:Single, s:TransformSpace):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_pitch")
+	public static function Pitch(c:Context, n:AbstractNode, a:Single, s:TransformSpace):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_roll")
+	public static function Roll(c:Context, n:AbstractNode, a:Single, s:TransformSpace):Void {}
 }

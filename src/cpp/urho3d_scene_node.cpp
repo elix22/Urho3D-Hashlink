@@ -84,10 +84,10 @@ HL_PRIM hl_urho3d_scene_component * HL_NAME(_scene_node_create_component)(urho3d
 
 
 
-HL_PRIM hl_urho3d_scene_component * HL_NAME(_scene_node_get_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *vtype)
+HL_PRIM hl_urho3d_scene_component * HL_NAME(_scene_node_get_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *vtype , bool recursive)
 {
     const char *type = (char *)hl_to_utf8(vtype->bytes);
-    Component *component = this_node->ptr->GetComponent(StringHash(type),true);
+    Component *component = this_node->ptr->GetComponent(StringHash(type),recursive);
     if (component)
     {
         return hl_alloc_urho3d_scene_component(component);
@@ -162,11 +162,31 @@ HL_PRIM void HL_NAME(_scene_node_rotate_euler)(urho3d_context *context, hl_urho3
     this_node->ptr->Rotate(Quaternion(x,y,z),(TransformSpace)space);
 }
 
+HL_PRIM void HL_NAME(_scene_node_translate)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_tvector3 * vector,int space )
+{
+    this_node->ptr->Translate(*vector,(TransformSpace)space);
+}
+
+HL_PRIM void HL_NAME(_scene_node_yaw)(urho3d_context *context, hl_urho3d_scene_node *this_node, float angle, int space )
+{
+    this_node->ptr->Yaw(angle,(TransformSpace)space);
+}
+
+HL_PRIM void HL_NAME(_scene_node_pitch)(urho3d_context *context, hl_urho3d_scene_node *this_node, float angle, int space )
+{
+    this_node->ptr->Pitch(angle,(TransformSpace)space);
+}
+
+HL_PRIM void HL_NAME(_scene_node_roll)(urho3d_context *context, hl_urho3d_scene_node *this_node, float angle, int space )
+{
+    this_node->ptr->Roll(angle,(TransformSpace)space);
+}
+
 
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create_child, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _I32 _I32 _BOOL);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_create_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _I32 _I32);
-DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_get_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING);
+DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_get_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);
 DEFINE_PRIM(_VOID, _scene_node_add_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_COMPONENT _I32 _I32);
 
 DEFINE_PRIM(_VOID, _scene_node_set_position, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3);
@@ -183,3 +203,8 @@ DEFINE_PRIM(HL_URHO3D_TQUATERNION, _scene_node_get_rotation, URHO3D_CONTEXT HL_U
 
 DEFINE_PRIM(_VOID, _scene_node_rotate, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TQUATERNION _I32);
 DEFINE_PRIM(_VOID, _scene_node_rotate_euler, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _F32 _F32 _I32);
+
+DEFINE_PRIM(_VOID, _scene_node_translate, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3 _I32);
+DEFINE_PRIM(_VOID, _scene_node_yaw, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);
+DEFINE_PRIM(_VOID, _scene_node_pitch, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);
+DEFINE_PRIM(_VOID, _scene_node_roll, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);

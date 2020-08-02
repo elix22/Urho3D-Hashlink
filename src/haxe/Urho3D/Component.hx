@@ -5,6 +5,7 @@ import urho3d.Node.AbstractNode;
 import urho3d.Zone.AbstractZone;
 import urho3d.Camera.AbstractCamera;
 import urho3d.Light.AbstractLight;
+import urho3d.AnimatedModel.AbstractAnimatedModel;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
@@ -61,6 +62,12 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 	public inline function toStaticModel():StaticModel {
 		var abstract_ = AbstractStaticModel.CastFromComponent(Context.context, cast this);
 		return new StaticModel(abstract_);
+	}
+
+	@:to
+	public inline function toAnimatedModel():AnimatedModel {
+		var abstract_ = AbstractAnimatedModel.CastFromComponent(Context.context, cast this);
+		return new AnimatedModel(abstract_);
 	}
 
 	@:to

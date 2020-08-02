@@ -286,8 +286,41 @@ typedef struct hl_urho3d_graphics_staticmodel
 } hl_urho3d_graphics_staticmodel;
 
 #define HL_URHO3D_STATICMODEL _ABSTRACT(hl_urho3d_graphics_staticmodel)
-hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel();
+hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(urho3d_context *context);
 hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(StaticModel *model);
+
+
+typedef struct hl_urho3d_graphics_animation
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Animation> ptr;
+} hl_urho3d_graphics_animation;
+
+#define HL_URHO3D_ANIMATION _ABSTRACT(hl_urho3d_graphics_animation)
+hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(urho3d_context *context);
+hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(Animation *animtion);
+
+
+typedef struct hl_urho3d_graphics_animation_state
+{
+    void *finalizer;
+    SharedPtr<Urho3D::AnimationState> ptr;
+} hl_urho3d_graphics_animation_state;
+
+#define HL_URHO3D_ANIMATION_STATE _ABSTRACT(hl_urho3d_graphics_animation_state)
+hl_urho3d_graphics_animation_state *hl_alloc_urho3d_graphics_animation_state(urho3d_context *context);
+hl_urho3d_graphics_animation_state *hl_alloc_urho3d_graphics_animation_state(AnimationState *animtionState);
+
+
+typedef struct hl_urho3d_graphics_animatedmodel
+{
+    void *finalizer;
+    SharedPtr<Urho3D::AnimatedModel> ptr;
+} hl_urho3d_graphics_animatedmodel;
+
+#define HL_URHO3D_ANIMATEDMODEL _ABSTRACT(hl_urho3d_graphics_animatedmodel)
+hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(urho3d_context *context);
+hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(AnimatedModel *model);
 
 typedef struct hl_urho3d_graphics_viewport
 {

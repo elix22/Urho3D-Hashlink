@@ -13,6 +13,8 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 	public static var RIGHT:Vector3 = new Vector3(1.0, 0.0, 0.0);
 	public static var UP:Vector3 = new Vector3(0.0, 1.0, 0.0);
 	public static var DOWN:Vector3 = new Vector3(0.0, -1.0, 0.0);
+	public static var FORWARD:Vector3 = new Vector3(0.0, 0.0, 1.0);
+	public static var BACK:Vector3 = new Vector3(0.0, 0.0, -1.0);
 	public static var ONE:Vector3 = new Vector3(1.0, 1.0, 1.0);
 
 	public inline function new(x_:Float = 0.0, y_:Float = 0.0, z_:Float = 0.0) {
