@@ -300,7 +300,7 @@ typedef struct hl_urho3d_graphics_animation
 hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(urho3d_context *context);
 hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(Animation *animtion);
 
-
+/*
 typedef struct hl_urho3d_graphics_animation_state
 {
     void *finalizer;
@@ -310,6 +310,11 @@ typedef struct hl_urho3d_graphics_animation_state
 #define HL_URHO3D_ANIMATION_STATE _ABSTRACT(hl_urho3d_graphics_animation_state)
 hl_urho3d_graphics_animation_state *hl_alloc_urho3d_graphics_animation_state(urho3d_context *context);
 hl_urho3d_graphics_animation_state *hl_alloc_urho3d_graphics_animation_state(AnimationState *animtionState);
+*/
+
+typedef Urho3D::AnimationState*  hl_urho3d_graphics_tanimation_state;
+#define HL_URHO3D_TANIMATION_STATE _ABSTRACT(hl_urho3d_graphics_tanimation_state)
+hl_urho3d_graphics_tanimation_state *hl_alloc_urho3d_graphics_tanimation_state(AnimationState *animtionState);
 
 
 typedef struct hl_urho3d_graphics_animatedmodel

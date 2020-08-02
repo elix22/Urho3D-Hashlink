@@ -77,16 +77,17 @@ HL_PRIM hl_urho3d_graphics_material *HL_NAME(_graphics_animatedmodel_get_materia
     return hl_alloc_urho3d_graphics_material(animatedmodel->ptr->GetMaterial());
 }
 
-HL_PRIM hl_urho3d_graphics_animation_state *HL_NAME(_graphics_animatedmodel_add_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_animation *animation)
+HL_PRIM hl_urho3d_graphics_tanimation_state HL_NAME(_graphics_animatedmodel_add_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_animation *animation)
 {
-    AnimationState *state = animatedmodel->ptr->AddAnimationState(animation->ptr);
-    return hl_alloc_urho3d_graphics_animation_state(state);
+    return animatedmodel->ptr->AddAnimationState(animation->ptr);
+   // return state;
+    //return hl_alloc_urho3d_graphics_animation_state(state);
 }
 
-HL_PRIM hl_urho3d_graphics_animation_state *HL_NAME(_graphics_animatedmodel_get_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, int index)
+HL_PRIM hl_urho3d_graphics_tanimation_state HL_NAME(_graphics_animatedmodel_get_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, int index)
 {
-    AnimationState *state = animatedmodel->ptr->GetAnimationState(index);
-    return hl_alloc_urho3d_graphics_animation_state(state);
+    return animatedmodel->ptr->GetAnimationState(index);
+    //return hl_alloc_urho3d_graphics_animation_state(state);
 }
 
 
@@ -97,5 +98,5 @@ DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_model, URHO3D_CONTEXT HL_URHO3D_A
 DEFINE_PRIM(HL_URHO3D_MODEL, _graphics_animatedmodel_get_model, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
 DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_material, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_MATERIAL);
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_animatedmodel_get_material, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
-DEFINE_PRIM(HL_URHO3D_ANIMATION_STATE, _graphics_animatedmodel_add_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_ANIMATION);
-DEFINE_PRIM(HL_URHO3D_ANIMATION_STATE, _graphics_animatedmodel_get_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _I32);
+DEFINE_PRIM(HL_URHO3D_TANIMATION_STATE, _graphics_animatedmodel_add_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL HL_URHO3D_ANIMATION);
+DEFINE_PRIM(HL_URHO3D_TANIMATION_STATE, _graphics_animatedmodel_get_animation_state, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _I32);

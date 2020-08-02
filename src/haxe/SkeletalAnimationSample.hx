@@ -142,12 +142,6 @@ class Mover extends LogicComponent {
         bounds = bounds_;
     }
 
-	public override function Start() {
-
-	}
-
-	public override function DelayedStart() {
-	}
 
 	public override function Update(timeStep:Float) {
 
@@ -160,7 +154,7 @@ class Mover extends LogicComponent {
         
 
         var model:AnimatedModel = node.GetComponent("AnimatedModel", true);
-        var state:AnimationState = model.GetAnimationState(0);
+        var state = model.GetAnimationState(0);
         if (state != null)
             state.AddTime(timeStep);
 	}

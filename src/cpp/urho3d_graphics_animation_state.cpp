@@ -7,6 +7,7 @@ extern "C"
 #include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
+/*
 void finalize_urho3d_graphics_animation_state(void *v)
 {
     hl_urho3d_graphics_animation_state *hl_ptr = (hl_urho3d_graphics_animation_state *)v;
@@ -14,7 +15,7 @@ void finalize_urho3d_graphics_animation_state(void *v)
     {
         if (hl_ptr->ptr)
         {
-            /* hl_ptr->ptr is a SharedPtr , setting to NULL , decreases the reference count*/
+        
             hl_ptr->ptr = NULL;
         }
         hl_ptr->finalizer = NULL;
@@ -94,3 +95,5 @@ DEFINE_PRIM(_VOID, _graphics_animation_state_set_looped, URHO3D_CONTEXT HL_URHO3
 DEFINE_PRIM(_BOOL, _graphics_animation_state_get_looped, URHO3D_CONTEXT HL_URHO3D_ANIMATION_STATE );
 DEFINE_PRIM(_VOID, _graphics_animation_state_add_time, URHO3D_CONTEXT HL_URHO3D_ANIMATION_STATE _F32);
 DEFINE_PRIM(_VOID, _graphics_animation_state_add_weight, URHO3D_CONTEXT HL_URHO3D_ANIMATION_STATE _F32);
+
+*/

@@ -57,8 +57,7 @@ class Node {
 	}
 
 	public function GetComponent(type:String, recursive:Bool = false) {
-		var absComp:AbstractComponent = AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
-		return absComp;
+		return AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
 	}
 
 	public function AddComponent(component:Component, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
