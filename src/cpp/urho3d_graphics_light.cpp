@@ -209,6 +209,70 @@ HL_PRIM float HL_NAME(_graphics_light_get_specular_intensity)(urho3d_context *co
 }
 
 
+HL_PRIM void HL_NAME(_graphics_light_set_ramp_texture)(urho3d_context *context, hl_urho3d_graphics_light *l,hl_urho3d_graphics_texture  * t)
+{
+    l->ptr->SetRampTexture(t->ptr);
+}
+
+HL_PRIM hl_urho3d_graphics_texture * HL_NAME(_graphics_light_get_ramp_texture)(urho3d_context *context, hl_urho3d_graphics_light *l)
+{
+    return hl_alloc_urho3d_graphics_texture(l->ptr->GetRampTexture());
+}
+
+///////////////////
+
+HL_PRIM void HL_NAME(_graphics_light_set_fov)(urho3d_context *context, hl_urho3d_graphics_light *t, float f)
+{
+    t->ptr->SetFov(f);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_fov)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetFov();
+}
+
+HL_PRIM void HL_NAME(_graphics_light_set_shadow_fade_distance)(urho3d_context *context, hl_urho3d_graphics_light *t, float f)
+{
+    t->ptr->SetShadowFadeDistance(f);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_shadow_fade_distance)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetShadowFadeDistance();
+}
+
+HL_PRIM void HL_NAME(_graphics_light_set_shadow_distance)(urho3d_context *context, hl_urho3d_graphics_light *t, float f)
+{
+    t->ptr->SetShadowDistance(f);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_shadow_distance)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetShadowDistance();
+}
+
+HL_PRIM void HL_NAME(_graphics_light_set_shadow_resolution)(urho3d_context *context, hl_urho3d_graphics_light *t, float f)
+{
+    t->ptr->SetShadowResolution(f);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_shadow_resolution)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetShadowResolution();
+}
+
+HL_PRIM void HL_NAME(_graphics_light_set_shadow_near_far_ratio)(urho3d_context *context, hl_urho3d_graphics_light *t, float f)
+{
+    t->ptr->SetShadowNearFarRatio(f);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_shadow_near_far_ratio)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetShadowNearFarRatio();
+}
+
+
+
 DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_light_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LIGHT);
 DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
@@ -238,3 +302,22 @@ DEFINE_PRIM(HL_URHO3D_LIGHT_CASCADE_PARAMETERS, _graphics_light_get_shadow_casca
 
 DEFINE_PRIM(_VOID, _graphics_light_set_specular_intensity, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
 DEFINE_PRIM(_F32, _graphics_light_get_specular_intensity, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+DEFINE_PRIM(_VOID, _graphics_light_set_ramp_texture, URHO3D_CONTEXT HL_URHO3D_LIGHT HL_URHO3D_TEXTURE);
+DEFINE_PRIM(HL_URHO3D_TEXTURE, _graphics_light_get_ramp_texture, URHO3D_CONTEXT HL_URHO3D_LIGHT);
+
+
+DEFINE_PRIM(_VOID, _graphics_light_set_fov, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_fov, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+DEFINE_PRIM(_VOID,_graphics_light_set_shadow_fade_distance , URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_shadow_fade_distance, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+DEFINE_PRIM(_VOID,_graphics_light_set_shadow_distance , URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_shadow_distance, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+DEFINE_PRIM(_VOID,_graphics_light_set_shadow_resolution , URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_shadow_resolution, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
+DEFINE_PRIM(_VOID, _graphics_light_set_shadow_near_far_ratio, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_shadow_near_far_ratio, URHO3D_CONTEXT HL_URHO3D_LIGHT );

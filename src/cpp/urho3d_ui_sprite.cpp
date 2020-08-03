@@ -40,15 +40,14 @@ HL_PRIM hl_urho3d_sprite *HL_NAME(_create_sprite)(urho3d_context *context)
     return v;
 }
 
-HL_PRIM hl_urho3d_texture2d *HL_NAME(_sprite_set_texture)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_texture2d *texture)
+HL_PRIM hl_urho3d_graphics_texture *HL_NAME(_sprite_set_texture)(urho3d_context *context, hl_urho3d_sprite *sprite, hl_urho3d_graphics_texture *texture)
 {
 
     SharedPtr<Urho3D::Sprite> urho3d_sprite(sprite->ptr);
-    SharedPtr<Urho3D::Texture2D> urho3d_texture(texture->ptr);
-    if (urho3d_sprite && urho3d_texture)
+    if (urho3d_sprite && texture->ptr)
     {
 
-        urho3d_sprite->SetTexture(urho3d_texture);
+        urho3d_sprite->SetTexture(texture->ptr);
     }
     else
     {
@@ -58,19 +57,19 @@ HL_PRIM hl_urho3d_texture2d *HL_NAME(_sprite_set_texture)(urho3d_context *contex
     return texture;
 }
 
-HL_PRIM hl_urho3d_texture2d *HL_NAME(_sprite_get_texture)(urho3d_context *context, hl_urho3d_sprite *sprite)
+HL_PRIM hl_urho3d_graphics_texture *HL_NAME(_sprite_get_texture)(urho3d_context *context, hl_urho3d_sprite *sprite)
 {
 
     Urho3D::Sprite *urho3d_sprite = sprite->ptr;
-    hl_urho3d_texture2d *hl_texture = NULL;
+   
     if (urho3d_sprite)
     {
-        Urho3D::Texture2D *urho3d_texture2d = dynamic_cast<Texture2D *>(urho3d_sprite->GetTexture());
-        SharedPtr<Urho3D::Texture2D> urho3d_texture(urho3d_texture2d);
-        hl_texture = hl_alloc_urho3d_texture2d(urho3d_texture);
+       return hl_alloc_urho3d_graphics_texture(urho3d_sprite->GetTexture());
     }
-
-    return hl_texture;
+    else
+    {
+        return NULL;
+    }
 }
 
 HL_PRIM Urho3D::Vector2 *HL_NAME(_sprite_set_position)(urho3d_context *context, hl_urho3d_sprite *sprite, Urho3D::Vector2 *position)
@@ -326,8 +325,8 @@ HL_PRIM hl_urho3d_uielement *HL_NAME(_cast_sprite_to_uielement)(urho3d_context *
 
 DEFINE_PRIM(HL_URHO3D_SPRITE, _create_sprite, URHO3D_CONTEXT);
 
-DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _sprite_set_texture, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TEXTURE2D);
-DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _sprite_get_texture, URHO3D_CONTEXT HL_URHO3D_SPRITE);
+DEFINE_PRIM(HL_URHO3D_TEXTURE, _sprite_set_texture, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TEXTURE);
+DEFINE_PRIM(HL_URHO3D_TEXTURE, _sprite_get_texture, URHO3D_CONTEXT HL_URHO3D_SPRITE);
 
 DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_set_position, URHO3D_CONTEXT HL_URHO3D_SPRITE HL_URHO3D_TVECTOR2);
 DEFINE_PRIM(HL_URHO3D_TVECTOR2, _sprite_get_position, URHO3D_CONTEXT HL_URHO3D_SPRITE);

@@ -1,15 +1,3 @@
-/*
-	typedef struct hl_urho3d_graphics_billboardset
-	{
-	void *finalizer;
-	SharedPtr<Urho3D::BillboardSet> ptr;
-	} hl_urho3d_graphics_billboardset;
-
-	#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
-	hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
-	hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
- */
-
 package urho3d;
 
 import urho3d.Component.AbstractComponent;

@@ -231,6 +231,9 @@ typedef struct hl_urho3d_scene_node
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node();
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node(urho3d_context *context, Node *node);
 
+typedef PODVector<Node *> hl_urho3d_scene_pod_node;
+#define HL_URHO3D_POD_NODE _ABSTRACT(hl_urho3d_scene_pod_node)
+
 typedef struct hl_urho3d_scene_scene
 {
     void *finalizer;
@@ -322,6 +325,17 @@ typedef struct hl_urho3d_graphics_staticmodel
 #define HL_URHO3D_STATICMODEL _ABSTRACT(hl_urho3d_graphics_staticmodel)
 hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(urho3d_context *context);
 hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(StaticModel *model);
+
+
+typedef struct hl_urho3d_graphics_texture
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Texture> ptr;
+} hl_urho3d_graphics_texture;
+
+#define HL_URHO3D_TEXTURE _ABSTRACT(hl_urho3d_graphics_texture)
+hl_urho3d_graphics_texture *hl_alloc_urho3d_graphics_texture(urho3d_context *context, const char *name);
+hl_urho3d_graphics_texture *hl_alloc_urho3d_graphics_texture(Urho3D::Texture*);
 
 
 typedef struct hl_urho3d_graphics_animation

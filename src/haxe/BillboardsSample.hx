@@ -1,5 +1,6 @@
 import urho3d.*;
 import urho3d.Application;
+import urho3d.Node.AbstractNode;
 
 class BillboardsSample extends Application {
 	private var scene:Scene = null;
@@ -72,39 +73,77 @@ class BillboardsSample extends Application {
 				mushroomObject.material = new Material("Materials/Mushroom.xml");
 				mushroomObject.castShadows = true;
 			}
-        }
-        
-            // Create billboard sets (floating smoke)
-    final NUM_BILLBOARDNODES = 25;
-    final  NUM_BILLBOARDS = 10;
+		}
 
-    for (i in 0...NUM_BILLBOARDNODES)
-    {
-        var smokeNode = scene.CreateChild("Smoke");
-        smokeNode.position = new Vector3(Random(200.0) - 100.0, Random(20.0) + 10.0, Random(200.0) - 100.0);
+		// Create billboard sets (floating smoke)
+		final NUM_BILLBOARDNODES = 25;
+		final NUM_BILLBOARDS = 10;
 
-        var billboardObject:BillboardSet = smokeNode.CreateComponent("BillboardSet");
-        billboardObject.numBillboards = NUM_BILLBOARDS;
-        billboardObject.material = new Material("Materials/LitSmoke.xml");
-        billboardObject.sorted = true;
+		for (i in 0...NUM_BILLBOARDNODES) {
+			var smokeNode = scene.CreateChild("Smoke");
+			smokeNode.position = new Vector3(Random(200.0) - 100.0, Random(20.0) + 10.0, Random(200.0) - 100.0);
 
-        
-        for (j in 0...NUM_BILLBOARDS)
-        {
-            var bb = billboardObject.billboards[j];
-            bb.position = new Vector3(Random(12.0) - 6.0, Random(8.0) - 4.0, Random(12.0) - 6.0);
-            bb.size = new Vector2(Random(2.0) + 3.0, Random(2.0) + 3.0);
-            bb.rotation = Random() * 360.0;
-            bb.enabled = true;
-        }
-        
+			var billboardObject:BillboardSet = smokeNode.CreateComponent("BillboardSet");
+			billboardObject.numBillboards = NUM_BILLBOARDS;
+			billboardObject.material = new Material("Materials/LitSmoke.xml");
+			billboardObject.sorted = true;
 
-        // After modifying the billboards, they need to be "committed" so that the BillboardSet updates its internals
-        billboardObject.Commit();
-    }
+			for (j in 0...NUM_BILLBOARDS) {
+				var bb = billboardObject.billboards[j];
+				bb.position = new Vector3(Random(12.0) - 6.0, Random(8.0) - 4.0, Random(12.0) - 6.0);
+				bb.size = new Vector2(Random(2.0) + 3.0, Random(2.0) + 3.0);
+				bb.rotation = Random() * 360.0;
+				bb.enabled = true;
+			}
+
+			// After modifying the billboards, they need to be "committed" so that the BillboardSet updates its internals
+			billboardObject.Commit();
+		}
+
+		// Create shadow casting spotlights
+		final NUM_LIGHTS = 9;
+
+		for (i in 0...NUM_LIGHTS) {
+			var lightNode = scene.CreateChild("SpotLight");
+			var light:Light = lightNode.CreateComponent("Light");
+
+			var angle = 0.0;
+
+			var position = new Vector3((i % 3) * 60.0 - 60.0, 45.0, (i / 3) * 60.0 - 60.0);
+			var color = new Color(((i + 1) & 1) * 0.5 + 0.5, (((i + 1) >> 1) & 1) * 0.5 + 0.5, (((i + 1) >> 2) & 1) * 0.5 + 0.5);
+
+			lightNode.position = position;
+			lightNode.direction = new Vector3(Math.sin(angle), -1.5, Math.cos(angle));
+
+			light.lightType = LIGHT_SPOT;
+			light.range = 90.0;
+			light.rampTexture = new Texture2D("Textures/RampExtreme.png");
+			light.fov = 45.0;
+			light.color = color;
+			light.specularIntensity = 1.0;
+			light.castShadows = true;
+			light.shadowBias = new BiasParameters(0.00002, 0.0);
+
+			// Configure shadow fading for the lights. When they are far away enough, the lights eventually become unshadowed for
+			// better GPU performance. Note that we could also set the maximum distance for each object to cast shadows
+
+			light.shadowFadeDistance = 100.0; // Fade start distance
+			light.shadowDistance = 125.0; // Fade end distance, shadows are disabled
+
+			// Set half resolution for the shadow maps for increased performance
+
+			light.shadowResolution = 0.5;
+
+			// The spot lights will not have anything near them, so move the near plane of the shadow camera farther
+			// for better shadow depth resolution
+
+			light.shadowNearFarRatio = 0.01;
+		}
 
 		cameraNode = scene.CreateChild("Camera");
 		var camera:Camera = cameraNode.CreateComponent("Camera");
+		camera.farClip = 300.0;
+
         cameraNode.position = new Vector3(0.0, 5.0, 0.0);
         
 	}
@@ -116,6 +155,9 @@ class BillboardsSample extends Application {
 
 	public function SubscribeToEvents() {
 		SubscribeToEvent("Update", "HandleUpdate");
+		// Subscribe HandlePostRenderUpdate() function for processing the post-render update event, during which we request
+		// debug geometry
+		SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
 	}
 
 	function MoveCamera(timeStep:Float) {
@@ -142,10 +184,40 @@ class BillboardsSample extends Application {
 
 			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 		}
-	}
+    }
+    
+    function  AnimateScene(timeStep:Float )
+        {
+                var lightNodes = scene.GetChildrenWithComponent("Light");
+                var billboardNodes = scene.GetChildrenWithComponent("BillboardSet");
+
+                final LIGHT_ROTATION_SPEED = 20.0;
+                final  BILLBOARD_ROTATION_SPEED = 50.0;
+            
+                // Rotate the lights around the world Y-axis
+                for (i in 0...lightNodes.length)
+                    lightNodes[i].Rotate(new TQuaternion(0.0, LIGHT_ROTATION_SPEED * timeStep, 0.0), TS_WORLD);
+            
+                // Rotate the individual billboards within the billboard sets, then recommit to make the changes visible
+                for (i in  0...billboardNodes.length)
+                {
+                    var billboardObject:BillboardSet = billboardNodes[i].GetComponent("BillboardSet");
+            
+                    for (j in  0...billboardObject.numBillboards)
+                    {
+                        var bb = billboardObject.billboards[j];
+                        bb.rotation += BILLBOARD_ROTATION_SPEED * timeStep;
+                    }
+            
+                    billboardObject.Commit();
+                }
+        }
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
-		MoveCamera(step);
+        MoveCamera(step);
+        AnimateScene(step);
 	}
+
+	public function HandlePostRenderUpdate(eventType:StringHash, eventData:VariantMap) {}
 }

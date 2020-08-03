@@ -1,8 +1,16 @@
 package urho3d;
 
+import hl.Abstract;
+import urho3d.AbstractApplication.Dyn;
 import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
+
+
+
+typedef HL_URHO3D_POD_NODE = hl.Abstract<"hl_urho3d_scene_pod_node">;
+
+
 
 @:enum abstract CreateMode(Int) {
 	var REPLICATED = 0;
@@ -110,7 +118,7 @@ class Node {
 		AbstractNode.RotateEuler(Context.context, abstractNode, x, y, z, s);
 	}
 
-	public function Translate(delta:TVector3, s:TransformSpace= TS_LOCAL) {
+	public function Translate(delta:TVector3, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Translate(Context.context, abstractNode, delta, s);
 	}
 
@@ -125,6 +133,31 @@ class Node {
 	public function Roll(a:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Roll(Context.context, abstractNode, a, s);
 	}
+
+	public function GetChildrenWithComponent(s:TStringHash, b:Bool = false):Array<Node> {
+		var abs_node_array= AbstractNode.GetChildrenWithComponent(Context.context, abstractNode, s, b);
+		var node_array:Array<Node> = new Array<Node>();
+
+		var vectorSize = AbstractNode.GetPodVectorSize(Context.context,abs_node_array);
+
+		for (i in 0...vectorSize) {
+			var absNode = AbstractNode.GetNodeFromPodVector(Context.context,abs_node_array,i);
+			node_array.push(new Node(absNode));
+		}
+		return node_array;
+	}
+}
+
+
+//
+@:hlNative("Urho3D")
+abstract PodNode(HL_URHO3D_POD_NODE) {
+
+	public function new()
+		{
+			this = null;
+		}
+
 }
 
 @:hlNative("Urho3D")
@@ -140,7 +173,7 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	}
 
 	@:hlNative("Urho3D", "_scene_node_create")
-	private static function Create(c:Context):HL_URHO3D_NODE {
+	public static function Create(c:Context):HL_URHO3D_NODE {
 		return null;
 	}
 
@@ -211,4 +244,22 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_roll")
 	public static function Roll(c:Context, n:AbstractNode, a:Single, s:TransformSpace):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_get_children_with_component")
+	public static function GetChildrenWithComponent(c:Context, n:AbstractNode, s:TStringHash, b:Bool):PodNode{
+		return null;
+	}
+
+	//DEFINE_PRIM(_I32, _scene_node_get_from_pod_vector_size, URHO3D_CONTEXT HL_URHO3D_POD_NODE);
+	//DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_from_pod_vector, URHO3D_CONTEXT HL_URHO3D_POD_NODE _I32);
+
+	@:hlNative("Urho3D", "_scene_node_get_pod_vector_size")
+	public static function GetPodVectorSize(c:Context, n:PodNode):Int{
+		return 0;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_get_from_pod_vector")
+	public static function GetNodeFromPodVector(c:Context, n:PodNode , i:Int):AbstractNode{
+		return null;
+	}
 }

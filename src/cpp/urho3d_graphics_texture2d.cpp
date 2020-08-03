@@ -61,15 +61,23 @@ hl_urho3d_texture2d * hl_alloc_urho3d_texture2d(SharedPtr<Urho3D::Texture2D> tex
         return p;
 }
 
+hl_urho3d_texture2d * hl_alloc_urho3d_texture2d(Urho3D::Texture2D *texture2d)
+{
+        hl_urho3d_texture2d *p = (hl_urho3d_texture2d *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_resource));
+        p->finalizer = (void *)finalize_urho3d_texture2d;
+        p->ptr = texture2d;
+        return p;
+}
 
-HL_PRIM  hl_urho3d_texture2d  * HL_NAME(_create_texture2d)(urho3d_context *context,vstring  * str)
+
+HL_PRIM  hl_urho3d_texture2d  * HL_NAME(_graphics_texture2d_create)(urho3d_context *context,vstring  * str)
 {
     const char *ch = (char*)hl_to_utf8(str->bytes);
     hl_urho3d_texture2d * v =  hl_alloc_urho3d_txture2d(context,ch);
     return v;
 }
 
-HL_PRIM const char *HL_NAME(_get_texture2d_get_name)(hl_urho3d_texture2d  * hl_texture2d)
+HL_PRIM const char *HL_NAME(_graphics_texture2d_get_name)(hl_urho3d_texture2d  * hl_texture2d)
 {
     if(hl_texture2d)
     {
@@ -83,6 +91,36 @@ HL_PRIM const char *HL_NAME(_get_texture2d_get_name)(hl_urho3d_texture2d  * hl_t
 }
 
 
+HL_PRIM hl_urho3d_graphics_texture *HL_NAME(_graphics_texture2d_cast_to_texture)(urho3d_context *context, hl_urho3d_texture2d  * hl_texture2d)
+{
+    Texture2D * t = hl_texture2d->ptr;
+    if (t)
+    {   
+        return  hl_alloc_urho3d_graphics_texture(dynamic_cast<Urho3D::Texture *>(t));
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
-DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _create_texture2d, URHO3D_CONTEXT _STRING);
-DEFINE_PRIM(_BYTES, _get_texture2d_get_name, HL_URHO3D_TEXTURE2D);
+HL_PRIM hl_urho3d_texture2d *HL_NAME(_graphics_texture2d_cast_from_texture)(urho3d_context *context, hl_urho3d_graphics_texture  * hl_texture)
+{
+    Texture * t = hl_texture->ptr;
+    if (t)
+    {   
+        return  hl_alloc_urho3d_texture2d(dynamic_cast<Urho3D::Texture2D *>(t));
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+
+
+DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _graphics_texture2d_create, URHO3D_CONTEXT _STRING);
+DEFINE_PRIM(_BYTES, _graphics_texture2d_get_name, HL_URHO3D_TEXTURE2D);
+DEFINE_PRIM(HL_URHO3D_TEXTURE, _graphics_texture2d_cast_to_texture, URHO3D_CONTEXT HL_URHO3D_TEXTURE2D);
+DEFINE_PRIM(HL_URHO3D_TEXTURE2D, _graphics_texture2d_cast_from_texture, URHO3D_CONTEXT HL_URHO3D_TEXTURE);
+

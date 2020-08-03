@@ -10,7 +10,7 @@ abstract Sprite(HL_URHO3D_SPRITE) {
 		this = Create(Context.context);
 	}
 
-	public var texture(get, set):Texture2D;
+	public var texture(get, set):Texture;
 	public var position(get, set):TVector2;
 	public var size(get, set):TIntVector2;
     public var hotSpot(get, set):TIntVector2;
@@ -124,12 +124,12 @@ abstract Sprite(HL_URHO3D_SPRITE) {
 	}
 
 	@:hlNative("Urho3D", "_sprite_set_texture")
-	private static function _set_texture(context:Context, v:HL_URHO3D_SPRITE, t:Texture2D):Texture2D {
+	private static function _set_texture(context:Context, v:HL_URHO3D_SPRITE, t:Texture):Texture {
 		return null;
 	}
 
 	@:hlNative("Urho3D", "_sprite_get_texture")
-	private static function _get_texture(context:Context, v:HL_URHO3D_SPRITE):Texture2D {
+	private static function _get_texture(context:Context, v:HL_URHO3D_SPRITE):Texture {
 		return null;
 	}
 

@@ -31,11 +31,9 @@ class Light extends Component {
 
 	public function get_lightType() {
 		return AbstractLight.GetLightType(Context.context, _abstract);
-    }
-    
+	}
 
-
-    public var range(get, set):Float;
+	public var range(get, set):Float;
 
 	public function set_range(t) {
 		AbstractLight.SetRange(Context.context, _abstract, t);
@@ -46,7 +44,7 @@ class Light extends Component {
 		return AbstractLight.GetRange(Context.context, _abstract);
 	}
 
-	public var color(get,set):Color;
+	public var color(get, set):Color;
 
 	public function set_color(t) {
 		AbstractLight.SetColor(Context.context, _abstract, t);
@@ -68,7 +66,7 @@ class Light extends Component {
 		return AbstractLight.GetCastShadows(Context.context, _abstract);
 	}
 
-	public var shadowBias(get,set):BiasParameters;
+	public var shadowBias(get, set):BiasParameters;
 
 	public function set_shadowBias(t) {
 		AbstractLight.SetShadowBias(Context.context, _abstract, t);
@@ -79,7 +77,7 @@ class Light extends Component {
 		return AbstractLight.GetShadowBias(Context.context, _abstract);
 	}
 
-	public var shadowCascade(get,set):CascadeParameters;
+	public var shadowCascade(get, set):CascadeParameters;
 
 	public function set_shadowCascade(t) {
 		AbstractLight.SetShadowCascade(Context.context, _abstract, t);
@@ -101,6 +99,71 @@ class Light extends Component {
 		return AbstractLight.GetSpecularIntensity(Context.context, _abstract);
 	}
 
+	public var rampTexture(get, set):Texture;
+
+	function set_rampTexture(t) {
+		AbstractLight.SetRampTexture(Context.context, _abstract, t);
+		return t;
+	}
+
+	function get_rampTexture() {
+		return AbstractLight.GetRampTexture(Context.context, _abstract);
+	}
+
+	public var fov(get, set):Float;
+
+	function set_fov(f) {
+		AbstractLight.SetFov(Context.context, _abstract, f);
+		return f;
+	}
+
+	function get_fov() {
+		return AbstractLight.GetFov(Context.context, _abstract);
+	}
+
+	public var shadowDistance(get, set):Float;
+
+	function set_shadowDistance(s) {
+		AbstractLight.SetShadowDistance(Context.context, _abstract, s);
+		return s;
+	}
+
+	function get_shadowDistance() {
+		return AbstractLight.GetShadowDistance(Context.context, _abstract);
+	}
+
+	public var shadowFadeDistance(get, set):Float;
+
+	function set_shadowFadeDistance(s) {
+		AbstractLight.SetShadowFadeDistance(Context.context, _abstract, s);
+		return s;
+	}
+
+	function get_shadowFadeDistance() {
+		return AbstractLight.GetShadowFadeDistance(Context.context, _abstract);
+	}
+
+	public var shadowResolution(get, set):Float;
+
+	function set_shadowResolution(s) {
+		AbstractLight.SetShadowResolution(Context.context, _abstract, s);
+		return s;
+	}
+
+	function get_shadowResolution() {
+		return AbstractLight.GetShadowResolution(Context.context, _abstract);
+	}
+
+	public var shadowNearFarRatio(get,set):Float;
+
+	function set_shadowNearFarRatio(s) {
+		AbstractLight.SetShadowNearFarRatio(Context.context, _abstract, s);
+		return s;
+	}
+
+	function get_shadowNearFarRatio() {
+		return AbstractLight.GetShadowNearFarRatio(Context.context, _abstract);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -156,8 +219,7 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 	}
 
 	@:hlNative("Urho3D", "_graphics_light_set_color")
-	public static function SetColor(c:Context, s:AbstractLight,c:Color):Void {
-	}
+	public static function SetColor(c:Context, s:AbstractLight, c:Color):Void {}
 
 	@:hlNative("Urho3D", "_graphics_light_get_color")
 	public static function GetColor(c:Context, s:AbstractLight):Color {
@@ -165,8 +227,7 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 	}
 
 	@:hlNative("Urho3D", "_graphics_light_set_cast_shadows")
-	public static function SetCastShadows(c:Context, s:AbstractLight,c:Bool):Void {
-	}
+	public static function SetCastShadows(c:Context, s:AbstractLight, c:Bool):Void {}
 
 	@:hlNative("Urho3D", "_graphics_light_get_cast_shadows")
 	public static function GetCastShadows(c:Context, s:AbstractLight):Bool {
@@ -174,8 +235,7 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 	}
 
 	@:hlNative("Urho3D", "_graphics_light_set_shadow_bias")
-	public static function SetShadowBias(c:Context, s:AbstractLight,b:BiasParameters):Void {
-	}
+	public static function SetShadowBias(c:Context, s:AbstractLight, b:BiasParameters):Void {}
 
 	@:hlNative("Urho3D", "_graphics_light_get_shadow_bias")
 	public static function GetShadowBias(c:Context, s:AbstractLight):BiasParameters {
@@ -183,12 +243,58 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 	}
 
 	@:hlNative("Urho3D", "_graphics_light_set_shadow_cascade")
-	public static function SetShadowCascade(c:Context, s:AbstractLight,b:CascadeParameters):Void {
-	}
+	public static function SetShadowCascade(c:Context, s:AbstractLight, b:CascadeParameters):Void {}
 
 	@:hlNative("Urho3D", "_graphics_light_get_shadow_cascade")
 	public static function GetShadowCascade(c:Context, s:AbstractLight):CascadeParameters {
 		return null;
 	}
 
+	@:hlNative("Urho3D", "_graphics_light_set_ramp_texture")
+	public static function SetRampTexture(c:Context, s:AbstractLight, t:Texture):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_ramp_texture")
+	public static function GetRampTexture(c:Context, s:AbstractLight):Texture {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_fov")
+	public static function SetFov(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_fov")
+	public static function GetFov(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_shadow_fade_distance")
+	public static function SetShadowFadeDistance(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_shadow_fade_distance")
+	public static function GetShadowFadeDistance(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_shadow_distance")
+	public static function SetShadowDistance(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_shadow_distance")
+	public static function GetShadowDistance(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_shadow_resolution")
+	public static function SetShadowResolution(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_shadow_resolution")
+	public static function GetShadowResolution(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_shadow_near_far_ratio")
+	public static function SetShadowNearFarRatio(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_shadow_near_far_ratio")
+	public static function GetShadowNearFarRatio(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
 }
