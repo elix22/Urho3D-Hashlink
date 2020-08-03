@@ -17,7 +17,7 @@ hl_urho3d_tstringhash *hl_alloc_urho3d_tstringhash(const char *str)
     return v;
 }
 
-hl_urho3d_tstringhash * hl_alloc_urho3d_tstringhash(Urho3D::StringHash &rhs)
+hl_urho3d_tstringhash *hl_alloc_urho3d_tstringhash(Urho3D::StringHash &rhs)
 {
     Urho3D::StringHash *v = &(tstringhash_stack[(++index_tstringhash_stack) % TSTRINGHASH_STACK_SIZE]);
     *v = rhs;
@@ -30,14 +30,15 @@ HL_PRIM Urho3D::StringHash *HL_NAME(_math_tstringhash_create)(vstring *str)
     return hl_alloc_urho3d_tstringhash(ch);
 }
 
-
-HL_PRIM hl_urho3d_tstringhash  * HL_NAME(_math_tstringhash_cast_from_stringhash)(hl_urho3d_stringhash *sh)
+HL_PRIM hl_urho3d_tstringhash *HL_NAME(_math_tstringhash_cast_from_stringhash)(hl_urho3d_stringhash *sh)
 {
     Urho3D::StringHash *v = (Urho3D::StringHash *)sh->ptr;
 
     if (v != NULL)
     {
-        return hl_alloc_urho3d_tstringhash(*v);
+        Urho3D::StringHash *tv = &(tstringhash_stack[(++index_tstringhash_stack) % TSTRINGHASH_STACK_SIZE]);
+        *tv = *v;
+        return tv;
     }
     else
     {
@@ -45,7 +46,7 @@ HL_PRIM hl_urho3d_tstringhash  * HL_NAME(_math_tstringhash_cast_from_stringhash)
     }
 }
 
-HL_PRIM hl_urho3d_stringhash * HL_NAME(_math_tstringhash_cast_to_stringhash)(Urho3D::StringHash *sh)
+HL_PRIM hl_urho3d_stringhash *HL_NAME(_math_tstringhash_cast_to_stringhash)(Urho3D::StringHash *sh)
 {
 
     if (sh != NULL)
@@ -57,8 +58,6 @@ HL_PRIM hl_urho3d_stringhash * HL_NAME(_math_tstringhash_cast_to_stringhash)(Urh
         return NULL;
     }
 }
-
-
 
 HL_PRIM const char *HL_NAME(_math_tstringhash_get_string)(hl_urho3d_tstringhash *str_hash)
 {

@@ -90,6 +90,17 @@ class Light extends Component {
 		return AbstractLight.GetShadowCascade(Context.context, _abstract);
 	}
 
+	public var specularIntensity(get, set):Float;
+
+	public function set_specularIntensity(t) {
+		AbstractLight.SetSpecularIntensity(Context.context, _abstract, t);
+		return t;
+	}
+
+	public function get_specularIntensity() {
+		return AbstractLight.GetSpecularIntensity(Context.context, _abstract);
+	}
+
 }
 
 @:hlNative("Urho3D")
@@ -133,6 +144,14 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 
 	@:hlNative("Urho3D", "_graphics_light_get_range")
 	public static function GetRange(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_specular_intensity")
+	public static function SetSpecularIntensity(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_specular_intensity")
+	public static function GetSpecularIntensity(c:Context, s:AbstractLight):Single {
 		return 0.0;
 	}
 

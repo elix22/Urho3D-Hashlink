@@ -197,8 +197,17 @@ HL_PRIM hl_urho3d_graphics_light_cascade_parameters * HL_NAME(_graphics_light_ge
 }
 
 
-//BiasParameters(float constantBias, float slopeScaledBias, float normalOffset = 0.0f)
-//CascadeParameters(float split1, float split2, float split3, float split4, float fadeStart, float biasAutoAdjust = 1.0f) :
+
+HL_PRIM void HL_NAME(_graphics_light_set_specular_intensity)(urho3d_context *context, hl_urho3d_graphics_light *t, float intensity)
+{
+    t->ptr->SetSpecularIntensity(intensity);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_specular_intensity)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+    return t->ptr->GetSpecularIntensity();
+}
+
 
 DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_light_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LIGHT);
@@ -226,3 +235,6 @@ DEFINE_PRIM(HL_URHO3D_LIGHT_BIAS_PARAMETERS, _graphics_light_get_shadow_bias,URH
 
 DEFINE_PRIM(_VOID, _graphics_light_set_shadow_cascade,URHO3D_CONTEXT HL_URHO3D_LIGHT HL_URHO3D_LIGHT_CASCADE_PARAMETERS);
 DEFINE_PRIM(HL_URHO3D_LIGHT_CASCADE_PARAMETERS, _graphics_light_get_shadow_cascade,URHO3D_CONTEXT HL_URHO3D_LIGHT);
+
+DEFINE_PRIM(_VOID, _graphics_light_set_specular_intensity, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_specular_intensity, URHO3D_CONTEXT HL_URHO3D_LIGHT );

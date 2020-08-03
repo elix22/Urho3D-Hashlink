@@ -240,6 +240,25 @@ typedef struct hl_urho3d_scene_scene
 #define HL_URHO3D_SCENE _ABSTRACT(hl_urho3d_scene_scene)
 hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene();
 
+
+typedef struct hl_urho3d_graphics_billboardset
+{
+    void *finalizer;
+    SharedPtr<Urho3D::BillboardSet> ptr;
+} hl_urho3d_graphics_billboardset;
+
+#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
+hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
+hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
+
+
+typedef Urho3D::Billboard hl_urho3d_graphics_billboard;
+#define HL_URHO3D_BILLBOARD _ABSTRACT(hl_urho3d_graphics_billboard)
+
+typedef PODVector<Billboard> hl_urho3d_graphics_pod_billboard;
+#define HL_URHO3D_POD_BILLBOARD _ABSTRACT(hl_urho3d_graphics_pod_billboard)
+
+
 typedef struct hl_urho3d_graphics_camera
 {
     void *finalizer;

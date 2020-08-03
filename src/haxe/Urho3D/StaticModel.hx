@@ -19,6 +19,7 @@ class StaticModel extends Component {
 
     public var model(get,set):Model;
     public var material(get,set):Material;
+    public var castShadows(get, set):Bool;
 
     public function set_model(m)
     {
@@ -41,6 +42,15 @@ class StaticModel extends Component {
     {
         return AbstractStaticModel.GetMaterial(Context.context,_abstract);
     }
+
+    function set_castShadows(c) {
+		AbstractStaticModel.SetCastShadows(Context.context, _abstract, c);
+		return c;
+	}
+
+	function get_castShadows() {
+		return AbstractStaticModel.GetCastShadows(Context.context, _abstract);
+	}
     
 }
 
@@ -91,4 +101,11 @@ abstract AbstractStaticModel(HL_URHO3D_STATICMODEL) {
         return null;
     }
     
+    @:hlNative("Urho3D", "_graphics_staticmodel_set_cast_shadows")
+	public static function SetCastShadows(c:Context, s:AbstractStaticModel, m:Bool):Void {}
+
+	@:hlNative("Urho3D", "_graphics_staticmodel_get_cast_shadows")
+	public static function GetCastShadows(c:Context, s:AbstractStaticModel):Bool {
+		return false;
+	}
 }

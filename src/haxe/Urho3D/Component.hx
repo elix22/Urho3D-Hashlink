@@ -6,6 +6,7 @@ import urho3d.Zone.AbstractZone;
 import urho3d.Camera.AbstractCamera;
 import urho3d.Light.AbstractLight;
 import urho3d.AnimatedModel.AbstractAnimatedModel;
+import urho3d.BillboardSet.AbstractBillboardSet;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
@@ -82,6 +83,11 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 		return new Light(abstract_);
 	}
 
+	@:to
+	public inline function toBillboardset():BillboardSet {
+		var abstract_ = AbstractBillboardSet.CastFromComponent(Context.context, cast this);
+		return new BillboardSet(abstract_);
+	}
 
 	@:hlNative("Urho3D", "_scene_component_create")
 	private static function Create(c:Context):HL_URHO3D_COMPONENT {

@@ -1,7 +1,7 @@
 import urho3d.*;
 import urho3d.Application;
 
-class StaticSceneSample extends Application {
+class BillboardsSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
 	private var yaw:Float;
@@ -23,39 +23,62 @@ class StaticSceneSample extends Application {
 		scene = new Scene();
 
 		scene.CreateComponent("Octree");
+		scene.CreateComponent("DebugRenderer");
 
 		var zoneNode = scene.CreateChild("Zone");
 		var zone:Zone = zoneNode.CreateComponent("Zone");
 		zone.boundingBox = new BoundingBox(-1000.0, 1000.0);
-		zone.ambientColor = new Color(0.05, 0.2, 0.15);
+		zone.ambientColor = new Color(0.1, 0.1, 0.1);
 		zone.fogColor = new Color(0.1, 0.2, 0.3);
 		zone.fogStart = 10.0;
 		zone.fogEnd = 100.0;
 
-		var planeNode = scene.CreateChild("Plane");
-		planeNode.scale = new TVector3(100.0, 1.0, 100.0);
-		var planeObject:StaticModel = planeNode.CreateComponent("StaticModel");
-		planeObject.model = new Model("Models/Plane.mdl");
-		planeObject.material = new Material("Materials/StoneTiled.xml");
-
+		// Create a directional light without shadows
 		var lightNode = scene.CreateChild("DirectionalLight");
-		lightNode.direction = new TVector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
+		lightNode.direction = new TVector3(0.5, -1.0, 0.5);
 		var light:Light = lightNode.CreateComponent("Light");
 		light.lightType = LIGHT_DIRECTIONAL;
+		light.color = new Color(0.2, 0.2, 0.2);
+		light.specularIntensity = 1.0;
 
-		for (i in 0...NUM_OBJECTS) {
-			var mushroomNode = scene.CreateChild("Mushroom");
-			mushroomNode.position = new TVector3(Random(90.0) - 45.0, 0.0, Random(90.0) - 45.0);
-			mushroomNode.rotation = new TQuaternion(0.0, Random(360.0), 0.0);
-			mushroomNode.scale = (0.5 + Random(2.0));
-			var mushroomObject:StaticModel = mushroomNode.CreateComponent("StaticModel");
-			mushroomObject.model = new Model("Models/Mushroom.mdl");
-			mushroomObject.material = new Material("Materials/Mushroom.xml");
+		// Create a "floor" consisting of several tiles
+		for (y in -5...5) {
+			for (x in -5...5) {
+				var floorNode = scene.CreateChild("FloorTile");
+				floorNode.position = new Vector3(x * 20.5, -0.5, y * 20.5);
+				floorNode.scale = new Vector3(20.0, 1.0, 20.);
+				var floorObject:StaticModel = floorNode.CreateComponent("StaticModel");
+				floorObject.model = new Model("Models/Box.mdl");
+				floorObject.material = new Material("Materials/Stone.xml");
+			}
+		}
+
+		// Create groups of mushrooms, which act as shadow casters
+		final NUM_MUSHROOMGROUPS = 25;
+		final NUM_MUSHROOMS = 25;
+
+		for (i in 0...NUM_MUSHROOMGROUPS) {
+			// First create a scene node for the group. The individual mushrooms nodes will be created as children
+			var groupNode = scene.CreateChild("MushroomGroup");
+			groupNode.position = new Vector3(Random(190.0) - 95.0, 0.0, Random(190.0) - 95.0);
+
+			for (j in 0...NUM_MUSHROOMS) {
+				var mushroomNode = groupNode.CreateChild("Mushroom");
+				mushroomNode.position = new Vector3(Random(25.0) - 12.5, 0.0, Random(25.0) - 12.5);
+				mushroomNode.rotation = new Quaternion(0.0, Random() * 360.0, 0.0);
+				mushroomNode.scale = (1.0 + Random() * 4.0);
+
+				var mushroomObject:StaticModel = mushroomNode.CreateComponent("StaticModel");
+				mushroomObject.model = new Model("Models/Mushroom.mdl");
+				mushroomObject.material = new Material("Materials/Mushroom.xml");
+				mushroomObject.castShadows = true;
+			}
 		}
 
 		cameraNode = scene.CreateChild("Camera");
 		var camera:Camera = cameraNode.CreateComponent("Camera");
-		cameraNode.position = new TVector3(0.0, 5.0, 0.0);
+        cameraNode.position = new Vector3(0.0, 5.0, 0.0);
+        
 	}
 
 	public function SetupViewport() {

@@ -36,7 +36,9 @@ HL_PRIM hl_urho3d_math_tquaternion * HL_NAME(_math_tquaternion_cast_from_quatern
 
     if (v != NULL)
     {
-        return hl_alloc_urho3d_math_tquaternion(*v);
+        Urho3D::Quaternion *tv = &(tquaternion_stack[(++index_tquaternion_stack) % TQUATERNION_STACK_SIZE]);
+        *tv = *v;
+        return tv;
     }
     else
     {

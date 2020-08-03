@@ -2,7 +2,7 @@ import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
 import urho3d.Zone.AbstractZone;
-import urho3d.Input.TouchState;
+
 
 class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
@@ -112,7 +112,7 @@ class AnimatingSceneSample extends Application {
 
 			if (camera != null) {
 				for (i in 0...Input.numTouches) {
-					var state:TouchState = Input.touchState(i);
+					var state = Input.GetTouch(i);
 
 					if (state.delta.x != 0 || state.delta.y != 0) {
 						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
