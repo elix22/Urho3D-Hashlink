@@ -14,6 +14,28 @@ package urho3d;
 
 import urho3d.Component.AbstractComponent;
 
+
+typedef HL_URHO3D_POD_BILLBOARD = hl.Abstract<"hl_urho3d_graphics_pod_billboard">;
+
+@:hlNative("Urho3D")
+abstract BillboardPOD(HL_URHO3D_POD_BILLBOARD) {
+
+	public inline function new() {
+		this = null;
+	}
+
+
+    @:arrayAccess
+	public inline function GetBillboard(i:Int):Billboard {
+		return _GetBillboard(Context.context,cast this,i);
+    }
+    @:hlNative("Urho3D", "_graphics_billboardset_get_billboard_from_pod")
+	private static function _GetBillboard(c:Context,b:BillboardPOD,i:Int):Billboard {
+		return null;
+    }
+}
+
+
 typedef HL_URHO3D_BILLBOARDSET = hl.Abstract<"hl_urho3d_graphics_billboardset">;
 
 class BillboardSet extends Component {
@@ -67,6 +89,12 @@ class BillboardSet extends Component {
 
 	function get_material() {
 		return AbstractBillboardSet.GetMaterial(Context.context, _abstract);
+	}
+
+	public var billboards(get, never):BillboardPOD;
+
+	function get_billboards() {
+		return AbstractBillboardSet.GetBillboards(Context.context, _abstract);
 	}
 }
 

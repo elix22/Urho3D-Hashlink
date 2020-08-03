@@ -91,8 +91,7 @@ class BillboardsSample extends Application {
         
         for (j in 0...NUM_BILLBOARDS)
         {
-            var bb = billboardObject.GetBillboard(j);
-           // Billboard@ bb = billboardObject.billboards[j];
+            var bb = billboardObject.billboards[j];
             bb.position = new Vector3(Random(12.0) - 6.0, Random(8.0) - 4.0, Random(12.0) - 6.0);
             bb.size = new Vector2(Random(2.0) + 3.0, Random(2.0) + 3.0);
             bb.rotation = Random() * 360.0;
