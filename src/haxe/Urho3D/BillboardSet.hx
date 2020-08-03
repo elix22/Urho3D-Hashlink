@@ -1,14 +1,14 @@
 /*
-typedef struct hl_urho3d_graphics_billboardset
-{
-    void *finalizer;
-    SharedPtr<Urho3D::BillboardSet> ptr;
-} hl_urho3d_graphics_billboardset;
+	typedef struct hl_urho3d_graphics_billboardset
+	{
+	void *finalizer;
+	SharedPtr<Urho3D::BillboardSet> ptr;
+	} hl_urho3d_graphics_billboardset;
 
-#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
-hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
-hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
-*/
+	#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
+	hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
+	hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
+ */
 
 package urho3d;
 
@@ -28,7 +28,46 @@ class BillboardSet extends Component {
 		super(AbstractBillboardSet.CastToComponent(Context.context, _abstract));
 	}
 
+	public inline function Commit() {
+		AbstractBillboardSet.Commit(Context.context, _abstract);
+	}
 
+	public inline function GetBillboard(i:Int):Billboard {
+		return AbstractBillboardSet.GetBillboard(Context.context, _abstract, i);
+	}
+
+	public var numBillboards(get, set):Int;
+
+	function set_numBillboards(n) {
+		AbstractBillboardSet.SetNumBillboards(Context.context, _abstract, n);
+		return n;
+	}
+
+	function get_numBillboards() {
+		return AbstractBillboardSet.GetNumBillboards(Context.context, _abstract);
+	}
+
+	public var sorted(get, set):Bool;
+
+	function set_sorted(s) {
+		AbstractBillboardSet.SetSorted(Context.context, _abstract, s);
+		return s;
+	}
+
+	function get_sorted() {
+		return AbstractBillboardSet.GetSorted(Context.context, _abstract);
+	}
+
+	public var material(get, set):Material;
+
+	function set_material(m) {
+		AbstractBillboardSet.SetMaterial(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_material() {
+		return AbstractBillboardSet.GetMaterial(Context.context, _abstract);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -57,19 +96,47 @@ abstract AbstractBillboardSet(HL_URHO3D_BILLBOARDSET) {
 	@:hlNative("Urho3D", "_graphics_billboardset_cast_to_component")
 	public static function CastToComponent(c:Context, s:AbstractBillboardSet):AbstractComponent {
 		return null;
-    }
-    
-    /*
-DEFINE_PRIM(_VOID, _graphics_billboardset_set_material, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET HL_URHO3D_MATERIAL);
-DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_billboardset_get_material, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET);
+	}
 
-DEFINE_PRIM(_VOID, _graphics_billboardset_set_numBillboards, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET _I32);
-DEFINE_PRIM(_I32, _graphics_billboardset_get_numBillboards, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET);
+	@:hlNative("Urho3D", "_graphics_billboardset_set_material")
+	public static function SetMaterial(c:Context, s:AbstractBillboardSet, m:Material):Void {}
 
-DEFINE_PRIM(_VOID, _graphics_billboardset_set_sorted, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET _BOOL);
-DEFINE_PRIM(_BOOL, _graphics_billboardset_get_sorted, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET);
+	@:hlNative("Urho3D", "_graphics_billboardset_get_material")
+	public static function GetMaterial(c:Context, s:AbstractBillboardSet):Material {
+		return null;
+	}
 
-DEFINE_PRIM(_VOID, _graphics_billboardset_commit, URHO3D_CONTEXT HL_URHO3D_BILLBOARDSET);
-    */
+	@:hlNative("Urho3D", "_graphics_billboardset_set_numBillboards")
+	public static function SetNumBillboards(c:Context, s:AbstractBillboardSet, m:Int):Void {}
 
+	@:hlNative("Urho3D", "_graphics_billboardset_get_numBillboards")
+	public static function GetNumBillboards(c:Context, s:AbstractBillboardSet):Int {
+		return 0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_billboardset_set_sorted")
+	public static function SetSorted(c:Context, s:AbstractBillboardSet, m:Bool):Void {}
+
+	@:hlNative("Urho3D", "_graphics_billboardset_get_sorted")
+	public static function GetSorted(c:Context, s:AbstractBillboardSet):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_graphics_billboardset_get_billboard")
+	public static function GetBillboard(c:Context, s:AbstractBillboardSet, m:Int):Billboard {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_billboardset_get_billboards")
+	public static function GetBillboards(c:Context, s:AbstractBillboardSet):BillboardPOD {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_billboardset_get_billboard_from_pod")
+	public static function GetBillboardFromPOD(c:Context, s:BillboardPOD, m:Int):Billboard {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_billboardset_commit")
+	public static function Commit(c:Context, s:AbstractBillboardSet):Void {}
 }

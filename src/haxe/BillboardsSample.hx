@@ -29,7 +29,6 @@ class BillboardsSample extends Application {
 		var zone:Zone = zoneNode.CreateComponent("Zone");
 		zone.boundingBox = new BoundingBox(-1000.0, 1000.0);
 		zone.ambientColor = new Color(0.1, 0.1, 0.1);
-		zone.fogColor = new Color(0.1, 0.2, 0.3);
 		zone.fogStart = 10.0;
 		zone.fogEnd = 100.0;
 
@@ -73,7 +72,37 @@ class BillboardsSample extends Application {
 				mushroomObject.material = new Material("Materials/Mushroom.xml");
 				mushroomObject.castShadows = true;
 			}
-		}
+        }
+        
+            // Create billboard sets (floating smoke)
+    final NUM_BILLBOARDNODES = 25;
+    final  NUM_BILLBOARDS = 10;
+
+    for (i in 0...NUM_BILLBOARDNODES)
+    {
+        var smokeNode = scene.CreateChild("Smoke");
+        smokeNode.position = new Vector3(Random(200.0) - 100.0, Random(20.0) + 10.0, Random(200.0) - 100.0);
+
+        var billboardObject:BillboardSet = smokeNode.CreateComponent("BillboardSet");
+        billboardObject.numBillboards = NUM_BILLBOARDS;
+        billboardObject.material = new Material("Materials/LitSmoke.xml");
+        billboardObject.sorted = true;
+
+        
+        for (j in 0...NUM_BILLBOARDS)
+        {
+            var bb = billboardObject.GetBillboard(j);
+           // Billboard@ bb = billboardObject.billboards[j];
+            bb.position = new Vector3(Random(12.0) - 6.0, Random(8.0) - 4.0, Random(12.0) - 6.0);
+            bb.size = new Vector2(Random(2.0) + 3.0, Random(2.0) + 3.0);
+            bb.rotation = Random() * 360.0;
+            bb.enabled = true;
+        }
+        
+
+        // After modifying the billboards, they need to be "committed" so that the BillboardSet updates its internals
+        billboardObject.Commit();
+    }
 
 		cameraNode = scene.CreateChild("Camera");
 		var camera:Camera = cameraNode.CreateComponent("Camera");

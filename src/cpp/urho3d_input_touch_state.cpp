@@ -99,7 +99,7 @@ HL_PRIM float HL_NAME(_input_touch_state_get_pressure)(Urho3D::TouchState*state)
         }
         else
         {
-            return NULL;
+            return 0.0;
         }
 
 }
