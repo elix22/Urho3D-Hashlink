@@ -7,6 +7,14 @@ class Input {
 	public static var mouseMove(get, never):StructIntVector2;
 	public static var numTouches(get, never):Int;
 
+	public static function GetKeyDown(key:KeyCode):Bool{
+		return _GetKeyDown(Context.context,key);
+	}
+
+	public static function GetKeyPress(key:KeyCode):Bool{
+		return _GetKeyPress(Context.context,key);
+	}
+
 	private static function get_mouseMove() {
 		return {x: GetMouseMoveX(Context.context), y: GetMouseMoveY(Context.context)};
 	}
@@ -87,5 +95,15 @@ class Input {
 	@:hlNative("Urho3D", "_input_touch_state_get")
 	private static function _GetTouch(context:Context, index:Int):TouchState {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_input_get_key_down")
+	private static function _GetKeyDown(context:Context, index:Int):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_input_get_key_press")
+	private static function _GetKeyPress(context:Context, index:Int):Bool {
+		return false;
 	}
 }

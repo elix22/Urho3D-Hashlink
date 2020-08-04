@@ -231,6 +231,27 @@ HL_PRIM float HL_NAME(_input_get_touch_pressure)(urho3d_context *context, int st
 }
 
 
+HL_PRIM bool HL_NAME(_input_get_key_down)(urho3d_context *context, int keycode)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+        return input->GetKeyDown((Urho3D::Key)keycode);
+    }
+}
+
+HL_PRIM bool HL_NAME(_input_get_key_press)(urho3d_context *context, int keycode)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+        return input->GetKeyPress((Urho3D::Key)keycode);
+    }
+}
+
+DEFINE_PRIM(_BOOL, _input_get_key_down, URHO3D_CONTEXT _I32);
+DEFINE_PRIM(_BOOL, _input_get_key_press, URHO3D_CONTEXT _I32);
+
 DEFINE_PRIM(HL_URHO3D_INTVECTOR2, _input_get_mousemove, URHO3D_CONTEXT);
 DEFINE_PRIM(_I32, _input_get_mousemove_x, URHO3D_CONTEXT);
 DEFINE_PRIM(_I32, _input_get_mousemove_y, URHO3D_CONTEXT);

@@ -7,11 +7,12 @@ class BillboardsSample extends Application {
 	private var cameraNode:Node = null;
 	private var yaw:Float;
 	private var pitch:Float;
+	private var drawDebug:Bool = false;
 
 	public final NUM_OBJECTS = 200;
 
 	public override function Setup() {
-        trace("Setup");      
+		trace("Setup");
 	}
 
 	public override function Start() {
@@ -30,8 +31,8 @@ class BillboardsSample extends Application {
 		var zone:Zone = zoneNode.CreateComponent("Zone");
 		zone.boundingBox = new BoundingBox(-1000.0, 1000.0);
 		zone.ambientColor = new Color(0.1, 0.1, 0.1);
-		zone.fogStart = 10.0;
-		zone.fogEnd = 100.0;
+		zone.fogStart = 100.0;
+		zone.fogEnd = 300.0;
 
 		// Create a directional light without shadows
 		var lightNode = scene.CreateChild("DirectionalLight");
@@ -144,8 +145,7 @@ class BillboardsSample extends Application {
 		var camera:Camera = cameraNode.CreateComponent("Camera");
 		camera.farClip = 300.0;
 
-        cameraNode.position = new Vector3(0.0, 5.0, 0.0);
-        
+		cameraNode.position = new Vector3(0.0, 5.0, 0.0);
 	}
 
 	public function SetupViewport() {
@@ -161,6 +161,8 @@ class BillboardsSample extends Application {
 	}
 
 	function MoveCamera(timeStep:Float) {
+		final MOVE_SPEED = 20.0;
+
 		if (Input.numTouches > 0) {
 			var camera:Camera = cameraNode.GetComponent("Camera");
 			final TOUCH_SENSITIVITY = 2.0;
@@ -184,40 +186,52 @@ class BillboardsSample extends Application {
 
 			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 		}
-    }
-    
-    function  AnimateScene(timeStep:Float )
-        {
-                var lightNodes = scene.GetChildrenWithComponent("Light");
-                var billboardNodes = scene.GetChildrenWithComponent("BillboardSet");
 
-                final LIGHT_ROTATION_SPEED = 20.0;
-                final  BILLBOARD_ROTATION_SPEED = 50.0;
-            
-                // Rotate the lights around the world Y-axis
-                for (i in 0...lightNodes.length)
-                    lightNodes[i].Rotate(new TQuaternion(0.0, LIGHT_ROTATION_SPEED * timeStep, 0.0), TS_WORLD);
-            
-                // Rotate the individual billboards within the billboard sets, then recommit to make the changes visible
-                for (i in  0...billboardNodes.length)
-                {
-                    var billboardObject:BillboardSet = billboardNodes[i].GetComponent("BillboardSet");
-            
-                    for (j in  0...billboardObject.numBillboards)
-                    {
-                        var bb = billboardObject.billboards[j];
-                        bb.rotation += BILLBOARD_ROTATION_SPEED * timeStep;
-                    }
-            
-                    billboardObject.Commit();
-                }
-        }
+		if (Input.GetKeyDown(KEY_W))
+			cameraNode.Translate(Vector3.FORWARD * MOVE_SPEED * timeStep);
+		if (Input.GetKeyDown(KEY_S))
+			cameraNode.Translate(Vector3.BACK * MOVE_SPEED * timeStep);
+		if (Input.GetKeyDown(KEY_A))
+			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
+		if (Input.GetKeyDown(KEY_D))
+			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
+		// Toggle debug geometry with space
+		if (Input.GetKeyPress(KEY_SPACE))
+			drawDebug = !drawDebug;
+	}
+
+	function AnimateScene(timeStep:Float) {
+		var lightNodes = scene.GetChildrenWithComponent("Light");
+		var billboardNodes = scene.GetChildrenWithComponent("BillboardSet");
+
+		final LIGHT_ROTATION_SPEED = 20.0;
+		final BILLBOARD_ROTATION_SPEED = 50.0;
+
+		// Rotate the lights around the world Y-axis
+		for (i in 0...lightNodes.length)
+			lightNodes[i].Rotate(new TQuaternion(0.0, LIGHT_ROTATION_SPEED * timeStep, 0.0), TS_WORLD);
+
+		// Rotate the individual billboards within the billboard sets, then recommit to make the changes visible
+		for (i in 0...billboardNodes.length) {
+			var billboardObject:BillboardSet = billboardNodes[i].GetComponent("BillboardSet");
+
+			for (j in 0...billboardObject.numBillboards) {
+				var bb = billboardObject.billboards[j];
+				bb.rotation += BILLBOARD_ROTATION_SPEED * timeStep;
+			}
+
+			billboardObject.Commit();
+		}
+	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
-        MoveCamera(step);
-        AnimateScene(step);
+		MoveCamera(step);
+		AnimateScene(step);
 	}
 
-	public function HandlePostRenderUpdate(eventType:StringHash, eventData:VariantMap) {}
+	public function HandlePostRenderUpdate(eventType:StringHash, eventData:VariantMap) {
+		if (drawDebug)
+			Renderer.DrawDebugGeometry(true);
+	}
 }
