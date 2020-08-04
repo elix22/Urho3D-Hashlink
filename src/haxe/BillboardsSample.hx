@@ -11,7 +11,7 @@ class BillboardsSample extends Application {
 	public final NUM_OBJECTS = 200;
 
 	public override function Setup() {
-		trace("Setup");
+        trace("Setup");      
 	}
 
 	public override function Start() {
