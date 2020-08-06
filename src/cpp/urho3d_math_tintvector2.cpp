@@ -1,10 +1,13 @@
 #define HL_NAME(n) Urho3D_##n
 extern "C"
 {
+#if defined(URHO3D_HAXE_HASHLINK)
+#include <hashlink/hl.h>
+#else
 #include <hl.h>
+#endif
 }
 
-#include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
 static Urho3D::IntVector2 tintvector2_stack[TINTVECTOR2_STACK_SIZE] = {Urho3D::IntVector2(0.0, 0.0)};

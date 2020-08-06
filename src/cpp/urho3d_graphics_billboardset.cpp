@@ -1,22 +1,13 @@
-/*
-typedef struct hl_urho3d_graphics_billboardset
-{
-    void *finalizer;
-    SharedPtr<Urho3D::BillboardSet> ptr;
-} hl_urho3d_graphics_billboardset;
-
-#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
-hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
-hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
-*/
-
 #define HL_NAME(n) Urho3D_##n
 extern "C"
 {
+#if defined(URHO3D_HAXE_HASHLINK)
+#include <hashlink/hl.h>
+#else
 #include <hl.h>
+#endif
 }
 
-#include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
 void finalize_urho3d_graphics_billboardset(void *v)

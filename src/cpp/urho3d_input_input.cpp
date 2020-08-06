@@ -1,10 +1,13 @@
 #define HL_NAME(n) Urho3D_##n
 extern "C"
 {
+#if defined(URHO3D_HAXE_HASHLINK)
+#include <hashlink/hl.h>
+#else
 #include <hl.h>
+#endif
 }
 
-#include <Urho3D/Urho3DAll.h>
 #include "global_types.h"
 
 HL_PRIM hl_urho3d_intvector2 *HL_NAME(_input_get_mousemove)(urho3d_context *context)

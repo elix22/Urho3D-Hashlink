@@ -1,7 +1,7 @@
 #ifndef _HL_URHO3D_GLOBAL_TYPES_
 #define _HL_URHO3D_GLOBAL_TYPES_
 
-#include <Urho3D/Urho3DAll.h>
+#include "urho3d_all.h"
 
 // TBD ELI size should depend on platform mobile/console/PC
 #define TVECTOR2_STACK_SIZE 10000

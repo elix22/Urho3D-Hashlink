@@ -1,4 +1,8 @@
+#if defined(URHO3D_HAXE_HASHLINK)
+#include <hashlink/hl.h>
+#else
 #include <hl.h>
+#endif
 
 #ifdef hl_error
 #undef hl_error
