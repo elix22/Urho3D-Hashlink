@@ -27,5 +27,21 @@ HL_PRIM  hl_urho3d_uielement * HL_NAME(_ui_get_root)(urho3d_context *context)
    
 }
 
+HL_PRIM  Urho3D::IntVector2 * HL_NAME(_ui_get_cursor_position)(urho3d_context *context)
+{
+   UI *ui = context->GetSubsystem<UI>();
+   if(ui)
+   {
+       return hl_alloc_urho3d_math_tintvector2(ui->GetCursorPosition());
+   }
+   else
+   {
+       return NULL;
+   }
+   
+
+}
+
 
 DEFINE_PRIM(HL_URHO3D_UIELEMENT, _ui_get_root, URHO3D_CONTEXT );
+DEFINE_PRIM(HL_URHO3D_TINTVECTOR2, _ui_get_cursor_position, URHO3D_CONTEXT );

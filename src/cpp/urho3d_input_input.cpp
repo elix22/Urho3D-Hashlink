@@ -252,6 +252,44 @@ HL_PRIM bool HL_NAME(_input_get_key_press)(urho3d_context *context, int keycode)
     }
 }
 
+
+HL_PRIM void HL_NAME(_input_set_mouse_visible)(urho3d_context *context, bool v)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+         input->SetMouseVisible(v);
+    }
+}
+
+HL_PRIM void HL_NAME(_input_set_mouse_mode)(urho3d_context *context, int m)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+         input->SetMouseMode(MouseMode(m));
+    }
+}
+
+
+HL_PRIM bool HL_NAME(_input_get_mouse_button_press)(urho3d_context *context, int button)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+        return input->GetMouseButtonPress(MouseButtonFlags(button));
+    }
+}
+
+HL_PRIM bool HL_NAME(_input_get_mouse_button_down)(urho3d_context *context, int button)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+        return input->GetMouseButtonDown(MouseButtonFlags(button));
+    }
+}
+
 DEFINE_PRIM(_BOOL, _input_get_key_down, URHO3D_CONTEXT _I32);
 DEFINE_PRIM(_BOOL, _input_get_key_press, URHO3D_CONTEXT _I32);
 
@@ -269,5 +307,8 @@ DEFINE_PRIM(_I32, _input_get_touch_delta_y, URHO3D_CONTEXT _I32);
 DEFINE_PRIM(_I32, _input_get_num_touches, URHO3D_CONTEXT );
 DEFINE_PRIM(_F32, _input_get_touch_pressure, URHO3D_CONTEXT _I32);
 
+DEFINE_PRIM(_VOID, _input_set_mouse_visible, URHO3D_CONTEXT _BOOL);
+DEFINE_PRIM(_VOID, _input_set_mouse_mode, URHO3D_CONTEXT _I32);
 
-
+DEFINE_PRIM(_BOOL, _input_get_mouse_button_press, URHO3D_CONTEXT _I32);
+DEFINE_PRIM(_BOOL, _input_get_mouse_button_down, URHO3D_CONTEXT _I32);

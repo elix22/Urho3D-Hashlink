@@ -7,12 +7,14 @@ import urho3d.Camera.AbstractCamera;
 import urho3d.Light.AbstractLight;
 import urho3d.AnimatedModel.AbstractAnimatedModel;
 import urho3d.BillboardSet.AbstractBillboardSet;
+import urho3d.DecalSet.AbstractDecalSet;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
 class Component {
-	private  var _node:Node = null;
-	public var node(get,set):Node;
+	private var _node:Node = null;
+
+	public var node(get, set):Node;
 	public var abstractComponent:AbstractComponent = null;
 
 	public inline function new(?absComponent:AbstractComponent) {
@@ -24,69 +26,105 @@ class Component {
 		node.bindComponent(this);
 	}
 
-	function get_node()
-	{
-		if(_node == null)
-		{
-			_node = new Node(AbstractComponent.GetNode(Context.context,abstractComponent));	
+	function get_node() {
+		if (_node == null) {
+			_node = new Node(AbstractComponent.GetNode(Context.context, abstractComponent));
 		}
 		return _node;
 	}
 
-	function set_node(n)
-		{
-			_node = n;
-			return _node;
-		}
+	function set_node(n) {
+		_node = n;
+		return _node;
+	}
 }
 
 @:hlNative("Urho3D")
 abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 	public inline function new() {
 		this = Create(Context.context);
-    }
-    
-    @:to
+	}
+
+	@:to
 	public inline function toComponent():Component {
-		//trace("AbstractComponent to Component");
-		return new Component(cast this);
-    }
-    
+		if (this != null) {
+			return new Component(cast this);
+		} else {
+			return null;
+		}
+	}
+
 	@:to
 	public inline function toZone():Zone {
-		//trace("AbstractComponent to zone");
-		var abstractZone:AbstractZone = AbstractZone.CastFromComponent(Context.context, cast this);
-		return new Zone(abstractZone);
+		if (this != null) {
+			var abstractZone:AbstractZone = AbstractZone.CastFromComponent(Context.context, cast this);
+			return new Zone(abstractZone);
+		} else {
+			return null;
+		}
 	}
 
 	@:to
 	public inline function toStaticModel():StaticModel {
-		var abstract_ = AbstractStaticModel.CastFromComponent(Context.context, cast this);
-		return new StaticModel(abstract_);
+		if (this != null) {
+			var abstract_ = AbstractStaticModel.CastFromComponent(Context.context, cast this);
+			return new StaticModel(abstract_);
+		} else {
+			return null;
+		}
 	}
 
 	@:to
 	public inline function toAnimatedModel():AnimatedModel {
-		var abstract_ = AbstractAnimatedModel.CastFromComponent(Context.context, cast this);
-		return new AnimatedModel(abstract_);
+		if (this != null) {
+			var abstract_ = AbstractAnimatedModel.CastFromComponent(Context.context, cast this);
+			return new AnimatedModel(abstract_);
+		} else {
+			return null;
+		}
 	}
 
 	@:to
 	public inline function toCamera():Camera {
-		var abstract_ = AbstractCamera.CastFromComponent(Context.context, cast this);
-		return new Camera(abstract_);
+		if (this != null) {
+			var abstract_ = AbstractCamera.CastFromComponent(Context.context, cast this);
+			return new Camera(abstract_);
+		} else {
+			return null;
+		}
 	}
 
 	@:to
 	public inline function toLight():Light {
-		var abstract_ = AbstractLight.CastFromComponent(Context.context, cast this);
-		return new Light(abstract_);
+		if (this != null) {
+			var abstract_ = AbstractLight.CastFromComponent(Context.context, cast this);
+			return new Light(abstract_);
+		} else {
+			return null;
+		}
 	}
 
 	@:to
 	public inline function toBillboardset():BillboardSet {
-		var abstract_ = AbstractBillboardSet.CastFromComponent(Context.context, cast this);
-		return new BillboardSet(abstract_);
+		if (this != null) {
+			var abstract_ = AbstractBillboardSet.CastFromComponent(Context.context, cast this);
+			return new BillboardSet(abstract_);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toDecalset():DecalSet {
+		if (this != null) {
+			var abstract_ = AbstractDecalSet.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new DecalSet(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
 	}
 
 	@:hlNative("Urho3D", "_scene_component_create")
@@ -95,9 +133,9 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 	}
 
 	@:hlNative("Urho3D", "_scene_component_get_node")
-	public static function GetNode(c:Context,d:AbstractComponent):AbstractNode {
+	public static function GetNode(c:Context, d:AbstractComponent):AbstractNode {
 		return null;
 	}
-	//
 
+	//
 }

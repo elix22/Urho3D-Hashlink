@@ -14,6 +14,20 @@ static int TKIND[] = {0, 1, 1, 1, 4, 2, 3, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
 static int hlc_call_flags = 0;
 #define TK2(a, b) ((a) | ((b) << 5))
 
+#if defined(URHO3D_HAXE_HASHLINK_HDLL)
+HL_PRIM hl_type hlt_array = { HARRAY };
+HL_PRIM hl_type hlt_bytes = { HBYTES };
+HL_PRIM hl_type hlt_dynobj = { HDYNOBJ };
+HL_PRIM hl_type hlt_dyn = { HDYN };
+HL_PRIM hl_type hlt_i32 = { HI32 };
+HL_PRIM hl_type hlt_i64 = { HI64 };
+HL_PRIM hl_type hlt_f32 = { HF32 };
+HL_PRIM hl_type hlt_f64 = { HF64 };
+HL_PRIM hl_type hlt_void = { HVOID };
+HL_PRIM hl_type hlt_bool = { HBOOL };
+HL_PRIM hl_type hlt_abstract = { HABSTRACT, {(const uchar *)USTR("<abstract>")} };
+#endif
+
 static void fun_var_args()
 {
 	hl_error("Variable fun args was not cast to typed function ");
@@ -244,7 +258,7 @@ void *hl_modified_dyn_castp(void *data, hl_type *t, hl_type *to)
 void *hlc_modified_static_call(void *fun, hl_type *t, void **args, vdynamic *out)
 {
 	int chk = TKIND[t->fun->ret->kind];
-	vdynamic *d;
+	vdynamic *d = NULL;
 	switch (t->fun->nargs)
 	{
 	case 0:

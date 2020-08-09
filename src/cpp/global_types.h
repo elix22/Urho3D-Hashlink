@@ -67,6 +67,17 @@ typedef Urho3D::Quaternion  hl_urho3d_math_tquaternion;
 hl_urho3d_math_tquaternion *hl_alloc_urho3d_math_tquaternion(float x, float y, float z);
 hl_urho3d_math_tquaternion *hl_alloc_urho3d_math_tquaternion(const Urho3D::Quaternion &);
 
+
+typedef struct hl_urho3d_math_ray
+{
+    void *finalizer;
+    Urho3D::Ray *ptr;
+} hl_urho3d_math_ray;
+
+#define HL_URHO3D_RAY _ABSTRACT(hl_urho3d_math_ray)
+hl_urho3d_math_ray *hl_alloc_urho3d_math_ray(const Vector3& origin, const Vector3& direction);
+hl_urho3d_math_ray *hl_alloc_urho3d_math_ray(const Ray& ray);
+
 typedef struct hl_urho3d_math_vector2
 {
     void *finalizer;
@@ -244,98 +255,6 @@ typedef struct hl_urho3d_scene_scene
 hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene();
 
 
-typedef struct hl_urho3d_graphics_billboardset
-{
-    void *finalizer;
-    SharedPtr<Urho3D::BillboardSet> ptr;
-} hl_urho3d_graphics_billboardset;
-
-#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
-hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
-hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
-
-
-typedef Urho3D::Billboard hl_urho3d_graphics_billboard;
-#define HL_URHO3D_BILLBOARD _ABSTRACT(hl_urho3d_graphics_billboard)
-
-typedef PODVector<Billboard> hl_urho3d_graphics_pod_billboard;
-#define HL_URHO3D_POD_BILLBOARD _ABSTRACT(hl_urho3d_graphics_pod_billboard)
-
-
-typedef struct hl_urho3d_graphics_camera
-{
-    void *finalizer;
-    SharedPtr<Urho3D::Camera> ptr;
-} hl_urho3d_graphics_camera;
-
-#define HL_URHO3D_CAMERA _ABSTRACT(hl_urho3d_graphics_camera)
-hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera();
-hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera(Camera *camera);
-
-typedef struct hl_urho3d_graphics_light
-{
-    void *finalizer;
-    SharedPtr<Urho3D::Light> ptr;
-} hl_urho3d_graphics_light;
-
-#define HL_URHO3D_LIGHT _ABSTRACT(hl_urho3d_graphics_light)
-hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light();
-hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light(Light *light);
-
-typedef struct hl_urho3d_graphics_light_bias_parameters
-{
-    void *finalizer;
-    BiasParameters*  ptr;
-} hl_urho3d_graphics_light_bias_parameters;
-#define HL_URHO3D_LIGHT_BIAS_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_bias_parameters)
-
-typedef struct hl_urho3d_graphics_light_cascade_parameters
-{
-    void *finalizer;
-    CascadeParameters*  ptr;
-} hl_urho3d_graphics_light_cascade_parameters;
-#define HL_URHO3D_LIGHT_CASCADE_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_cascade_parameters)
-
-typedef struct hl_urho3d_graphics_material
-{
-    void *finalizer;
-    SharedPtr<Urho3D::Material> ptr;
-} hl_urho3d_graphics_material;
-
-#define HL_URHO3D_MATERIAL _ABSTRACT(hl_urho3d_graphics_material)
-hl_urho3d_graphics_material *hl_alloc_urho3d_graphics_material(urho3d_context *context, const char *name);
-hl_urho3d_graphics_material *hl_alloc_urho3d_graphics_material(Material *material);
-
-typedef struct hl_urho3d_graphics_model
-{
-    void *finalizer;
-    SharedPtr<Urho3D::Model> ptr;
-} hl_urho3d_graphics_model;
-
-#define HL_URHO3D_MODEL _ABSTRACT(hl_urho3d_graphics_model)
-hl_urho3d_graphics_model *hl_alloc_urho3d_graphics_model(urho3d_context *context, const char *name);
-hl_urho3d_graphics_model *hl_alloc_urho3d_graphics_model(Model *model);
-
-typedef struct hl_urho3d_graphics_staticmodel
-{
-    void *finalizer;
-    SharedPtr<Urho3D::StaticModel> ptr;
-} hl_urho3d_graphics_staticmodel;
-
-#define HL_URHO3D_STATICMODEL _ABSTRACT(hl_urho3d_graphics_staticmodel)
-hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(urho3d_context *context);
-hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(StaticModel *model);
-
-
-typedef struct hl_urho3d_graphics_texture
-{
-    void *finalizer;
-    SharedPtr<Urho3D::Texture> ptr;
-} hl_urho3d_graphics_texture;
-
-#define HL_URHO3D_TEXTURE _ABSTRACT(hl_urho3d_graphics_texture)
-hl_urho3d_graphics_texture *hl_alloc_urho3d_graphics_texture(urho3d_context *context, const char *name);
-hl_urho3d_graphics_texture *hl_alloc_urho3d_graphics_texture(Urho3D::Texture*);
 
 
 typedef struct hl_urho3d_graphics_animation
@@ -374,6 +293,132 @@ typedef struct hl_urho3d_graphics_animatedmodel
 #define HL_URHO3D_ANIMATEDMODEL _ABSTRACT(hl_urho3d_graphics_animatedmodel)
 hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(urho3d_context *context);
 hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(AnimatedModel *model);
+
+
+typedef Urho3D::Billboard hl_urho3d_graphics_billboard;
+#define HL_URHO3D_BILLBOARD _ABSTRACT(hl_urho3d_graphics_billboard)
+
+typedef PODVector<Billboard> hl_urho3d_graphics_pod_billboard;
+#define HL_URHO3D_POD_BILLBOARD _ABSTRACT(hl_urho3d_graphics_pod_billboard)
+
+
+typedef struct hl_urho3d_graphics_billboardset
+{
+    void *finalizer;
+    SharedPtr<Urho3D::BillboardSet> ptr;
+} hl_urho3d_graphics_billboardset;
+
+#define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
+hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset();
+hl_urho3d_graphics_billboardset *hl_alloc_urho3d_graphics_billboardset(BillboardSet *billboardSet);
+
+
+typedef struct hl_urho3d_graphics_camera
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Camera> ptr;
+} hl_urho3d_graphics_camera;
+
+#define HL_URHO3D_CAMERA _ABSTRACT(hl_urho3d_graphics_camera)
+hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera();
+hl_urho3d_graphics_camera *hl_alloc_urho3d_graphics_camera(Camera *camera);
+
+
+typedef struct hl_urho3d_graphics_light_cascade_parameters
+{
+    void *finalizer;
+    CascadeParameters*  ptr;
+} hl_urho3d_graphics_light_cascade_parameters;
+#define HL_URHO3D_LIGHT_CASCADE_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_cascade_parameters)
+
+
+typedef struct hl_urho3d_graphics_decalset
+{
+    void *finalizer;
+    SharedPtr<Urho3D::DecalSet> ptr;
+} hl_urho3d_graphics_decalset;
+
+#define HL_URHO3D_DECALSET _ABSTRACT(hl_urho3d_graphics_decalset)
+hl_urho3d_graphics_decalset *hl_alloc_urho3d_graphics_decalset();
+hl_urho3d_graphics_decalset *hl_alloc_urho3d_graphics_decalset(DecalSet *decalSet);
+
+
+
+typedef Urho3D::Drawable  hl_urho3d_graphics_drawable;
+#define HL_URHO3D_DRAWABLE _ABSTRACT(hl_urho3d_graphics_drawable)
+
+
+typedef struct hl_urho3d_graphics_light
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Light> ptr;
+} hl_urho3d_graphics_light;
+
+#define HL_URHO3D_LIGHT _ABSTRACT(hl_urho3d_graphics_light)
+hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light();
+hl_urho3d_graphics_light *hl_alloc_urho3d_graphics_light(Light *light);
+
+
+typedef struct hl_urho3d_graphics_light_bias_parameters
+{
+    void *finalizer;
+    BiasParameters*  ptr;
+} hl_urho3d_graphics_light_bias_parameters;
+#define HL_URHO3D_LIGHT_BIAS_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_bias_parameters)
+
+typedef struct hl_urho3d_graphics_material
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Material> ptr;
+} hl_urho3d_graphics_material;
+
+#define HL_URHO3D_MATERIAL _ABSTRACT(hl_urho3d_graphics_material)
+hl_urho3d_graphics_material *hl_alloc_urho3d_graphics_material(urho3d_context *context, const char *name);
+hl_urho3d_graphics_material *hl_alloc_urho3d_graphics_material(Material *material);
+
+typedef struct hl_urho3d_graphics_model
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Model> ptr;
+} hl_urho3d_graphics_model;
+
+#define HL_URHO3D_MODEL _ABSTRACT(hl_urho3d_graphics_model)
+hl_urho3d_graphics_model *hl_alloc_urho3d_graphics_model(urho3d_context *context, const char *name);
+hl_urho3d_graphics_model *hl_alloc_urho3d_graphics_model(Model *model);
+
+
+typedef Urho3D::Octree  hl_urho3d_graphics_octree;
+#define HL_URHO3D_OCTREE _ABSTRACT(hl_urho3d_graphics_octree)
+
+
+typedef PODVector<RayQueryResult> hl_urho3d_graphics_ray_query_results;
+#define HL_URHO3D_RAY_QUERY_RESULTS _ABSTRACT(hl_urho3d_graphics_ray_query_results)
+
+typedef RayQueryResult  hl_urho3d_graphics_ray_query_result;
+#define HL_URHO3D_RAY_QUERY_RESULT _ABSTRACT(hl_urho3d_graphics_ray_query_result)
+
+
+typedef struct hl_urho3d_graphics_staticmodel
+{
+    void *finalizer;
+    SharedPtr<Urho3D::StaticModel> ptr;
+} hl_urho3d_graphics_staticmodel;
+
+#define HL_URHO3D_STATICMODEL _ABSTRACT(hl_urho3d_graphics_staticmodel)
+hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(urho3d_context *context);
+hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(StaticModel *model);
+
+
+typedef struct hl_urho3d_graphics_texture
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Texture> ptr;
+} hl_urho3d_graphics_texture;
+
+#define HL_URHO3D_TEXTURE _ABSTRACT(hl_urho3d_graphics_texture)
+hl_urho3d_graphics_texture *hl_alloc_urho3d_graphics_texture(urho3d_context *context, const char *name);
+hl_urho3d_graphics_texture *hl_alloc_urho3d_graphics_texture(Urho3D::Texture*);
+
 
 typedef struct hl_urho3d_graphics_viewport
 {

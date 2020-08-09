@@ -1,6 +1,5 @@
 package urho3d;
 
-import urho3d.Application;
 
 private typedef HL_URHO3D_APPLICATION = hl.Abstract<"hl_urho3d_application">;
 abstract Dyn<T>(Dynamic) from T to T {}

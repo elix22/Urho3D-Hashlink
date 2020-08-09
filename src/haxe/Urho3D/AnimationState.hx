@@ -9,9 +9,6 @@ abstract AnimationState(HL_URHO3D_TANIMATION_STATE) {
 	public var time(get, set):Float;
     public var looped(get, set):Bool;
     
-    public function new() {
-        this = null;
-    }
     
     public function AddTime(f:Float):Void {
 		_AddTime( cast this, f);

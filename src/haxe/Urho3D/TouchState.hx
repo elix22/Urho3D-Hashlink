@@ -20,10 +20,6 @@ abstract TouchState(HL_URHO3D_TOUCH_STATE) {
 	public var delta(get, never):TIntVector2;
 	public var pressure(get, never):Float;
 
-	public function new() {
-		this = null;
-	}
-
 	function get_touchID() {
 		return GetTouchID(cast this);
 	}

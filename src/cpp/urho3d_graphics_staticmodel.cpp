@@ -90,6 +90,28 @@ HL_PRIM bool HL_NAME(_graphics_staticmodel_get_cast_shadows)(urho3d_context *con
     return staticmodel->ptr->GetCastShadows();
 }
 
+HL_PRIM void HL_NAME(_graphics_staticmodel_set_occluder)(urho3d_context *context, hl_urho3d_graphics_staticmodel *staticmodel, bool occluder)
+{
+    staticmodel->ptr->SetOccluder(occluder);
+
+}
+
+HL_PRIM bool HL_NAME(_graphics_staticmodel_get_occluder)(urho3d_context *context, hl_urho3d_graphics_staticmodel *staticmodel)
+{
+    return staticmodel->ptr->IsOccluder();
+}
+
+HL_PRIM void HL_NAME(_graphics_staticmodel_set_occludee)(urho3d_context *context, hl_urho3d_graphics_staticmodel *staticmodel, bool occludee)
+{
+    staticmodel->ptr->SetOccludee(occludee);
+
+}
+
+HL_PRIM bool HL_NAME(_graphics_staticmodel_get_occludee)(urho3d_context *context, hl_urho3d_graphics_staticmodel *staticmodel)
+{
+    return staticmodel->ptr->IsOccludee();
+}
+
 DEFINE_PRIM(HL_URHO3D_STATICMODEL, _graphics_staticmodel_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_staticmodel_cast_to_component, URHO3D_CONTEXT HL_URHO3D_STATICMODEL);
 DEFINE_PRIM(HL_URHO3D_STATICMODEL, _graphics_staticmodel_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
@@ -99,3 +121,7 @@ DEFINE_PRIM(_VOID, _graphics_staticmodel_set_material, URHO3D_CONTEXT HL_URHO3D_
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_staticmodel_get_material, URHO3D_CONTEXT HL_URHO3D_STATICMODEL);
 DEFINE_PRIM(_VOID, _graphics_staticmodel_set_cast_shadows, URHO3D_CONTEXT HL_URHO3D_STATICMODEL _BOOL);
 DEFINE_PRIM(_BOOL, _graphics_staticmodel_get_cast_shadows, URHO3D_CONTEXT HL_URHO3D_STATICMODEL);
+DEFINE_PRIM(_VOID, _graphics_staticmodel_set_occluder, URHO3D_CONTEXT HL_URHO3D_STATICMODEL _BOOL);
+DEFINE_PRIM(_BOOL, _graphics_staticmodel_get_occluder, URHO3D_CONTEXT HL_URHO3D_STATICMODEL);
+DEFINE_PRIM(_VOID, _graphics_staticmodel_set_occludee, URHO3D_CONTEXT HL_URHO3D_STATICMODEL _BOOL);
+DEFINE_PRIM(_BOOL, _graphics_staticmodel_get_occludee, URHO3D_CONTEXT HL_URHO3D_STATICMODEL);

@@ -2,7 +2,7 @@ package urho3d;
 
 
 /// Blending mode.
-@:enum abstract BlendMode(Int)
+enum abstract BlendMode(Int) to Int from Int
 {
     var BLEND_REPLACE = 0;
     var BLEND_ADD = 1;
@@ -15,6 +15,8 @@ package urho3d;
     var BLEND_SUBTRACTALPHA=8;
     var MAX_BLENDMODES;
 }
+
+
 
 class Graphics {
 

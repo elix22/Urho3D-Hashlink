@@ -16,6 +16,10 @@ class Camera extends Component {
 		super(AbstractCamera.CastToComponent(Context.context, _abstract));
 	}
 
+	public function GetScreenRay(x:Float,y:Float):Ray{
+		return AbstractCamera.GetScreenRay(Context.context, _abstract,x,y);
+	}
+
 	public var farClip(get, set):Float;
 
 	public function set_farClip(f) {
@@ -84,6 +88,9 @@ abstract AbstractCamera(HL_URHO3D_CAMERA) {
 	public static function GetFOV(c:Context, s:AbstractCamera):Single {
 		return 0.0;
     }
-    
-    //
+	
+	@:hlNative("Urho3D", "_graphics_camera_get_screen_ray")
+	public static function GetScreenRay(c:Context, s:AbstractCamera,x:Single,y:Single):Ray {
+		return null;
+    }
 }

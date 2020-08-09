@@ -1,7 +1,28 @@
 package urho3d;
 
 import urho3d.IntVector2.StructIntVector2;
+import urho3d.KeyCode;
+import urho3d.MathDefs.IntMathDefs;
 
+enum abstract MouseMode(Int) to Int from Int
+{
+    var MM_ABSOLUTE = 0;
+    var MM_RELATIVE = 1;
+    var MM_WRAP = 2;
+    var MM_FREE = 3;
+    var MM_INVALID = 4;
+}
+
+enum abstract  MouseButton(Int)  to Int from Int
+{
+    var MOUSEB_NONE = 0;
+    var MOUSEB_LEFT = SDL_BUTTON_LMASK;
+    var MOUSEB_MIDDLE = SDL_BUTTON_MMASK;
+    var MOUSEB_RIGHT = SDL_BUTTON_RMASK;
+    var MOUSEB_X1 = SDL_BUTTON_X1MASK;
+    var MOUSEB_X2 = SDL_BUTTON_X2MASK;
+    var MOUSEB_ANY = M_MAX_UNSIGNED;
+}
 
 class Input {
 	public static var mouseMove(get, never):StructIntVector2;
@@ -30,6 +51,22 @@ class Input {
 
 	public static inline function GetTouch(index:Int):TouchState {
 		return _GetTouch(Context.context, index);
+	}
+
+	public static inline function SetMouseVisible(b:Bool) {
+		_SetMouseVisible(Context.context,b);
+	}
+
+	public static inline function SetMouseMode(m:MouseMode) {
+		_SetMouseMode(Context.context,m);
+	}
+
+	public static inline function GetMouseButtonPress(m:MouseButton) {
+		return _GetMouseButtonPress(Context.context,m);
+	}
+
+	public static inline function GetMouseButtonDown(m:MouseButton) {
+		return _GetMouseButtonDown(Context.context,m);
 	}
 
 	@:hlNative("Urho3D", "_input_get_mousemove")
@@ -104,6 +141,24 @@ class Input {
 
 	@:hlNative("Urho3D", "_input_get_key_press")
 	private static function _GetKeyPress(context:Context, index:Int):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_input_set_mouse_visible")
+	private static function _SetMouseVisible(context:Context, index:Bool):Void {
+	}
+
+	@:hlNative("Urho3D", "_input_set_mouse_mode")
+	private static function _SetMouseMode(context:Context, m:Int):Void {
+	}
+
+	@:hlNative("Urho3D", "_input_get_mouse_button_press")
+	private static function _GetMouseButtonPress(context:Context, m:Int):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_input_get_mouse_button_down")
+	private static function _GetMouseButtonDown(context:Context, m:Int):Bool {
 		return false;
 	}
 }

@@ -47,5 +47,12 @@ HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_scene_cast_to_node)(urho3d_context 
 }
 
 
+HL_PRIM Urho3D::Octree *HL_NAME(_scene_scene_get_octree)(urho3d_context *context, hl_urho3d_scene_scene * scene)
+{
+    return scene->ptr->GetComponent<Octree>();
+}
+
+
 DEFINE_PRIM(HL_URHO3D_SCENE, _scene_scene_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_scene_cast_to_node, URHO3D_CONTEXT HL_URHO3D_SCENE);
+DEFINE_PRIM(HL_URHO3D_OCTREE, _scene_scene_get_octree, URHO3D_CONTEXT HL_URHO3D_SCENE);

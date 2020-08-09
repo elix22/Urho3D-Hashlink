@@ -138,11 +138,4 @@ DEFINE_PRIM(HL_URHO3D_POD_BILLBOARD, _graphics_billboardset_get_billboards, URHO
 DEFINE_PRIM(HL_URHO3D_BILLBOARD, _graphics_billboardset_get_billboard_from_pod, URHO3D_CONTEXT HL_URHO3D_POD_BILLBOARD _I32);
 
 
-/*
-    /// Return number of billboards.
-    unsigned GetNumBillboards() const { return billboards_.Size(); }
 
-    /// Return all billboards.
-    PODVector<Billboard>& GetBillboards() { return billboards_; }
-    Billboard* BillboardSet::GetBillboard(unsigned index)
-*/
