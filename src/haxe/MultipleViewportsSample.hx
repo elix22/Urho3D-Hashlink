@@ -1,13 +1,15 @@
-import urho3d.AnimatedModel.AbstractAnimatedModel;
 import urho3d.*;
 import urho3d.Application;
 
-class DecalsSample extends Application {
+class MultipleViewportsSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
+	private var rearCameraNode:Node = null;
 	private var yaw:Float;
 	private var pitch:Float;
 	private var drawDebug:Bool = false;
+
+	public final NUM_OBJECTS = 200;
 
 	public override function Setup() {
 		trace("Setup");
@@ -17,15 +19,11 @@ class DecalsSample extends Application {
 		CreateScene();
 		SetupViewport();
 		SubscribeToEvents();
-		Input.SetMouseVisible(true);
-		// Input.SetMouseMode(MM_ABSOLUTE);
 	}
 
 	public function CreateScene() {
 		scene = new Scene();
 
-		// Create octree, use default volume (-1000, -1000, -1000) to (1000, 1000, 1000)
-		// Also create a DebugRenderer component so that we can draw debug geometry
 		scene.CreateComponent("Octree");
 		scene.CreateComponent("DebugRenderer");
 
@@ -84,17 +82,38 @@ class DecalsSample extends Application {
 				boxObject.occluder = true;
 		}
 
-		// Create the camera. Limit far clip distance to match the fog
+		// Create the cameras. Limit far clip distance to match the fog
 		cameraNode = scene.CreateChild("Camera");
 		var camera:Camera = cameraNode.CreateComponent("Camera");
 		camera.farClip = 300.0;
-		// Set an initial position for the camera scene node above the plane
+
+		// Parent the rear camera node to the front camera node and turn it 180 degrees to face backward
+		// Here, we use the angle-axis constructor for Quaternion instead of the usual Euler angles
+		rearCameraNode = cameraNode.CreateChild("RearCamera");
+
+		rearCameraNode.Rotate(new Quaternion(180.0, Vector3.UP));
+
+		var rearCamera:Camera = rearCameraNode.CreateComponent("Camera");
+		rearCamera.farClip = 300.0;
+		// Because the rear viewport is rather small, disable occlusion culling from it. Use the camera's
+		// "view override flags" for this. We could also disable eg. shadows or force low material quality
+		// if we wanted
+
+		// rearCamera.viewOverrideFlags = VO_DISABLE_OCCLUSION;
+
+		// Set an initial position for the front camera scene node above the plane
 		cameraNode.position = new Vector3(0.0, 5.0, 0.0);
 	}
 
 	public function SetupViewport() {
+        Renderer.numViewports = 2;
+
 		var viewport = new Viewport(scene, cameraNode.GetComponent("Camera"));
-		Renderer.SetViewport(0, viewport);
+        Renderer.SetViewport(0, viewport);
+        
+        var rearViewport = new Viewport(scene, rearCameraNode.GetComponent("Camera"),
+        new IntRect(cast(Graphics.width * 2 / 3,Int), 32, Graphics.width - 32, cast(Graphics.height / 3,Int)));
+        Renderer.SetViewport(1, rearViewport);
 	}
 
 	public function SubscribeToEvents() {
@@ -140,38 +159,6 @@ class DecalsSample extends Application {
 		// Toggle debug geometry with space
 		if (Input.GetKeyPress(KEY_SPACE))
 			drawDebug = !drawDebug;
-
-		if (/*ui.cursor.visible &&*/ Input.GetMouseButtonPress(MOUSEB_LEFT))
-			PaintDecal();
-	}
-
-	public function PaintDecal() {
-		var result = Raycast(250.0);
-		if (result != null) {
-			// Check if target scene node already has a DecalSet component. If not, create now
-			var targetNode = result.drawable.node;
-			var decal:DecalSet = targetNode.GetComponent("DecalSet");
-			if (decal == null) {
-				decal = targetNode.CreateComponent("DecalSet");
-                decal.material = new Material("Materials/UrhoDecal.xml");
-            }
-            
-            decal.AddDecal(result.drawable, result.position, cameraNode.rotation, 0.5, 1.0, 1.0, Vector2.ZERO, Vector2.ONE);
-		}
-	}
-
-	public function Raycast(maxDistance:Float):RayQueryResult {
-
-		var pos = UI.cursorPosition;
-		var camera:Camera = cameraNode.GetComponent("Camera");
-		var cameraRay = camera.GetScreenRay(pos.x / Graphics.width, pos.y / Graphics.height);
-		var result = scene.octree.RaycastSingle(cameraRay, RAY_TRIANGLE, maxDistance, DRAWABLE_GEOMETRY);
-
-		if (result.size > 0) {
-			return result[0];
-		}
-
-		return null;
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {

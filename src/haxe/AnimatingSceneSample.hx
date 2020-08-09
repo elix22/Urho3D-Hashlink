@@ -37,7 +37,7 @@ class Rotator extends LogicComponent {
 	}
 
 	public function ResetRotation() {
-		node.rotation = new TQuaternion(Random(360.0), Random(360.0), Random(360.0));
+		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
 	}
 }
 

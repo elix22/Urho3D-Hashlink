@@ -11,7 +11,8 @@ class Main {
 	//	 app = new StaticSceneSample();
      // app = new SkeletalAnimationSample();
 	//	app = new BillboardsSample();
-		app = new DecalsSample();
+	//	app = new DecalsSample();
+	app = new MultipleViewportsSample();
 		app.Run();
 	}
 }

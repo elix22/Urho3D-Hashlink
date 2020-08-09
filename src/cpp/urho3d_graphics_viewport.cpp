@@ -34,6 +34,16 @@ hl_urho3d_graphics_viewport *hl_alloc_urho3d_graphics_viewport(urho3d_context *c
     return p;
 }
 
+hl_urho3d_graphics_viewport *hl_alloc_urho3d_graphics_viewport(urho3d_context *context,hl_urho3d_scene_scene * scene ,hl_urho3d_graphics_camera * camera,hl_urho3d_math_intrect * intRect)
+{
+
+    hl_urho3d_graphics_viewport *p = (hl_urho3d_graphics_viewport *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_viewport));
+    memset(p,0,sizeof(hl_urho3d_graphics_viewport));
+    p->finalizer = (void *)finalize_urho3d_graphics_viewport;
+    p->ptr = new Viewport(context,scene->ptr,camera->ptr,*intRect->ptr);
+    return p;
+}
+
 
 HL_PRIM hl_urho3d_graphics_viewport *HL_NAME(_graphics_viewport_create)(urho3d_context *context,hl_urho3d_scene_scene * scene ,hl_urho3d_graphics_camera * camera)
 {
@@ -42,4 +52,12 @@ HL_PRIM hl_urho3d_graphics_viewport *HL_NAME(_graphics_viewport_create)(urho3d_c
 }
 
 
+HL_PRIM hl_urho3d_graphics_viewport *HL_NAME(_graphics_viewport_create_r)(urho3d_context *context,hl_urho3d_scene_scene * scene ,hl_urho3d_graphics_camera * camera,hl_urho3d_math_intrect * intRect)
+{
+    return hl_alloc_urho3d_graphics_viewport(context,scene,camera,intRect);
+
+}
+
+
 DEFINE_PRIM(HL_URHO3D_VIEWPORT, _graphics_viewport_create, URHO3D_CONTEXT HL_URHO3D_SCENE HL_URHO3D_CAMERA);
+DEFINE_PRIM(HL_URHO3D_VIEWPORT, _graphics_viewport_create_r, URHO3D_CONTEXT HL_URHO3D_SCENE HL_URHO3D_CAMERA HL_URHO3D_INTRECT);
