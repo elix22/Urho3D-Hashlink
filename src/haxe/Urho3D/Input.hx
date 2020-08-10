@@ -24,9 +24,41 @@ enum abstract  MouseButton(Int)  to Int from Int
     var MOUSEB_ANY = M_MAX_UNSIGNED;
 }
 
+@:hlNative("Urho3D")
+abstract KeyDown(Int) {
+
+	@:arrayAccess
+	public inline function  getKeyDown(index:Int):Bool {
+		return _GetKeyDown(Context.context, index);
+	}
+
+	@:hlNative("Urho3D", "_input_get_key_down")
+	private static function _GetKeyDown(context:Context, index:Int):Bool {
+		return false;
+	}
+}
+
+
+@:hlNative("Urho3D")
+abstract KeyPress(Int) {
+
+	@:arrayAccess
+	public inline function  getKeyPress(index:Int):Bool {
+		return _GetKeyPress(Context.context, index);
+	}
+
+	@:hlNative("Urho3D", "_input_get_key_press")
+	private static function _GetKeyPress(context:Context, index:Int):Bool {
+		return false;
+	}
+}
+
 class Input {
 	public static var mouseMove(get, never):StructIntVector2;
 	public static var numTouches(get, never):Int;
+
+	public static var keyDown:KeyDown;
+	public static var keyPress:KeyPress;
 
 	public static function GetKeyDown(key:KeyCode):Bool{
 		return _GetKeyDown(Context.context,key);

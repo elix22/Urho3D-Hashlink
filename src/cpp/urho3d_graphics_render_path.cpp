@@ -71,6 +71,12 @@ HL_PRIM void  HL_NAME(_graphics_render_set_shader_parameter)(urho3d_context *con
     path->ptr->SetShaderParameter(String(name),*(value->ptr));
 }
 
+HL_PRIM hl_urho3d_variant *   HL_NAME(_graphics_render_get_shader_parameter)(urho3d_context *context,hl_urho3d_graphics_render_path * path, vstring *str,hl_urho3d_variant * value)
+{
+    const char *name = (char *)hl_to_utf8(str->bytes);
+     return hl_alloc_urho3d_variant(path->ptr->GetShaderParameter(String(name)));
+}
+
 HL_PRIM void  HL_NAME(_graphics_render_set_enabled)(urho3d_context *context,hl_urho3d_graphics_render_path * path, vstring *str,bool value)
 {
     const char *name = (char *)hl_to_utf8(str->bytes);
@@ -88,5 +94,6 @@ DEFINE_PRIM(HL_URHO3D_RENDER_PATH, _graphics_render_path_create, URHO3D_CONTEXT 
 DEFINE_PRIM(HL_URHO3D_RENDER_PATH, _graphics_render_path_clone, URHO3D_CONTEXT HL_URHO3D_RENDER_PATH);
 DEFINE_PRIM(_BOOL, _graphics_render_path_append, URHO3D_CONTEXT HL_URHO3D_RENDER_PATH HL_URHO3D_XML_FILE);
 DEFINE_PRIM(_VOID, _graphics_render_set_shader_parameter, URHO3D_CONTEXT HL_URHO3D_RENDER_PATH _STRING HL_URHO3D_VARIANT);
+DEFINE_PRIM(HL_URHO3D_VARIANT, _graphics_render_get_shader_parameter, URHO3D_CONTEXT HL_URHO3D_RENDER_PATH _STRING );
 DEFINE_PRIM(_VOID, _graphics_render_set_enabled, URHO3D_CONTEXT HL_URHO3D_RENDER_PATH _STRING _BOOL);
 DEFINE_PRIM(_VOID, _graphics_render_toggle_enabled, URHO3D_CONTEXT HL_URHO3D_RENDER_PATH _STRING);

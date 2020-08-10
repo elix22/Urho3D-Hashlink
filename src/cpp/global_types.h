@@ -154,7 +154,7 @@ typedef struct hl_urho3d_variant
 
 #define HL_URHO3D_VARIANT _ABSTRACT(hl_urho3d_variant)
 hl_urho3d_variant *hl_alloc_urho3d_variant();
-hl_urho3d_variant * hl_alloc_urho3d_variant(Variant & rhs);
+hl_urho3d_variant * hl_alloc_urho3d_variant(const Variant & rhs);
 
 
 typedef Urho3D::Variant  hl_urho3d_tvariant;

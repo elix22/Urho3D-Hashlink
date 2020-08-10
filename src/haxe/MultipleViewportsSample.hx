@@ -1,5 +1,6 @@
 import urho3d.*;
 import urho3d.Application;
+import urho3d.KeyCode;
 
 class MultipleViewportsSample extends Application {
 	private var scene:Scene = null;
@@ -163,25 +164,25 @@ class MultipleViewportsSample extends Application {
 			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 		}
 
-		if (Input.GetKeyDown(KEY_W))
+		if (Input.keyDown[KEY_W])
 			cameraNode.Translate(Vector3.FORWARD * MOVE_SPEED * timeStep);
-		if (Input.GetKeyDown(KEY_S))
+		if (Input.keyDown[KEY_S])
 			cameraNode.Translate(Vector3.BACK * MOVE_SPEED * timeStep);
-		if (Input.GetKeyDown(KEY_A))
+		if (Input.keyDown[KEY_A])
 			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
-		if (Input.GetKeyDown(KEY_D))
+		if (Input.keyDown[KEY_D])
             cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
         
         
     // Toggle post processing effects on the front viewport. Note that the rear viewport is unaffected
    var effectRenderPath = Renderer.viewports[0].renderPath;
-    if (Input.GetKeyPress(KEY_B))
+    if (Input.keyPress[KEY_B])
         effectRenderPath.ToggleEnabled("Bloom");
-    if (Input.GetKeyPress(KEY_F))
+    if (Input.keyPress[KEY_F])
         effectRenderPath.ToggleEnabled("FXAA2");
 
 		// Toggle debug geometry with space
-		if (Input.GetKeyPress(KEY_SPACE))
+		if (Input.keyPress[KEY_SPACE])
 			drawDebug = !drawDebug;
 	}
 
