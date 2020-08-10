@@ -106,14 +106,29 @@ class MultipleViewportsSample extends Application {
 	}
 
 	public function SetupViewport() {
-        Renderer.numViewports = 2;
+		Renderer.numViewports = 2;
 
+		// Set up the front camera viewport
 		var viewport = new Viewport(scene, cameraNode.GetComponent("Camera"));
-        Renderer.SetViewport(0, viewport);
-        
-        var rearViewport = new Viewport(scene, rearCameraNode.GetComponent("Camera"),
-        new IntRect(cast(Graphics.width * 2 / 3,Int), 32, Graphics.width - 32, cast(Graphics.height / 3,Int)));
-        Renderer.SetViewport(1, rearViewport);
+		Renderer.viewports[0] = viewport;
+
+		// Clone the default render path so that we do not interfere with the other viewport, then add
+		// bloom and FXAA post process effects to the front viewport. Render path commands can be tagged
+		// for example with the effect name to allow easy toggling on and off. We start with the effects
+		// disabled.
+		var effectRenderPath = viewport.renderPath.Clone();
+		effectRenderPath.Append(new XMLFile("PostProcess/Bloom.xml"));
+		effectRenderPath.Append(new XMLFile("PostProcess/FXAA2.xml"));
+
+		// Make the bloom mixing parameter more pronounced
+        // effectRenderPath.shaderParameters["BloomMix"] = Variant(Vector2(0.9f, 0.6f));
+        effectRenderPath.SetShaderParameter("BloomMix",new Vector2(0.9, 0.6));
+		effectRenderPath.SetEnabled("Bloom", false);
+		effectRenderPath.SetEnabled("FXAA2", false);
+		viewport.renderPath = effectRenderPath;
+
+		Renderer.viewports[1] = new Viewport(scene, rearCameraNode.GetComponent("Camera"),
+			new IntRect(cast(Graphics.width * 2 / 3, Int), 32, Graphics.width - 32, cast(Graphics.height / 3, Int)));
 	}
 
 	public function SubscribeToEvents() {
@@ -155,7 +170,16 @@ class MultipleViewportsSample extends Application {
 		if (Input.GetKeyDown(KEY_A))
 			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
 		if (Input.GetKeyDown(KEY_D))
-			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
+            cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
+        
+        
+    // Toggle post processing effects on the front viewport. Note that the rear viewport is unaffected
+   var effectRenderPath = Renderer.viewports[0].renderPath;
+    if (Input.GetKeyPress(KEY_B))
+        effectRenderPath.ToggleEnabled("Bloom");
+    if (Input.GetKeyPress(KEY_F))
+        effectRenderPath.ToggleEnabled("FXAA2");
+
 		// Toggle debug geometry with space
 		if (Input.GetKeyPress(KEY_SPACE))
 			drawDebug = !drawDebug;

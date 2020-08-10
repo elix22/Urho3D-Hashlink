@@ -15,6 +15,17 @@ abstract Viewport(HL_URHO3D_VIEWPORT) {
 		}
 	}
 
+	public var renderPath(get, set):RenderPath;
+
+	function set_renderPath(r) {
+		SetRenderPath(Context.context, cast this, r);
+		return r;
+	}
+
+	function get_renderPath() {
+		return GetRenderPath(Context.context, cast this);
+	}
+
 	@:hlNative("Urho3D", "_graphics_viewport_create")
 	private static function Create(context:Context, scene:AbstractScene, camera:AbstractCamera):HL_URHO3D_VIEWPORT {
 		return null;
@@ -22,6 +33,14 @@ abstract Viewport(HL_URHO3D_VIEWPORT) {
 
 	@:hlNative("Urho3D", "_graphics_viewport_create_r")
 	private static function CreateR(context:Context, scene:AbstractScene, camera:AbstractCamera, rect:IntRect):HL_URHO3D_VIEWPORT {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_viewport_set_render_path")
+	private static function SetRenderPath(context:Context, v:Viewport, r:RenderPath):Void {}
+
+	@:hlNative("Urho3D", "_graphics_viewport_get_render_path")
+	private static function GetRenderPath(context:Context, v:Viewport):RenderPath {
 		return null;
 	}
 }

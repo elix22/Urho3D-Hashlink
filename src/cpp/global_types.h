@@ -194,6 +194,17 @@ typedef struct hl_urho3d_resource
 #define HL_URHO3D_RESOURCE _ABSTRACT(hl_urho3d_resource)
 hl_urho3d_resource *hl_alloc_urho3d_resource();
 
+
+typedef struct hl_urho3d_resource_xml_file
+{
+    void *finalizer;
+    SharedPtr<Urho3D::XMLFile> ptr;
+} hl_urho3d_resource_xml_file;
+
+#define HL_URHO3D_XML_FILE _ABSTRACT(hl_urho3d_resource_xml_file)
+hl_urho3d_resource_xml_file *hl_alloc_urho3d_resource_xml_file();
+
+
 typedef struct hl_urho3d_texture2d
 {
     void *finalizer;
@@ -408,6 +419,16 @@ typedef RayQueryResult  hl_urho3d_graphics_ray_query_result;
 #define HL_URHO3D_RAY_QUERY_RESULT _ABSTRACT(hl_urho3d_graphics_ray_query_result)
 
 
+typedef struct hl_urho3d_graphics_render_path
+{
+    void *finalizer;
+    SharedPtr<Urho3D::RenderPath> ptr;
+} hl_urho3d_graphics_render_path;
+
+#define HL_URHO3D_RENDER_PATH _ABSTRACT(hl_urho3d_graphics_render_path)
+hl_urho3d_graphics_render_path *hl_alloc_urho3d_graphics_render_path(urho3d_context *context);
+hl_urho3d_graphics_render_path *hl_alloc_urho3d_graphics_render_path(Urho3D::RenderPath*);
+
 typedef struct hl_urho3d_graphics_staticmodel
 {
     void *finalizer;
@@ -438,6 +459,7 @@ typedef struct hl_urho3d_graphics_viewport
 
 #define HL_URHO3D_VIEWPORT _ABSTRACT(hl_urho3d_graphics_viewport)
 hl_urho3d_graphics_viewport *hl_alloc_urho3d_graphics_viewport(hl_urho3d_scene_scene *scene, hl_urho3d_graphics_camera *camera);
+hl_urho3d_graphics_viewport *hl_alloc_urho3d_graphics_viewport(Urho3D::Viewport * vp);
 
 typedef struct hl_urho3d_graphics_zone
 {
