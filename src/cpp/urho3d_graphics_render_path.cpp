@@ -27,9 +27,6 @@ void finalize_urho3d_graphics_render_path(void *v)
 
 hl_urho3d_graphics_render_path *hl_alloc_urho3d_graphics_render_path(urho3d_context *context)
 {
-
-    ResourceCache *cache = context->GetSubsystem<ResourceCache>();
-
         hl_urho3d_graphics_render_path *p = (hl_urho3d_graphics_render_path *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_graphics_render_path));
         memset(p, 0, sizeof(hl_urho3d_graphics_render_path));
         p->finalizer = (void *)finalize_urho3d_graphics_render_path;

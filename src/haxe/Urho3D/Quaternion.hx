@@ -5,7 +5,7 @@ typedef StructQuaternion = {x:Float, y:Float, z:Float};
 
 @:hlNative("Urho3D")
 abstract Quaternion(HL_URHO3D_QUATERNION) {
-	public inline function new(x_:Float = 0.0, ?v:TVector3, y_:Float = 0.0, z_:Float = 0.0) {
+	public inline function new(x_:Float = 0.0, y_:Float = 0.0, z_:Float = 0.0, ?v:TVector3) {
 		if (v != null) {
 			this = Create_fv(x_, v);
 		} else {

@@ -386,6 +386,7 @@ typedef struct hl_urho3d_graphics_light_bias_parameters
     BiasParameters*  ptr;
 } hl_urho3d_graphics_light_bias_parameters;
 #define HL_URHO3D_LIGHT_BIAS_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_bias_parameters)
+hl_urho3d_graphics_light_bias_parameters *hl_alloc_urho3d_graphics_light_bias_parameters(const Urho3D::BiasParameters & rhs );
 
 typedef struct hl_urho3d_graphics_material
 {
@@ -429,6 +430,17 @@ typedef struct hl_urho3d_graphics_render_path
 hl_urho3d_graphics_render_path *hl_alloc_urho3d_graphics_render_path(urho3d_context *context);
 hl_urho3d_graphics_render_path *hl_alloc_urho3d_graphics_render_path(Urho3D::RenderPath*);
 
+//
+typedef struct hl_urho3d_graphics_render_surface
+{
+    void *finalizer;
+    SharedPtr<Urho3D::RenderSurface> ptr;
+} hl_urho3d_graphics_render_surface;
+
+#define HL_URHO3D_RENDER_SURFACE _ABSTRACT(hl_urho3d_graphics_render_surface)
+hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(urho3d_context *context);
+hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(Urho3D::RenderSurface*);
+
 typedef struct hl_urho3d_graphics_staticmodel
 {
     void *finalizer;
@@ -439,6 +451,15 @@ typedef struct hl_urho3d_graphics_staticmodel
 hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(urho3d_context *context);
 hl_urho3d_graphics_staticmodel *hl_alloc_urho3d_graphics_staticmodel(StaticModel *model);
 
+typedef struct hl_urho3d_graphics_technique
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Technique> ptr;
+} hl_urho3d_graphics_technique;
+
+#define HL_URHO3D_TECHNIQUE _ABSTRACT(hl_urho3d_graphics_technique)
+hl_urho3d_graphics_technique *hl_alloc_urho3d_graphics_technique(urho3d_context *context, const char *name);
+hl_urho3d_graphics_technique *hl_alloc_urho3d_graphics_technique(Technique *obj);
 
 typedef struct hl_urho3d_graphics_texture
 {

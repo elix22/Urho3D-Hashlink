@@ -6,15 +6,14 @@ class Main {
 	private static var app = null;
 
 	static function main() {
-	//	 app = new SpritesSample();
-	//	 app = new AnimatingSceneSample();
-	//	 app = new StaticSceneSample();
-     // app = new SkeletalAnimationSample();
-	//	app = new BillboardsSample();
-	//	app = new DecalsSample();
-	app = new MultipleViewportsSample();
+		//	 app = new SpritesSample();
+		//	 app = new AnimatingSceneSample();
+		//	 app = new StaticSceneSample();
+		// app = new SkeletalAnimationSample();
+		//	app = new BillboardsSample();
+		//	app = new DecalsSample();
+		// app = new MultipleViewportsSample();
+		app = new RenderToTextureSample();
 		app.Run();
 	}
 }
-
-

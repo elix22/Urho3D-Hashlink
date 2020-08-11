@@ -99,7 +99,7 @@ class MultipleViewportsSample extends Application {
 		// Because the rear viewport is rather small, disable occlusion culling from it. Use the camera's
 		// "view override flags" for this. We could also disable eg. shadows or force low material quality
 		// if we wanted
-        rearCamera.viewOverrideFlags = VO_DISABLE_OCCLUSION;
+		rearCamera.viewOverrideFlags = VO_DISABLE_OCCLUSION;
 
 		// Set an initial position for the front camera scene node above the plane
 		cameraNode.position = new Vector3(0.0, 5.0, 0.0);
@@ -121,8 +121,8 @@ class MultipleViewportsSample extends Application {
 		effectRenderPath.Append(new XMLFile("PostProcess/FXAA2.xml"));
 
 		// Make the bloom mixing parameter more pronounced
-        // effectRenderPath.shaderParameters["BloomMix"] = Variant(Vector2(0.9f, 0.6f));
-        effectRenderPath.SetShaderParameter("BloomMix",new Vector2(0.9, 0.6));
+		// effectRenderPath.shaderParameters["BloomMix"] = Variant(Vector2(0.9f, 0.6f));
+		effectRenderPath.SetShaderParameter("BloomMix", new Vector2(0.9, 0.6));
 		effectRenderPath.SetEnabled("Bloom", false);
 		effectRenderPath.SetEnabled("FXAA2", false);
 		viewport.renderPath = effectRenderPath;
@@ -170,15 +170,14 @@ class MultipleViewportsSample extends Application {
 		if (Input.keyDown[KEY_A])
 			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
 		if (Input.keyDown[KEY_D])
-            cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
-        
-        
-    // Toggle post processing effects on the front viewport. Note that the rear viewport is unaffected
-   var effectRenderPath = Renderer.viewports[0].renderPath;
-    if (Input.keyPress[KEY_B])
-        effectRenderPath.ToggleEnabled("Bloom");
-    if (Input.keyPress[KEY_F])
-        effectRenderPath.ToggleEnabled("FXAA2");
+			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
+
+		// Toggle post processing effects on the front viewport. Note that the rear viewport is unaffected
+		var effectRenderPath = Renderer.viewports[0].renderPath;
+		if (Input.keyPress[KEY_B])
+			effectRenderPath.ToggleEnabled("Bloom");
+		if (Input.keyPress[KEY_F])
+			effectRenderPath.ToggleEnabled("FXAA2");
 
 		// Toggle debug geometry with space
 		if (Input.keyPress[KEY_SPACE])
