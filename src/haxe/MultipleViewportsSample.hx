@@ -99,8 +99,7 @@ class MultipleViewportsSample extends Application {
 		// Because the rear viewport is rather small, disable occlusion culling from it. Use the camera's
 		// "view override flags" for this. We could also disable eg. shadows or force low material quality
 		// if we wanted
-
-		// rearCamera.viewOverrideFlags = VO_DISABLE_OCCLUSION;
+        rearCamera.viewOverrideFlags = VO_DISABLE_OCCLUSION;
 
 		// Set an initial position for the front camera scene node above the plane
 		cameraNode.position = new Vector3(0.0, 5.0, 0.0);

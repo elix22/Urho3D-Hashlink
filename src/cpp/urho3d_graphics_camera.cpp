@@ -90,6 +90,18 @@ HL_PRIM hl_urho3d_math_ray * HL_NAME(_graphics_camera_get_screen_ray)(urho3d_con
     return hl_alloc_urho3d_math_ray( t->ptr->GetScreenRay(x,y));
 }
 
+//SetViewOverrideFlags
+HL_PRIM void HL_NAME(_graphics_camera_set_view_override_flags)(urho3d_context *context, hl_urho3d_graphics_camera * t, int flags )
+{
+    t->ptr->SetViewOverrideFlags(ViewOverrideFlags(flags));
+     t->ptr->GetViewOverrideFlags().AsInteger();
+}
+
+HL_PRIM int HL_NAME(_graphics_camera_get_view_override_flags)(urho3d_context *context, hl_urho3d_graphics_camera * t )
+{
+     return t->ptr->GetViewOverrideFlags().AsInteger();
+}
+
 DEFINE_PRIM(HL_URHO3D_CAMERA, _graphics_camera_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_camera_cast_to_component, URHO3D_CONTEXT HL_URHO3D_CAMERA);
 DEFINE_PRIM(HL_URHO3D_CAMERA, _graphics_camera_cast_from_component,URHO3D_CONTEXT HL_URHO3D_COMPONENT );
@@ -101,3 +113,6 @@ DEFINE_PRIM(_VOID, _graphics_camera_set_fov, URHO3D_CONTEXT HL_URHO3D_CAMERA _F3
 DEFINE_PRIM(_F32, _graphics_camera_get_fov, URHO3D_CONTEXT HL_URHO3D_CAMERA);
 
 DEFINE_PRIM(HL_URHO3D_RAY, _graphics_camera_get_screen_ray, URHO3D_CONTEXT HL_URHO3D_CAMERA _F32 _F32) ;
+
+DEFINE_PRIM(_VOID, _graphics_camera_set_view_override_flags, URHO3D_CONTEXT HL_URHO3D_CAMERA _I32);
+DEFINE_PRIM(_I32, _graphics_camera_get_view_override_flags, URHO3D_CONTEXT HL_URHO3D_CAMERA );
