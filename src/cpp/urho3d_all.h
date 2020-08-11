@@ -202,7 +202,6 @@
 #include <Math/Vector2.h>
 #include <Math/Vector3.h>
 #include <Math/Vector4.h>
-#if URHO3D_NAVIGATION
 #include <Navigation/CrowdAgent.h>
 #include <Navigation/CrowdManager.h>
 #include <Navigation/DynamicNavigationMesh.h>
@@ -213,16 +212,12 @@
 #include <Navigation/NavigationMesh.h>
 #include <Navigation/Obstacle.h>
 #include <Navigation/OffMeshConnection.h>
-#endif
-#if URHO3D_NETWORK
 #include <Network/Connection.h>
 #include <Network/HttpRequest.h>
 #include <Network/Network.h>
 #include <Network/NetworkEvents.h>
 #include <Network/NetworkPriority.h>
 #include <Network/Protocol.h>
-#endif
-#if URHO3D_PHYSICS
 #include <Physics/CollisionShape.h>
 #include <Physics/Constraint.h>
 #include <Physics/PhysicsEvents.h>
@@ -230,7 +225,6 @@
 #include <Physics/PhysicsWorld.h>
 #include <Physics/RaycastVehicle.h>
 #include <Physics/RigidBody.h>
-#endif
 #include <Resource/BackgroundLoader.h>
 #include <Resource/Decompress.h>
 #include <Resource/Image.h>

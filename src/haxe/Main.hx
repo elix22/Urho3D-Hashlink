@@ -13,7 +13,8 @@ class Main {
 		//	app = new BillboardsSample();
 		//	app = new DecalsSample();
 		// app = new MultipleViewportsSample();
-		app = new RenderToTextureSample();
+		// app = new RenderToTextureSample();
+		app = new PhysicsSample();
 		app.Run();
 	}
 }

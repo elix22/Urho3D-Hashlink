@@ -441,6 +441,17 @@ typedef struct hl_urho3d_graphics_render_surface
 hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(urho3d_context *context);
 hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(Urho3D::RenderSurface*);
 
+
+typedef struct hl_urho3d_graphics_skybox
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Skybox> ptr;
+} hl_urho3d_graphics_skybox;
+
+#define HL_URHO3D_SKYBOX _ABSTRACT(hl_urho3d_graphics_skybox)
+hl_urho3d_graphics_skybox *hl_alloc_urho3d_graphics_skybox(urho3d_context *context);
+hl_urho3d_graphics_skybox *hl_alloc_urho3d_graphics_skybox(Skybox *obj);
+
 typedef struct hl_urho3d_graphics_staticmodel
 {
     void *finalizer;
@@ -495,5 +506,29 @@ hl_urho3d_graphics_zone *hl_alloc_urho3d_graphics_zone(Zone *zone);
 
 typedef Urho3D::TouchState*  hl_urho3d_input_touch_state;
 #define HL_URHO3D_TOUCH_STATE _ABSTRACT(hl_urho3d_input_touch_state)
+
+
+typedef struct hl_urho3d_physics_collision_shape
+{
+    void *finalizer;
+    SharedPtr<Urho3D::CollisionShape> ptr;
+} hl_urho3d_physics_collision_shape;
+
+#define HL_URHO3D_COLLISION_SHAPE _ABSTRACT(hl_urho3d_physics_collision_shape)
+hl_urho3d_physics_collision_shape *hl_alloc_urho3d_physics_collision_shape(urho3d_context *context);
+hl_urho3d_physics_collision_shape *hl_alloc_urho3d_physics_collision_shape(Urho3D::CollisionShape*);
+
+
+typedef struct hl_urho3d_physics_rigid_body
+{
+    void *finalizer;
+    SharedPtr<Urho3D::RigidBody> ptr;
+} hl_urho3d_physics_rigid_body;
+
+#define HL_URHO3D_RIGID_BODY _ABSTRACT(hl_urho3d_physics_rigid_body)
+hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(urho3d_context *context);
+hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(Urho3D::RigidBody*);
+
+
 
 #endif

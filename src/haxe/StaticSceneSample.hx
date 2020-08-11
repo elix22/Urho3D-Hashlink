@@ -68,6 +68,8 @@ class StaticSceneSample extends Application {
 	}
 
 	function MoveCamera(timeStep:Float) {
+		final MOVE_SPEED = 20.0;
+
 		if (Input.numTouches > 0) {
 			var camera:Camera = cameraNode.GetComponent("Camera");
 			final TOUCH_SENSITIVITY = 2.0;
@@ -91,6 +93,15 @@ class StaticSceneSample extends Application {
 
 			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
 		}
+
+		if (Input.GetKeyDown(KEY_W))
+			cameraNode.Translate(Vector3.FORWARD * MOVE_SPEED * timeStep);
+		if (Input.GetKeyDown(KEY_S))
+			cameraNode.Translate(Vector3.BACK * MOVE_SPEED * timeStep);
+		if (Input.GetKeyDown(KEY_A))
+			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
+		if (Input.GetKeyDown(KEY_D))
+			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {

@@ -62,7 +62,14 @@ HL_PRIM hl_urho3d_math_quaternion * HL_NAME(_math_tquaternion_cast_to_quaternion
     }
 }
 
+//Vector3 operator *(const Vector3& rhs) const
+HL_PRIM  Urho3D::Vector3 * HL_NAME(_math_tquaternion_multiply_tvector3)(Urho3D::Quaternion *q , Urho3D::Vector3 * v)
+{
+    return  hl_alloc_urho3d_math_tvector3(*q * (*v));
+}
 
 DEFINE_PRIM(HL_URHO3D_TQUATERNION, _math_tquaternion_create, _F32 _F32 _F32);
 DEFINE_PRIM(HL_URHO3D_TQUATERNION, _math_tquaternion_cast_from_quaternion, HL_URHO3D_QUATERNION);
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _math_tquaternion_cast_to_quaternion, HL_URHO3D_TQUATERNION);
+
+DEFINE_PRIM(HL_URHO3D_TVECTOR3, _math_tquaternion_multiply_tvector3, HL_URHO3D_TQUATERNION HL_URHO3D_TVECTOR3);

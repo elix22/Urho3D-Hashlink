@@ -8,6 +8,9 @@ import urho3d.Light.AbstractLight;
 import urho3d.AnimatedModel.AbstractAnimatedModel;
 import urho3d.BillboardSet.AbstractBillboardSet;
 import urho3d.DecalSet.AbstractDecalSet;
+import urho3d.RigidBody.AbstractRigidBody;
+import urho3d.CollisionShape.AbstractCollisionShape;
+import urho3d.Skybox.AbstractSkybox;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
@@ -120,6 +123,45 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 			var abstract_ = AbstractDecalSet.CastFromComponent(Context.context, cast this);
 			if (abstract_ != null)
 				return new DecalSet(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toRigidBody():RigidBody {
+		if (this != null) {
+			var abstract_ = AbstractRigidBody.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new RigidBody(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toCollisionShape():CollisionShape {
+		if (this != null) {
+			var abstract_ = AbstractCollisionShape.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new CollisionShape(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toSkybox():Skybox {
+		if (this != null) {
+			var abstract_ = AbstractSkybox.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new Skybox(abstract_);
 			else
 				return null;
 		} else {
