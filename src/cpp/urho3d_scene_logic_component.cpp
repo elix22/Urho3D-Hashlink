@@ -17,7 +17,9 @@ static int hl_hash_update = 0;
 static int hl_hash_post_update = 0;
 static int hl_hash_fixed_update = 0;
 static int hl_hash_fixed_post_update = 0;
+static int hl_hash_on_node_set = 0;
 
+vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 // very fast function
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
@@ -50,6 +52,10 @@ public:
             hl_hash_fixed_update = hl_hash_utf8("FixedUpdate");
         if (hl_hash_fixed_post_update == 0)
             hl_hash_fixed_post_update = hl_hash_utf8("FixedPostUpdate");
+        if (hl_hash_on_node_set == 0)
+        {
+            hl_hash_on_node_set = hl_hash_utf8("_OnNodeSet");
+        }
     }
 
     /// Destruct.
@@ -111,19 +117,19 @@ public:
     {
         dyn_obj = NULL;
 
-       // if (dyn_obj)
-       // {
-            // printf("ProxyLogicComponent.Stop \n");
-       //     vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
-            // vclosure closure;
-            // hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_stop, hl_hash_stop, &closure);
-            // ((void (*)(vdynamic*))closure.fun)((vdynamic*)closure.value);
-           // if (closure != NULL)
-           //     hl_dyn_call(closure, NULL, 0);
+        // if (dyn_obj)
+        // {
+        // printf("ProxyLogicComponent.Stop \n");
+        //     vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
+        // vclosure closure;
+        // hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_stop, hl_hash_stop, &closure);
+        // ((void (*)(vdynamic*))closure.fun)((vdynamic*)closure.value);
+        // if (closure != NULL)
+        //     hl_dyn_call(closure, NULL, 0);
 
-            // hl_remove_root(&dyn_obj);
+        // hl_remove_root(&dyn_obj);
         //     dyn_obj = NULL;
-       // }
+        // }
     }
 
     /// Called on scene update, variable timestep.
@@ -205,6 +211,20 @@ public:
         }
     }
 
+    virtual void OnNodeSet(Node* node)
+    {
+       if (dyn_obj)
+        {
+            // hl_type hl_type_urho3d_node = { HABSTRACT, {(const uchar *)USTR("hl_urho3d_scene_node")} };
+            //hl_type hl_type_urho3d_node = { HABSTRACT};
+            vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_on_node_set, &hlt_dyn);
+            vdynamic *dyn_urho3d_node = hl_alloc_dynamic(&hlt_abstract);
+            dyn_urho3d_node->v.ptr = hl_alloc_urho3d_scene_node_no_finalizer(NULL, node);
+            vdynamic *vargs[1]={dyn_urho3d_node};
+            hl_dyn_abstract_call(closure, vargs, 1);
+        }   
+    }
+
     vdynamic *dyn_obj;
     hl_field_lookup *dyn_obj_field_start;
     hl_field_lookup *dyn_obj_field_delayed_start;
@@ -239,7 +259,7 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(urho3d_co
     p->finalizer = (void *)finalize_urho3d_scene_logic_component;
     ProxyLogicComponent *c = new ProxyLogicComponent(context);
     c->dyn_obj = dyn_obj;
-   // hl_add_root(&dyn_obj);
+    // hl_add_root(&dyn_obj);
     p->ptr = c;
     return p;
 }

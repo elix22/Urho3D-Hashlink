@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.Node.AbstractNode;
 import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_LOGIC_COMPONENT = hl.Abstract<"hl_urho3d_scene_logic_component">;
@@ -40,6 +41,15 @@ class LogicComponent extends Component {
 	@:keep
 	public function FixedPostUpdate(timeStep:Float):Void {
 		// trace("FixedPostUpdate " + timeStep);
+	}
+
+	@:keep
+	private function _OnNodeSet(node:AbstractNode):Void {
+		OnNodeSet(node);
+	}
+
+	@:keep
+	public function OnNodeSet(node:Node):Void {
 	}
 
      /* reflection doesnlt work on iOS

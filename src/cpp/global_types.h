@@ -262,6 +262,7 @@ typedef struct hl_urho3d_scene_node
 #define HL_URHO3D_NODE _ABSTRACT(hl_urho3d_scene_node)
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node();
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node(urho3d_context *context, Node *node);
+hl_urho3d_scene_node *hl_alloc_urho3d_scene_node_no_finalizer(urho3d_context *context, Node *node);
 
 typedef PODVector<Node *> hl_urho3d_scene_pod_node;
 #define HL_URHO3D_POD_NODE _ABSTRACT(hl_urho3d_scene_pod_node)

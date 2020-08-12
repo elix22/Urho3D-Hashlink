@@ -35,6 +35,20 @@ hl_urho3d_scene_node *hl_alloc_urho3d_scene_node(urho3d_context *context)
     return p;
 }
 
+hl_urho3d_scene_node *hl_alloc_urho3d_scene_node_no_finalizer(urho3d_context *context, Node *node)
+{
+    if (node)
+    {
+        hl_urho3d_scene_node *p = (hl_urho3d_scene_node *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_node));
+        memset(p, 0, sizeof(hl_urho3d_scene_node));
+        p->ptr = node;
+        return p;
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node(urho3d_context *context, Node *node)
 {
