@@ -692,3 +692,13 @@ void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosur
 	d = hl_obj_get_hobj_internal(d, *f,c);
 	return d == NULL ? NULL : hl_dyn_castp(&d, &hlt_dyn, &hlt_dyn);
 }
+
+
+// TBD ELI , fix link error
+extern "C" {
+void ssl_ssl_init(void)
+{
+
+
+}
+}
