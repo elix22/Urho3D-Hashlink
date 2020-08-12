@@ -10,7 +10,7 @@ extern "C"
 }
 
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 

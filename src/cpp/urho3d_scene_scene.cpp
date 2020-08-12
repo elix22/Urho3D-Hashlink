@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 void finalize_urho3d_scene_scene(void *v)
 {
@@ -31,6 +31,15 @@ hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene(urho3d_context *context)
     memset(p,0,sizeof(hl_urho3d_scene_scene));
     p->finalizer = (void *)finalize_urho3d_scene_scene;
     p->ptr = new Scene(context);
+    return p;
+}
+
+hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene_no_finalizer(urho3d_context *context,Scene *scene)
+{
+
+    hl_urho3d_scene_scene *p = (hl_urho3d_scene_scene *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_scene));
+    memset(p,0,sizeof(hl_urho3d_scene_scene));
+    p->ptr = scene;
     return p;
 }
 

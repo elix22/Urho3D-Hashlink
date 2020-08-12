@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 HL_PRIM hl_urho3d_math_tvector3 * HL_NAME(_graphics_ray_query_result_get_position)(hl_urho3d_graphics_ray_query_result * result)
 {

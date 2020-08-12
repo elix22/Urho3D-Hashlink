@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 class ProxyComponent : public Component
 {

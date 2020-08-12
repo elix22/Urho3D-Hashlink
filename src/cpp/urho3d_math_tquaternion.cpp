@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 static Urho3D::Quaternion tquaternion_stack[TQUATERNION_STACK_SIZE] = {Urho3D::Quaternion(0.0, 0.0, 0.0)};
 static int index_tquaternion_stack = 0;

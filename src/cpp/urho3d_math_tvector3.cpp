@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 static Urho3D::Vector3 tvector3_stack[TVECTOR3_STACK_SIZE] = {Urho3D::Vector3(0.0, 0.0, 0.0)};
 static int index_tvector3_stack = 0;

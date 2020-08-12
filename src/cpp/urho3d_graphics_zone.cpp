@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 void finalize_urho3d_graphics_zone(void *v)
 {
@@ -93,13 +93,13 @@ HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_get_ambient_color)(urho3d_contex
     return  hl_alloc_urho3d_color(zone->ptr->GetAmbientColor());
 }
 
-HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_set_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_color * color)
+HL_PRIM  hl_urho3d_color *HL_NAME(_graphics_zone_set_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone,hl_urho3d_color * color)
 {
     zone->ptr->SetFogColor(*(color->ptr));
     return color;
 }
 
-HL_PRIM hl_urho3d_color *HL_NAME(_graphics_zone_get_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
+HL_PRIM  hl_urho3d_color *HL_NAME(_graphics_zone_get_fog_color)(urho3d_context * context,hl_urho3d_graphics_zone *zone)
 {
     return  hl_alloc_urho3d_color(zone->ptr->GetFogColor());
 }

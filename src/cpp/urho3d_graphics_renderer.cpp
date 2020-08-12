@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 HL_PRIM void HL_NAME(_graphics_renderer_set_viewport)(urho3d_context *context, int index, hl_urho3d_graphics_viewport *viewport)
 {

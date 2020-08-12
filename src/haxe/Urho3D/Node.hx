@@ -156,7 +156,6 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:to
 	public inline function toNode():Node {
-		// trace("AbstractNode to Node");
 		return new Node(cast this);
 	}
 

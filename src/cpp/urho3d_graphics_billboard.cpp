@@ -9,7 +9,7 @@ extern "C"
 }
 
 
-#include "global_types.h"
+#include "global_types.inc"
 
 /*
 typedef Urho3D::Billboard hl_urho3d_graphics_billboard;

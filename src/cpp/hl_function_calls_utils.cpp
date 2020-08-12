@@ -695,8 +695,8 @@ void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosur
 
 
 // TBD ELI , fix link error
-extern "C" {
-void ssl_ssl_init(void)
+extern "C"  {
+EXPORT void ssl_ssl_init(void)
 {
 
 

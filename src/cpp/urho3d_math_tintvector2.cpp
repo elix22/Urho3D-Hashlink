@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 static Urho3D::IntVector2 tintvector2_stack[TINTVECTOR2_STACK_SIZE] = {Urho3D::IntVector2(0.0, 0.0)};
 static int index_tintvector2_stack = 0;

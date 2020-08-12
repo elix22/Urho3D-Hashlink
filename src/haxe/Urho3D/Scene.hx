@@ -38,7 +38,10 @@ abstract AbstractScene(HL_URHO3D_SCENE) {
 		return null;
 	}
 
-	//
+	@:to
+	public inline function toScene():Scene {
+		return new Scene(cast this);
+	}
 
 	@:hlNative("Urho3D", "_scene_scene_cast_to_node")
 	public static function CastToNode(c:Context, s:AbstractScene):AbstractNode {

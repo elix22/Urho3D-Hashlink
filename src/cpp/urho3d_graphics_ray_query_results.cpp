@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 HL_PRIM int HL_NAME(_graphics_ray_query_results_get_size)(hl_urho3d_graphics_ray_query_results * query)

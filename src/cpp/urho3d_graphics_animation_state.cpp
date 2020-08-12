@@ -9,7 +9,7 @@ extern "C"
 }
 
 
-#include "global_types.h"
+#include "global_types.inc"
 
 /*
 void finalize_urho3d_graphics_animation_state(void *v)

@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 static Urho3D::StringHash tstringhash_stack[TSTRINGHASH_STACK_SIZE] = {Urho3D::StringHash("")};
 static int index_tstringhash_stack = 0;

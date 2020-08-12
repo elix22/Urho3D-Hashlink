@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 static Urho3D::TouchState touch_state_stack[TOUCHSTATE_STACK_SIZE] = {0};

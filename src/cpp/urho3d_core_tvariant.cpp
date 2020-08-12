@@ -9,7 +9,7 @@ extern "C"
 }
 
 
-#include "global_types.h"
+#include "global_types.inc"
 
 static Urho3D::Variant tvariant_stack[TVARIANT_STACK_SIZE] = {Urho3D::Variant()};
 static int index_tvariant_stack = 0;

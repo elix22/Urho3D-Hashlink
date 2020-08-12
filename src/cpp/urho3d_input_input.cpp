@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 HL_PRIM hl_urho3d_intvector2 *HL_NAME(_input_get_mousemove)(urho3d_context *context)
 {

@@ -9,7 +9,7 @@ extern "C"
 }
 
 
-#include "global_types.h"
+#include "global_types.inc"
 
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
@@ -149,19 +149,14 @@ class ProxyApp : public Application
        // vclosure *callback_fn = (vclosure *)hl_dyn_getp(event_handler->dyn_obj, event_handler->hl_hash_name, &hlt_dyn);
         if (callback_fn && callback_fn->hasValue)
         {
-
             hl_urho3d_stringhash *hl_stringhsh = hl_alloc_urho3d_stringhash_no_finlizer();
-            hl_stringhsh->ptr = &eventType;
-            hl_type hl_stringhsh_abstract = {HABSTRACT};
-            //TBD ELI causing exception on Windows hl_stringhsh_abstract.abs_name = hl_to_utf16("hl_urho3d_stringhash");
-            vdynamic *dyn_urho3d_stringhash = hl_alloc_dynamic(&hl_stringhsh_abstract);
+            hl_stringhsh->ptr = &eventType;     
+            vdynamic *dyn_urho3d_stringhash = hl_alloc_dynamic(&hlt_abstract);
             dyn_urho3d_stringhash->v.ptr = hl_stringhsh;
 
             hl_urho3d_variantmap *hl_variantmap = hl_alloc_urho3d_variantmap_no_finlizer();
             hl_variantmap->ptr = &eventData;
-            hl_type hl_variantmap_abstract = {HABSTRACT};
-            //TBD ELI causing exception on Windows hl_variantmap_abstract.abs_name = hl_to_utf16("hl_urho3d_variantmap");
-            vdynamic *dyn_urho3d_variantmap = hl_alloc_dynamic(&hl_stringhsh_abstract);
+            vdynamic *dyn_urho3d_variantmap = hl_alloc_dynamic(&hlt_abstract);
             dyn_urho3d_variantmap->v.ptr = hl_variantmap;
 
             vdynamic *args[2];

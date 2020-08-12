@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 #define Urho3D_Type Urho3D::VariantMap
 #define hl_urho3d_type hl_urho3d_variantmap

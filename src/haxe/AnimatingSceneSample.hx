@@ -36,7 +36,7 @@ class Rotator extends LogicComponent {
 	}
 
 	public override function OnNodeSet(node:Node) {
-		trace("Rotator OnNodeSet " + node.position);
+		//trace("Rotator OnNodeSet " + node.position);
 	}
 
 	public function ResetRotation() {

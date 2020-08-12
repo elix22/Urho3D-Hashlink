@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.Scene.AbstractScene;
 import urho3d.Node.AbstractNode;
 import urho3d.Component.AbstractComponent;
 
@@ -49,31 +50,54 @@ class LogicComponent extends Component {
 	}
 
 	@:keep
-	public function OnNodeSet(node:Node):Void {
+	public function OnNodeSet(node:Node):Void {}
+
+	@:keep
+	private function _OnSceneSet(scene:AbstractScene):Void {
+		OnSceneSet(scene);
 	}
 
-     /* reflection doesnlt work on iOS
 	@:keep
-	public function CallMethod(f:String, args:Array<Dynamic>) {
-		try {
-			var fn = Reflect.field(this, f);
-			if (fn != null) {
-				Reflect.callMethod(this, fn, args);
-			}
-		} catch (e) {}
+	public function OnSceneSet(scene:Scene):Void {}
+
+	@:keep
+	private function _OnMarkedDirty(node:AbstractNode):Void {
+		OnMarkedDirty(node);
 	}
 
-   
 	@:keep
-	public function CallObjectMethod(dyn:Dynamic, f:String, args:Array<Dynamic>) {
-		try {
-			var fn = Reflect.field(dyn, f);
-			if (fn != null) {
-				Reflect.callMethod(dyn, fn, args);
-			}
-		} catch (e) {}
+	public function OnMarkedDirty(node:Node):Void {}
+
+	@:keep
+	private function _OnNodeSetEnabled(node:AbstractNode) {
+		OnNodeSetEnabled(node);
 	}
-*/
+
+	@:keep
+	public function OnNodeSetEnabled(node:Node) {}
+
+	/* reflection doesnlt work on iOS
+		@:keep
+		public function CallMethod(f:String, args:Array<Dynamic>) {
+			try {
+				var fn = Reflect.field(this, f);
+				if (fn != null) {
+					Reflect.callMethod(this, fn, args);
+				}
+			} catch (e) {}
+		}
+
+
+		@:keep
+		public function CallObjectMethod(dyn:Dynamic, f:String, args:Array<Dynamic>) {
+			try {
+				var fn = Reflect.field(dyn, f);
+				if (fn != null) {
+					Reflect.callMethod(dyn, fn, args);
+				}
+			} catch (e) {}
+		}
+	 */
 	@:keep
 	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand = Std.random(100000) / 100000.0;
@@ -84,8 +108,7 @@ class LogicComponent extends Component {
 		} else {
 			return rand * (max - min) + min;
 		}
-    }
-    
+	}
 }
 
 @:hlNative("Urho3D")

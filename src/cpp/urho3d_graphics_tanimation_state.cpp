@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 HL_PRIM void HL_NAME(_graphics_tanimation_state_set_weight)(hl_urho3d_graphics_tanimation_state state,float weight)

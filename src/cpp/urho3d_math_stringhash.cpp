@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 hl_urho3d_stringhash * hl_alloc_urho3d_existing_stringhash(hl_urho3d_stringhash * str_hash)

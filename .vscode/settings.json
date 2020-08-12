@@ -15,6 +15,7 @@
         "ratio": "cpp",
         "tuple": "cpp",
         "utility": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "*.inc": "cpp"
     }
 }

@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 static Urho3D::Color tcolor_stack[TCOLOR_STACK_SIZE] = {Urho3D::Color(0.0, 0.0,0.0,1.0)};

@@ -8,7 +8,7 @@ extern "C"
 #endif
 }
 
-#include "global_types.h"
+#include "global_types.inc"
 
 
 HL_PRIM  int HL_NAME(_graphics_get_width)(urho3d_context *context)
