@@ -31,9 +31,9 @@ class ProxyLogicComponent : public LogicComponent
     URHO3D_OBJECT(ProxyLogicComponent, LogicComponent);
 
 public:
-    ProxyLogicComponent(Context *context) : LogicComponent(context)
+    ProxyLogicComponent(Context *context,vdynamic * dyn = NULL) : LogicComponent(context)
     {
-        dyn_obj = NULL;
+        dyn_obj = dyn;
         dyn_obj_field_start = NULL;
         dyn_obj_field_delayed_start = NULL;
         dyn_obj_field_stop = NULL;
@@ -245,7 +245,7 @@ public:
             vdynamic *vargs[1] = {dyn_urho3d};
             hl_dyn_abstract_call(closure, vargs, 1);
 
-            // Don't keep a reference to the scene , will cause a crash
+            // Don't keep a reference to the scene , will cause a crash.
             hl_scene->ptr = NULL;
             
         }
@@ -315,10 +315,9 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(urho3d_co
     hl_urho3d_scene_logic_component *p = (hl_urho3d_scene_logic_component *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_logic_component));
     memset(p, 0, sizeof(hl_urho3d_scene_logic_component));
     p->finalizer = (void *)finalize_urho3d_scene_logic_component;
-    ProxyLogicComponent *c = new ProxyLogicComponent(context);
-    c->dyn_obj = dyn_obj;
-    // hl_add_root(&dyn_obj);
+    ProxyLogicComponent *c = new ProxyLogicComponent(context,dyn_obj);
     p->ptr = c;
+    p->dyn_obj = dyn_obj;
     return p;
 }
 
@@ -329,6 +328,7 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(urho3d_co
     memset(p, 0, sizeof(hl_urho3d_scene_logic_component));
     p->finalizer = (void *)finalize_urho3d_scene_logic_component;
     p->ptr = new ProxyLogicComponent(context);
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -340,6 +340,7 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(LogicComp
         memset(p, 0, sizeof(hl_urho3d_scene_logic_component));
         p->finalizer = (void *)finalize_urho3d_scene_logic_component;
         p->ptr = component;
+        p->dyn_obj = NULL;
         return p;
     }
     return NULL;

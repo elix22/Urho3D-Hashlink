@@ -34,6 +34,7 @@ hl_urho3d_variant * hl_alloc_urho3d_variant()
     p->finalizer = (void*)finalize_urho3d_variant;
     Urho3D::Variant *v = new Urho3D::Variant();
     p->ptr = v;
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -43,6 +44,7 @@ hl_urho3d_variant * hl_alloc_urho3d_variant(const Variant & rhs)
     p->finalizer = (void*)finalize_urho3d_variant;
     Urho3D::Variant *v = new Urho3D::Variant(rhs);
     p->ptr = v;
+    p->dyn_obj = NULL;
     return p;
 }
 

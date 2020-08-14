@@ -26,7 +26,7 @@ class Node {
 	private var children = [];
 	private var components = [];
 
-	private var abstractNode:AbstractNode = null;
+	public var abstractNode:AbstractNode = null;
 
 	public var position(get, set):TVector3;
 	public var direction(get, set):TVector3;
@@ -42,6 +42,12 @@ class Node {
 
 		if (Scene.currentScene != null)
 			Scene.currentScene.nodes.push(this);
+	}
+
+	public function SubscribeToEvent(stringHash:StringHash, s:String) {
+		if (abstractNode != null) {
+			abstractNode.SubscribeToEvent(stringHash, this, s);
+		}
 	}
 
 	public function bindComponent(component:Component) {
@@ -159,6 +165,12 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 		return new Node(cast this);
 	}
 
+	@:keep
+    public function SubscribeToEvent(stringHash:StringHash,d:Dynamic,s:String)
+    {
+        _SubscribeToEvent(Context.context,cast this,stringHash,d,s);
+    }
+
 	@:hlNative("Urho3D", "_scene_node_create")
 	public static function Create(c:Context):HL_URHO3D_NODE {
 		return null;
@@ -249,4 +261,8 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	public static function GetNodeFromPodVector(c:Context, n:PodNode, i:Int):AbstractNode {
 		return null;
 	}
+
+	@:hlNative("Urho3D", "_scene_node_subscribe_to_event")
+    private static function _SubscribeToEvent(c:Context,node:AbstractNode,tringHash:StringHash,d:Dynamic ,s:String):Void {
+    }
 }

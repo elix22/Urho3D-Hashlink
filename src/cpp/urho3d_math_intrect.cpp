@@ -31,7 +31,7 @@ hl_urho3d_math_intrect *hl_alloc_urho3d_math_intrect(int left, int top, int righ
 
     p->finalizer = (void *)finalize_urho3d_math_intrect;
     p->ptr = new Urho3D::IntRect(left,top,right,bottom);
-
+    p->dyn_obj = NULL;
     return p;
 }
 

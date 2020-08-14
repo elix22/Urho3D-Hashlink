@@ -16,6 +16,7 @@
         "tuple": "cpp",
         "utility": "cpp",
         "new": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "__functional_03": "cpp"
     }
 }

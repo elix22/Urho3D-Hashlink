@@ -37,6 +37,8 @@ hl_urho3d_variantmap *hl_alloc_urho3d_variantmap_no_finlizer()
 {
     hl_urho3d_type *p = (hl_urho3d_type *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_type));
     p->finalizer = (void *)0;
+    p->ptr = NULL;
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -47,6 +49,7 @@ hl_urho3d_type *hl_alloc_urho3d()
     Urho3D_Type *v = new Urho3D_Type();
     v->Clear();
     p->ptr = v;
+    p->dyn_obj = NULL;
     return p;
 }
 

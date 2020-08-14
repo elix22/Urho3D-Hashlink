@@ -36,7 +36,7 @@ hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2(int x, int y)
     p->finalizer = (void*)finalize_urho3d_intvector2;
     Urho3D::IntVector2 *v = new Urho3D::IntVector2(x,y);
     p->ptr = v;
-
+    p->dyn_obj = NULL;
     return p;
 }
 

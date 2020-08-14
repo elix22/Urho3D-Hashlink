@@ -30,7 +30,7 @@ hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(const Urho3D::Bound
 
     p->finalizer = (void *)finalize_urho3d_math_boundingbox;
     p->ptr = new Urho3D::BoundingBox(box);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -41,7 +41,7 @@ hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(const Urho3D::Vecto
 
     p->finalizer = (void *)finalize_urho3d_math_boundingbox;
     p->ptr = new Urho3D::BoundingBox(a, b);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -52,7 +52,7 @@ hl_urho3d_math_boundingbox *hl_alloc_urho3d_math_boundingbox(float x, float y)
     printf("hl_alloc_urho3d_math_boundingbox %f %f \n",x,y);
     p->finalizer = (void *)finalize_urho3d_math_boundingbox;
     p->ptr = new Urho3D::BoundingBox(x, y);
-
+    p->dyn_obj = NULL;
     return p;
 }
 

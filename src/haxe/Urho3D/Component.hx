@@ -26,7 +26,15 @@ class Component {
 		else
 			abstractComponent = new AbstractComponent();
 
-		node.bindComponent(this);
+		if (node != null) {
+			node.bindComponent(this);
+		}
+	}
+
+	public function SubscribeToEvent(stringHash:StringHash, s:String) {
+		if (abstractComponent != null) {
+			abstractComponent.SubscribeToEvent(stringHash, this, s);
+		}
 	}
 
 	function get_node() {
@@ -39,6 +47,118 @@ class Component {
 	function set_node(n) {
 		_node = n;
 		return _node;
+	}
+
+	@:to
+	public inline function toZone():Zone {
+		if (this != null) {
+			var abstractZone:AbstractZone = AbstractZone.CastFromComponent(Context.context, abstractComponent);
+			return new Zone(abstractZone);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toStaticModel():StaticModel {
+		if (this != null) {
+			var abstract_ = AbstractStaticModel.CastFromComponent(Context.context, abstractComponent);
+			return new StaticModel(abstract_);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toAnimatedModel():AnimatedModel {
+		if (this != null) {
+			var abstract_ = AbstractAnimatedModel.CastFromComponent(Context.context, abstractComponent);
+			return new AnimatedModel(abstract_);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toCamera():Camera {
+		if (this != null) {
+			var abstract_ = AbstractCamera.CastFromComponent(Context.context, abstractComponent);
+			return new Camera(abstract_);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toLight():Light {
+		if (this != null) {
+			var abstract_ = AbstractLight.CastFromComponent(Context.context, abstractComponent);
+			return new Light(abstract_);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toBillboardset():BillboardSet {
+		if (this != null) {
+			var abstract_ = AbstractBillboardSet.CastFromComponent(Context.context, abstractComponent);
+			return new BillboardSet(abstract_);
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toDecalset():DecalSet {
+		if (this != null) {
+			var abstract_ = AbstractDecalSet.CastFromComponent(Context.context, abstractComponent);
+			if (abstract_ != null)
+				return new DecalSet(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toRigidBody():RigidBody {
+		if (this != null) {
+			var abstract_ = AbstractRigidBody.CastFromComponent(Context.context, abstractComponent);
+			if (abstract_ != null)
+				return new RigidBody(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toCollisionShape():CollisionShape {
+		if (this != null) {
+			var abstract_ = AbstractCollisionShape.CastFromComponent(Context.context, abstractComponent);
+			if (abstract_ != null)
+				return new CollisionShape(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toSkybox():Skybox {
+		if (this != null) {
+			var abstract_ = AbstractSkybox.CastFromComponent(Context.context, abstractComponent);
+			if (abstract_ != null)
+				return new Skybox(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
 	}
 }
 
@@ -169,6 +289,12 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 		}
 	}
 
+	@:keep
+    public function SubscribeToEvent(stringHash:StringHash,d:Dynamic,s:String)
+    {
+        _SubscribeToEvent(Context.context,cast this,stringHash,d,s);
+    }
+
 	@:hlNative("Urho3D", "_scene_component_create")
 	private static function Create(c:Context):HL_URHO3D_COMPONENT {
 		return null;
@@ -179,5 +305,8 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 		return null;
 	}
 
-	//
+	//DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);
+	@:hlNative("Urho3D", "_scene_component_subscribe_to_event")
+    private static function _SubscribeToEvent(c:Context,comp:AbstractComponent,tringHash:StringHash,d:Dynamic ,s:String):Void {
+    }
 }

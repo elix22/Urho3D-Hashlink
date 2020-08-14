@@ -32,6 +32,7 @@ hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(urho3d_
     memset(p, 0, sizeof(hl_urho3d_graphics_animatedmodel));
     p->finalizer = (void *)finalize_urho3d_graphics_animatedmodel;
     p->ptr = new Urho3D::AnimatedModel(context);
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -42,6 +43,7 @@ hl_urho3d_graphics_animatedmodel *hl_alloc_urho3d_graphics_animatedmodel(Urho3D:
     memset(p, 0, sizeof(hl_urho3d_graphics_animatedmodel));
     p->finalizer = (void *)finalize_urho3d_graphics_animatedmodel;
     p->ptr = model;
+    p->dyn_obj = NULL;
     return p;
 }
 

@@ -37,7 +37,7 @@ hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(urho3d_context 
         memset(p, 0, sizeof(hl_urho3d_graphics_animation));
         p->finalizer = (void *)finalize_urho3d_graphics_animation;
         p->ptr = resource;
-       // printf("hl_alloc_urho3d_graphics_animation success \n");
+        p->dyn_obj = NULL;
         return p;
     }
     else
@@ -54,6 +54,7 @@ hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(Animation *anim
     memset(p, 0, sizeof(hl_urho3d_graphics_animation));
     p->finalizer = (void *)finalize_urho3d_graphics_animation;
     p->ptr = animation;
+    p->dyn_obj = NULL;
     return p;
 }
 

@@ -1,7 +1,5 @@
 import urho3d.*;
 import urho3d.Application;
-import urho3d.Graphics.BlendMode;
-import urho3d.Zone.AbstractZone;
 
 class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
@@ -18,6 +16,7 @@ class Rotator extends LogicComponent {
 
 	public override function Start() {
 		//	trace("start");
+	//	SubscribeToEvent("Update", "HandleMyUpdate");
 	}
 
 	public override function DelayedStart() {
@@ -27,12 +26,13 @@ class Rotator extends LogicComponent {
 	public override function Update(timeStep:Float) {
 		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 
-		/*
-			counter++;
-			if (counter % 200 == 0) {
-				ResetRotation();
-			}
-		 */
+		counter++;
+		if (counter % 200 == 0) {
+			ResetRotation();
+		}
+	}
+
+	public function HandleMyUpdate(eventType:StringHash, eventData:VariantMap) {
 	}
 
 	public override function OnNodeSet(node:Node) {
@@ -148,12 +148,17 @@ class AnimatingSceneSample extends Application {
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
 		MoveCamera(step);
-
+/*
 		counter++;
 		if ((counter % 1000 == 0)) {
 			trace("create scene");
 			CreateScene();
 			SetupViewport();
 		}
+		*/
 	}
+/*
+	@:hlNative("std","sys_check_reload")
+	static function check_reload() return false;
+	*/
 }

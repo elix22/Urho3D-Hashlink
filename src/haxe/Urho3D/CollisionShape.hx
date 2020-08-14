@@ -4,6 +4,20 @@ import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_COLLISION_SHAPE = hl.Abstract<"hl_urho3d_physics_collision_shape">;
 
+enum abstract ShapeType(Int) to Int from Int
+{
+    var SHAPE_BOX = 0;
+    var SHAPE_SPHERE;
+    var SHAPE_STATICPLANE;
+    var SHAPE_CYLINDER;
+    var SHAPE_CAPSULE;
+    var SHAPE_CONE;
+    var SHAPE_TRIANGLEMESH;
+    var SHAPE_CONVEXHULL;
+    var SHAPE_TERRAIN;
+    var SHAPE_GIMPACTMESH;
+}
+
 class CollisionShape extends Component {
 	private var _abstract:AbstractCollisionShape = null;
 

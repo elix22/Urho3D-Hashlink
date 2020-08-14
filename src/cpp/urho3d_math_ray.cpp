@@ -30,7 +30,7 @@ hl_urho3d_math_ray *hl_alloc_urho3d_math_ray(const Vector3& origin, const Vector
 
     p->finalizer = (void *)finalize_urho3d_math_ray;
     p->ptr = new Urho3D::Ray(origin,direction);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -40,7 +40,7 @@ hl_urho3d_math_ray *hl_alloc_urho3d_math_ray(const Ray& ray)
 
     p->finalizer = (void *)finalize_urho3d_math_ray;
     p->ptr = new Urho3D::Ray(ray);
-
+    p->dyn_obj = NULL;
     return p;
 }
 

@@ -8,32 +8,10 @@ extern "C"
 #endif
 }
 
-
 #include "global_types.inc"
 
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
-/*
-class URHO3D_API Serializable : public Object
-{
-    URHO3D_OBJECT(Serializable, Object);
-*/
-class HL_Urho3DEventHandler: public Object
-{
-    URHO3D_OBJECT(HL_Urho3DEventHandler, Object);
-public:
-    HL_Urho3DEventHandler(Context * context,vdynamic *dyn, String name):Object(context)
-    {
-        dyn_obj = dyn;
-        closure_name = name;
-        hl_hash_name = hl_hash_utf8(closure_name.CString());
-        dyn_obj_field_lookup = NULL;
-    }
-    vdynamic *dyn_obj;
-    String closure_name;
-    int hl_hash_name;
-    hl_field_lookup *dyn_obj_field_lookup;
-};
 
 class ProxyApp : public Application
 {
@@ -123,15 +101,15 @@ class ProxyApp : public Application
         }
     }
 
-    void subscribeToEvent(hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj,vstring  * str)
+    void subscribeToEvent(hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
     {
         if (stringhash)
         {
             Urho3D::StringHash *urho3d_stringhash = stringhash->ptr;
             if (urho3d_stringhash)
             {
-                const char *closure_name = (char*)hl_to_utf8(str->bytes);
-                hl_event_closures[*urho3d_stringhash] = new HL_Urho3DEventHandler(context_,dyn_obj,String(closure_name));
+                const char *closure_name = (char *)hl_to_utf8(str->bytes);
+                hl_event_closures[*urho3d_stringhash] = new HL_Urho3DEventHandler(context_, dyn_obj, String(closure_name));
 
                 SubscribeToEvent(*urho3d_stringhash, URHO3D_HANDLER(ProxyApp, HandlEvents));
             }
@@ -141,29 +119,32 @@ class ProxyApp : public Application
     void HandlEvents(StringHash eventType, VariantMap &eventData)
     {
         SharedPtr<HL_Urho3DEventHandler> event_handler = hl_event_closures[eventType];
-        if(event_handler  == NULL)return;
+        if (event_handler == NULL)
+            return;
 
         vclosure closure;
         vclosure *callback_fn = (vclosure *)hl_dyn_getp_internal(event_handler->dyn_obj, &event_handler->dyn_obj_field_lookup, event_handler->hl_hash_name, &closure);
 
-       // vclosure *callback_fn = (vclosure *)hl_dyn_getp(event_handler->dyn_obj, event_handler->hl_hash_name, &hlt_dyn);
         if (callback_fn && callback_fn->hasValue)
         {
-            hl_urho3d_stringhash *hl_stringhsh = hl_alloc_urho3d_stringhash_no_finlizer();
-            hl_stringhsh->ptr = &eventType;     
-            vdynamic *dyn_urho3d_stringhash = hl_alloc_dynamic(&hlt_abstract);
+            hl_urho3d_stringhash *hl_stringhsh = (hl_urho3d_stringhash *)alloca(sizeof(hl_urho3d_stringhash));
+            hl_stringhsh->ptr = &eventType;
+            vdynamic *dyn_urho3d_stringhash = (vdynamic *)alloca(sizeof(vdynamic));
+            dyn_urho3d_stringhash->t = &hlt_abstract;
             dyn_urho3d_stringhash->v.ptr = hl_stringhsh;
 
-            hl_urho3d_variantmap *hl_variantmap = hl_alloc_urho3d_variantmap_no_finlizer();
+            hl_urho3d_variantmap *hl_variantmap = (hl_urho3d_variantmap *)alloca(sizeof(hl_urho3d_variantmap));
             hl_variantmap->ptr = &eventData;
-            vdynamic *dyn_urho3d_variantmap = hl_alloc_dynamic(&hlt_abstract);
+            vdynamic *dyn_urho3d_variantmap = (vdynamic *)alloca(sizeof(vdynamic));
+            dyn_urho3d_variantmap->t = &hlt_abstract;
             dyn_urho3d_variantmap->v.ptr = hl_variantmap;
-
+            /*
             vdynamic *args[2];
             args[0] = dyn_urho3d_stringhash;
             args[1] = dyn_urho3d_variantmap;
-
             hl_dyn_abstract_call(callback_fn, args, 2);
+            */
+            ((void (*)(vdynamic *, vdynamic *, vdynamic *))closure.fun)((vdynamic *)closure.value, (vdynamic *)(*(void **)(&dyn_urho3d_stringhash->v)), (vdynamic *)(*(void **)(&dyn_urho3d_variantmap->v)));
         }
     }
 
@@ -381,7 +362,7 @@ public:
     vclosure *callback_start;
     vclosure *callback_stop;
 
-  //  HashMap<StringHash, vclosure *> hl_event_closures;
+    //  HashMap<StringHash, vclosure *> hl_event_closures;
 
     HashMap<StringHash, SharedPtr<HL_Urho3DEventHandler>> hl_event_closures;
 
@@ -422,7 +403,7 @@ hl_urho3d_application *hl_alloc_urho3d_application(hl_finalizer finalizer, urho3
 
     p->finalizer = finalizer ? (void *)finalizer : 0;
     p->ptr = new ProxyApp(context);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -491,15 +472,13 @@ HL_PRIM void HL_NAME(_stop_closure_application)(hl_urho3d_application *app, vclo
     }
 }
 
-
-
-HL_PRIM void HL_NAME(_application_subscribe_to_event)(hl_urho3d_application *app, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj,vstring  * str)
+HL_PRIM void HL_NAME(_application_subscribe_to_event)(hl_urho3d_application *app, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
     Urho3D::Application *ptr_app = app->ptr;
     if (ptr_app)
     {
         ProxyApp *proxyApp = (ProxyApp *)ptr_app;
-        proxyApp->subscribeToEvent(stringhash, dyn_obj,str);
+        proxyApp->subscribeToEvent(stringhash, dyn_obj, str);
     }
 }
 

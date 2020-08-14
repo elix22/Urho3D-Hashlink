@@ -60,7 +60,7 @@ hl_urho3d_graphics_light_bias_parameters *hl_alloc_urho3d_graphics_light_bias_pa
 
     p->finalizer = (void *)finalize_urho3d_graphics_light_bias_parameters;
     p->ptr = new Urho3D::BiasParameters(constantBias, slopeScaledBias,normalOffset);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -70,6 +70,7 @@ hl_urho3d_graphics_light_bias_parameters *hl_alloc_urho3d_graphics_light_bias_pa
 
     p->finalizer = (void *)finalize_urho3d_graphics_light_bias_parameters;
     p->ptr = new Urho3D::BiasParameters(rhs);
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -79,7 +80,7 @@ hl_urho3d_graphics_light_cascade_parameters *hl_alloc_urho3d_graphics_light_casc
 
     p->finalizer = (void *)finalize_urho3d_graphics_light_cascade_parameters;
     p->ptr = new Urho3D::CascadeParameters(split1,split2,split3,split4,fadeStart,biasAutoAdjust);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -89,7 +90,7 @@ hl_urho3d_graphics_light_cascade_parameters *hl_alloc_urho3d_graphics_light_casc
 
     p->finalizer = (void *)finalize_urho3d_graphics_light_cascade_parameters;
     p->ptr = new Urho3D::CascadeParameters(rhs);
-
+    p->dyn_obj = NULL;
     return p;
 }
 

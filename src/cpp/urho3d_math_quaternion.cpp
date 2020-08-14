@@ -30,7 +30,7 @@ hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(const Urho3D::Quatern
 
     p->finalizer = (void *)finalize_urho3d_math_quaternion;
     p->ptr = new Urho3D::Quaternion(rhs);
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -40,6 +40,7 @@ hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(float x, float y, flo
 
     p->finalizer = (void *)finalize_urho3d_math_quaternion;
     p->ptr = new Urho3D::Quaternion(x, y, z);
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -50,6 +51,7 @@ hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(float x, Vector3 v)
 
     p->finalizer = (void *)finalize_urho3d_math_quaternion;
     p->ptr = new Urho3D::Quaternion(x, v);
+    p->dyn_obj = NULL;
     return p;
 }
 

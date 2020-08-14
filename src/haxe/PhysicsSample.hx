@@ -71,7 +71,8 @@ class PhysicsSample extends Application {
 			// parameters make the object static (zero mass.) Note that a CollisionShape by itself will not participate
 			// in the physics simulation
 			var body:RigidBody = floorNode.CreateComponent("RigidBody");
-			var shape:CollisionShape = floorNode.CreateComponent("CollisionShape");
+            var shape:CollisionShape = floorNode.CreateComponent("CollisionShape");
+
 			// Set a box shape of size 1 x 1 x 1 for collision. The shape will be scaled with the scene node scale, so the
 			// rendering and physics representation sizes should match (the box model is also 1 x 1 x 1.)
 			shape.SetBox(Vector3.ONE);
@@ -101,7 +102,8 @@ class PhysicsSample extends Application {
 
 		cameraNode = scene.CreateChild("Camera");
 		var camera:Camera = cameraNode.CreateComponent("Camera");
-		cameraNode.position = new TVector3(0.0, 5.0, -20.0);
+        cameraNode.position = new TVector3(0.0, 5.0, -20.0);
+        
 	}
 
 	public function SetupViewport() {

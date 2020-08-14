@@ -1,5 +1,7 @@
 package urho3d;
 
+
+
 /// Texture filtering mode.
 enum abstract TextureFilterMode(Int) to Int from Int {
 	var FILTER_NEAREST = 0;

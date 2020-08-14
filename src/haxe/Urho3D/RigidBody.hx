@@ -15,7 +15,8 @@ class RigidBody extends Component {
 			_abstract = new AbstractRigidBody();
 
 		super(AbstractRigidBody.CastToComponent(Context.context, _abstract));
-	}
+    }
+    
 
 	public var mass(get, set):Float;
 
@@ -55,7 +56,7 @@ class RigidBody extends Component {
 abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 	public inline function new() {
 		this = Create(Context.context);
-	}
+    }
 
 	@:hlNative("Urho3D", "_physics_rigid_body_create")
 	private static function Create(context:Context):HL_URHO3D_RIGID_BODY {

@@ -33,7 +33,7 @@ hl_urho3d_math_vector2 *hl_alloc_urho3d_math_vector2(const Urho3D::Vector2 &rhs)
     p->finalizer = (void *)finalize_urho3d_math_vector2;
     Urho3D::Vector2 *v = new Urho3D::Vector2(rhs);
     p->ptr = v;
-
+    p->dyn_obj = NULL;
     return p;
 }
 
@@ -44,7 +44,7 @@ hl_urho3d_math_vector2 *hl_alloc_urho3d_math_vector2(float x, float y)
     p->finalizer = (void *)finalize_urho3d_math_vector2;
     Urho3D::Vector2 *v = new Urho3D::Vector2(x, y);
     p->ptr = v;
-
+    p->dyn_obj = NULL;
     return p;
 }
 

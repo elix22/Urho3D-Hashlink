@@ -16,13 +16,38 @@
 
 typedef void (*hl_finalizer)(void *v);
 
+
+class HL_Urho3DEventHandler : public Object
+{
+    URHO3D_OBJECT(HL_Urho3DEventHandler, Object);
+
+public:
+    HL_Urho3DEventHandler(Context *context, vdynamic *dyn, String name) : Object(context)
+    {
+        dyn_obj = dyn;
+        closure_name = name;
+        hl_hash_name = hl_hash_utf8(closure_name.CString());
+        dyn_obj_field_lookup = NULL;
+    }
+    vdynamic *dyn_obj;
+    String closure_name;
+    int hl_hash_name;
+    hl_field_lookup *dyn_obj_field_lookup;
+};
+
 typedef Urho3D::Context urho3d_context;
 #define URHO3D_CONTEXT _ABSTRACT(urho3d_context)
+
+
+typedef Urho3D::Object  hl_urho3d_core_object;
+#define HL_URHO3D_OBJECT _ABSTRACT(hl_urho3d_core_object)
+
 
 typedef struct hl_urho3d_color
 {
     void *finalizer;
     Urho3D::Color *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_color;
 
 #define HL_URHO3D_COLOR _ABSTRACT(hl_urho3d_color)
@@ -40,6 +65,7 @@ typedef struct hl_urho3d_intvector2
 {
     void *finalizer;
     Urho3D::IntVector2 *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_intvector2;
 
 #define HL_URHO3D_INTVECTOR2 _ABSTRACT(hl_urho3d_intvector2)
@@ -56,6 +82,7 @@ typedef struct hl_urho3d_math_intrect
 {
     void *finalizer;
     Urho3D::IntRect *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_math_intrect;
 
 #define HL_URHO3D_INTRECT _ABSTRACT(hl_urho3d_math_intrect)
@@ -66,6 +93,7 @@ typedef struct hl_urho3d_math_quaternion
 {
     void *finalizer;
     Urho3D::Quaternion *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_math_quaternion;
 
 #define HL_URHO3D_QUATERNION _ABSTRACT(hl_urho3d_math_quaternion)
@@ -82,6 +110,7 @@ typedef struct hl_urho3d_math_ray
 {
     void *finalizer;
     Urho3D::Ray *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_math_ray;
 
 #define HL_URHO3D_RAY _ABSTRACT(hl_urho3d_math_ray)
@@ -92,6 +121,7 @@ typedef struct hl_urho3d_math_vector2
 {
     void *finalizer;
     Urho3D::Vector2 *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_math_vector2;
 
 #define HL_URHO3D_VECTOR2 _ABSTRACT(hl_urho3d_math_vector2)
@@ -107,6 +137,7 @@ typedef struct hl_urho3d_math_vector3
 {
     void *finalizer;
     Urho3D::Vector3 *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_math_vector3;
 
 #define HL_URHO3D_VECTOR3 _ABSTRACT(hl_urho3d_math_vector3)
@@ -122,6 +153,7 @@ typedef struct hl_urho3d_math_boundingbox
 {
     void *finalizer;
     Urho3D::BoundingBox *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_math_boundingbox;
 
 #define HL_URHO3D_BOUNDINGBOX _ABSTRACT(hl_urho3d_math_boundingbox)
@@ -133,6 +165,7 @@ typedef struct hl_urho3d_stringhash
 {
     void *finalizer;
     Urho3D::StringHash *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_stringhash;
 
 #define HL_URHO3D_STRINGHASH _ABSTRACT(hl_urho3d_stringhash)
@@ -150,6 +183,7 @@ typedef struct hl_urho3d_variant
 {
     void *finalizer;
     Urho3D::Variant *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_variant;
 
 #define HL_URHO3D_VARIANT _ABSTRACT(hl_urho3d_variant)
@@ -166,6 +200,7 @@ typedef struct hl_urho3d_variantmap
 {
     void *finalizer;
     Urho3D::VariantMap *ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_variantmap;
 
 #define HL_URHO3D_VARIANTMAP _ABSTRACT(hl_urho3d_variantmap)
@@ -181,6 +216,7 @@ typedef struct hl_urho3d_application
 {
     void *finalizer;
     SharedPtr<Urho3D::Application> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_application;
 
 #define HL_URHO3D_APPLICATION _ABSTRACT(hl_urho3d_application)
@@ -189,6 +225,7 @@ typedef struct hl_urho3d_resource
 {
     void *finalizer;
     SharedPtr<Urho3D::Resource> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_resource;
 
 #define HL_URHO3D_RESOURCE _ABSTRACT(hl_urho3d_resource)
@@ -199,6 +236,7 @@ typedef struct hl_urho3d_resource_xml_file
 {
     void *finalizer;
     SharedPtr<Urho3D::XMLFile> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_resource_xml_file;
 
 #define HL_URHO3D_XML_FILE _ABSTRACT(hl_urho3d_resource_xml_file)
@@ -209,6 +247,7 @@ typedef struct hl_urho3d_texture2d
 {
     void *finalizer;
     SharedPtr<Urho3D::Texture2D> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_texture2d;
 
 #define HL_URHO3D_TEXTURE2D _ABSTRACT(hl_urho3d_texture2d)
@@ -219,6 +258,7 @@ typedef struct hl_urho3d_sprite
 {
     void *finalizer;
     SharedPtr<Urho3D::Sprite> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_sprite;
 
 #define HL_URHO3D_SPRITE _ABSTRACT(hl_urho3d_sprite)
@@ -228,6 +268,7 @@ typedef struct hl_urho3d_uielement
 {
     void *finalizer;
     SharedPtr<Urho3D::UIElement> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_uielement;
 
 #define HL_URHO3D_UIELEMENT _ABSTRACT(hl_urho3d_uielement)
@@ -238,6 +279,8 @@ typedef struct hl_urho3d_scene_component
 {
     void *finalizer;
     SharedPtr<Urho3D::Component> ptr;
+    vdynamic *dyn_obj;
+    HashMap<StringHash, SharedPtr<HL_Urho3DEventHandler>> * hl_event_closures;
 } hl_urho3d_scene_component;
 
 #define HL_URHO3D_COMPONENT _ABSTRACT(hl_urho3d_scene_component)
@@ -248,6 +291,7 @@ typedef struct hl_urho3d_scene_logic_component
 {
     void *finalizer;
     SharedPtr<Urho3D::LogicComponent> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_scene_logic_component;
 
 #define HL_URHO3D_LOGIC_COMPONENT _ABSTRACT(hl_urho3d_scene_logic_component)
@@ -257,6 +301,8 @@ typedef struct hl_urho3d_scene_node
 {
     void *finalizer;
     SharedPtr<Urho3D::Node> ptr;
+    vdynamic *dyn_obj;
+      HashMap<StringHash, SharedPtr<HL_Urho3DEventHandler>> * hl_event_closures;
 } hl_urho3d_scene_node;
 
 #define HL_URHO3D_NODE _ABSTRACT(hl_urho3d_scene_node)
@@ -271,6 +317,7 @@ typedef struct hl_urho3d_scene_scene
 {
     void *finalizer;
     SharedPtr<Urho3D::Scene> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_scene_scene;
 
 #define HL_URHO3D_SCENE _ABSTRACT(hl_urho3d_scene_scene)
@@ -284,6 +331,7 @@ typedef struct hl_urho3d_graphics_animation
 {
     void *finalizer;
     SharedPtr<Urho3D::Animation> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_animation;
 
 #define HL_URHO3D_ANIMATION _ABSTRACT(hl_urho3d_graphics_animation)
@@ -311,6 +359,7 @@ typedef struct hl_urho3d_graphics_animatedmodel
 {
     void *finalizer;
     SharedPtr<Urho3D::AnimatedModel> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_animatedmodel;
 
 #define HL_URHO3D_ANIMATEDMODEL _ABSTRACT(hl_urho3d_graphics_animatedmodel)
@@ -329,6 +378,7 @@ typedef struct hl_urho3d_graphics_billboardset
 {
     void *finalizer;
     SharedPtr<Urho3D::BillboardSet> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_billboardset;
 
 #define HL_URHO3D_BILLBOARDSET _ABSTRACT(hl_urho3d_graphics_billboardset)
@@ -340,6 +390,7 @@ typedef struct hl_urho3d_graphics_camera
 {
     void *finalizer;
     SharedPtr<Urho3D::Camera> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_camera;
 
 #define HL_URHO3D_CAMERA _ABSTRACT(hl_urho3d_graphics_camera)
@@ -351,6 +402,7 @@ typedef struct hl_urho3d_graphics_light_cascade_parameters
 {
     void *finalizer;
     CascadeParameters*  ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_light_cascade_parameters;
 #define HL_URHO3D_LIGHT_CASCADE_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_cascade_parameters)
 
@@ -359,6 +411,7 @@ typedef struct hl_urho3d_graphics_decalset
 {
     void *finalizer;
     SharedPtr<Urho3D::DecalSet> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_decalset;
 
 #define HL_URHO3D_DECALSET _ABSTRACT(hl_urho3d_graphics_decalset)
@@ -375,6 +428,7 @@ typedef struct hl_urho3d_graphics_light
 {
     void *finalizer;
     SharedPtr<Urho3D::Light> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_light;
 
 #define HL_URHO3D_LIGHT _ABSTRACT(hl_urho3d_graphics_light)
@@ -386,6 +440,7 @@ typedef struct hl_urho3d_graphics_light_bias_parameters
 {
     void *finalizer;
     BiasParameters*  ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_light_bias_parameters;
 #define HL_URHO3D_LIGHT_BIAS_PARAMETERS _ABSTRACT(hl_urho3d_graphics_light_bias_parameters)
 hl_urho3d_graphics_light_bias_parameters *hl_alloc_urho3d_graphics_light_bias_parameters(const Urho3D::BiasParameters & rhs );
@@ -394,6 +449,7 @@ typedef struct hl_urho3d_graphics_material
 {
     void *finalizer;
     SharedPtr<Urho3D::Material> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_material;
 
 #define HL_URHO3D_MATERIAL _ABSTRACT(hl_urho3d_graphics_material)
@@ -404,6 +460,7 @@ typedef struct hl_urho3d_graphics_model
 {
     void *finalizer;
     SharedPtr<Urho3D::Model> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_model;
 
 #define HL_URHO3D_MODEL _ABSTRACT(hl_urho3d_graphics_model)
@@ -426,6 +483,7 @@ typedef struct hl_urho3d_graphics_render_path
 {
     void *finalizer;
     SharedPtr<Urho3D::RenderPath> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_render_path;
 
 #define HL_URHO3D_RENDER_PATH _ABSTRACT(hl_urho3d_graphics_render_path)
@@ -437,6 +495,7 @@ typedef struct hl_urho3d_graphics_render_surface
 {
     void *finalizer;
     SharedPtr<Urho3D::RenderSurface> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_render_surface;
 
 #define HL_URHO3D_RENDER_SURFACE _ABSTRACT(hl_urho3d_graphics_render_surface)
@@ -448,6 +507,7 @@ typedef struct hl_urho3d_graphics_skybox
 {
     void *finalizer;
     SharedPtr<Urho3D::Skybox> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_skybox;
 
 #define HL_URHO3D_SKYBOX _ABSTRACT(hl_urho3d_graphics_skybox)
@@ -458,6 +518,7 @@ typedef struct hl_urho3d_graphics_staticmodel
 {
     void *finalizer;
     SharedPtr<Urho3D::StaticModel> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_staticmodel;
 
 #define HL_URHO3D_STATICMODEL _ABSTRACT(hl_urho3d_graphics_staticmodel)
@@ -468,6 +529,7 @@ typedef struct hl_urho3d_graphics_technique
 {
     void *finalizer;
     SharedPtr<Urho3D::Technique> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_technique;
 
 #define HL_URHO3D_TECHNIQUE _ABSTRACT(hl_urho3d_graphics_technique)
@@ -478,6 +540,7 @@ typedef struct hl_urho3d_graphics_texture
 {
     void *finalizer;
     SharedPtr<Urho3D::Texture> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_texture;
 
 #define HL_URHO3D_TEXTURE _ABSTRACT(hl_urho3d_graphics_texture)
@@ -489,6 +552,7 @@ typedef struct hl_urho3d_graphics_viewport
 {
     void *finalizer;
     SharedPtr<Urho3D::Viewport> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_viewport;
 
 #define HL_URHO3D_VIEWPORT _ABSTRACT(hl_urho3d_graphics_viewport)
@@ -499,6 +563,7 @@ typedef struct hl_urho3d_graphics_zone
 {
     void *finalizer;
     SharedPtr<Urho3D::Zone> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_graphics_zone;
 
 #define HL_URHO3D_ZONE _ABSTRACT(hl_urho3d_graphics_zone)
@@ -514,6 +579,7 @@ typedef struct hl_urho3d_physics_collision_shape
 {
     void *finalizer;
     SharedPtr<Urho3D::CollisionShape> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_physics_collision_shape;
 
 #define HL_URHO3D_COLLISION_SHAPE _ABSTRACT(hl_urho3d_physics_collision_shape)
@@ -525,6 +591,7 @@ typedef struct hl_urho3d_physics_rigid_body
 {
     void *finalizer;
     SharedPtr<Urho3D::RigidBody> ptr;
+    vdynamic *dyn_obj;
 } hl_urho3d_physics_rigid_body;
 
 #define HL_URHO3D_RIGID_BODY _ABSTRACT(hl_urho3d_physics_rigid_body)
