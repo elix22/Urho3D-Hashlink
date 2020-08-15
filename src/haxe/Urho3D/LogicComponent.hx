@@ -17,6 +17,11 @@ enum abstract UpdateEvent(Int) to Int from Int {
 	var USE_FIXEDUPDATE = 0x4;
 	/// Bitmask for using the physics post-update event.
 	var USE_FIXEDPOSTUPDATE = 0x8;
+
+	@:op(A | B)
+	public inline function OpMathOr(rhs:Int):Int {
+		return this | rhs;
+	}
 }
 
 class LogicComponent extends Component {
