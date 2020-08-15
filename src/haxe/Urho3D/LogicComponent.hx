@@ -6,12 +6,36 @@ import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_LOGIC_COMPONENT = hl.Abstract<"hl_urho3d_scene_logic_component">;
 
+enum abstract UpdateEvent(Int) to Int from Int {
+	/// Bitmask for not using any events.
+	var USE_NO_EVENT = 0x0;
+	/// Bitmask for using the scene update event.
+	var USE_UPDATE = 0x1;
+	/// Bitmask for using the scene post-update event.
+	var USE_POSTUPDATE = 0x2;
+	/// Bitmask for using the physics update event.
+	var USE_FIXEDUPDATE = 0x4;
+	/// Bitmask for using the physics post-update event.
+	var USE_FIXEDPOSTUPDATE = 0x8;
+}
+
 class LogicComponent extends Component {
 	private var abstractLogicComponent:AbstractLogicComponent = null;
 
 	public inline function new() {
 		abstractLogicComponent = new AbstractLogicComponent(this);
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
+	}
+
+	public var updateEventMask(get, set):UpdateEvent;
+
+	function set_updateEventMask(m) {
+		AbstractLogicComponent.SetUpdateEventMask(Context.context, abstractLogicComponent, m);
+		return m;
+	}
+
+	function get_updateEventMask() {
+		return AbstractLogicComponent.GetUpdateEventMask(Context.context, abstractLogicComponent);
 	}
 
 	@:keep
@@ -130,5 +154,17 @@ abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
 	@:hlNative("Urho3D", "_scene_logic_component_cast_to_component")
 	public static function CastToComponent(c:Context, s:AbstractLogicComponent):AbstractComponent {
 		return null;
+	}
+
+	/*
+		DEFINE_PRIM(_VOID, _scene_logic_component_set_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT _I32);
+		DEFINE_PRIM(_I32, _scene_logic_component_get_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT );
+	 */
+	@:hlNative("Urho3D", "_scene_logic_component_set_update_event_mask")
+	public static function SetUpdateEventMask(c:Context, s:AbstractLogicComponent, m:Int):Void {}
+
+	@:hlNative("Urho3D", "_scene_logic_component_get_update_event_mask")
+	public static function GetUpdateEventMask(c:Context, s:AbstractLogicComponent):Int {
+		return 0;
 	}
 }

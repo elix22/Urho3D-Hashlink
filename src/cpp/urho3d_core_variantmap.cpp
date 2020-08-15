@@ -81,6 +81,33 @@ HL_PRIM hl_urho3d_tvariant *HL_NAME(_get_value)(hl_urho3d_variantmap *type, hl_u
     return vr;
 }
 
+//,vstring  * str
+HL_PRIM void HL_NAME(_set_key_string_value)(hl_urho3d_variantmap *type, vstring *str, hl_urho3d_tvariant *variant)
+{
+    Urho3D::VariantMap *vm = (Urho3D::VariantMap *)type->ptr;
+    const char *ch = (char*)hl_to_utf8(str->bytes);
+
+    if (vm != NULL && variant != NULL)
+    {
+        (*vm)[StringHash(ch)] = *variant;
+    }
+}
+
+HL_PRIM hl_urho3d_tvariant *HL_NAME(_get_key_string_value)(hl_urho3d_variantmap *type, vstring *str)
+{
+    Urho3D::VariantMap *vm = (Urho3D::VariantMap *)type->ptr;
+    const char *ch = (char*)hl_to_utf8(str->bytes);
+
+    hl_urho3d_tvariant *vr = hl_alloc_urho3d_tvariant();
+
+    *vr = (*vm)[StringHash(ch)];
+
+    return vr;
+}
+
 DEFINE_PRIM(HL_URHO3D_TYPE, _create_variantmap, _NO_ARG);
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _set_key_value, HL_URHO3D_VARIANTMAP HL_URHO3D_TSTRINGHASH HL_URHO3D_TVARIANT);
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _get_value, HL_URHO3D_VARIANTMAP HL_URHO3D_TSTRINGHASH);
+
+DEFINE_PRIM(_VOID, _set_key_string_value, HL_URHO3D_VARIANTMAP _STRING HL_URHO3D_TVARIANT);
+DEFINE_PRIM(HL_URHO3D_TVARIANT, _get_key_string_value, HL_URHO3D_VARIANTMAP _STRING);

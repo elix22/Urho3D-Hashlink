@@ -31,7 +31,7 @@ class ProxyLogicComponent : public LogicComponent
     URHO3D_OBJECT(ProxyLogicComponent, LogicComponent);
 
 public:
-    ProxyLogicComponent(Context *context,vdynamic * dyn = NULL) : LogicComponent(context)
+    ProxyLogicComponent(Context *context, vdynamic *dyn = NULL) : LogicComponent(context)
     {
         dyn_obj = dyn;
         dyn_obj_field_start = NULL;
@@ -232,30 +232,26 @@ public:
         LogicComponent::OnNodeSet(node);
     }
 
-
-    virtual void OnSceneSet(Scene* scene)
+    virtual void OnSceneSet(Scene *scene)
     {
-        
+
         if (dyn_obj && scene)
         {
             vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_on_scene_set, &hlt_dyn);
             vdynamic *dyn_urho3d = hl_alloc_dynamic(&hlt_abstract);
-            hl_urho3d_scene_scene * hl_scene= hl_alloc_urho3d_scene_scene_no_finalizer(NULL,scene);
+            hl_urho3d_scene_scene *hl_scene = hl_alloc_urho3d_scene_scene_no_finalizer(NULL, scene);
             dyn_urho3d->v.ptr = hl_scene;
             vdynamic *vargs[1] = {dyn_urho3d};
             hl_dyn_abstract_call(closure, vargs, 1);
 
             // Don't keep a reference to the scene , will cause a crash.
             hl_scene->ptr = NULL;
-            
         }
-        
-    
-       LogicComponent::OnSceneSet(scene);
+
+        LogicComponent::OnSceneSet(scene);
     }
 
-
-    virtual void OnMarkedDirty(Node* node)
+    virtual void OnMarkedDirty(Node *node)
     {
         if (dyn_obj)
         {
@@ -269,7 +265,7 @@ public:
         LogicComponent::OnMarkedDirty(node);
     }
 
-    virtual void OnNodeSetEnabled(Node* node)
+    virtual void OnNodeSetEnabled(Node *node)
     {
         if (dyn_obj)
         {
@@ -278,7 +274,7 @@ public:
             dyn_urho3d_node->v.ptr = hl_alloc_urho3d_scene_node_no_finalizer(NULL, node);
             vdynamic *vargs[1] = {dyn_urho3d_node};
             hl_dyn_abstract_call(closure, vargs, 1);
-        }  
+        }
 
         LogicComponent::OnNodeSetEnabled(node);
     }
@@ -315,7 +311,7 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(urho3d_co
     hl_urho3d_scene_logic_component *p = (hl_urho3d_scene_logic_component *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_scene_logic_component));
     memset(p, 0, sizeof(hl_urho3d_scene_logic_component));
     p->finalizer = (void *)finalize_urho3d_scene_logic_component;
-    ProxyLogicComponent *c = new ProxyLogicComponent(context,dyn_obj);
+    ProxyLogicComponent *c = new ProxyLogicComponent(context, dyn_obj);
     p->ptr = c;
     p->dyn_obj = dyn_obj;
     return p;
@@ -364,6 +360,18 @@ HL_PRIM hl_urho3d_scene_logic_component *HL_NAME(_scene_logic_component_cast_fro
     return hl_u3d_obj;
 }
 
+HL_PRIM void HL_NAME(_scene_logic_component_set_update_event_mask)(urho3d_context *context, hl_urho3d_scene_logic_component *component, int mask)
+{
+    component->ptr->SetUpdateEventMask(UpdateEventFlags(mask));
+}
+
+HL_PRIM int HL_NAME(_scene_logic_component_get_update_event_mask)(urho3d_context *context, hl_urho3d_scene_logic_component *component)
+{
+    return component->ptr->GetUpdateEventMask().AsInteger();
+}
+
 DEFINE_PRIM(HL_URHO3D_LOGIC_COMPONENT, _scene_logic_component_create, URHO3D_CONTEXT _DYN);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_logic_component_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT);
 DEFINE_PRIM(HL_URHO3D_LOGIC_COMPONENT, _scene_logic_component_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
+DEFINE_PRIM(_VOID, _scene_logic_component_set_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT _I32);
+DEFINE_PRIM(_I32, _scene_logic_component_get_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT );

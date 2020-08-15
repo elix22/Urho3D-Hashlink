@@ -26,13 +26,18 @@ class Rotator extends LogicComponent {
 	public override function Update(timeStep:Float) {
 		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 
+		/*
 		counter++;
 		if (counter % 200 == 0) {
 			ResetRotation();
 		}
+		*/
 	}
 
 	public function HandleMyUpdate(eventType:StringHash, eventData:VariantMap) {
+
+		var timeStep:Float = eventData["TimeStep"];
+		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 	}
 
 	public override function OnNodeSet(node:Node) {
@@ -87,6 +92,7 @@ class AnimatingSceneSample extends Application {
 
 			var rotator = new Rotator();
 			rotator.SetRotationSpeed(new TVector3(10.0, 20.0, 30.0));
+			rotator.updateEventMask = USE_UPDATE;
 			boxNode.AddComponent(rotator);
 		}
 
