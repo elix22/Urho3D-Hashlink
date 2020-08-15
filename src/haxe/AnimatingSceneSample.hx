@@ -15,7 +15,7 @@ class Rotator extends LogicComponent {
 	}
 
 	public override function Start() {
-	//	SubscribeToEvent("Update", "HandleMyUpdate");
+		//SubscribeToEvent("Update", "HandleMyUpdate");
 	}
 
 	public override function DelayedStart() {
@@ -25,6 +25,7 @@ class Rotator extends LogicComponent {
 		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 	}
 
+	
 	/*
 	public function HandleMyUpdate(eventType:StringHash, eventData:VariantMap) {
 

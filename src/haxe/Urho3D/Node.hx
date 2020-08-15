@@ -5,8 +5,8 @@ import urho3d.AbstractApplication.Dyn;
 import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
-
 typedef HL_URHO3D_POD_NODE = hl.Abstract<"hl_urho3d_scene_pod_node">;
+
 @:hlNative("Urho3D")
 abstract PodNode(HL_URHO3D_POD_NODE) {}
 
@@ -44,9 +44,9 @@ class Node {
 			Scene.currentScene.nodes.push(this);
 	}
 
-	public function SubscribeToEvent(stringHash:StringHash, s:String) {
+	public function SubscribeToEvent(?object:Object,stringHash:StringHash, s:String) {
 		if (abstractNode != null) {
-			abstractNode.SubscribeToEvent(stringHash, this, s);
+			abstractNode.SubscribeToEvent(object,stringHash, this, s);
 		}
 	}
 
@@ -152,8 +152,6 @@ class Node {
 	}
 }
 
-
-
 @:hlNative("Urho3D")
 abstract AbstractNode(HL_URHO3D_NODE) {
 	public inline function new() {
@@ -166,10 +164,13 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	}
 
 	@:keep
-    public function SubscribeToEvent(stringHash:StringHash,d:Dynamic,s:String)
-    {
-        _SubscribeToEvent(Context.context,cast this,stringHash,d,s);
-    }
+	public function SubscribeToEvent(?object:Object, stringHash:StringHash, d:Dynamic, s:String) {
+		if (object != null) {
+			_SubscribeToEventSender(Context.context, object, cast this, stringHash, d, s);
+		} else {
+			_SubscribeToEvent(Context.context, cast this, stringHash, d, s);
+		}
+	}
 
 	@:hlNative("Urho3D", "_scene_node_create")
 	public static function Create(c:Context):HL_URHO3D_NODE {
@@ -263,6 +264,8 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	}
 
 	@:hlNative("Urho3D", "_scene_node_subscribe_to_event")
-    private static function _SubscribeToEvent(c:Context,node:AbstractNode,tringHash:StringHash,d:Dynamic ,s:String):Void {
-    }
+	private static function _SubscribeToEvent(c:Context, node:AbstractNode, tringHash:StringHash, d:Dynamic, s:String):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_subscribe_to_event_sender")
+	private static function _SubscribeToEventSender(c:Context, o:Object, node:AbstractNode, tringHash:StringHash, d:Dynamic, s:String):Void {}
 }

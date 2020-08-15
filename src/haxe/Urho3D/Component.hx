@@ -31,9 +31,9 @@ class Component {
 		}
 	}
 
-	public function SubscribeToEvent(stringHash:StringHash, s:String) {
+	public function SubscribeToEvent(?object:Object,stringHash:StringHash, s:String) {
 		if (abstractComponent != null) {
-			abstractComponent.SubscribeToEvent(stringHash, this, s);
+			abstractComponent.SubscribeToEvent(object,stringHash, this, s);
 		}
 	}
 
@@ -290,10 +290,13 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 	}
 
 	@:keep
-    public function SubscribeToEvent(stringHash:StringHash,d:Dynamic,s:String)
-    {
-        _SubscribeToEvent(Context.context,cast this,stringHash,d,s);
-    }
+	public function SubscribeToEvent(?object:Object, stringHash:StringHash, d:Dynamic, s:String) {
+		if (object != null) {
+			_SubscribeToEventSender(Context.context, object, cast this, stringHash, d, s);
+		} else {
+			_SubscribeToEvent(Context.context, cast this, stringHash, d, s);
+		}
+	}
 
 	@:hlNative("Urho3D", "_scene_component_create")
 	private static function Create(c:Context):HL_URHO3D_COMPONENT {
@@ -305,8 +308,11 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 		return null;
 	}
 
-	//DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);
+	// DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);
+
 	@:hlNative("Urho3D", "_scene_component_subscribe_to_event")
-    private static function _SubscribeToEvent(c:Context,comp:AbstractComponent,tringHash:StringHash,d:Dynamic ,s:String):Void {
-    }
+	private static function _SubscribeToEvent(c:Context, comp:AbstractComponent, tringHash:StringHash, d:Dynamic, s:String):Void {}
+
+	@:hlNative("Urho3D", "_scene_component_subscribe_to_event_sender")
+	private static function _SubscribeToEventSender(c:Context, o:Object, comp:AbstractComponent, tringHash:StringHash, d:Dynamic, s:String):Void {}
 }

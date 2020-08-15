@@ -116,6 +116,21 @@ class ProxyApp : public Application
         }
     }
 
+    void subscribeToEvent(Urho3D::Object * object, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+    {
+        if (stringhash)
+        {
+            Urho3D::StringHash *urho3d_stringhash = stringhash->ptr;
+            if (urho3d_stringhash)
+            {
+                const char *closure_name = (char *)hl_to_utf8(str->bytes);
+                hl_event_closures[*urho3d_stringhash] = new HL_Urho3DEventHandler(context_, dyn_obj, String(closure_name));
+
+                SubscribeToEvent(object,*urho3d_stringhash, URHO3D_HANDLER(ProxyApp, HandlEvents));
+            }
+        }
+    }
+
     void HandlEvents(StringHash eventType, VariantMap &eventData)
     {
         SharedPtr<HL_Urho3DEventHandler> event_handler = hl_event_closures[eventType];
@@ -482,10 +497,21 @@ HL_PRIM void HL_NAME(_application_subscribe_to_event)(hl_urho3d_application *app
     }
 }
 
+HL_PRIM void HL_NAME(_application_subscribe_to_event_sender)(hl_urho3d_application *app,Urho3D::Object * object, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+{
+    Urho3D::Application *ptr_app = app->ptr;
+    if (ptr_app)
+    {
+        ProxyApp *proxyApp = (ProxyApp *)ptr_app;
+        proxyApp->subscribeToEvent(object,stringhash, dyn_obj, str);
+    }
+}
+
 DEFINE_PRIM(HL_URHO3D_APPLICATION, _create_application, URHO3D_CONTEXT);
 DEFINE_PRIM(_VOID, _run_application, HL_URHO3D_APPLICATION);
 DEFINE_PRIM(_VOID, _setup_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));
 DEFINE_PRIM(_VOID, _start_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));
 DEFINE_PRIM(_VOID, _stop_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));
 DEFINE_PRIM(_VOID, _application_subscribe_to_event, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH _DYN _STRING);
+DEFINE_PRIM(_VOID, _application_subscribe_to_event_sender, HL_URHO3D_APPLICATION HL_URHO3D_OBJECT HL_URHO3D_STRINGHASH _DYN _STRING);
 //

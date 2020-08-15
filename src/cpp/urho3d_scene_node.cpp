@@ -13,6 +13,58 @@ extern "C"
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
+
+void subscribeToEvent(urho3d_context *context,Urho3D::Object * object, hl_urho3d_scene_node *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+{
+    if (stringhash)
+    {
+        Urho3D::StringHash *urho3d_stringhash = stringhash->ptr;
+        if (urho3d_stringhash)
+        {
+
+            const char *closure_name = (char *)hl_to_utf8(str->bytes);
+            (*(hl_ptr->hl_event_closures))[*urho3d_stringhash] = new HL_Urho3DEventHandler(context, dyn_obj, String(closure_name));
+            hl_ptr->ptr->SubscribeToEvent(
+                object,
+                *urho3d_stringhash,
+                [=](StringHash eventType, VariantMap &eventData) {
+                    if (hl_ptr == hl_ptr->ptr->GetEventHandler()->GetUserData())
+                    {
+                        SharedPtr<HL_Urho3DEventHandler> event_handler = (*(hl_ptr->hl_event_closures))[eventType];
+                        if (event_handler != NULL)
+                        {
+                            vclosure closure;
+                            vclosure *callback_fn = (vclosure *)hl_dyn_getp_internal(event_handler->dyn_obj, &event_handler->dyn_obj_field_lookup, event_handler->hl_hash_name, &closure);
+                            if (callback_fn && callback_fn->hasValue)
+                            {
+                                hl_urho3d_stringhash *hl_stringhsh = (hl_urho3d_stringhash *)alloca(sizeof(hl_urho3d_stringhash));
+                                hl_stringhsh->ptr = &eventType;
+                                vdynamic *dyn_urho3d_stringhash = (vdynamic *)alloca(sizeof(vdynamic));
+                                dyn_urho3d_stringhash->t = &hlt_abstract;
+                                dyn_urho3d_stringhash->v.ptr = hl_stringhsh;
+
+                                hl_urho3d_variantmap *hl_variantmap = (hl_urho3d_variantmap *)alloca(sizeof(hl_urho3d_variantmap));
+                                hl_variantmap->ptr = &eventData;
+                                vdynamic *dyn_urho3d_variantmap = (vdynamic *)alloca(sizeof(vdynamic));
+                                dyn_urho3d_variantmap->t = &hlt_abstract;
+                                dyn_urho3d_variantmap->v.ptr = hl_variantmap;
+                                /*
+                                vdynamic *args[2];
+                                args[0] = dyn_urho3d_stringhash;
+                                args[1] = dyn_urho3d_variantmap;
+                                hl_dyn_abstract_call(callback_fn, args, 2);
+                                */
+                                ((void (*)(vdynamic *, vdynamic *, vdynamic *))closure.fun)((vdynamic *)closure.value, (vdynamic *)(*(void **)(&dyn_urho3d_stringhash->v)), (vdynamic *)(*(void **)(&dyn_urho3d_variantmap->v)));
+                            }
+                        }
+                    }
+                },
+                hl_ptr);
+        }
+    }
+}
+
+
 void subscribeToEvent(urho3d_context *context, hl_urho3d_scene_node *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
     if (stringhash)
@@ -283,6 +335,11 @@ HL_PRIM void HL_NAME(_scene_node_subscribe_to_event)(urho3d_context *context, hl
     subscribeToEvent(context, this_node, stringhash, dyn_obj, str);
 }
 
+HL_PRIM void HL_NAME(_scene_node_subscribe_to_event_sender)(urho3d_context *context,Urho3D::Object * object, hl_urho3d_scene_node *this_node, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+{
+     subscribeToEvent(context,object, this_node, stringhash, dyn_obj, str);
+}
+
 DEFINE_PRIM(HL_URHO3D_POD_NODE, _scene_node_get_children_with_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TSTRINGHASH _BOOL);
 DEFINE_PRIM(_I32, _scene_node_get_pod_vector_size, URHO3D_CONTEXT HL_URHO3D_POD_NODE);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_from_pod_vector, URHO3D_CONTEXT HL_URHO3D_POD_NODE _I32);
@@ -314,3 +371,4 @@ DEFINE_PRIM(_VOID, _scene_node_pitch, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);
 DEFINE_PRIM(_VOID, _scene_node_roll, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);
 
 DEFINE_PRIM(_VOID, _scene_node_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_STRINGHASH _DYN _STRING);
+DEFINE_PRIM(_VOID, _scene_node_subscribe_to_event_sender, URHO3D_CONTEXT HL_URHO3D_OBJECT HL_URHO3D_NODE HL_URHO3D_STRINGHASH _DYN _STRING);

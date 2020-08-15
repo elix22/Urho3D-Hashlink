@@ -40,15 +40,26 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
     }
 
     @:keep
-    public function SubscribeToEvent(stringHash:StringHash,d:Dynamic,s:String)
+    public function SubscribeToEvent(?object:Object,stringHash:StringHash,d:Dynamic,s:String)
     {
-        _SubscribeToEvent(this,stringHash,d,s);
+        if(object != null)
+            {
+                _SubscribeToEventSender(this,object,stringHash,d,s);
+            }
+            else {
+                _SubscribeToEvent(this,stringHash,d,s);
+            }
+        
     }
 
 
 
     @:hlNative("Urho3D", "_application_subscribe_to_event")
     private static function _SubscribeToEvent(ptr:HL_URHO3D_APPLICATION,tringHash:StringHash,d:Dynamic ,s:String):Void {
+    }
+
+    @:hlNative("Urho3D", "_application_subscribe_to_event_sender")
+    private static function _SubscribeToEventSender(ptr:HL_URHO3D_APPLICATION,object:Object,tringHash:StringHash,d:Dynamic ,s:String):Void {
     }
 
     @:hlNative("Urho3D", "_create_application")

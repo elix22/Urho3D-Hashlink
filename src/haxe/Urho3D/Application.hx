@@ -40,7 +40,7 @@ class Application {
 		// trace("hx Application Stop called ");
 	}
 
-	public function SubscribeToEvent(stringHash:StringHash, s:String) {
+	public function SubscribeToEvent(?object:Object,stringHash:StringHash, s:String) {
 		if (abstractApplication != null) {
 			abstractApplication.SubscribeToEvent(stringHash, this, s);
 		}
