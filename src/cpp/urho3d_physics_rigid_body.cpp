@@ -81,6 +81,16 @@ HL_PRIM float HL_NAME(_physics_rigid_body_get_friction)(urho3d_context *context,
     return t->ptr->GetFriction();
 }
 
+HL_PRIM void HL_NAME(_physics_rigid_body_set_rolling_friction)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, float friction)
+{
+    t->ptr->SetRollingFriction(friction);
+}
+
+HL_PRIM float HL_NAME(_physics_rigid_body_get_rolling_friction)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetRollingFriction();
+}
+
 HL_PRIM void HL_NAME(_physics_rigid_body_set_linear_velocity)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, Urho3D::Vector3 * v)
 {
     t->ptr->SetLinearVelocity(*v);
@@ -89,6 +99,17 @@ HL_PRIM void HL_NAME(_physics_rigid_body_set_linear_velocity)(urho3d_context *co
 HL_PRIM  Urho3D::Vector3 * HL_NAME(_physics_rigid_body_get_linear_velocity)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
 {
     return hl_alloc_urho3d_math_tvector3(t->ptr->GetLinearVelocity());
+}
+
+
+HL_PRIM void HL_NAME(_physics_rigid_body_set_trigger)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, bool b)
+{
+    t->ptr->SetTrigger(b);
+}
+
+HL_PRIM bool HL_NAME(_physics_rigid_body_get_trigger)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->IsTrigger();
 }
 
 DEFINE_PRIM(HL_URHO3D_RIGID_BODY, _physics_rigid_body_create, URHO3D_CONTEXT );
@@ -101,5 +122,11 @@ DEFINE_PRIM(_F32, _physics_rigid_body_get_mass, URHO3D_CONTEXT HL_URHO3D_RIGID_B
 DEFINE_PRIM(_VOID, _physics_rigid_body_set_friction, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
 DEFINE_PRIM(_F32, _physics_rigid_body_get_friction, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
 
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_rolling_friction, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
+DEFINE_PRIM(_F32, _physics_rigid_body_get_rolling_friction, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
 DEFINE_PRIM(_VOID, _physics_rigid_body_set_linear_velocity, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY HL_URHO3D_TVECTOR3);
 DEFINE_PRIM(HL_URHO3D_TVECTOR3, _physics_rigid_body_get_linear_velocity, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY);
+
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_trigger, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _BOOL);
+DEFINE_PRIM(_BOOL, _physics_rigid_body_get_trigger, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );

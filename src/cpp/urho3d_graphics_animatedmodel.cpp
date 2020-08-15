@@ -118,6 +118,17 @@ HL_PRIM bool HL_NAME(_graphics_animatedmodel_get_occluder)(urho3d_context *conte
     return animatedmodel->ptr->IsOccluder();
 }
 
+HL_PRIM void HL_NAME(_graphics_animatedmodel_set_update_invisible)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, bool b)
+{
+    animatedmodel->ptr->SetUpdateInvisible(b);
+
+}
+
+HL_PRIM bool HL_NAME(_graphics_animatedmodel_get_update_invisible)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel)
+{
+    return animatedmodel->ptr->GetUpdateInvisible();
+}
+
 HL_PRIM void HL_NAME(_graphics_animatedmodel_set_occludee)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, bool occludee)
 {
     animatedmodel->ptr->SetOccludee(occludee);
@@ -145,3 +156,6 @@ DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_occluder, URHO3D_CONTEXT HL_URHO3
 DEFINE_PRIM(_BOOL, _graphics_animatedmodel_get_occluder, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL );
 DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_occludee, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _BOOL);
 DEFINE_PRIM(_BOOL, _graphics_animatedmodel_get_occludee, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL );
+
+DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_update_invisible, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _BOOL);
+DEFINE_PRIM(_BOOL, _graphics_animatedmodel_get_update_invisible, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL );

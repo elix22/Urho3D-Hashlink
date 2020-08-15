@@ -7,7 +7,7 @@ class Main {
 
 	static function main() {
 		//	 app = new SpritesSample();
-		app = new AnimatingSceneSample();
+		//app = new AnimatingSceneSample();
 		//	 app = new StaticSceneSample();
 		// app = new SkeletalAnimationSample();
 		//	app = new BillboardsSample();
@@ -15,6 +15,7 @@ class Main {
 		// app = new MultipleViewportsSample();
 		// app = new RenderToTextureSample();
 		// app = new PhysicsSample();
+		app = new RagdollsSample();
 		app.Run();
 	}
 }

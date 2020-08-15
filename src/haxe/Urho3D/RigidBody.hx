@@ -15,8 +15,7 @@ class RigidBody extends Component {
 			_abstract = new AbstractRigidBody();
 
 		super(AbstractRigidBody.CastToComponent(Context.context, _abstract));
-    }
-    
+	}
 
 	public var mass(get, set):Float;
 
@@ -40,6 +39,18 @@ class RigidBody extends Component {
 		return AbstractRigidBody.GetFriction(Context.context, _abstract);
 	}
 
+	//
+	public var rollingFriction(get, set):Float;
+
+	function set_rollingFriction(m) {
+		AbstractRigidBody.SetRollingFriction(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_rollingFriction() {
+		return AbstractRigidBody.GetRollingFriction(Context.context, _abstract);
+	}
+
 	public var linearVelocity(get, set):TVector3;
 
 	function set_linearVelocity(v) {
@@ -50,13 +61,24 @@ class RigidBody extends Component {
 	function get_linearVelocity() {
 		return AbstractRigidBody.GetLinearVelocity(Context.context, _abstract);
 	}
+
+	public var trigger(get, set):Bool;
+
+	function set_trigger(m) {
+		AbstractRigidBody.SetTrigger(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_trigger() {
+		return AbstractRigidBody.GetTrigger(Context.context, _abstract);
+	}
 }
 
 @:hlNative("Urho3D")
 abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 	public inline function new() {
 		this = Create(Context.context);
-    }
+	}
 
 	@:hlNative("Urho3D", "_physics_rigid_body_create")
 	private static function Create(context:Context):HL_URHO3D_RIGID_BODY {
@@ -89,11 +111,27 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 		return 0.0;
 	}
 
+	@:hlNative("Urho3D", "_physics_rigid_body_set_rolling_friction")
+	public static function SetRollingFriction(c:Context, s:AbstractRigidBody, m:Single):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_rolling_friction")
+	public static function GetRollingFriction(c:Context, s:AbstractRigidBody):Single {
+		return 0.0;
+	}
+
 	@:hlNative("Urho3D", "_physics_rigid_body_set_linear_velocity")
 	public static function SetLinearVelocity(c:Context, s:AbstractRigidBody, v:TVector3):Void {}
 
 	@:hlNative("Urho3D", "_physics_rigid_body_get_linear_velocity")
 	public static function GetLinearVelocity(c:Context, s:AbstractRigidBody):TVector3 {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_trigger")
+	public static function SetTrigger(c:Context, s:AbstractRigidBody, m:Bool):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_trigger")
+	public static function GetTrigger(c:Context, s:AbstractRigidBody):Bool {
+		return false;
 	}
 }

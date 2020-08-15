@@ -18,28 +18,38 @@ class AnimatedModel extends Component {
 
 	public var model(get, set):Model;
 	public var material(get, set):Material;
-    public var castShadows(get, set):Bool;
-    public var occluder(get, set):Bool;
+	public var castShadows(get, set):Bool;
+	public var occluder(get, set):Bool;
 	public var occludee(get, set):Bool;
+	public var updateInvisible(get, set):Bool;
 
-    function set_occluder(m) {
+	function set_updateInvisible(b) {
+		AbstractAnimatedModel.SetUpdateInvisible(Context.context, _abstract, b);
+		return b;
+	}
+
+	function get_updateInvisible() {
+		return AbstractAnimatedModel.GetUpdateInvisible(Context.context, _abstract);
+	}
+
+	function set_occluder(m) {
 		AbstractAnimatedModel.SetOccluder(Context.context, _abstract, m);
 		return m;
 	}
 
 	function get_occluder() {
 		return AbstractAnimatedModel.GetOccluder(Context.context, _abstract);
-    }
-    
-    function set_occludee(m) {
+	}
+
+	function set_occludee(m) {
 		AbstractAnimatedModel.SetOccludee(Context.context, _abstract, m);
 		return m;
 	}
 
 	function get_occludee() {
 		return AbstractAnimatedModel.GetOccludee(Context.context, _abstract);
-    }
-    
+	}
+
 	function set_model(m) {
 		AbstractAnimatedModel.SetModel(Context.context, _abstract, m);
 		return m;
@@ -136,7 +146,7 @@ abstract AbstractAnimatedModel(HL_URHO3D_ANIMATEDMODEL) {
 	@:hlNative("Urho3D", "_graphics_animatedmodel_get_cast_shadows")
 	public static function GetCastShadows(c:Context, s:AbstractAnimatedModel):Bool {
 		return false;
-    }
+	}
 
 	@:hlNative("Urho3D", "_graphics_animatedmodel_set_occluder")
 	public static function SetOccluder(c:Context, s:AbstractAnimatedModel, m:Bool):Void {}
@@ -151,6 +161,14 @@ abstract AbstractAnimatedModel(HL_URHO3D_ANIMATEDMODEL) {
 
 	@:hlNative("Urho3D", "_graphics_animatedmodel_get_occludee")
 	public static function GetOccludee(c:Context, s:AbstractAnimatedModel):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_graphics_animatedmodel_set_update_invisible")
+	public static function SetUpdateInvisible(c:Context, s:AbstractAnimatedModel, m:Bool):Void {}
+
+	@:hlNative("Urho3D", "_graphics_animatedmodel_get_update_invisible")
+	public static function GetUpdateInvisible(c:Context, s:AbstractAnimatedModel):Bool {
 		return false;
 	}
 }

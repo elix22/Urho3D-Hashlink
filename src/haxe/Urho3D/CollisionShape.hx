@@ -35,6 +35,30 @@ class CollisionShape extends Component {
         if(rotation == null)rotation = new TQuaternion();
 		AbstractCollisionShape.SetBox(Context.context, _abstract, size, position, rotation);
 	}
+
+	public inline function SetSphere(diameter:Float, ?position:TVector3, ?rotation:TQuaternion) {
+        if(position == null)position = new TVector3();
+        if(rotation == null)rotation = new TQuaternion();
+		AbstractCollisionShape.SetSphere(Context.context, _abstract, diameter, position, rotation);
+	}
+
+	public inline function SetStaticPlane(?position:TVector3, ?rotation:TQuaternion) {
+        if(position == null)position = new TVector3();
+        if(rotation == null)rotation = new TQuaternion();
+		AbstractCollisionShape.SetStaticPlane(Context.context, _abstract, position, rotation);
+	}
+
+	public inline function SetCylinder(diameter:Float,height:Float, ?position:TVector3, ?rotation:TQuaternion) {
+        if(position == null)position = new TVector3();
+        if(rotation == null)rotation = new TQuaternion();
+		AbstractCollisionShape.SetCylinder(Context.context, _abstract, diameter,height, position, rotation);
+	}
+
+	public inline function SetCapsule(diameter:Float,height:Float, ?position:TVector3, ?rotation:TQuaternion) {
+        if(position == null)position = new TVector3();
+        if(rotation == null)rotation = new TQuaternion();
+		AbstractCollisionShape.SetCapsule(Context.context, _abstract, diameter,height, position, rotation);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -60,4 +84,17 @@ abstract AbstractCollisionShape(HL_URHO3D_COLLISION_SHAPE) {
 
 	@:hlNative("Urho3D", "_physics_collision_shape_set_box")
 	public static function SetBox(c:Context, s:AbstractCollisionShape, size:TVector3, position:TVector3, rotation:TQuaternion):Void {}
+
+
+	@:hlNative("Urho3D", "_physics_collision_shape_set_sphere")
+	public static function SetSphere(c:Context, s:AbstractCollisionShape, diameter:Single, position:TVector3, rotation:TQuaternion):Void {}
+
+	@:hlNative("Urho3D", "_physics_collision_shape_set_static_plane")
+	public static function SetStaticPlane(c:Context, s:AbstractCollisionShape, position:TVector3, rotation:TQuaternion):Void {}
+
+	@:hlNative("Urho3D", "_physics_collision_shape_set_cylinder")
+	public static function SetCylinder(c:Context, s:AbstractCollisionShape, diameter:Single, height:Single, position:TVector3, rotation:TQuaternion):Void {}
+
+	@:hlNative("Urho3D", "_physics_collision_shape_set_capsule")
+	public static function SetCapsule(c:Context, s:AbstractCollisionShape, diameter:Single, height:Single, position:TVector3, rotation:TQuaternion):Void {}
 }
