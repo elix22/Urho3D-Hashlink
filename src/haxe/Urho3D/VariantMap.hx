@@ -10,6 +10,10 @@ abstract VariantMap(URHO3D_VARIANTMAP) {
 		this = CreateVariantMap();
 	}
 
+	public inline function Clear() {
+		_Clear(cast this);
+	}
+
 	@:hlNative("Urho3D", "_core_variantmap_create")
 	private static function CreateVariantMap():URHO3D_VARIANTMAP {
 		return null;
@@ -98,5 +102,10 @@ abstract VariantMap(URHO3D_VARIANTMAP) {
 	@:hlNative("Urho3D", "_core_variantmap_set_key_value")
 	private static function SetKeyValue(vm:URHO3D_VARIANTMAP, key:TStringHash, vr:TVariant):TVariant {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_core_variantmap_clear")
+	private static function _Clear(vm:VariantMap):Void {
+	
 	}
 }

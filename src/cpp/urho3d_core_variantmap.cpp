@@ -143,7 +143,10 @@ HL_PRIM int HL_NAME(_core_variantmap_get_key_string_int)(hl_urho3d_variantmap *t
     return  (*vm)[StringHash(ch)].GetInt();
 }
 
-
+HL_PRIM void HL_NAME(_core_variantmap_clear)(hl_urho3d_variantmap *m)
+{
+    m->ptr->Clear();
+}
 
 DEFINE_PRIM(HL_URHO3D_TYPE, _core_variantmap_create, _NO_ARG);
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _core_variantmap_set_key_value, HL_URHO3D_VARIANTMAP HL_URHO3D_TSTRINGHASH HL_URHO3D_TVARIANT);
@@ -157,5 +160,7 @@ DEFINE_PRIM(_F32, _core_variantmap_get_key_string_float, HL_URHO3D_VARIANTMAP _S
 
 DEFINE_PRIM(_VOID, _core_variantmap_set_key_string_int, HL_URHO3D_VARIANTMAP _STRING _I32);
 DEFINE_PRIM(_I32, _core_variantmap_get_key_string_int, HL_URHO3D_VARIANTMAP _STRING);
+
+DEFINE_PRIM(_VOID, _core_variantmap_clear, HL_URHO3D_VARIANTMAP);
 
 

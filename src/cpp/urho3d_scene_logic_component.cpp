@@ -28,12 +28,16 @@ void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosur
 
 class ProxyLogicComponent : public LogicComponent
 {
-    URHO3D_OBJECT(ProxyLogicComponent, LogicComponent);
+    //URHO3D_OBJECT(ProxyLogicComponent, LogicComponent);
 
 public:
     ProxyLogicComponent(Context *context, vdynamic *dyn = NULL) : LogicComponent(context)
     {
         dyn_obj = dyn;
+        if (dyn_obj)
+        {
+            hl_add_root(&dyn_obj);
+        }
         dyn_obj_field_start = NULL;
         dyn_obj_field_delayed_start = NULL;
         dyn_obj_field_stop = NULL;
@@ -68,10 +72,10 @@ public:
     /// Destruct.
     ~ProxyLogicComponent() override
     {
-        //printf("~ProxyLogicComponent \n");
+      //  printf("%s \n", __FUNCTION__);
+        
         if (dyn_obj)
         {
-
             hl_remove_root(&dyn_obj);
             dyn_obj = NULL;
         }
@@ -119,25 +123,7 @@ public:
         }
     }
 
-    /// Called when the component is detached from a scene node, usually on destruction. Note that you will no longer have access to the node and scene at that point.
-    virtual void Stop()
-    {
-        dyn_obj = NULL;
 
-        // if (dyn_obj)
-        // {
-        // printf("ProxyLogicComponent.Stop \n");
-        //     vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_stop, &hlt_dyn);
-        // vclosure closure;
-        // hl_dyn_getp_internal(dyn_obj, &dyn_obj_field_stop, hl_hash_stop, &closure);
-        // ((void (*)(vdynamic*))closure.fun)((vdynamic*)closure.value);
-        // if (closure != NULL)
-        //     hl_dyn_call(closure, NULL, 0);
-
-        // hl_remove_root(&dyn_obj);
-        //     dyn_obj = NULL;
-        // }
-    }
 
     /// Called on scene update, variable timestep.
     virtual void Update(float timeStep)
@@ -227,6 +213,11 @@ public:
             dyn_urho3d_node->v.ptr = hl_alloc_urho3d_scene_node_no_finalizer(NULL, node);
             vdynamic *vargs[1] = {dyn_urho3d_node};
             hl_dyn_abstract_call(closure, vargs, 1);
+            if (node == NULL)
+            {
+                hl_remove_root(&dyn_obj);
+                dyn_obj = NULL;
+            }
         }
 
         LogicComponent::OnNodeSet(node);
@@ -234,7 +225,6 @@ public:
 
     virtual void OnSceneSet(Scene *scene)
     {
-
         if (dyn_obj && scene)
         {
             vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_on_scene_set, &hlt_dyn);
@@ -249,6 +239,12 @@ public:
         }
 
         LogicComponent::OnSceneSet(scene);
+
+        if (scene == NULL)
+        {
+            hl_remove_root(&dyn_obj);
+            dyn_obj = NULL;
+        }
     }
 
     virtual void OnMarkedDirty(Node *node)
@@ -291,12 +287,13 @@ public:
 
 void finalize_urho3d_scene_logic_component(void *v)
 {
-    // printf("finalize_urho3d_scene_logic_component \n");
+
     hl_urho3d_scene_logic_component *hl_ptr = (hl_urho3d_scene_logic_component *)v;
     if (hl_ptr)
     {
         if (hl_ptr->ptr)
         {
+            hl_ptr->ptr->Remove();
             hl_ptr->ptr = NULL;
         }
         hl_ptr->finalizer = NULL;
@@ -374,4 +371,4 @@ DEFINE_PRIM(HL_URHO3D_LOGIC_COMPONENT, _scene_logic_component_create, URHO3D_CON
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_logic_component_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT);
 DEFINE_PRIM(HL_URHO3D_LOGIC_COMPONENT, _scene_logic_component_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
 DEFINE_PRIM(_VOID, _scene_logic_component_set_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT _I32);
-DEFINE_PRIM(_I32, _scene_logic_component_get_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT );
+DEFINE_PRIM(_I32, _scene_logic_component_get_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT);

@@ -3,6 +3,7 @@ package urho3d;
 import urho3d.Scene.AbstractScene;
 import urho3d.Node.AbstractNode;
 import urho3d.Component.AbstractComponent;
+import haxe.ds.ObjectMap;
 
 typedef HL_URHO3D_LOGIC_COMPONENT = hl.Abstract<"hl_urho3d_scene_logic_component">;
 
@@ -27,8 +28,39 @@ enum abstract UpdateEvent(Int) to Int from Int {
 class LogicComponent extends Component {
 	private var abstractLogicComponent:AbstractLogicComponent = null;
 
-	public inline function new() {
-		abstractLogicComponent = new AbstractLogicComponent(this);
+	public static var factories = new Map<String, String>();
+
+	public static function RegisterFactory(comp:Dynamic) {
+		factories[Type.getClassName(comp).toString()] = Type.getClassName(comp).toString();
+	}
+
+	public static function CreateFactory(?name:String, ?dyn:Dynamic):Dynamic {
+		if (dyn != null) {
+			var comp = factories[Type.getClassName(dyn).toString()];
+			if (comp != null) {
+				var args = new Array<Dynamic>();
+				return Type.createInstance(Type.resolveClass(comp), args);
+			} else
+				return null;
+		} else {
+			var comp = factories[name];
+			if (comp != null) {
+				var args = new Array<Dynamic>();
+				return Type.createInstance(Type.resolveClass(comp), args);
+			} else {
+				var args = new Array<Dynamic>();
+				return Type.createInstance(Type.resolveClass(name), args);
+			}
+		}
+	}
+
+	public inline function new(?child:Dynamic) {
+		if (child != null) {
+			abstractLogicComponent = new AbstractLogicComponent(child);
+		} else {
+			abstractLogicComponent = new AbstractLogicComponent(this);
+		}
+
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
 	}
 

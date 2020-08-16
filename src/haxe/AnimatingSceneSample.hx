@@ -1,10 +1,18 @@
 import urho3d.*;
 import urho3d.Application;
+import utils.*;
 
+/*
 class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
 
 	var counter = 0;
+
+	public static function CreateFactory()
+	{
+		var args = new Array<Dynamic>();
+		return Type.createInstance(Rotator,args);
+	}
 
 	public function new() {
 		super();
@@ -26,13 +34,6 @@ class Rotator extends LogicComponent {
 	}
 
 	
-	/*
-	public function HandleMyUpdate(eventType:StringHash, eventData:VariantMap) {
-
-		var timeStep:Float = eventData["TimeStep"];
-		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
-	}
-	*/
 
 	public override function OnNodeSet(node:Node) {
 		//trace("Rotator OnNodeSet " + node.position);
@@ -42,6 +43,7 @@ class Rotator extends LogicComponent {
 		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
 	}
 }
+*/
 
 class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
@@ -76,6 +78,9 @@ class AnimatingSceneSample extends Application {
 		zone.fogStart = 10.0;
 		zone.fogEnd = 100.0;
 
+		
+		LogicComponent.RegisterFactory(Rotator);
+
 		for (i in 0...NUM_OBJECTS) {
 			var boxNode = scene.CreateChild("Box");
 			boxNode.position = new TVector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
@@ -84,9 +89,10 @@ class AnimatingSceneSample extends Application {
 			boxObject.model = new Model("Models/Box.mdl");
 			boxObject.material = new Material("Materials/Stone.xml");
 
-			var rotator = new Rotator();
+			var rotator  = new Rotator(); //LogicComponent.CreateFactory("Rotator");
+			//trace(Type.getClassName(Rotator));
 			rotator.SetRotationSpeed(new TVector3(10.0, 20.0, 30.0));
-			rotator.updateEventMask = USE_UPDATE ;
+			//rotator.updateEventMask = USE_UPDATE ;
 			boxNode.AddComponent(rotator);
 		}
 
@@ -148,14 +154,14 @@ class AnimatingSceneSample extends Application {
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
 		MoveCamera(step);
-/*
+
 		counter++;
 		if ((counter % 1000 == 0)) {
 			trace("create scene");
 			CreateScene();
 			SetupViewport();
 		}
-		*/
+		
 	}
 /*
 	@:hlNative("std","sys_check_reload")

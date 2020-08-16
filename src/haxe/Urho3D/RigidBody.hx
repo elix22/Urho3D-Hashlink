@@ -1,6 +1,5 @@
 package urho3d;
 
-import sys.ssl.Context.Config;
 import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_RIGID_BODY = hl.Abstract<"hl_urho3d_physics_rigid_body">;
