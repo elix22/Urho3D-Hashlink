@@ -13,8 +13,7 @@ extern "C"
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
-
-void subscribeToEvent(urho3d_context *context,Urho3D::Object * object, hl_urho3d_scene_node *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+void subscribeToEvent(urho3d_context *context, Urho3D::Object *object, hl_urho3d_scene_node *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
     if (stringhash)
     {
@@ -63,7 +62,6 @@ void subscribeToEvent(urho3d_context *context,Urho3D::Object * object, hl_urho3d
         }
     }
 }
-
 
 void subscribeToEvent(urho3d_context *context, hl_urho3d_scene_node *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
@@ -236,6 +234,23 @@ HL_PRIM void HL_NAME(_scene_node_add_component)(urho3d_context *context, hl_urho
     }
 }
 
+HL_PRIM void HL_NAME(_scene_node_remove_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_scene_component *component)
+{
+    if (component->ptr)
+    {
+        this_node->ptr->RemoveComponent(component->ptr);
+    }
+}
+
+HL_PRIM void HL_NAME(_scene_node_remove_component_string)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *component)
+{
+    const char *comp = (char *)hl_to_utf8(component->bytes);
+    if (comp)
+    {
+        this_node->ptr->RemoveComponent(comp);
+    }
+}
+
 HL_PRIM void HL_NAME(_scene_node_set_position)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_tvector3 *vector)
 {
     this_node->ptr->SetPosition(*(vector));
@@ -244,6 +259,17 @@ HL_PRIM void HL_NAME(_scene_node_set_position)(urho3d_context *context, hl_urho3
 HL_PRIM hl_urho3d_math_tvector3 *HL_NAME(_scene_node_get_position)(urho3d_context *context, hl_urho3d_scene_node *this_node)
 {
     return hl_alloc_urho3d_math_tvector3(this_node->ptr->GetPosition());
+}
+
+
+HL_PRIM void HL_NAME(_scene_node_set_world_position)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_tvector3 *vector)
+{
+    this_node->ptr->SetWorldPosition(*(vector));
+}
+
+HL_PRIM hl_urho3d_math_tvector3 *HL_NAME(_scene_node_get_world_position)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    return hl_alloc_urho3d_math_tvector3(this_node->ptr->GetWorldPosition());
 }
 
 HL_PRIM void HL_NAME(_scene_node_set_direction)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_math_tvector3 *vector)
@@ -320,6 +346,20 @@ HL_PRIM PODVector<Node *> *HL_NAME(_scene_node_get_children_with_component)(urho
     return &_hl_scene_node_pod_vector_node;
 }
 
+HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_get_child)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *child, bool recursive)
+{
+    const char *child_name = (char *)hl_to_utf8(child->bytes);
+    Node *childNode = this_node->ptr->GetChild(child_name, recursive);
+    if (childNode != NULL)
+    {
+        return hl_alloc_urho3d_scene_node(context, childNode);
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
 HL_PRIM int HL_NAME(_scene_node_get_pod_vector_size)(urho3d_context *context, PODVector<Node *> *podVector)
 {
     return (*podVector).Size();
@@ -335,9 +375,9 @@ HL_PRIM void HL_NAME(_scene_node_subscribe_to_event)(urho3d_context *context, hl
     subscribeToEvent(context, this_node, stringhash, dyn_obj, str);
 }
 
-HL_PRIM void HL_NAME(_scene_node_subscribe_to_event_sender)(urho3d_context *context,Urho3D::Object * object, hl_urho3d_scene_node *this_node, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+HL_PRIM void HL_NAME(_scene_node_subscribe_to_event_sender)(urho3d_context *context, Urho3D::Object *object, hl_urho3d_scene_node *this_node, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
-     subscribeToEvent(context,object, this_node, stringhash, dyn_obj, str);
+    subscribeToEvent(context, object, this_node, stringhash, dyn_obj, str);
 }
 
 DEFINE_PRIM(HL_URHO3D_POD_NODE, _scene_node_get_children_with_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TSTRINGHASH _BOOL);
@@ -349,9 +389,14 @@ DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_create_child, URHO3D_CONTEXT HL_URHO3D_N
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_create_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _I32 _I32);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_get_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);
 DEFINE_PRIM(_VOID, _scene_node_add_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_COMPONENT _I32 _I32);
+DEFINE_PRIM(_VOID, _scene_node_remove_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_COMPONENT);
+DEFINE_PRIM(_VOID, _scene_node_remove_component_string, URHO3D_CONTEXT HL_URHO3D_NODE _STRING);
 
 DEFINE_PRIM(_VOID, _scene_node_set_position, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3);
 DEFINE_PRIM(HL_URHO3D_TVECTOR3, _scene_node_get_position, URHO3D_CONTEXT HL_URHO3D_NODE);
+
+DEFINE_PRIM(_VOID, _scene_node_set_world_position, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3);
+DEFINE_PRIM(HL_URHO3D_TVECTOR3, _scene_node_get_world_position, URHO3D_CONTEXT HL_URHO3D_NODE);
 
 DEFINE_PRIM(_VOID, _scene_node_set_direction, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3);
 DEFINE_PRIM(HL_URHO3D_TVECTOR3, _scene_node_get_direction, URHO3D_CONTEXT HL_URHO3D_NODE);
@@ -372,3 +417,5 @@ DEFINE_PRIM(_VOID, _scene_node_roll, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);
 
 DEFINE_PRIM(_VOID, _scene_node_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_STRINGHASH _DYN _STRING);
 DEFINE_PRIM(_VOID, _scene_node_subscribe_to_event_sender, URHO3D_CONTEXT HL_URHO3D_OBJECT HL_URHO3D_NODE HL_URHO3D_STRINGHASH _DYN _STRING);
+
+DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_child, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);

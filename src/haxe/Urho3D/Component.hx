@@ -11,6 +11,7 @@ import urho3d.DecalSet.AbstractDecalSet;
 import urho3d.RigidBody.AbstractRigidBody;
 import urho3d.CollisionShape.AbstractCollisionShape;
 import urho3d.Skybox.AbstractSkybox;
+import urho3d.Constraint.AbstractConstraint;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
@@ -264,11 +265,50 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 	}
 
 	@:to
+	public inline function toAbstractRigidBody():AbstractRigidBody {
+		if (this != null) {
+			var abstract_ = AbstractRigidBody.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return abstract_;
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
 	public inline function toCollisionShape():CollisionShape {
 		if (this != null) {
 			var abstract_ = AbstractCollisionShape.CastFromComponent(Context.context, cast this);
 			if (abstract_ != null)
 				return new CollisionShape(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toConstraint():Constraint {
+		if (this != null) {
+			var abstract_ = AbstractConstraint.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new Constraint(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toAbstractConstraint():AbstractConstraint {
+		if (this != null) {
+			var abstract_ = AbstractConstraint.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return abstract_;
 			else
 				return null;
 		} else {

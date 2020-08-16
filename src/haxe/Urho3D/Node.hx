@@ -29,9 +29,12 @@ class Node {
 	public var abstractNode:AbstractNode = null;
 
 	public var position(get, set):TVector3;
+	public var worldPosition(get, set):TVector3;
 	public var direction(get, set):TVector3;
 	public var scale(get, set):TVector3;
 	public var rotation(get, set):TQuaternion;
+	
+	
 
 	public inline function new(?rhs:AbstractNode) {
 		if (rhs != null) {
@@ -44,9 +47,9 @@ class Node {
 			Scene.currentScene.nodes.push(this);
 	}
 
-	public function SubscribeToEvent(?object:Object,stringHash:StringHash, s:String) {
+	public function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
 		if (abstractNode != null) {
-			abstractNode.SubscribeToEvent(object,stringHash, this, s);
+			abstractNode.SubscribeToEvent(object, stringHash, this, s);
 		}
 	}
 
@@ -54,6 +57,26 @@ class Node {
 		//	trace ("bindComponent :" + component);
 		components.push(component);
 		component.node = this;
+	}
+
+	public function unbindComponent(c:Component) {
+		for (component in components) {
+			if (component == c) {
+				components.remove(component);
+				break;
+			}
+		}
+	}
+
+	public function unbindComponentString(c:String) {
+		for (component in components) {
+			var names = Std.string(component).split(".");
+			for (name in names) {
+				if (name == c) {
+					components.remove(component);
+				}
+			}
+		}
 	}
 
 	public function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
@@ -78,12 +101,32 @@ class Node {
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
 	}
 
+	public function RemoveComponent(?strComponent:String, ?component:Component) {
+		if (strComponent != null) {
+			AbstractNode.RemoveComponentString(Context.context, abstractNode, strComponent);
+			unbindComponentString(strComponent);
+		}
+		if (component != null) {
+			AbstractNode.RemoveComponent(Context.context, abstractNode, component.abstractComponent);
+			unbindComponent(component);
+		}
+	}
+
 	private function get_position() {
 		return AbstractNode.GetPosition(Context.context, abstractNode);
 	}
 
 	private function set_position(p) {
 		AbstractNode.SetPosition(Context.context, abstractNode, p);
+		return p;
+	}
+
+	private function get_worldPosition() {
+		return AbstractNode.GetWorldtPosition(Context.context, abstractNode);
+	}
+
+	private function set_worldPosition(p) {
+		AbstractNode.SetWorldPosition(Context.context, abstractNode, p);
 		return p;
 	}
 
@@ -150,6 +193,10 @@ class Node {
 		}
 		return node_array;
 	}
+
+	public function GetChild(name:String, recursive:Bool=false):Node {
+		return AbstractNode.GetChild(Context.context, abstractNode, name, recursive);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -195,11 +242,25 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	@:hlNative("Urho3D", "_scene_node_add_component")
 	public static function AddComponent(c:Context, n:AbstractNode, component:AbstractComponent, mode:CreateMode, id:Int):Void {}
 
+	@:hlNative("Urho3D", "_scene_node_remove_component")
+	public static function RemoveComponent(c:Context, n:AbstractNode, component:AbstractComponent):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_remove_component_string")
+	public static function RemoveComponentString(c:Context, n:AbstractNode, component:String):Void {}
+
 	@:hlNative("Urho3D", "_scene_node_set_position")
 	public static function SetPosition(c:Context, n:AbstractNode, position:TVector3):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_get_position")
 	public static function GetPosition(c:Context, n:AbstractNode):TVector3 {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_set_world_position")
+	public static function SetWorldPosition(c:Context, n:AbstractNode, position:TVector3):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_get_world_position")
+	public static function GetWorldtPosition(c:Context, n:AbstractNode):TVector3 {
 		return null;
 	}
 
@@ -268,4 +329,9 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_subscribe_to_event_sender")
 	private static function _SubscribeToEventSender(c:Context, o:Object, node:AbstractNode, tringHash:StringHash, d:Dynamic, s:String):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_get_child")
+	public static function GetChild(c:Context, n:AbstractNode, n:String, b:Bool):AbstractNode {
+		return null;
+	}
 }

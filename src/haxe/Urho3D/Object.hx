@@ -9,10 +9,11 @@ typedef HL_URHO3D_OBJECT = hl.Abstract<"hl_urho3d_core_object">;
 abstract Object(HL_URHO3D_OBJECT) {
 
 
-    @:to
-	public inline function toComponent():Component {
-		return new Component(CastToComponent(Context.context, cast this));
+	@:to
+	public inline function toComponent():AbstractComponent {
+		return CastToComponent(Context.context, cast this);
     }
+
     
     @:from
 	public static inline function fromComponent(c:Component):Object {
@@ -20,8 +21,8 @@ abstract Object(HL_URHO3D_OBJECT) {
     }
 
     @:to
-	public inline function toNode():Node {
-		return new Node(CastToNode(Context.context, cast this));
+	public inline function toNode():AbstractNode {
+		return CastToNode(Context.context, cast this);
     }
     
     @:from

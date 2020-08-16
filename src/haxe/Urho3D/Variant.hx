@@ -16,6 +16,22 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     /////////////////////////////////////////////////////////////////
+
+    @:to
+	public inline function GetRigidBody():RigidBody {
+		return Variant._getObject(cast this).toComponent();
+    }
+    
+    @:to
+    public inline function GetObject():Object
+    {
+        return Variant._getObject(cast this);
+    }
+    @:hlNative("Urho3D", "_variant_get_object")
+	private static function _getObject(variant:Variant):Object {
+        return null;
+    }
+
     @:to
     public inline function GetSingle():Float
     {
@@ -72,6 +88,20 @@ abstract Variant(URHO3D_VARIANT) {
     }
 
     /////////////////////////////////////////////////////////////////
+
+
+    @:from
+    public static inline function fromObject(m:Object):Variant
+    {
+       // trace("variant from Vector2");
+        var v = new Variant();
+        Variant._setObject(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_object")
+	private static function _setObject(variant:Variant,o:Object):Void {
+    }
+
 
     @:from
     public static inline function fromTIntVector2(m:TIntVector2):Variant

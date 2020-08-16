@@ -112,6 +112,50 @@ HL_PRIM bool HL_NAME(_physics_rigid_body_get_trigger)(urho3d_context *context, h
     return t->ptr->IsTrigger();
 }
 
+
+HL_PRIM void HL_NAME(_physics_rigid_body_set_linear_dumping)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, float f)
+{
+    t->ptr->SetLinearDamping(f);
+}
+
+HL_PRIM float HL_NAME(_physics_rigid_body_get_linear_dumping)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetLinearDamping();
+}
+
+HL_PRIM void HL_NAME(_physics_rigid_body_set_linear_rest_threshold)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, float f)
+{
+    t->ptr->SetLinearRestThreshold(f);
+}
+
+HL_PRIM float HL_NAME(_physics_rigid_body_get_linear_rest_threshold)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetLinearRestThreshold();
+}
+
+
+HL_PRIM void HL_NAME(_physics_rigid_body_set_angular_dumping)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, float f)
+{
+    t->ptr->SetAngularDamping(f);
+}
+
+HL_PRIM float HL_NAME(_physics_rigid_body_get_angular_dumping)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetAngularDamping();
+}
+
+HL_PRIM void HL_NAME(_physics_rigid_body_set_angular_rest_threshold)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, float f)
+{
+    t->ptr->SetAngularRestThreshold(f);
+}
+
+HL_PRIM float HL_NAME(_physics_rigid_body_get_angular_rest_threshold)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetAngularRestThreshold();
+}
+
+
+
 DEFINE_PRIM(HL_URHO3D_RIGID_BODY, _physics_rigid_body_create, URHO3D_CONTEXT );
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _physics_rigid_body_cast_to_component, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY);
 DEFINE_PRIM(HL_URHO3D_RIGID_BODY, _physics_rigid_body_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
@@ -130,3 +174,16 @@ DEFINE_PRIM(HL_URHO3D_TVECTOR3, _physics_rigid_body_get_linear_velocity, URHO3D_
 
 DEFINE_PRIM(_VOID, _physics_rigid_body_set_trigger, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _BOOL);
 DEFINE_PRIM(_BOOL, _physics_rigid_body_get_trigger, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
+
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_linear_dumping, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
+DEFINE_PRIM(_F32, _physics_rigid_body_get_linear_dumping, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_linear_rest_threshold, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
+DEFINE_PRIM(_F32, _physics_rigid_body_get_linear_rest_threshold, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
+DEFINE_PRIM(_VOID,_physics_rigid_body_set_angular_dumping , URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
+DEFINE_PRIM(_F32, _physics_rigid_body_get_angular_dumping, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_angular_rest_threshold, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
+DEFINE_PRIM(_F32, _physics_rigid_body_get_angular_rest_threshold, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );

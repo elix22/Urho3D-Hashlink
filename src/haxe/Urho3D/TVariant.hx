@@ -1,5 +1,7 @@
 package urho3d;
 
+import urho3d.Component.AbstractComponent;
+
 typedef URHO3D_TVARIANT = hl.Abstract<"hl_urho3d_tvariant">;
 
 @:hlNative("Urho3D")
@@ -17,9 +19,13 @@ abstract TVariant(URHO3D_TVARIANT) {
 	public var float(get, never):Float;
 	public var single(get, never):Float;
 	public var variant(get, never):Variant;
-    public var vector2(get, never):Vector2;
-    public var tvector2(get, never):TVector2;
-    public var tintvector2(get, never):TIntVector2;
+	public var vector2(get, never):Vector2;
+	public var tvector2(get, never):TVector2;
+	public var tintvector2(get, never):TIntVector2;
+	public var object(get, never):Object;
+	public var component(get, never):AbstractComponent;
+
+	// public var component(get, never):Object;
 
 	function get_int() {
 		return GetInt();
@@ -39,17 +45,45 @@ abstract TVariant(URHO3D_TVARIANT) {
 
 	function get_vector2() {
 		return GetVector2();
-    }
-    
-    function get_tvector2() {
+	}
+
+	function get_tvector2() {
 		return GetTVector2();
-    }
-    
-    function get_tintvector2() {
+	}
+
+	function get_tintvector2() {
 		return GetTIntVector2();
 	}
 
+	function get_object() {
+		return GetObject();
+	}
+
+	function get_component() {
+		return TVariant._getObject(cast this).toComponent();
+	}
+
 	/////////////////////////////////////////////////////////////////
+
+	@:to
+	public inline function GetRigidBody():RigidBody {
+		return TVariant._getObject(cast this).toComponent();
+	}
+
+	@:to
+	public inline function GetComponent():AbstractComponent {
+		return TVariant._getObject(cast this).toComponent();
+	}
+
+	@:to
+	public inline function GetObject():Object {
+		return TVariant._getObject(cast this);
+	}
+
+	@:hlNative("Urho3D", "_tvariant_get_object")
+	private static function _getObject(variant:TVariant):Object {
+		return null;
+	}
 
 	@:to
 	public inline function ToVariant():Variant {
@@ -117,6 +151,17 @@ abstract TVariant(URHO3D_TVARIANT) {
 	}
 
 	/////////////////////////////////////////////////////////////////
+
+	@:from
+	public static inline function fromObject(m:Object):TVariant {
+		// trace("variant from Vector2");
+		var v = new TVariant();
+		TVariant._setObject(v, m);
+		return v;
+	}
+
+	@:hlNative("Urho3D", "_tvariant_set_object")
+	private static function _setObject(variant:TVariant, o:Object):Void {}
 
 	@:from
 	public static inline function FromVariant(v:Variant):TVariant {

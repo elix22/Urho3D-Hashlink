@@ -575,6 +575,18 @@ typedef Urho3D::TouchState*  hl_urho3d_input_touch_state;
 #define HL_URHO3D_TOUCH_STATE _ABSTRACT(hl_urho3d_input_touch_state)
 
 
+//Constraint
+typedef struct hl_urho3d_physics_constraint
+{
+    void *finalizer;
+    SharedPtr<Urho3D::Constraint> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_physics_constraint;
+
+#define HL_URHO3D_CONSTRAINT _ABSTRACT(hl_urho3d_physics_constraint)
+hl_urho3d_physics_constraint *hl_alloc_urho3d_physics_constraint(urho3d_context *context);
+hl_urho3d_physics_constraint *hl_alloc_urho3d_physics_constraint(Urho3D::Constraint*);
+
 typedef struct hl_urho3d_physics_collision_shape
 {
     void *finalizer;

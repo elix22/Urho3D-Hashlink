@@ -72,6 +72,49 @@ class RigidBody extends Component {
 	function get_trigger() {
 		return AbstractRigidBody.GetTrigger(Context.context, _abstract);
 	}
+
+	public var linearDamping(get, set):Float;
+	function set_linearDamping(m) {
+		AbstractRigidBody.SetLinearDamping(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_linearDamping() {
+		return AbstractRigidBody.GetLinearDamping(Context.context, _abstract);
+	}
+
+	public var angularDamping(get, set):Float;
+	function set_angularDamping(m) {
+		AbstractRigidBody.SetAngularDamping(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_angularDamping() {
+		return AbstractRigidBody.GetAngularDamping(Context.context, _abstract);
+	}
+
+	public var linearRestThreshold(get, set):Float;
+
+	function set_linearRestThreshold(m) {
+		AbstractRigidBody.SetLinearRestThreshold(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_linearRestThreshold() {
+		return AbstractRigidBody.GetLinearRestThreshold(Context.context, _abstract);
+	}
+
+	public var angularRestThreshold(get, set):Float;
+	function set_angularRestThreshold(m) {
+		AbstractRigidBody.SetAngularRestThreshold(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_angularRestThreshold() {
+		return AbstractRigidBody.GetAngularRestThreshold(Context.context, _abstract);
+	}
+  
+
 }
 
 @:hlNative("Urho3D")
@@ -134,4 +177,40 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 	public static function GetTrigger(c:Context, s:AbstractRigidBody):Bool {
 		return false;
 	}
+
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_linear_dumping")
+	public static function SetLinearDamping(c:Context, s:AbstractRigidBody, m:Single):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_linear_dumping")
+	public static function GetLinearDamping(c:Context, s:AbstractRigidBody):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_linear_rest_threshold")
+	public static function SetLinearRestThreshold(c:Context, s:AbstractRigidBody, m:Single):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_linear_rest_threshold")
+	public static function GetLinearRestThreshold(c:Context, s:AbstractRigidBody):Single {
+		return 0.0;
+	}
+
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_angular_dumping")
+	public static function SetAngularDamping(c:Context, s:AbstractRigidBody, m:Single):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_linear_dumping")
+	public static function GetAngularDamping(c:Context, s:AbstractRigidBody):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_angular_rest_threshold")
+	public static function SetAngularRestThreshold(c:Context, s:AbstractRigidBody, m:Single):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_angular_rest_threshold")
+	public static function GetAngularRestThreshold(c:Context, s:AbstractRigidBody):Single {
+		return 0.0;
+	}
+
+
 }

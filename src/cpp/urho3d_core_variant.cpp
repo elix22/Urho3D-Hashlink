@@ -188,6 +188,32 @@ HL_PRIM Urho3D::IntVector2 * HL_NAME(_variant_get_tintvector2)(hl_urho3d_variant
     
 }
 
+HL_PRIM Urho3D::Object * HL_NAME(_variant_get_object)(hl_urho3d_variant * hl_var)
+{
+     Urho3D::Variant *  variant = (Urho3D::Variant *)hl_var->ptr;
+
+    if(variant != NULL)
+    {
+        return (Urho3D::Object *)variant->GetPtr();
+    }
+    else
+    {
+        return NULL;
+    }
+    
+}
+
+
+HL_PRIM void  HL_NAME(_variant_set_object)(hl_urho3d_variant * hl_var,Urho3D::Object * object)
+{
+     Urho3D::Variant *  variant = (Urho3D::Variant *)hl_var->ptr;
+
+    if(variant != NULL)
+    {
+        *variant = object;
+    }  
+}
+
 
 DEFINE_PRIM(HL_URHO3D_VARIANT, _create_variant, _NO_ARG);
 DEFINE_PRIM(_VOID, _variant_set_int, HL_URHO3D_VARIANT _I32);
@@ -200,3 +226,6 @@ DEFINE_PRIM(_VOID, _variant_set_tvector2, HL_URHO3D_VARIANT HL_URHO3D_TVECTOR2);
 DEFINE_PRIM(HL_URHO3D_TVECTOR2, _variant_get_tvector2, HL_URHO3D_VARIANT );
 DEFINE_PRIM(_VOID, _variant_set_tintvector2, HL_URHO3D_VARIANT HL_URHO3D_TINTVECTOR2);
 DEFINE_PRIM(HL_URHO3D_TINTVECTOR2, _variant_get_tintvector2, HL_URHO3D_VARIANT );
+
+DEFINE_PRIM(_VOID, _variant_set_object, HL_URHO3D_VARIANT HL_URHO3D_OBJECT);
+DEFINE_PRIM(HL_URHO3D_OBJECT, _variant_get_object, HL_URHO3D_VARIANT );
