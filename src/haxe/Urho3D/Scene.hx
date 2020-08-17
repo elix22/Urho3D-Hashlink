@@ -1,5 +1,6 @@
 package urho3d;
 
+import haxe.macro.Expr.Field;
 import urho3d.Node.AbstractNode;
 
 typedef HL_URHO3D_SCENE = hl.Abstract<"hl_urho3d_scene_scene">;
@@ -24,6 +25,10 @@ class Scene extends Node {
 
 	function get_octree() {
 		return AbstractScene.GetOctree(Context.context, abstractScene);
+	}
+
+	public inline function SaveXML(f:File, s:String = "\t"):Bool {
+		return AbstractScene.SaveXML(Context.context, abstractScene, f, s);
 	}
 }
 
@@ -51,5 +56,10 @@ abstract AbstractScene(HL_URHO3D_SCENE) {
 	@:hlNative("Urho3D", "_scene_scene_get_octree")
 	public static function GetOctree(c:Context, s:AbstractScene):Octree {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_scene_save_xml")
+	public static function SaveXML(c:Context, s:AbstractScene, f:File, s:String):Bool {
+		return false;
 	}
 }

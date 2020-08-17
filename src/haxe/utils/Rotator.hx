@@ -6,14 +6,8 @@ class Rotator extends LogicComponent {
 
 	var counter = 0;
 
-	public static function CreateFactory()
-	{
-		var args = new Array<Dynamic>();
-		return Type.createInstance(Rotator,args);
-	}
-
-	public function new() {
-		super(this);
+	public function new(?dyn:Dynamic) {
+		super(dyn);
 	}
 
 	public function SetRotationSpeed(speed:Vector3) {

@@ -54,14 +54,15 @@ class LogicComponent extends Component {
 		}
 	}
 
-	public inline function new(?child:Dynamic) {
-		if (child != null) {
-			abstractLogicComponent = new AbstractLogicComponent(child);
+	public inline function new(?rhs:AbstractLogicComponent) {
+		if (rhs != null) {
+			abstractLogicComponent = rhs;
 		} else {
-			abstractLogicComponent = new AbstractLogicComponent(this);
+			abstractLogicComponent = new AbstractLogicComponent(this,$type(Std.string(this)));
 		}
 
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
+
 	}
 
 	public var updateEventMask(get, set):UpdateEvent;
@@ -170,16 +171,20 @@ class LogicComponent extends Component {
 			return rand * (max - min) + min;
 		}
 	}
+
+	public static function RegisterObject():Void {
+		AbstractLogicComponent.RegisterObject(Context.context);
+	}
 }
 
 @:hlNative("Urho3D")
 abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
-	public inline function new(d:Dynamic) {
-		this = Create(Context.context, d);
+	public inline function new(d:Dynamic,className:String) {
+		this = Create(Context.context, d,className);
 	}
 
 	@:hlNative("Urho3D", "_scene_logic_component_create")
-	private static function Create(c:Context, d:Dynamic):HL_URHO3D_LOGIC_COMPONENT {
+	private static function Create(c:Context, d:Dynamic,className:String):HL_URHO3D_LOGIC_COMPONENT {
 		return null;
 	}
 
@@ -204,4 +209,7 @@ abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
 	public static function GetUpdateEventMask(c:Context, s:AbstractLogicComponent):Int {
 		return 0;
 	}
+
+	@:hlNative("Urho3D", "_scene_logic_component_register_object")
+	public static function RegisterObject(c:Context):Void {}
 }

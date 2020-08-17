@@ -22,6 +22,8 @@ class Application {
 		abstractApplication.RegisterStartClosure(Start);
 		abstractApplication.RegisterStopClosure(Stop);
 		application = this;
+
+		LogicComponent.RegisterObject();
 	}
 
 	public function Run() {

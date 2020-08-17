@@ -3,7 +3,7 @@ import urho3d.Application;
 import utils.*;
 
 /*
-class Rotator extends LogicComponent {
+	class Rotator extends LogicComponent {
 	private var rotationSpeed:Vector3;
 
 	var counter = 0;
@@ -33,7 +33,7 @@ class Rotator extends LogicComponent {
 		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
 	}
 
-	
+
 
 	public override function OnNodeSet(node:Node) {
 		//trace("Rotator OnNodeSet " + node.position);
@@ -42,16 +42,15 @@ class Rotator extends LogicComponent {
 	public function ResetRotation() {
 		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
 	}
-}
-*/
-
+	}
+ */
 class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
 	private var yaw:Float = 0.0;
 	private var pitch:Float = 0.0;
 
-	public final NUM_OBJECTS = 4000;
+	public final NUM_OBJECTS = 10;
 
 	var counter:Int = 1;
 
@@ -78,7 +77,6 @@ class AnimatingSceneSample extends Application {
 		zone.fogStart = 10.0;
 		zone.fogEnd = 100.0;
 
-		
 		LogicComponent.RegisterFactory(Rotator);
 
 		for (i in 0...NUM_OBJECTS) {
@@ -89,10 +87,10 @@ class AnimatingSceneSample extends Application {
 			boxObject.model = new Model("Models/Box.mdl");
 			boxObject.material = new Material("Materials/Stone.xml");
 
-			var rotator  = new Rotator(); //LogicComponent.CreateFactory("Rotator");
-			//trace(Type.getClassName(Rotator));
+			var rotator = new Rotator(); // LogicComponent.CreateFactory("Rotator");
+			// trace(Type.getClassName(Rotator));
 			rotator.SetRotationSpeed(new TVector3(10.0, 20.0, 30.0));
-			//rotator.updateEventMask = USE_UPDATE ;
+			// rotator.updateEventMask = USE_UPDATE ;
 			boxNode.AddComponent(rotator);
 		}
 
@@ -149,6 +147,12 @@ class AnimatingSceneSample extends Application {
 			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
 		if (Input.GetKeyDown(KEY_D))
 			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
+
+		if (Input.GetKeyPress(KEY_F5)) {
+			var saveFile = new File("AnimationSceneSample.xml", FILE_WRITE);
+			var saved = scene.SaveXML(saveFile);
+			trace("saveFile = "+saved);
+		}
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
@@ -161,10 +165,9 @@ class AnimatingSceneSample extends Application {
 			CreateScene();
 			SetupViewport();
 		}
-		
 	}
-/*
-	@:hlNative("std","sys_check_reload")
-	static function check_reload() return false;
-	*/
+	/*
+		@:hlNative("std","sys_check_reload")
+		static function check_reload() return false;
+	 */
 }

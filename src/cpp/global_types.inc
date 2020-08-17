@@ -575,6 +575,16 @@ typedef Urho3D::TouchState*  hl_urho3d_input_touch_state;
 #define HL_URHO3D_TOUCH_STATE _ABSTRACT(hl_urho3d_input_touch_state)
 
 
+typedef struct hl_urho3d_io_file
+{
+    void *finalizer;
+    SharedPtr<Urho3D::File> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_io_file;
+
+#define HL_URHO3D_FILE _ABSTRACT(hl_urho3d_io_file)
+
+
 //Constraint
 typedef struct hl_urho3d_physics_constraint
 {
