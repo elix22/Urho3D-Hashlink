@@ -50,7 +50,7 @@ class AnimatingSceneSample extends Application {
 	private var yaw:Float = 0.0;
 	private var pitch:Float = 0.0;
 
-	public final NUM_OBJECTS = 10;
+	public final NUM_OBJECTS = 4000;
 
 	var counter:Int = 1;
 
@@ -77,21 +77,35 @@ class AnimatingSceneSample extends Application {
 		zone.fogStart = 10.0;
 		zone.fogEnd = 100.0;
 
-		LogicComponent.RegisterFactory(Rotator);
+		var tmpNode = scene.CreateChild("tempNode");
 
 		for (i in 0...NUM_OBJECTS) {
-			var boxNode = scene.CreateChild("Box");
+			
+			var boxNode = tmpNode.CreateChild("Box");
 			boxNode.position = new TVector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
 			boxNode.rotation = new TQuaternion(Random(360.0), Random(360.0), Random(360.0));
 			var boxObject:StaticModel = boxNode.CreateComponent("StaticModel");
 			boxObject.model = new Model("Models/Box.mdl");
 			boxObject.material = new Material("Materials/Stone.xml");
 
-			var rotator = new Rotator(); // LogicComponent.CreateFactory("Rotator");
-			// trace(Type.getClassName(Rotator));
-			rotator.SetRotationSpeed(new TVector3(10.0, 20.0, 30.0));
-			// rotator.updateEventMask = USE_UPDATE ;
+			// new Rotator(); //
+			var rotator:Rotator = LogicComponent.CreateFactory("utils.Rotator");
+			rotator.SetRotationSpeed(new TVector3(Random(30.0), Random(30.0), Random(30.0)));
+			rotator.updateEventMask = USE_UPDATE;
 			boxNode.AddComponent(rotator);
+
+			/*
+				trace(Std.string(String));
+				var fields = rotator.GetFields();
+				trace(Reflect.fields(fields));
+
+				for (field in fields) {
+					if (field == "rotationSpeed") {
+						var type:String = rotator.GetFieldType(field);
+						trace(type);
+					}
+				}
+			 */
 		}
 
 		cameraNode = scene.CreateChild("Camera");
@@ -151,7 +165,13 @@ class AnimatingSceneSample extends Application {
 		if (Input.GetKeyPress(KEY_F5)) {
 			var saveFile = new File("AnimationSceneSample.xml", FILE_WRITE);
 			var saved = scene.SaveXML(saveFile);
-			trace("saveFile = "+saved);
+			trace("SaveXML = " + saved);
+		}
+
+		if (Input.GetKeyPress(KEY_F7)) {
+			var loadFile = new File("AnimationSceneSample.xml", FILE_READ);
+			var loaded = scene.LoadXML(loadFile);
+			trace("LoadXML = " + loaded);
 		}
 	}
 
@@ -159,12 +179,14 @@ class AnimatingSceneSample extends Application {
 		var step:Float = eventData["TimeStep"];
 		MoveCamera(step);
 
+		/*
 		counter++;
 		if ((counter % 1000 == 0)) {
 			trace("create scene");
 			CreateScene();
 			SetupViewport();
 		}
+		*/
 	}
 	/*
 		@:hlNative("std","sys_check_reload")

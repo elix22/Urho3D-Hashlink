@@ -43,9 +43,11 @@ hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene_no_finalizer(urho3d_context *
     return p;
 }
 
-HL_PRIM hl_urho3d_scene_scene *HL_NAME(_scene_scene_create)(urho3d_context *context)
+HL_PRIM hl_urho3d_scene_scene *HL_NAME(_scene_scene_create)(urho3d_context *context, vdynamic *dyn_obj)
 {
     hl_urho3d_scene_scene *v = hl_alloc_urho3d_scene_scene(context);
+    v->dyn_obj = dyn_obj;
+    v->ptr->SetVar("hl-object",dyn_obj);
     return v;
 }
 
@@ -69,8 +71,18 @@ HL_PRIM bool HL_NAME(_scene_scene_save_xml)(urho3d_context *context, hl_urho3d_s
     return scene->ptr->SaveXML(*f,indent);
 }
 
-DEFINE_PRIM(HL_URHO3D_SCENE, _scene_scene_create, URHO3D_CONTEXT);
+//bool Scene::LoadXML(Deserializer& source)
+HL_PRIM bool HL_NAME(_scene_scene_load_xml)(urho3d_context *context, hl_urho3d_scene_scene * scene,hl_urho3d_io_file * file)
+{
+    File * f = file->ptr;
+    scene->ptr->SetGlobalVar("hl-object",scene->dyn_obj);
+    return scene->ptr->LoadXML(*f);
+    scene->ptr->SetVar("hl-object",scene->dyn_obj);
+}
+
+DEFINE_PRIM(HL_URHO3D_SCENE, _scene_scene_create, URHO3D_CONTEXT _DYN);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_scene_cast_to_node, URHO3D_CONTEXT HL_URHO3D_SCENE);
 DEFINE_PRIM(HL_URHO3D_OCTREE, _scene_scene_get_octree, URHO3D_CONTEXT HL_URHO3D_SCENE);
 
 DEFINE_PRIM(_BOOL, _scene_scene_save_xml, URHO3D_CONTEXT HL_URHO3D_SCENE HL_URHO3D_FILE _STRING);
+DEFINE_PRIM(_BOOL, _scene_scene_load_xml, URHO3D_CONTEXT HL_URHO3D_SCENE HL_URHO3D_FILE);

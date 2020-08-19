@@ -33,8 +33,6 @@ class Node {
 	public var direction(get, set):TVector3;
 	public var scale(get, set):TVector3;
 	public var rotation(get, set):TQuaternion;
-	
-	
 
 	public inline function new(?rhs:AbstractNode) {
 		if (rhs != null) {
@@ -42,6 +40,8 @@ class Node {
 		} else {
 			abstractNode = new AbstractNode();
 		}
+
+		AbstractNode.SetDynamic(Context.context,abstractNode,this);
 
 		if (Scene.currentScene != null)
 			Scene.currentScene.nodes.push(this);
@@ -77,6 +77,12 @@ class Node {
 				}
 			}
 		}
+	}
+
+	public function CreateChildFromAbstractNode(absNode:AbstractNode):Node {
+		var node:Node = new Node(absNode);
+		this.children.push(node);
+		return node;
 	}
 
 	public function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
@@ -194,7 +200,7 @@ class Node {
 		return node_array;
 	}
 
-	public function GetChild(name:String, recursive:Bool=false):Node {
+	public function GetChild(name:String, recursive:Bool = false):Node {
 		return AbstractNode.GetChild(Context.context, abstractNode, name, recursive);
 	}
 }
@@ -227,6 +233,10 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	@:hlNative("Urho3D", "_scene_node_create_child")
 	public static function CreatChild(c:Context, n:AbstractNode, name:String, mode:CreateMode, id:Int, temporary:Bool):AbstractNode {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_set_dynamic")
+	public static function SetDynamic(c:Context, n:AbstractNode, d:Dynamic):Void {
 	}
 
 	@:hlNative("Urho3D", "_scene_node_create_component")

@@ -15,7 +15,7 @@ class Scene extends Node {
 		if (rhs != null)
 			abstractScene = rhs;
 		else
-			abstractScene = new AbstractScene();
+			abstractScene = new AbstractScene(this);
 
 		super(AbstractScene.CastToNode(Context.context, abstractScene));
 		//	currentScene = this;
@@ -30,16 +30,21 @@ class Scene extends Node {
 	public inline function SaveXML(f:File, s:String = "\t"):Bool {
 		return AbstractScene.SaveXML(Context.context, abstractScene, f, s);
 	}
+
+	public inline function LoadXML(f:File):Bool {
+		nodes = [];
+		return AbstractScene.LoadXML(Context.context, abstractScene, f);
+	}
 }
 
 @:hlNative("Urho3D")
 abstract AbstractScene(HL_URHO3D_SCENE) {
-	public inline function new() {
-		this = Create(Context.context);
+	public inline function new(d:Dynamic) {
+		this = Create(Context.context,d);
 	}
 
 	@:hlNative("Urho3D", "_scene_scene_create")
-	private static function Create(c:Context):HL_URHO3D_SCENE {
+	private static function Create(c:Context,d:Dynamic):HL_URHO3D_SCENE {
 		return null;
 	}
 
@@ -60,6 +65,11 @@ abstract AbstractScene(HL_URHO3D_SCENE) {
 
 	@:hlNative("Urho3D", "_scene_scene_save_xml")
 	public static function SaveXML(c:Context, s:AbstractScene, f:File, s:String):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_scene_scene_load_xml")
+	public static function LoadXML(c:Context, s:AbstractScene, f:File):Bool {
 		return false;
 	}
 }

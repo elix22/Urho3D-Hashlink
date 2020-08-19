@@ -17,29 +17,28 @@ void finalize_urho3d_io_file(void *v)
     {
         if (uptr->ptr)
         {
-          //  delete uptr->ptr;
+            uptr->ptr->Close();
+            //  delete uptr->ptr;
             uptr->ptr = NULL;
         }
         uptr->finalizer = NULL;
     }
 }
 
-
-hl_urho3d_io_file *hl_alloc_urho3d_io_file(Context * context, const char * name , int mode )
+hl_urho3d_io_file *hl_alloc_urho3d_io_file(Context *context, const char *name, int mode)
 {
     hl_urho3d_io_file *p = (hl_urho3d_io_file *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_io_file));
-
+    memset(p, 0, sizeof(hl_urho3d_io_file));
     p->finalizer = (void *)finalize_urho3d_io_file;
-    p->ptr = new Urho3D::File(context,String(name),FileMode(mode));
+    p->ptr = new Urho3D::File(context, String(name), FileMode(mode));
     p->dyn_obj = NULL;
     return p;
 }
 
-
-HL_PRIM hl_urho3d_io_file *HL_NAME(_io_file_create)(Context * context,vstring * fileName, int mode)
+HL_PRIM hl_urho3d_io_file *HL_NAME(_io_file_create)(Context *context, vstring *fileName, int mode)
 {
-     const char *name = (char *)hl_to_utf8(fileName->bytes);
-    return hl_alloc_urho3d_io_file(context,name,mode);
+    const char *name = (char *)hl_to_utf8(fileName->bytes);
+    return hl_alloc_urho3d_io_file(context, name, mode);
 }
 
 DEFINE_PRIM(HL_URHO3D_FILE, _io_file_create, URHO3D_CONTEXT _STRING _I32);

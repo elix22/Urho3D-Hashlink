@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.AbstractApplication.Dyn;
 import urho3d.Scene.AbstractScene;
 import urho3d.Node.AbstractNode;
 import urho3d.Component.AbstractComponent;
@@ -34,35 +35,35 @@ class LogicComponent extends Component {
 		factories[Type.getClassName(comp).toString()] = Type.getClassName(comp).toString();
 	}
 
-	public static function CreateFactory(?name:String, ?dyn:Dynamic):Dynamic {
-		if (dyn != null) {
-			var comp = factories[Type.getClassName(dyn).toString()];
-			if (comp != null) {
-				var args = new Array<Dynamic>();
-				return Type.createInstance(Type.resolveClass(comp), args);
-			} else
-				return null;
-		} else {
-			var comp = factories[name];
-			if (comp != null) {
-				var args = new Array<Dynamic>();
-				return Type.createInstance(Type.resolveClass(comp), args);
-			} else {
-				var args = new Array<Dynamic>();
-				return Type.createInstance(Type.resolveClass(name), args);
-			}
-		}
+	public static function CreateFactory(name:HString,?rhs:AbstractLogicComponent):Dynamic {
+		return Type.createInstance(Type.resolveClass(name), [rhs]);
 	}
 
 	public inline function new(?rhs:AbstractLogicComponent) {
 		if (rhs != null) {
 			abstractLogicComponent = rhs;
 		} else {
-			abstractLogicComponent = new AbstractLogicComponent(this,$type(Std.string(this)));
+			abstractLogicComponent = new AbstractLogicComponent(this, Std.string(this));
 		}
 
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
+	}
 
+	public inline function GetFields() {
+		return Reflect.fields(this);
+	}
+
+	public inline function GetField(name:HString):Dynamic {
+		return Reflect.field(this, name);
+	}
+
+	public inline function GetFieldType(name:HString):HString {
+		var objField = GetField(name);
+		return Std.string(objField);
+	}
+
+	public inline function SetField(name:HString, obj:Dynamic) {
+		return Reflect.setField(this, name, obj);
 	}
 
 	public var updateEventMask(get, set):UpdateEvent;
@@ -179,12 +180,12 @@ class LogicComponent extends Component {
 
 @:hlNative("Urho3D")
 abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
-	public inline function new(d:Dynamic,className:String) {
-		this = Create(Context.context, d,className);
+	public inline function new(d:Dynamic, className:String) {
+		this = Create(Context.context, d, className);
 	}
 
 	@:hlNative("Urho3D", "_scene_logic_component_create")
-	private static function Create(c:Context, d:Dynamic,className:String):HL_URHO3D_LOGIC_COMPONENT {
+	private static function Create(c:Context, d:Dynamic, className:String):HL_URHO3D_LOGIC_COMPONENT {
 		return null;
 	}
 
