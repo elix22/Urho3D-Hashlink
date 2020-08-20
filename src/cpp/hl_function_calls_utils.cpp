@@ -4,6 +4,9 @@
 #include <hl.h>
 #endif
 
+#include "global_types.inc"
+#include <vector>
+
 #ifdef hl_error
 #undef hl_error
 #endif
@@ -15,17 +18,17 @@ static int hlc_call_flags = 0;
 #define TK2(a, b) ((a) | ((b) << 5))
 
 #if defined(URHO3D_HAXE_HASHLINK_HDLL)
-HL_PRIM hl_type hlt_array = { HARRAY };
-HL_PRIM hl_type hlt_bytes = { HBYTES };
-HL_PRIM hl_type hlt_dynobj = { HDYNOBJ };
-HL_PRIM hl_type hlt_dyn = { HDYN };
-HL_PRIM hl_type hlt_i32 = { HI32 };
-HL_PRIM hl_type hlt_i64 = { HI64 };
-HL_PRIM hl_type hlt_f32 = { HF32 };
-HL_PRIM hl_type hlt_f64 = { HF64 };
-HL_PRIM hl_type hlt_void = { HVOID };
-HL_PRIM hl_type hlt_bool = { HBOOL };
-HL_PRIM hl_type hlt_abstract = { HABSTRACT, {(const uchar *)USTR("<abstract>")} };
+HL_PRIM hl_type hlt_array = {HARRAY};
+HL_PRIM hl_type hlt_bytes = {HBYTES};
+HL_PRIM hl_type hlt_dynobj = {HDYNOBJ};
+HL_PRIM hl_type hlt_dyn = {HDYN};
+HL_PRIM hl_type hlt_i32 = {HI32};
+HL_PRIM hl_type hlt_i64 = {HI64};
+HL_PRIM hl_type hlt_f32 = {HF32};
+HL_PRIM hl_type hlt_f64 = {HF64};
+HL_PRIM hl_type hlt_void = {HVOID};
+HL_PRIM hl_type hlt_bool = {HBOOL};
+HL_PRIM hl_type hlt_abstract = {HABSTRACT, {(const uchar *)USTR("<abstract>")}};
 #endif
 
 static void fun_var_args()
@@ -624,42 +627,46 @@ static hl_field_lookup *obj_resolve_field_internal(hl_type_obj *o, int hfield)
 /*********************************************************************************************************************************************************/
 /*********************************************************************************************************************************************************/
 /*********************************************************************************************************************************************************/
-static hl_type *hl_get_closure_type_internal( hl_type *t ) {
-    hl_type_fun *ft = t->fun;
-    if( ft->closure_type.kind != HFUN ) {
-        if( ft->nargs == 0 ) hl_fatal("assert");
-        ft->closure_type.kind = HFUN;
-        ft->closure_type.p = &ft->closure;
-        ft->closure.nargs = ft->nargs - 1;
-        ft->closure.args = ft->closure.nargs ? ft->args + 1 : NULL;
-        ft->closure.ret = ft->ret;
-        ft->closure.parent = t;
-    }
-    return (hl_type*)&ft->closure_type;
+static hl_type *hl_get_closure_type_internal(hl_type *t)
+{
+	hl_type_fun *ft = t->fun;
+	if (ft->closure_type.kind != HFUN)
+	{
+		if (ft->nargs == 0)
+			hl_fatal("assert");
+		ft->closure_type.kind = HFUN;
+		ft->closure_type.p = &ft->closure;
+		ft->closure.nargs = ft->nargs - 1;
+		ft->closure.args = ft->closure.nargs ? ft->args + 1 : NULL;
+		ft->closure.ret = ft->ret;
+		ft->closure.parent = t;
+	}
+	return (hl_type *)&ft->closure_type;
 }
 
-vclosure *hl_alloc_closure_ptr_internal( hl_type *fullt, void *fvalue, void *v, vclosure *c ) {
-    hl_type *t = hl_get_closure_type_internal(fullt);
-    c->t = t;
-    c->fun = fvalue;
-    c->hasValue = 1;
-    c->value = v;
-    return c;
+vclosure *hl_alloc_closure_ptr_internal(hl_type *fullt, void *fvalue, void *v, vclosure *c)
+{
+	hl_type *t = hl_get_closure_type_internal(fullt);
+	c->t = t;
+	c->fun = fvalue;
+	c->hasValue = 1;
+	c->value = v;
+	return c;
 }
 
 vdynamic *hl_obj_get_hobj_internal(vdynamic *d, hl_field_lookup *f, vclosure *c = NULL)
 {
 	if (f && f->field_index < 0)
-    {
-        if(c != NULL)
-        {
-            return (vdynamic *)hl_alloc_closure_ptr_internal(f->t, d->t->obj->rt->methods[-f->field_index - 1], d,c);
-        }
-        else
-        {
-            return (vdynamic *)hl_alloc_closure_ptr(f->t, d->t->obj->rt->methods[-f->field_index - 1], d);
-        }
-    }
+	{
+		if (c != NULL)
+		{
+			return (vdynamic *)hl_alloc_closure_ptr_internal(f->t, d->t->obj->rt->methods[-f->field_index - 1], d, c);
+		}
+		else
+		{
+			return (vdynamic *)hl_alloc_closure_ptr(f->t, d->t->obj->rt->methods[-f->field_index - 1], d);
+		}
+	}
 	return NULL;
 }
 
@@ -689,16 +696,136 @@ void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosur
 	{
 		*f = hl_obj_resolve_field_internal(d, hfield);
 	}
-	d = hl_obj_get_hobj_internal(d, *f,c);
+	d = hl_obj_get_hobj_internal(d, *f, c);
 	return d == NULL ? NULL : hl_dyn_castp(&d, &hlt_dyn, &hlt_dyn);
 }
 
+void hl_obj_fields_internal(vdynamic *obj, std::vector<const uchar *> &result)
+{
+	switch (obj->t->kind)
+	{
+	case HOBJ:
+	case HSTRUCT:
+	{
+		hl_type_obj *tobj = obj->t->obj;
+		hl_runtime_obj *o = tobj->rt;
+		int i, p = 0;
+		while (true)
+		{
+			for (i = 0; i < tobj->nfields; i++)
+			{
+				hl_obj_field *f = tobj->fields + i;
+				if (!*f->name)
+				{
+					continue;
+				}
+				//const char *name = (char *)hl_to_utf8(f->name);
+				//if (name)
+					result.push_back(f->name);
+			}
+			if (tobj->super == NULL)
+				break;
+			tobj = tobj->super->obj;
+		}
+	}
+	break;
+	}
+}
+
+void hl_obj_fields_internal(vdynamic *obj, Urho3D::Vector<Urho3D::String> &result)
+{
+	switch (obj->t->kind)
+	{
+	case HOBJ:
+	case HSTRUCT:
+	{
+		hl_type_obj *tobj = obj->t->obj;
+		hl_runtime_obj *o = tobj->rt;
+		int i, p = 0;
+		while (true)
+		{
+			for (i = 0; i < tobj->nfields; i++)
+			{
+				hl_obj_field *f = tobj->fields + i;
+				if (!*f->name)
+				{
+					continue;
+				}
+				const char *name = (char *)hl_to_utf8(f->name);
+				if (name)
+					result.Push(name);
+			}
+			if (tobj->super == NULL)
+				break;
+			tobj = tobj->super->obj;
+		}
+	}
+	break;
+	}
+}
+
+varray *hl_obj_fields_internal(vdynamic *obj)
+{
+	varray *a = NULL;
+	if (obj == NULL)
+		return NULL;
+	switch (obj->t->kind)
+	{
+	case HDYNOBJ:
+	{
+		vdynobj *o = (vdynobj *)obj;
+		int i;
+		a = hl_alloc_array(&hlt_bytes, o->nfields);
+		for (i = 0; i < o->nfields; i++)
+			hl_aptr(a, vbyte *)[i] = (vbyte *)hl_field_name((o->lookup + i)->hashed_name);
+	}
+	break;
+	case HOBJ:
+	case HSTRUCT:
+	{
+		hl_type_obj *tobj = obj->t->obj;
+		hl_runtime_obj *o = tobj->rt;
+		int i, p = 0;
+		a = hl_alloc_array(&hlt_bytes, o->nfields);
+		while (true)
+		{
+			for (i = 0; i < tobj->nfields; i++)
+			{
+				hl_obj_field *f = tobj->fields + i;
+				if (!*f->name)
+				{
+					a->size--;
+					continue;
+				}
+				hl_aptr(a, vbyte *)[p++] = (vbyte *)f->name;
+			}
+			if (tobj->super == NULL)
+				break;
+			tobj = tobj->super->obj;
+		}
+	}
+	break;
+	case HVIRTUAL:
+	{
+		vvirtual *v = (vvirtual *)obj;
+		int i;
+		if (v->value)
+			return hl_obj_fields_internal(v->value);
+		a = hl_alloc_array(&hlt_bytes, v->t->virt->nfields);
+		for (i = 0; i < v->t->virt->nfields; i++)
+			hl_aptr(a, vbyte *)[i] = (vbyte *)v->t->virt->fields[i].name;
+	}
+	break;
+	default:
+		break;
+	}
+	return a;
+}
 
 // TBD ELI , fix link error
-extern "C"  {
-EXPORT void ssl_ssl_init(void)
+extern "C"
 {
-
-
-}
+	EXPORT void ssl_ssl_init(void)
+	{
+	}
 }

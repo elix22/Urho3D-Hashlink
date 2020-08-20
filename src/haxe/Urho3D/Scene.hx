@@ -28,23 +28,29 @@ class Scene extends Node {
 	}
 
 	public inline function SaveXML(f:File, s:String = "\t"):Bool {
-		return AbstractScene.SaveXML(Context.context, abstractScene, f, s);
+		if (f != null) {
+			return AbstractScene.SaveXML(Context.context, abstractScene, f, s);
+		} else
+			return false;
 	}
 
 	public inline function LoadXML(f:File):Bool {
 		nodes = [];
-		return AbstractScene.LoadXML(Context.context, abstractScene, f);
+		if (f != null) {
+			return AbstractScene.LoadXML(Context.context, abstractScene, f);
+		} else
+			return false;
 	}
 }
 
 @:hlNative("Urho3D")
 abstract AbstractScene(HL_URHO3D_SCENE) {
 	public inline function new(d:Dynamic) {
-		this = Create(Context.context,d);
+		this = Create(Context.context, d);
 	}
 
 	@:hlNative("Urho3D", "_scene_scene_create")
-	private static function Create(c:Context,d:Dynamic):HL_URHO3D_SCENE {
+	private static function Create(c:Context, d:Dynamic):HL_URHO3D_SCENE {
 		return null;
 	}
 

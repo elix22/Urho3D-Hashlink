@@ -37,6 +37,7 @@ hl_urho3d_intvector2 * hl_alloc_urho3d_intvector2(int x, int y)
     Urho3D::IntVector2 *v = new Urho3D::IntVector2(x,y);
     p->ptr = v;
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_intvector2");
     return p;
 }
 

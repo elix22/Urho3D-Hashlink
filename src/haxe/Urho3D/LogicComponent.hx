@@ -29,16 +29,12 @@ enum abstract UpdateEvent(Int) to Int from Int {
 class LogicComponent extends Component {
 	private var abstractLogicComponent:AbstractLogicComponent = null;
 
-	public static var factories = new Map<String, String>();
-
-	public static function RegisterFactory(comp:Dynamic) {
-		factories[Type.getClassName(comp).toString()] = Type.getClassName(comp).toString();
-	}
-
-	public static function CreateFactory(name:HString,?rhs:AbstractLogicComponent):Dynamic {
+	@:keep
+	public static function CreateFactory(name:HString, ?rhs:AbstractLogicComponent):Dynamic {
 		return Type.createInstance(Type.resolveClass(name), [rhs]);
 	}
 
+	@:keep
 	public inline function new(?rhs:AbstractLogicComponent) {
 		if (rhs != null) {
 			abstractLogicComponent = rhs;
@@ -49,21 +45,19 @@ class LogicComponent extends Component {
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
 	}
 
-	public inline function GetFields() {
+	
+	@:keep public function GetFields() {
 		return Reflect.fields(this);
 	}
 
-	public inline function GetField(name:HString):Dynamic {
+	
+	@:keep public inline function GetField(name:HString):Dynamic {
 		return Reflect.field(this, name);
 	}
 
-	public inline function GetFieldType(name:HString):HString {
+	@:keep public inline function GetFieldType(name:HString):HString {
 		var objField = GetField(name);
 		return Std.string(objField);
-	}
-
-	public inline function SetField(name:HString, obj:Dynamic) {
-		return Reflect.setField(this, name, obj);
 	}
 
 	public var updateEventMask(get, set):UpdateEvent;
@@ -138,6 +132,16 @@ class LogicComponent extends Component {
 
 	@:keep
 	public function OnNodeSetEnabled(node:Node) {}
+
+	@:keep
+	public function CallMethod(f:String, args:Array<Dynamic>) {
+		try {
+			var fn = Reflect.field(this, f);
+			if (fn != null) {
+				Reflect.callMethod(this, fn, args);
+			}
+		} catch (e) {}
+	}
 
 	/* reflection doesnlt work on iOS
 		@:keep

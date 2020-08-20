@@ -2,48 +2,7 @@ import urho3d.*;
 import urho3d.Application;
 import utils.*;
 
-/*
-	class Rotator extends LogicComponent {
-	private var rotationSpeed:Vector3;
 
-	var counter = 0;
-
-	public static function CreateFactory()
-	{
-		var args = new Array<Dynamic>();
-		return Type.createInstance(Rotator,args);
-	}
-
-	public function new() {
-		super();
-	}
-
-	public function SetRotationSpeed(speed:Vector3) {
-		rotationSpeed = speed;
-	}
-
-	public override function Start() {
-		//SubscribeToEvent("Update", "HandleMyUpdate");
-	}
-
-	public override function DelayedStart() {
-	}
-
-	public override function Update(timeStep:Float) {
-		node.Rotate(new TQuaternion(rotationSpeed.x * timeStep, rotationSpeed.y * timeStep, rotationSpeed.z * timeStep));
-	}
-
-
-
-	public override function OnNodeSet(node:Node) {
-		//trace("Rotator OnNodeSet " + node.position);
-	}
-
-	public function ResetRotation() {
-		node.rotation = new Quaternion(Random(360.0), Random(360.0), Random(360.0));
-	}
-	}
- */
 class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
@@ -80,7 +39,6 @@ class AnimatingSceneSample extends Application {
 		var tmpNode = scene.CreateChild("tempNode");
 
 		for (i in 0...NUM_OBJECTS) {
-			
 			var boxNode = tmpNode.CreateChild("Box");
 			boxNode.position = new TVector3(Random(200.0) - 100.0, Random(200.0) - 100.0, Random(200.0) - 100.0);
 			boxNode.rotation = new TQuaternion(Random(360.0), Random(360.0), Random(360.0));
@@ -88,24 +46,10 @@ class AnimatingSceneSample extends Application {
 			boxObject.model = new Model("Models/Box.mdl");
 			boxObject.material = new Material("Materials/Stone.xml");
 
-			// new Rotator(); //
-			var rotator:Rotator = LogicComponent.CreateFactory("utils.Rotator");
+			var rotator = new Rotator();
 			rotator.SetRotationSpeed(new TVector3(Random(30.0), Random(30.0), Random(30.0)));
-			rotator.updateEventMask = USE_UPDATE;
 			boxNode.AddComponent(rotator);
 
-			/*
-				trace(Std.string(String));
-				var fields = rotator.GetFields();
-				trace(Reflect.fields(fields));
-
-				for (field in fields) {
-					if (field == "rotationSpeed") {
-						var type:String = rotator.GetFieldType(field);
-						trace(type);
-					}
-				}
-			 */
 		}
 
 		cameraNode = scene.CreateChild("Camera");
@@ -164,14 +108,18 @@ class AnimatingSceneSample extends Application {
 
 		if (Input.GetKeyPress(KEY_F5)) {
 			var saveFile = new File("AnimationSceneSample.xml", FILE_WRITE);
-			var saved = scene.SaveXML(saveFile);
-			trace("SaveXML = " + saved);
+			if (saveFile != null) {
+				var saved = scene.SaveXML(saveFile);
+				trace("SaveXML = " + saved);
+			}
 		}
 
 		if (Input.GetKeyPress(KEY_F7)) {
 			var loadFile = new File("AnimationSceneSample.xml", FILE_READ);
-			var loaded = scene.LoadXML(loadFile);
-			trace("LoadXML = " + loaded);
+			if (loadFile != null) {
+				var loaded = scene.LoadXML(loadFile);
+				trace("LoadXML = " + loaded);
+			}
 		}
 	}
 
@@ -180,13 +128,13 @@ class AnimatingSceneSample extends Application {
 		MoveCamera(step);
 
 		/*
-		counter++;
-		if ((counter % 1000 == 0)) {
-			trace("create scene");
-			CreateScene();
-			SetupViewport();
-		}
-		*/
+			counter++;
+			if ((counter % 1000 == 0)) {
+				trace("create scene");
+				CreateScene();
+				SetupViewport();
+			}
+		 */
 	}
 	/*
 		@:hlNative("std","sys_check_reload")

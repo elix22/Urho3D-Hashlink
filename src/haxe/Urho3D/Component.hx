@@ -45,7 +45,7 @@ class Component {
 		return _node;
 	}
 
-	function set_node(n) {
+	public function set_node(n) {
 		_node = n;
 		return _node;
 	}

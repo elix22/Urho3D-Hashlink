@@ -124,7 +124,6 @@ public:
     void UnsubscribeFromEvent(Object* sender, StringHash eventType);
     /// Unsubscribe from a specific sender's events.
     void UnsubscribeFromEvents(Object* sender);
-    /// Unsubscribe from a specific user_data events.
     void UnsubscribeFromEvents(void * userData);
     /// Unsubscribe from all events.
     void UnsubscribeFromAllEvents();
@@ -173,8 +172,6 @@ public:
     void SetBlockEvents(bool block) { blockEvents_ = block; }
     /// Return sending and receiving events blocking status.
     bool GetBlockEvents() const { return blockEvents_; }
-    
-    const LinkedList<EventHandler> * GetEventHandlers()  {return &eventHandlers_;}
 
 protected:
     /// Execution context.

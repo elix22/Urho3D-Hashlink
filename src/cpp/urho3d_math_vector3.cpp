@@ -32,6 +32,7 @@ hl_urho3d_math_vector3 *hl_alloc_urho3d_math_vector3(const Urho3D::Vector3 &rhs)
     Urho3D::Vector3 *v = new Urho3D::Vector3(rhs);
     p->ptr = v;
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_math_vector3");
     return p;
 }
 
@@ -43,6 +44,7 @@ hl_urho3d_math_vector3 *hl_alloc_urho3d_math_vector3(float x, float y, float z)
     Urho3D::Vector3 *v = new Urho3D::Vector3(x, y, z);
     p->ptr = v;
     p->dyn_obj = NULL;
+     p->hash = hl_hash_utf8("hl_urho3d_math_vector3");
     return p;
 }
 

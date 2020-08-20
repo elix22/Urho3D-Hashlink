@@ -26,6 +26,43 @@
 #include "../Core/Attribute.h"
 #include "../Core/Object.h"
 
+#ifdef FLIMPER
+#ifdef WIN32
+
+#define REGISTER_NS_OBJECT(nameSpace,typeName) \
+extern "C" __declspec(dllexport) void registerObject(Context* context){Thread::SetMainThread(); nameSpace::typeName::RegisterObject(context); } \
+extern "C" __declspec(dllexport) const char*  getTypeName(){ return nameSpace::typeName::GetTypeNameStatic().CString(); }
+
+
+#define REGISTER_OBJECT(typeName) \
+extern "C" __declspec(dllexport) void registerObject(Context* context){Thread::SetMainThread(); typeName::RegisterObject(context); } \
+extern "C" __declspec(dllexport) const char*  getTypeName(){ return typeName::GetTypeNameStatic().CString(); }
+
+#else
+
+#define EXPORT __attribute__((visibility("default")))
+
+#define REGISTER_NS_OBJECT(nameSpace,typeName) \
+extern "C"  EXPORT void registerObject(Context* context){Thread::SetMainThread(); nameSpace::typeName::RegisterObject(context); } \
+extern "C"  EXPORT const char*  getTypeName(){ return nameSpace::typeName::GetTypeNameStatic().CString(); }
+
+
+#define REGISTER_OBJECT(typeName) \
+extern "C"  EXPORT void registerObject(Context* context){Thread::SetMainThread(); typeName::RegisterObject(context); } \
+extern "C"  EXPORT const char*  getTypeName(){ return typeName::GetTypeNameStatic().CString(); }
+
+#endif
+
+#else
+
+#define REGISTER_NS_OBJECT(nameSpace,typeName) \
+void Register##nameSpace##typeName(Context* context){Thread::SetMainThread(); nameSpace::typeName::RegisterObject(context); } 
+
+#define REGISTER_OBJECT(typeName) \
+Register##typeName(Context* context){Thread::SetMainThread(); typeName::RegisterObject(context); }
+
+
+#endif
 namespace Urho3D
 {
 
@@ -202,6 +239,10 @@ public:
         HashMap<StringHash, SharedPtr<EventReceiverGroup> >::Iterator i = eventReceivers_.Find(eventType);
         return i != eventReceivers_.End() ? i->second_ : nullptr;
     }
+    
+#if defined(FLIMPER)
+    void RemoveFactory(StringHash factory);
+#endif
 
 private:
     /// Add event receiver.

@@ -31,6 +31,7 @@ hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(const Urho3D::Quatern
     p->finalizer = (void *)finalize_urho3d_math_quaternion;
     p->ptr = new Urho3D::Quaternion(rhs);
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_math_quaternion");
     return p;
 }
 
@@ -41,9 +42,9 @@ hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(float x, float y, flo
     p->finalizer = (void *)finalize_urho3d_math_quaternion;
     p->ptr = new Urho3D::Quaternion(x, y, z);
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_math_quaternion");
     return p;
 }
-
 
 hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(float x, Vector3 v)
 {
@@ -52,6 +53,7 @@ hl_urho3d_math_quaternion *hl_alloc_urho3d_math_quaternion(float x, Vector3 v)
     p->finalizer = (void *)finalize_urho3d_math_quaternion;
     p->ptr = new Urho3D::Quaternion(x, v);
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_math_quaternion");
     return p;
 }
 
@@ -60,18 +62,16 @@ HL_PRIM hl_urho3d_math_quaternion *HL_NAME(_math_quaternion_create)(float x, flo
     return hl_alloc_urho3d_math_quaternion(x, y, z);
 }
 
-HL_PRIM hl_urho3d_math_quaternion *HL_NAME(_math_quaternion_create_fv)(float x, Vector3 * v)
+HL_PRIM hl_urho3d_math_quaternion *HL_NAME(_math_quaternion_create_fv)(float x, Vector3 *v)
 {
     return hl_alloc_urho3d_math_quaternion(x, *v);
 }
-
-
 
 HL_PRIM void HL_NAME(_math_quaternion_set_w)(hl_urho3d_math_quaternion *hv, float w)
 {
     if (hv->ptr != NULL)
     {
-        hv->ptr->w_= w;
+        hv->ptr->w_ = w;
     }
 }
 
@@ -91,7 +91,7 @@ HL_PRIM void HL_NAME(_math_quaternion_set_x)(hl_urho3d_math_quaternion *hv, floa
 {
     if (hv->ptr != NULL)
     {
-        hv->ptr->x_= x;
+        hv->ptr->x_ = x;
     }
 }
 
@@ -111,7 +111,7 @@ HL_PRIM void HL_NAME(_math_quaternion_set_y)(hl_urho3d_math_quaternion *hv, floa
 {
     if (hv->ptr != NULL)
     {
-        hv->ptr->y_= y;
+        hv->ptr->y_ = y;
     }
 }
 
@@ -131,7 +131,7 @@ HL_PRIM void HL_NAME(_math_quaternion_set_z)(hl_urho3d_math_quaternion *hv, floa
 {
     if (hv->ptr != NULL)
     {
-        hv->ptr->z_= z;
+        hv->ptr->z_ = z;
     }
 }
 
@@ -147,23 +147,22 @@ HL_PRIM float HL_NAME(_math_quaternion_get_z)(hl_urho3d_math_quaternion *hv)
     }
 }
 
-HL_PRIM void HL_NAME(_math_quaternion_set_euler_angles)(hl_urho3d_math_quaternion *hv,float x, float y, float z)
+HL_PRIM void HL_NAME(_math_quaternion_set_euler_angles)(hl_urho3d_math_quaternion *hv, float x, float y, float z)
 {
     if (hv->ptr != NULL)
     {
-        *(hv->ptr) = Quaternion(x,y,z);
+        *(hv->ptr) = Quaternion(x, y, z);
     }
 }
 
-
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _math_quaternion_create, _F32 _F32 _F32);
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _math_quaternion_create_fv, _F32 HL_URHO3D_TVECTOR3);
-DEFINE_PRIM(_VOID, _math_quaternion_set_w, HL_URHO3D_QUATERNION _F32 );
-DEFINE_PRIM(_F32, _math_quaternion_get_w, HL_URHO3D_QUATERNION );
-DEFINE_PRIM(_VOID, _math_quaternion_set_x, HL_URHO3D_QUATERNION _F32 );
-DEFINE_PRIM(_F32, _math_quaternion_get_x, HL_URHO3D_QUATERNION );
-DEFINE_PRIM(_VOID, _math_quaternion_set_y, HL_URHO3D_QUATERNION _F32 );
-DEFINE_PRIM(_F32, _math_quaternion_get_y, HL_URHO3D_QUATERNION );
-DEFINE_PRIM(_VOID, _math_quaternion_set_z, HL_URHO3D_QUATERNION _F32 );
-DEFINE_PRIM(_F32, _math_quaternion_get_z, HL_URHO3D_QUATERNION );
+DEFINE_PRIM(_VOID, _math_quaternion_set_w, HL_URHO3D_QUATERNION _F32);
+DEFINE_PRIM(_F32, _math_quaternion_get_w, HL_URHO3D_QUATERNION);
+DEFINE_PRIM(_VOID, _math_quaternion_set_x, HL_URHO3D_QUATERNION _F32);
+DEFINE_PRIM(_F32, _math_quaternion_get_x, HL_URHO3D_QUATERNION);
+DEFINE_PRIM(_VOID, _math_quaternion_set_y, HL_URHO3D_QUATERNION _F32);
+DEFINE_PRIM(_F32, _math_quaternion_get_y, HL_URHO3D_QUATERNION);
+DEFINE_PRIM(_VOID, _math_quaternion_set_z, HL_URHO3D_QUATERNION _F32);
+DEFINE_PRIM(_F32, _math_quaternion_get_z, HL_URHO3D_QUATERNION);
 DEFINE_PRIM(_VOID, _math_quaternion_set_euler_angles, HL_URHO3D_QUATERNION _F32 _F32 _F32);

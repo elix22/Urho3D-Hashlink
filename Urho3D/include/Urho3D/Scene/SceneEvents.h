@@ -212,4 +212,12 @@ URHO3D_EVENT(E_INTERCEPTNETWORKUPDATE, InterceptNetworkUpdate)
     URHO3D_PARAM(P_VALUE, Value);                  // Variant
 }
 
+#if defined(FLIMPER)
+ URHO3D_EVENT(E_SCENEEDITORUPDATE, SceneEditorUpdate)
+ {
+     URHO3D_PARAM(P_SCENE, Scene);                  // Scene pointer
+     URHO3D_PARAM(P_TIMESTEP, TimeStep);            // float
+ }
+#endif
+
 }

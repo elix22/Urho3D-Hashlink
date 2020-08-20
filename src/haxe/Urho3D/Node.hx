@@ -3,6 +3,7 @@ package urho3d;
 import hl.Abstract;
 import urho3d.AbstractApplication.Dyn;
 import urho3d.Component.AbstractComponent;
+import urho3d.LogicComponent.AbstractLogicComponent;
 
 typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
 typedef HL_URHO3D_POD_NODE = hl.Abstract<"hl_urho3d_scene_pod_node">;
@@ -41,24 +42,27 @@ class Node {
 			abstractNode = new AbstractNode();
 		}
 
-		AbstractNode.SetDynamic(Context.context,abstractNode,this);
+		AbstractNode.SetDynamic(Context.context, abstractNode, this);
 
 		if (Scene.currentScene != null)
 			Scene.currentScene.nodes.push(this);
 	}
 
+	@:keep
 	public function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
 		if (abstractNode != null) {
 			abstractNode.SubscribeToEvent(object, stringHash, this, s);
 		}
 	}
 
+	@:keep
 	public function bindComponent(component:Component) {
 		//	trace ("bindComponent :" + component);
 		components.push(component);
 		component.node = this;
 	}
 
+	@:keep
 	public function unbindComponent(c:Component) {
 		for (component in components) {
 			if (component == c) {
@@ -68,6 +72,7 @@ class Node {
 		}
 	}
 
+	@:keep
 	public function unbindComponentString(c:String) {
 		for (component in components) {
 			var names = Std.string(component).split(".");
@@ -79,12 +84,24 @@ class Node {
 		}
 	}
 
+	@:keep
+	public function CreateHashLinkLogicComponent(component:AbstractLogicComponent, componentType:hl.Bytes):Dynamic {
+		var comp:LogicComponent = LogicComponent.CreateFactory(componentType);
+		if (comp != null) {
+			comp.set_node(this);
+			AddComponent(comp);
+		}
+		return comp;
+	}
+
+	@:keep
 	public function CreateChildFromAbstractNode(absNode:AbstractNode):Node {
 		var node:Node = new Node(absNode);
 		this.children.push(node);
 		return node;
 	}
 
+	@:keep
 	public function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
 		var absNode:AbstractNode = AbstractNode.CreatChild(Context.context, abstractNode, name, mode, id, temporary);
 		var node:Node = new Node(absNode);
@@ -92,21 +109,25 @@ class Node {
 		return node;
 	}
 
+	@:keep
 	public function CreateComponent(type:String, mode:CreateMode = CreateMode.REPLICATED, id:Int = 0) {
 		var absComp:AbstractComponent = AbstractNode.CreateComponent(Context.context, abstractNode, type, mode, id);
 		return absComp;
 	}
 
+	@:keep
 	public function GetComponent(type:String, recursive:Bool = false) {
 		return AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
 	}
 
+	@:keep
 	public function AddComponent(component:Component, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
 		// component.node = this;
 		bindComponent(component);
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
 	}
 
+	@:keep
 	public function RemoveComponent(?strComponent:String, ?component:Component) {
 		if (strComponent != null) {
 			AbstractNode.RemoveComponentString(Context.context, abstractNode, strComponent);
@@ -236,8 +257,7 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	}
 
 	@:hlNative("Urho3D", "_scene_node_set_dynamic")
-	public static function SetDynamic(c:Context, n:AbstractNode, d:Dynamic):Void {
-	}
+	public static function SetDynamic(c:Context, n:AbstractNode, d:Dynamic):Void {}
 
 	@:hlNative("Urho3D", "_scene_node_create_component")
 	public static function CreateComponent(c:Context, n:AbstractNode, name:String, mode:CreateMode, id:Int):AbstractComponent {

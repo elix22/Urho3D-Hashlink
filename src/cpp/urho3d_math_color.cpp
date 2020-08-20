@@ -37,6 +37,7 @@ hl_urho3d_color * hl_alloc_urho3d_color(const Urho3D::Color & color)
     Urho3D::Color *v = new Urho3D::Color(color);
     p->ptr = v;
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_color");
     return p;
 }
 
@@ -48,6 +49,7 @@ hl_urho3d_color * hl_alloc_urho3d_color(float r,float g,float b,float a)
     Urho3D::Color *v = new Urho3D::Color(r,g,b,a);
     p->ptr = v;
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_color");
     return p;
 }
 

@@ -34,6 +34,7 @@ hl_urho3d_math_vector2 *hl_alloc_urho3d_math_vector2(const Urho3D::Vector2 &rhs)
     Urho3D::Vector2 *v = new Urho3D::Vector2(rhs);
     p->ptr = v;
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_math_vector2");
     return p;
 }
 
@@ -45,9 +46,9 @@ hl_urho3d_math_vector2 *hl_alloc_urho3d_math_vector2(float x, float y)
     Urho3D::Vector2 *v = new Urho3D::Vector2(x, y);
     p->ptr = v;
     p->dyn_obj = NULL;
+    p->hash = hl_hash_utf8("hl_urho3d_math_vector2");
     return p;
 }
-
 
 HL_PRIM hl_urho3d_math_vector2 *HL_NAME(_math_vector2_create)(float x, float y)
 {
@@ -307,4 +308,3 @@ DEFINE_PRIM(_BOOL, _math_vector2_is_inf, HL_URHO3D_VECTOR2);
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _math_vector2_normalized, HL_URHO3D_VECTOR2);
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _math_vector2_normalized_or_default, HL_URHO3D_VECTOR2 HL_URHO3D_VECTOR2 _F32);
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _math_vector2_renormalized, HL_URHO3D_VECTOR2 _F32 _F32 HL_URHO3D_VECTOR2 _F32);
-
