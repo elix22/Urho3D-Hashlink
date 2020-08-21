@@ -702,40 +702,20 @@ void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosur
 
 void hl_obj_fields_internal(vdynamic *obj, std::vector<const uchar *> &result)
 {
-	switch (obj->t->kind)
-	{
-	case HOBJ:
-	case HSTRUCT:
-	{
-		hl_type_obj *tobj = obj->t->obj;
-		hl_runtime_obj *o = tobj->rt;
-		int i, p = 0;
-		while (true)
-		{
-			for (i = 0; i < tobj->nfields; i++)
-			{
-				hl_obj_field *f = tobj->fields + i;
-				if (!*f->name)
-				{
-					continue;
-				}
-				//const char *name = (char *)hl_to_utf8(f->name);
-				//if (name)
-					result.push_back(f->name);
-			}
-			if (tobj->super == NULL)
-				break;
-			tobj = tobj->super->obj;
-		}
-	}
-	break;
-	}
-}
+	if (obj == NULL)
+		return;
 
-void hl_obj_fields_internal(vdynamic *obj, Urho3D::Vector<Urho3D::String> &result)
-{
 	switch (obj->t->kind)
 	{
+	case HDYNOBJ:
+	{
+		vdynobj *o = (vdynobj *)obj;
+		int i;
+		for (i = 0; i < o->nfields; i++)
+			result.push_back((const uchar *)hl_field_name((o->lookup + i)->hashed_name));
+	}
+	break;
+
 	case HOBJ:
 	case HSTRUCT:
 	{
@@ -751,9 +731,7 @@ void hl_obj_fields_internal(vdynamic *obj, Urho3D::Vector<Urho3D::String> &resul
 				{
 					continue;
 				}
-				const char *name = (char *)hl_to_utf8(f->name);
-				if (name)
-					result.Push(name);
+				result.push_back(f->name);
 			}
 			if (tobj->super == NULL)
 				break;
@@ -761,6 +739,19 @@ void hl_obj_fields_internal(vdynamic *obj, Urho3D::Vector<Urho3D::String> &resul
 		}
 	}
 	break;
+
+	case HVIRTUAL:
+	{
+		vvirtual *v = (vvirtual *)obj;
+		int i;
+		if (v->value)
+			return hl_obj_fields_internal(v->value, result);
+		for (i = 0; i < v->t->virt->nfields; i++)
+			result.push_back(v->t->virt->fields[i].name);
+	}
+	break;
+	default:
+		break;
 	}
 }
 

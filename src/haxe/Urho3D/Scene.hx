@@ -27,17 +27,17 @@ class Scene extends Node {
 		return AbstractScene.GetOctree(Context.context, abstractScene);
 	}
 
-	public inline function SaveXML(f:File, s:String = "\t"):Bool {
-		if (f != null) {
-			return AbstractScene.SaveXML(Context.context, abstractScene, f, s);
+	public inline function SaveXML(?p:String, s:String = "\t"):Bool {
+		if (p != null) {
+			return AbstractScene.SaveXMLString(Context.context, abstractScene, p, s);
 		} else
 			return false;
 	}
 
-	public inline function LoadXML(f:File):Bool {
+	public inline function LoadXML(?p:String):Bool {
 		nodes = [];
-		if (f != null) {
-			return AbstractScene.LoadXML(Context.context, abstractScene, f);
+		if (p != null) {
+			return AbstractScene.LoadXMLString(Context.context, abstractScene, p);
 		} else
 			return false;
 	}
@@ -76,6 +76,16 @@ abstract AbstractScene(HL_URHO3D_SCENE) {
 
 	@:hlNative("Urho3D", "_scene_scene_load_xml")
 	public static function LoadXML(c:Context, s:AbstractScene, f:File):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_scene_scene_save_xml_string")
+	public static function SaveXMLString(c:Context, s:AbstractScene, f:String, s:String):Bool {
+		return false;
+	}
+
+	@:hlNative("Urho3D", "_scene_scene_load_xml_string")
+	public static function LoadXMLString(c:Context, s:AbstractScene, f:String):Bool {
 		return false;
 	}
 }

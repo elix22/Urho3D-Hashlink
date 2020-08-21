@@ -14,7 +14,7 @@ extern "C"
 #include <locale>
 #include <codecvt>
 
-static bool isSaving = false;
+
 //static int counter = 0;
 static int hl_hash_start = 0;
 static int hl_hash_delayed_start = 0;
@@ -35,7 +35,6 @@ vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 // very fast function
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
-void hl_obj_fields_internal(vdynamic *obj, Urho3D::Vector<Urho3D::String> &result);
 void hl_obj_fields_internal(vdynamic *obj, std::vector<const uchar *> &result);
 
 class HashLinkLogicComponent;
@@ -74,8 +73,6 @@ public:
 
     HashLinkLogicComponent(Context *context, vdynamic *dyn = NULL, String className = "") : LogicComponent(context)
     {
-        isLoading = false;
-        isSaving = false;
         dyn_obj = dyn;
         if (dyn_obj)
         {
@@ -232,6 +229,13 @@ public:
         }
     }
 
+    vbyte *CreateString(String value)
+    {
+        hl_buffer *b = hl_alloc_buffer();
+        hl_buffer_str(b, (uchar *)(hl_to_utf16(value.CString())));
+        return (vbyte *)hl_buffer_content(b, NULL);
+    }
+
     /// Load from XML data. Return true if successful.
     virtual bool LoadXML(const XMLElement &source)
     {
@@ -242,8 +246,6 @@ public:
             printf("LoadXML error scene=null\n");
             return false;
         }
-
-        isLoading = true;
 
         vdynamic *dyn_node = NULL;
         PopulateDynamicNode(node_, &dyn_node);
@@ -267,12 +269,9 @@ public:
                         vdynamic *arg_dyn_abstract = hl_alloc_dynamic(&hlt_abstract);
                         arg_dyn_abstract->v.ptr = hashlink_logic_component;
 
-                        hl_buffer *b = hl_alloc_buffer();
-                        hl_buffer_str(b, (uchar *)(hl_to_utf16(value.CString())));
-                        vbyte *vbyte_name = (vbyte *)hl_buffer_content(b, NULL);
                         vdynamic arg_vbyte_name;
                         arg_vbyte_name.t = &hlt_bytes;
-                        arg_vbyte_name.v.bytes = vbyte_name;
+                        arg_vbyte_name.v.bytes = CreateString(value);
 
                         vdynamic *args[2];
                         args[0] = arg_dyn_abstract;
@@ -299,29 +298,25 @@ public:
                     {
                         if (HABSTRACT == dyn_field->t->kind && dyn_field->v.ptr != NULL)
                         {
-                            if (((hl_urho3d_structure *)dyn_field->v.ptr)->hash == hl_hash_utf8("hl_urho3d_math_vector2") ||
-                                hl_hash_utf8(hl_to_utf8(dyn_field->t->abs_name)) == hl_hash_utf8("hl_urho3d_math_vector2"))
+                            if (IsAbstractType(dyn_field, "hl_urho3d_math_vector2"))
                             {
                                 Vector2 var = attrElem.GetVariantValue(VariantType::VAR_VECTOR2).GetVector2();
                                 hl_urho3d_math_vector2 *hl_urho3d_obj = (hl_urho3d_math_vector2 *)dyn_field->v.ptr;
                                 *(hl_urho3d_obj->ptr) = var;
                             }
-                            else if (((hl_urho3d_structure *)dyn_field->v.ptr)->hash == hl_hash_utf8("hl_urho3d_intvector2") ||
-                                     hl_hash_utf8(hl_to_utf8(dyn_field->t->abs_name)) == hl_hash_utf8("hl_urho3d_intvector2"))
+                            else if (IsAbstractType(dyn_field, "hl_urho3d_intvector2"))
                             {
                                 IntVector2 var = attrElem.GetVariantValue(VariantType::VAR_INTVECTOR2).GetIntVector2();
                                 hl_urho3d_intvector2 *hl_urho3d_obj = (hl_urho3d_intvector2 *)dyn_field->v.ptr;
                                 *(hl_urho3d_obj->ptr) = var;
                             }
-                            else if (((hl_urho3d_structure *)dyn_field->v.ptr)->hash == hl_hash_utf8("hl_urho3d_math_vector3") ||
-                                     hl_hash_utf8(hl_to_utf8(dyn_field->t->abs_name)) == hl_hash_utf8("hl_urho3d_math_vector3"))
+                            else if (IsAbstractType(dyn_field, "hl_urho3d_math_vector3"))
                             {
                                 Vector3 var = attrElem.GetVariantValue(VariantType::VAR_VECTOR3).GetVector3();
                                 hl_urho3d_math_vector3 *hl_urho3d_obj = (hl_urho3d_math_vector3 *)dyn_field->v.ptr;
                                 *(hl_urho3d_obj->ptr) = var;
                             }
-                            else if (((hl_urho3d_structure *)dyn_field->v.ptr)->hash == hl_hash_utf8("hl_urho3d_math_quaternion") ||
-                                     hl_hash_utf8(hl_to_utf8(dyn_field->t->abs_name)) == hl_hash_utf8("hl_urho3d_math_quaternion"))
+                            else if (IsAbstractType(dyn_field, "hl_urho3d_math_quaternion"))
                             {
                                 Quaternion var = attrElem.GetVariantValue(VariantType::VAR_QUATERNION).GetQuaternion();
                                 hl_urho3d_math_quaternion *hl_urho3d_obj = (hl_urho3d_math_quaternion *)dyn_field->v.ptr;
@@ -338,7 +333,6 @@ public:
             attrElem = attrElem.GetNext("attribute");
         }
 
-        isLoading = false;
         return true;
     }
 
@@ -347,8 +341,6 @@ public:
     {
         if (dyn_obj == NULL)
             return true;
-
-        isSaving = true;
 
         LogicComponent::SaveXML(dest);
 
@@ -364,7 +356,7 @@ public:
             const char *name = str_name.c_str();
             if (String(name) == String("abstractComponent") || String(name) == String("abstractLogicComponent") || String(name) == String("_node"))
                 continue;
-         
+
             vdynamic *dyn_field = (vdynamic *)hl_dyn_getp(dyn_obj, hl_hash_utf8(name), &hlt_dyn);
 
             if (dyn_field != NULL)
@@ -411,7 +403,6 @@ public:
         }
 
     done:
-        isSaving = false;
         return true;
     }
 
@@ -460,8 +451,6 @@ public:
     /// Called on scene update, variable timestep.
     virtual void Update(float timeStep)
     {
-        if (isLoading == true || isSaving == true)
-            return;
         if (dyn_obj)
         {
             //vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_update, &hlt_dyn);
@@ -609,7 +598,6 @@ public:
         LogicComponent::OnNodeSetEnabled(node);
     }
 
-    bool isLoading;
     vdynamic *dyn_obj;
     String _className;
     hl_field_lookup *dyn_obj_field_start;

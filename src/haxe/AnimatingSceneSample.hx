@@ -2,7 +2,6 @@ import urho3d.*;
 import urho3d.Application;
 import utils.*;
 
-
 class AnimatingSceneSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
@@ -49,7 +48,6 @@ class AnimatingSceneSample extends Application {
 			var rotator = new Rotator();
 			rotator.SetRotationSpeed(new TVector3(Random(30.0), Random(30.0), Random(30.0)));
 			boxNode.AddComponent(rotator);
-
 		}
 
 		cameraNode = scene.CreateChild("Camera");
@@ -107,19 +105,13 @@ class AnimatingSceneSample extends Application {
 			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
 
 		if (Input.GetKeyPress(KEY_F5)) {
-			var saveFile = new File("AnimationSceneSample.xml", FILE_WRITE);
-			if (saveFile != null) {
-				var saved = scene.SaveXML(saveFile);
-				trace("SaveXML = " + saved);
-			}
+			var saved = scene.SaveXML("AnimationSceneSample.xml");
+			trace("SaveXML = " + saved);
 		}
 
 		if (Input.GetKeyPress(KEY_F7)) {
-			var loadFile = new File("AnimationSceneSample.xml", FILE_READ);
-			if (loadFile != null) {
-				var loaded = scene.LoadXML(loadFile);
-				trace("LoadXML = " + loaded);
-			}
+			var loaded = scene.LoadXML("AnimationSceneSample.xml");
+			trace("LoadXML = " + loaded);
 		}
 	}
 
