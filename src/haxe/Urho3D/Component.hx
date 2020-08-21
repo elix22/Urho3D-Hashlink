@@ -12,6 +12,7 @@ import urho3d.RigidBody.AbstractRigidBody;
 import urho3d.CollisionShape.AbstractCollisionShape;
 import urho3d.Skybox.AbstractSkybox;
 import urho3d.Constraint.AbstractConstraint;
+import urho3d.AnimationController.AbstractAnimationController;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
@@ -155,6 +156,19 @@ class Component {
 			var abstract_ = AbstractSkybox.CastFromComponent(Context.context, abstractComponent);
 			if (abstract_ != null)
 				return new Skybox(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toAnimationController():AnimationController {
+		if (this != null) {
+			var abstract_ = AbstractAnimationController.CastFromComponent(Context.context, abstractComponent);
+			if (abstract_ != null)
+				return new AnimationController(abstract_);
 			else
 				return null;
 		} else {
@@ -322,6 +336,19 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 			var abstract_ = AbstractSkybox.CastFromComponent(Context.context, cast this);
 			if (abstract_ != null)
 				return new Skybox(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toAnimationController():AnimationController {
+		if (this != null) {
+			var abstract_ = AbstractAnimationController.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new AnimationController(abstract_);
 			else
 				return null;
 		} else {

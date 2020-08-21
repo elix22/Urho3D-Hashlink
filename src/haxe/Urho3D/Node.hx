@@ -111,13 +111,16 @@ class Node {
 
 	@:keep
 	public function CreateComponent(type:String, mode:CreateMode = CreateMode.REPLICATED, id:Int = 0) {
-		var absComp:AbstractComponent = AbstractNode.CreateComponent(Context.context, abstractNode, type, mode, id);
-		return absComp;
+		var comp:AbstractComponent = AbstractNode.CreateComponent(Context.context, abstractNode, type, mode, id);
+		return comp;
 	}
+
+	// StaticModel
 
 	@:keep
 	public function GetComponent(type:String, recursive:Bool = false) {
-		return AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
+		var comp = AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
+		return comp;
 	}
 
 	@:keep

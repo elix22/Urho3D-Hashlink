@@ -155,6 +155,26 @@ HL_PRIM float HL_NAME(_physics_rigid_body_get_angular_rest_threshold)(urho3d_con
 }
 
 
+HL_PRIM void HL_NAME(_physics_rigid_body_set_collision_layer)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, int i)
+{
+    t->ptr->SetCollisionLayer(i);
+}
+
+HL_PRIM int HL_NAME(_physics_rigid_body_get_collision_layer)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetCollisionLayer();
+}
+
+HL_PRIM void HL_NAME(_physics_rigid_body_set_collision_mask)(urho3d_context *context, hl_urho3d_physics_rigid_body *t, int i)
+{
+    t->ptr->SetCollisionMask(i);
+}
+
+HL_PRIM int HL_NAME(_physics_rigid_body_get_collision_mask)(urho3d_context *context, hl_urho3d_physics_rigid_body *t)
+{
+    return t->ptr->GetCollisionMask();
+}
+
 
 DEFINE_PRIM(HL_URHO3D_RIGID_BODY, _physics_rigid_body_create, URHO3D_CONTEXT );
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _physics_rigid_body_cast_to_component, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY);
@@ -187,3 +207,11 @@ DEFINE_PRIM(_F32, _physics_rigid_body_get_angular_dumping, URHO3D_CONTEXT HL_URH
 
 DEFINE_PRIM(_VOID, _physics_rigid_body_set_angular_rest_threshold, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _F32);
 DEFINE_PRIM(_F32, _physics_rigid_body_get_angular_rest_threshold, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
+
+
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_collision_layer, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _I32);
+DEFINE_PRIM(_I32, _physics_rigid_body_get_collision_layer, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );
+
+DEFINE_PRIM(_VOID, _physics_rigid_body_set_collision_mask, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY _I32);
+DEFINE_PRIM(_I32, _physics_rigid_body_get_collision_mask, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY );

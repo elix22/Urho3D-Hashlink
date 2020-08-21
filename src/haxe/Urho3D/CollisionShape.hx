@@ -59,6 +59,13 @@ class CollisionShape extends Component {
         if(rotation == null)rotation = new TQuaternion();
 		AbstractCollisionShape.SetCapsule(Context.context, _abstract, diameter,height, position, rotation);
 	}
+
+	public inline function SetTriangleMesh(model:Model , lodLevel:Int=0,?scale:TVector3, ?position:TVector3, ?rotation:TQuaternion) {
+		if(scale == null)scale = Vector3.ONE;
+        if(position == null)position = Vector3.ZERO;
+        if(rotation == null)rotation = new TQuaternion();
+		AbstractCollisionShape.SetTriangleMesh(Context.context, _abstract,model,lodLevel,scale,position,rotation);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -97,4 +104,9 @@ abstract AbstractCollisionShape(HL_URHO3D_COLLISION_SHAPE) {
 
 	@:hlNative("Urho3D", "_physics_collision_shape_set_capsule")
 	public static function SetCapsule(c:Context, s:AbstractCollisionShape, diameter:Single, height:Single, position:TVector3, rotation:TQuaternion):Void {}
+
+	@:hlNative("Urho3D", "_physics_collision_shape_set_triangle_mesh")
+	public static function SetTriangleMesh(c:Context, s:AbstractCollisionShape, model:Model, lodLevel:Int, scale:TVector3, position:TVector3, rotation:TQuaternion):Void {}
+
+
 }

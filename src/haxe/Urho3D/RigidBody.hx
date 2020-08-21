@@ -112,6 +112,27 @@ class RigidBody extends Component {
 	function get_angularRestThreshold() {
 		return AbstractRigidBody.GetAngularRestThreshold(Context.context, _abstract);
 	}
+
+
+	public var collisionLayer(get,set):Int;
+	function set_collisionLayer(m) {
+		AbstractRigidBody.SetCollisionLayer(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_collisionLayer() {
+		return AbstractRigidBody.GetCollisionLayer(Context.context, _abstract);
+	}
+
+	public var collisionMask(get,set):Int;
+	function set_collisionMask(m) {
+		AbstractRigidBody.SetCollisionMask(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_collisionMask() {
+		return AbstractRigidBody.GetCollisionMask(Context.context, _abstract);
+	}
   
 
 }
@@ -209,6 +230,23 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 	@:hlNative("Urho3D", "_physics_rigid_body_get_angular_rest_threshold")
 	public static function GetAngularRestThreshold(c:Context, s:AbstractRigidBody):Single {
 		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_collision_layer")
+	public static function SetCollisionLayer(c:Context, s:AbstractRigidBody, m:Int):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_collision_layer")
+	public static function GetCollisionLayer(c:Context, s:AbstractRigidBody):Int {
+		return 0;
+	}
+
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_collision_mask")
+	public static function SetCollisionMask(c:Context, s:AbstractRigidBody, m:Int):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_collision_mask")
+	public static function GetCollisionMask(c:Context, s:AbstractRigidBody):Int {
+		return 0;
 	}
 
 

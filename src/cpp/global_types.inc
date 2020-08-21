@@ -366,6 +366,20 @@ typedef struct hl_urho3d_graphics_animation
 hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(urho3d_context *context);
 hl_urho3d_graphics_animation *hl_alloc_urho3d_graphics_animation(Animation *animtion);
 
+
+//AnimationController
+typedef struct hl_urho3d_graphics_animation_controller
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::AnimationController> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_graphics_animation_controller;
+
+#define HL_URHO3D_ANIMATION_CONTROLLER _ABSTRACT(hl_urho3d_graphics_animation_controller)
+hl_urho3d_graphics_animation_controller *hl_alloc_urho3d_graphics_animation_controller(urho3d_context *context);
+hl_urho3d_graphics_animation_controller *hl_alloc_urho3d_graphics_animation_controller(AnimationController *animtion);
+
 /*
 typedef struct hl_urho3d_graphics_animation_state
 {
