@@ -23,6 +23,7 @@ class CharacterDemoSample extends Application {
 	final YAW_SENSITIVITY = 0.1;
 	final INAIR_THRESHOLD_TIME = 0.1;
 	final cameraDistance = 5.0;
+	final CAMERA_MIN_DIST = 1.0;
 
 	public override function Setup() {
 		trace("Setup");
@@ -245,12 +246,12 @@ class CharacterDemoSample extends Application {
 		var rayDir = dir * Vector3.BACK; // For indoor scenes you can use dir * Vector3(0.0, 0.0, -0.5) to prevent camera from crossing the walls
 		var rayDistance = cameraDistance;
 
-		/*
-			PhysicsRaycastResult result = scene.physicsWorld.RaycastSingle(Ray(aimPoint, rayDir), rayDistance, 2);
-			if (result.body!is null)
-				rayDistance = Min(rayDistance, result.distance);
-			rayDistance = Clamp(rayDistance, CAMERA_MIN_DIST, cameraDistance);
-		 */
+	
+		var result:PhysicsRaycastResult = scene.physicsWorld.RaycastSingle(new TRay(aimPoint, rayDir), rayDistance, 2);
+		if (result.body != null)
+			rayDistance = Math.min(rayDistance, result.distance);
+		rayDistance = Clamp(rayDistance, CAMERA_MIN_DIST, cameraDistance);
+
 		cameraNode.position = aimPoint + rayDir * rayDistance;
 		cameraNode.rotation = dir;
 	}

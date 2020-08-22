@@ -14,6 +14,8 @@
 #define TVARIANTMAP_STACK_SIZE 10000
 #define TOUCHSTATE_STACK_SIZE 100
 #define T_VECTOR_BUFFER_STACK_SIZE 1000
+#define T_URHO3D_T_RAY_STACK_SIZE 50
+
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -128,6 +130,11 @@ typedef struct hl_urho3d_math_ray
 #define HL_URHO3D_RAY _ABSTRACT(hl_urho3d_math_ray)
 hl_urho3d_math_ray *hl_alloc_urho3d_math_ray(const Vector3& origin, const Vector3& direction);
 hl_urho3d_math_ray *hl_alloc_urho3d_math_ray(const Ray& ray);
+
+typedef Urho3D::Ray *  hl_urho3d_math_t_ray;
+#define HL_URHO3D_T_RAY _ABSTRACT(hl_urho3d_math_t_ray)
+Urho3D::Ray *hl_alloc_urho3d_math_t_ray(const Vector3& origin, const Vector3& direction);
+Urho3D::Ray *hl_alloc_urho3d_math_t_ray(const Ray& ray);
 
 typedef struct hl_urho3d_math_vector2
 {
@@ -672,6 +679,8 @@ Urho3D::VectorBuffer *hl_alloc_urho3d_io_t_vector_buffer(Urho3D::VectorBuffer & 
 typedef Urho3D::MemoryBuffer *  hl_urho3d_io_memory_buffer;
 #define HL_URHO3D_MEMORY_BUFFER _ABSTRACT(hl_urho3d_io_memory_buffer)
 
+
+
 //Constraint
 typedef struct hl_urho3d_physics_constraint
 {
@@ -697,6 +706,13 @@ typedef struct hl_urho3d_physics_collision_shape
 hl_urho3d_physics_collision_shape *hl_alloc_urho3d_physics_collision_shape(urho3d_context *context);
 hl_urho3d_physics_collision_shape *hl_alloc_urho3d_physics_collision_shape(Urho3D::CollisionShape*);
 
+typedef Urho3D::PhysicsRaycastResult *  hl_urho3d_physics_raycast_result;
+#define HL_URHO3D_PHYSICS_RAYCAST_RESULT _ABSTRACT(hl_urho3d_physics_raycast_result)
+Urho3D::PhysicsRaycastResult *hl_alloc_urho3d_physics_raycast_result();
+
+typedef Urho3D::PhysicsWorld *  hl_urho3d_physics_physics_world;
+#define HL_URHO3D_PHYSICS_WORLD _ABSTRACT(hl_urho3d_physics_physics_world)
+
 
 typedef struct hl_urho3d_physics_rigid_body
 {
@@ -711,5 +727,7 @@ hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(urho3d_context 
 hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(Urho3D::RigidBody*);
 
 
+typedef Urho3D::RigidBody *  hl_urho3d_physics_t_rigid_body;
+#define HL_URHO3D_T_RIGID_BODY _ABSTRACT(hl_urho3d_physics_t_rigid_body)
 
 #endif

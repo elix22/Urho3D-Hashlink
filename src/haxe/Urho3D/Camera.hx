@@ -23,7 +23,7 @@ class Camera extends Component {
 		super(AbstractCamera.CastToComponent(Context.context, _abstract));
 	}
 
-	public function GetScreenRay(x:Float, y:Float):Ray {
+	public function GetScreenRay(x:Float, y:Float):TRay {
 		return AbstractCamera.GetScreenRay(Context.context, _abstract, x, y);
 	}
 
@@ -106,7 +106,7 @@ abstract AbstractCamera(HL_URHO3D_CAMERA) {
 	}
 
 	@:hlNative("Urho3D", "_graphics_camera_get_screen_ray")
-	public static function GetScreenRay(c:Context, s:AbstractCamera, x:Single, y:Single):Ray {
+	public static function GetScreenRay(c:Context, s:AbstractCamera, x:Single, y:Single):TRay {
 		return null;
 	}
 

@@ -12,12 +12,12 @@ extern "C"
 
 static PODVector<RayQueryResult> OctreeRayQueryResults;
 
-HL_PRIM hl_urho3d_graphics_ray_query_results * HL_NAME(_graphics_octree_raycast_single)(urho3d_context *context,Urho3D::Octree  * octree,hl_urho3d_math_ray *ray, int rayQueryLevel,float maxDistance,int drawableFlags, int viewMask)
+HL_PRIM hl_urho3d_graphics_ray_query_results * HL_NAME(_graphics_octree_raycast_single)(urho3d_context *context,Urho3D::Octree  * octree,Urho3D::Ray *ray, int rayQueryLevel,float maxDistance,int drawableFlags, int viewMask)
 {
     OctreeRayQueryResults.Clear();
-    RayOctreeQuery query(OctreeRayQueryResults, *(ray->ptr), RayQueryLevel(rayQueryLevel), maxDistance, drawableFlags,viewMask);
+    RayOctreeQuery query(OctreeRayQueryResults, *(ray), RayQueryLevel(rayQueryLevel), maxDistance, drawableFlags,viewMask);
     octree->RaycastSingle(query);
     return &(OctreeRayQueryResults);
 }
 
-DEFINE_PRIM(HL_URHO3D_RAY_QUERY_RESULTS, _graphics_octree_raycast_single, URHO3D_CONTEXT HL_URHO3D_OCTREE HL_URHO3D_RAY _I32 _F32 _I32 _I32);
+DEFINE_PRIM(HL_URHO3D_RAY_QUERY_RESULTS, _graphics_octree_raycast_single, URHO3D_CONTEXT HL_URHO3D_OCTREE HL_URHO3D_T_RAY _I32 _F32 _I32 _I32);

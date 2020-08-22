@@ -85,9 +85,9 @@ HL_PRIM float HL_NAME(_graphics_camera_get_fov)(urho3d_context *context, hl_urho
     return t->ptr->GetFov();
 }
 
-HL_PRIM hl_urho3d_math_ray * HL_NAME(_graphics_camera_get_screen_ray)(urho3d_context *context, hl_urho3d_graphics_camera * t, float x, float y )
+HL_PRIM Urho3D::Ray * HL_NAME(_graphics_camera_get_screen_ray)(urho3d_context *context, hl_urho3d_graphics_camera * t, float x, float y )
 {
-    return hl_alloc_urho3d_math_ray( t->ptr->GetScreenRay(x,y));
+    return hl_alloc_urho3d_math_t_ray( t->ptr->GetScreenRay(x,y));
 }
 
 //SetViewOverrideFlags
@@ -112,7 +112,7 @@ DEFINE_PRIM(_F32, _graphics_camera_get_far_clip, URHO3D_CONTEXT HL_URHO3D_CAMERA
 DEFINE_PRIM(_VOID, _graphics_camera_set_fov, URHO3D_CONTEXT HL_URHO3D_CAMERA _F32);
 DEFINE_PRIM(_F32, _graphics_camera_get_fov, URHO3D_CONTEXT HL_URHO3D_CAMERA);
 
-DEFINE_PRIM(HL_URHO3D_RAY, _graphics_camera_get_screen_ray, URHO3D_CONTEXT HL_URHO3D_CAMERA _F32 _F32) ;
+DEFINE_PRIM(HL_URHO3D_T_RAY, _graphics_camera_get_screen_ray, URHO3D_CONTEXT HL_URHO3D_CAMERA _F32 _F32) ;
 
 DEFINE_PRIM(_VOID, _graphics_camera_set_view_override_flags, URHO3D_CONTEXT HL_URHO3D_CAMERA _I32);
 DEFINE_PRIM(_I32, _graphics_camera_get_view_override_flags, URHO3D_CONTEXT HL_URHO3D_CAMERA );

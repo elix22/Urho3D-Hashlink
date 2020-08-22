@@ -41,6 +41,12 @@ class Scene extends Node {
 		} else
 			return false;
 	}
+
+	public var physicsWorld(get, never):PhysicsWorld;
+
+	function get_physicsWorld() {
+		return AbstractScene.GetPhysicsWorld(Context.context, abstractScene);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -87,5 +93,10 @@ abstract AbstractScene(HL_URHO3D_SCENE) {
 	@:hlNative("Urho3D", "_scene_scene_load_xml_string")
 	public static function LoadXMLString(c:Context, s:AbstractScene, f:String):Bool {
 		return false;
+	}
+
+	@:hlNative("Urho3D", "_scene_scene_get_physics_world")
+	public static function GetPhysicsWorld(c:Context, s:AbstractScene):PhysicsWorld {
+		return null;
 	}
 }

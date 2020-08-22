@@ -101,6 +101,11 @@ HL_PRIM bool HL_NAME(_scene_scene_load_xml_string)(urho3d_context *context, hl_u
     return ret;
 }
 
+HL_PRIM Urho3D::PhysicsWorld *HL_NAME(_scene_scene_get_physics_world)(urho3d_context *context, hl_urho3d_scene_scene *scene)
+{
+    return scene->ptr->GetComponent<PhysicsWorld>();
+}
+
 DEFINE_PRIM(HL_URHO3D_SCENE, _scene_scene_create, URHO3D_CONTEXT _DYN);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_scene_cast_to_node, URHO3D_CONTEXT HL_URHO3D_SCENE);
 DEFINE_PRIM(HL_URHO3D_OCTREE, _scene_scene_get_octree, URHO3D_CONTEXT HL_URHO3D_SCENE);
@@ -110,3 +115,5 @@ DEFINE_PRIM(_BOOL, _scene_scene_load_xml, URHO3D_CONTEXT HL_URHO3D_SCENE HL_URHO
 
 DEFINE_PRIM(_BOOL, _scene_scene_save_xml_string, URHO3D_CONTEXT HL_URHO3D_SCENE _STRING _STRING);
 DEFINE_PRIM(_BOOL, _scene_scene_load_xml_string, URHO3D_CONTEXT HL_URHO3D_SCENE _STRING);
+
+DEFINE_PRIM(HL_URHO3D_PHYSICS_WORLD, _scene_scene_get_physics_world, URHO3D_CONTEXT HL_URHO3D_SCENE);
