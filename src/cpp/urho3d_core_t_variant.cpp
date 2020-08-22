@@ -195,6 +195,29 @@ HL_PRIM void  HL_NAME(_tvariant_set_object)(hl_urho3d_tvariant * variant,Urho3D:
     
 }
 
+HL_PRIM void HL_NAME(_t_variant_set_vector_buffer)(hl_urho3d_tvariant * variant,Urho3D::VectorBuffer *vb)
+{
+    if(variant != NULL)
+    {
+         *variant = *vb;
+    }
+}
+
+
+HL_PRIM Urho3D::VectorBuffer * HL_NAME(_t_variant_get_vector_buffer)(hl_urho3d_tvariant * variant)
+{
+
+    if(variant != NULL)
+    {
+        VectorBuffer v = variant->GetVectorBuffer();
+        return hl_alloc_urho3d_io_t_vector_buffer(v);
+    }
+    else
+    {
+        return NULL;
+    } 
+}
+
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _math_tvariant_cast_from_variant, HL_URHO3D_VARIANT);
 DEFINE_PRIM(HL_URHO3D_VARIANT, _math_tvariant_cast_to_variant, HL_URHO3D_TVARIANT);
 
@@ -213,5 +236,5 @@ DEFINE_PRIM(HL_URHO3D_TINTVECTOR2, _tvariant_get_tintvector2, HL_URHO3D_TVARIANT
 DEFINE_PRIM(_VOID, _tvariant_set_object, HL_URHO3D_TVARIANT HL_URHO3D_OBJECT);
 DEFINE_PRIM(HL_URHO3D_OBJECT, _tvariant_get_object, HL_URHO3D_TVARIANT);
 
-//
-//
+DEFINE_PRIM(_VOID, _t_variant_set_vector_buffer, HL_URHO3D_TVARIANT HL_URHO3D_T_VECTOR_BUFFER);
+DEFINE_PRIM(HL_URHO3D_T_VECTOR_BUFFER, _t_variant_get_vector_buffer, HL_URHO3D_TVARIANT);

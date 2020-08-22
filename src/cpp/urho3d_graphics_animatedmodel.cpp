@@ -140,6 +140,11 @@ HL_PRIM bool HL_NAME(_graphics_animatedmodel_get_occludee)(urho3d_context *conte
     return animatedmodel->ptr->IsOccludee();
 }
 
+HL_PRIM Urho3D::Skeleton * HL_NAME(_graphics_animatedmodel_get_skeleton)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel)
+{
+    return &(animatedmodel->ptr->GetSkeleton());
+}
+
 
 DEFINE_PRIM(HL_URHO3D_ANIMATEDMODEL, _graphics_animatedmodel_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_animatedmodel_cast_to_component, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL);
@@ -159,3 +164,5 @@ DEFINE_PRIM(_BOOL, _graphics_animatedmodel_get_occludee, URHO3D_CONTEXT HL_URHO3
 
 DEFINE_PRIM(_VOID, _graphics_animatedmodel_set_update_invisible, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL _BOOL);
 DEFINE_PRIM(_BOOL, _graphics_animatedmodel_get_update_invisible, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL );
+
+DEFINE_PRIM(HL_URHO3D_SKELETON, _graphics_animatedmodel_get_skeleton, URHO3D_CONTEXT HL_URHO3D_ANIMATEDMODEL );

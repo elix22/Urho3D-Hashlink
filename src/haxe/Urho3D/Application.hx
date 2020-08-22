@@ -9,7 +9,7 @@ typedef HLDynEvent = {
 }
 
 class Application {
-	private static var application:Application = null;
+	public static var application:Application = null;
 
 	public var abstractApplication:AbstractApplication;
 
@@ -48,7 +48,7 @@ class Application {
 		}
 	}
 
-	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
+	public inline function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand:Float = Std.random(1000000) / 1000000.0;
 		if (min == null)
 			return rand;
@@ -60,7 +60,7 @@ class Application {
 	}
 
 	//public function Clamp<T:Int & Single & Float>(value:T, min:T, max:T) {
-	public function Clamp(value:Float, min:Float, max:Float) {
+	public inline function Clamp(value:Float, min:Float, max:Float) {
 		if (value < min)
 			return min;
 		else if (value > max)
@@ -69,7 +69,7 @@ class Application {
 			return value;
 	}
 
-	public function IClamp(value:Int, min:Int, max:Int) {
+	public inline function IClamp(value:Int, min:Int, max:Int) {
 		if (value < min)
 			return min;
 		else if (value > max)
@@ -77,5 +77,10 @@ class Application {
 		else
 			return value;
 	}
+
+	public inline function IsTouchEnabled():Bool
+		{
+			return abstractApplication.IsTouchEnabled();
+		}
 
 }

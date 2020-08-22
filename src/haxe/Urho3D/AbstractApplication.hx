@@ -15,6 +15,11 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 		RunApplication(this);
 	}
 
+	public inline function IsTouchEnabled():Bool
+		{
+			return _IsTouchEnabled(cast this);
+		}
+
 	@:keep
 	public function RegisterSetupClosure(callback_fun:Void->Void):Void {
 		setup_closure_application(this, callback_fun);
@@ -61,4 +66,7 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 
 	@:hlNative("Urho3D", "_stop_closure_application")
 	public static function stop_closure_application(HL_URHO3D_APPLICATION, callback_fun:Void->Void):Void {}
+
+	@:hlNative("Urho3D", "_application_is_touch_enabled")
+	private static function _IsTouchEnabled(a:HL_URHO3D_APPLICATION):Bool {return false;}
 }

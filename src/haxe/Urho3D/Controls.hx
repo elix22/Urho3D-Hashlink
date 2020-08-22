@@ -8,14 +8,16 @@ class Controls {
 		extraData = new VariantMap();
 	}
 
-	public inline function Set(b:Int, down:Bool = true) {
-		if (down)
+	public  inline function Set(b:Int, down:Bool = true) {
+		if (down) {
 			buttons |= b;
-		else
+		} else {
 			buttons &= ~b;
+		}
 	}
 
 	public inline function IsDown(button:Int):Bool {
+		//trace("IsDown " + buttons + ":" +button);
 		return (buttons & button) != 0;
 	}
 
@@ -31,11 +33,11 @@ class Controls {
 	}
 
 	/// Button state.
-	var buttons:Int = 0;
+	public var buttons:Int = 0;
 	/// Mouse yaw.
-	var yaw:Float = 0.0;
+	public var yaw:Float = 0.0;
 	/// Mouse pitch.
-	var pitch:Float = 0.0;
+	public var pitch:Float = 0.0;
 
-	var extraData:VariantMap = null;
+	public var extraData:VariantMap = null;
 }

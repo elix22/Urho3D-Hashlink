@@ -4,6 +4,13 @@ import urho3d.Component.AbstractComponent;
 
 typedef HL_URHO3D_RIGID_BODY = hl.Abstract<"hl_urho3d_physics_rigid_body">;
 
+enum abstract CollisionEventMode(Int) from Int to Int
+{
+    var COLLISION_NEVER = 0;
+    var COLLISION_ACTIVE;
+    var COLLISION_ALWAYS;
+}
+
 class RigidBody extends Component {
 	private var _abstract:AbstractRigidBody = null;
 
@@ -73,6 +80,7 @@ class RigidBody extends Component {
 	}
 
 	public var linearDamping(get, set):Float;
+
 	function set_linearDamping(m) {
 		AbstractRigidBody.SetLinearDamping(Context.context, _abstract, m);
 		return m;
@@ -83,6 +91,7 @@ class RigidBody extends Component {
 	}
 
 	public var angularDamping(get, set):Float;
+
 	function set_angularDamping(m) {
 		AbstractRigidBody.SetAngularDamping(Context.context, _abstract, m);
 		return m;
@@ -104,6 +113,7 @@ class RigidBody extends Component {
 	}
 
 	public var angularRestThreshold(get, set):Float;
+
 	function set_angularRestThreshold(m) {
 		AbstractRigidBody.SetAngularRestThreshold(Context.context, _abstract, m);
 		return m;
@@ -113,8 +123,8 @@ class RigidBody extends Component {
 		return AbstractRigidBody.GetAngularRestThreshold(Context.context, _abstract);
 	}
 
+	public var collisionLayer(get, set):Int;
 
-	public var collisionLayer(get,set):Int;
 	function set_collisionLayer(m) {
 		AbstractRigidBody.SetCollisionLayer(Context.context, _abstract, m);
 		return m;
@@ -124,7 +134,8 @@ class RigidBody extends Component {
 		return AbstractRigidBody.GetCollisionLayer(Context.context, _abstract);
 	}
 
-	public var collisionMask(get,set):Int;
+	public var collisionMask(get, set):Int;
+
 	function set_collisionMask(m) {
 		AbstractRigidBody.SetCollisionMask(Context.context, _abstract, m);
 		return m;
@@ -133,8 +144,34 @@ class RigidBody extends Component {
 	function get_collisionMask() {
 		return AbstractRigidBody.GetCollisionMask(Context.context, _abstract);
 	}
-  
 
+	public inline function ApplyImpulse(impulse:TVector3, ?position:TVector3) {
+		if(position == null)position = new TVector3();
+		AbstractRigidBody.ApplyImpulse(Context.context, _abstract, impulse, position);
+	}
+
+	public var angularFactor(get, set):TVector3;
+
+	function set_angularFactor(v) {
+		AbstractRigidBody.SetAngularFactor(Context.context, _abstract, v);
+		return v;
+	}
+
+	function get_angularFactor() {
+		return AbstractRigidBody.GetAngularFactor(Context.context, _abstract);
+	}
+
+	//
+	public var collisionEventMode(get, set):CollisionEventMode;
+
+	function set_collisionEventMode(m) {
+		AbstractRigidBody.SetCollisionEventMode(Context.context, _abstract, m);
+		return m;
+	}
+
+	function get_collisionEventMode() {
+		return AbstractRigidBody.GetCollisionEventMode(Context.context, _abstract);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -198,7 +235,6 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 		return false;
 	}
 
-
 	@:hlNative("Urho3D", "_physics_rigid_body_set_linear_dumping")
 	public static function SetLinearDamping(c:Context, s:AbstractRigidBody, m:Single):Void {}
 
@@ -214,7 +250,6 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 	public static function GetLinearRestThreshold(c:Context, s:AbstractRigidBody):Single {
 		return 0.0;
 	}
-
 
 	@:hlNative("Urho3D", "_physics_rigid_body_set_angular_dumping")
 	public static function SetAngularDamping(c:Context, s:AbstractRigidBody, m:Single):Void {}
@@ -240,7 +275,6 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 		return 0;
 	}
 
-
 	@:hlNative("Urho3D", "_physics_rigid_body_set_collision_mask")
 	public static function SetCollisionMask(c:Context, s:AbstractRigidBody, m:Int):Void {}
 
@@ -250,4 +284,23 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 	}
 
 
+	@:hlNative("Urho3D", "_physics_rigid_body_set_angular_factor")
+	public static function SetAngularFactor(c:Context, s:AbstractRigidBody, v:TVector3):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_angular_factor")
+	public static function GetAngularFactor(c:Context, s:AbstractRigidBody):TVector3 {
+		return null;
+	}
+
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_collision_event_mode")
+	public static function SetCollisionEventMode(c:Context, s:AbstractRigidBody, m:Int):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_collision_event_mode")
+	public static function GetCollisionEventMode(c:Context, s:AbstractRigidBody):Int {
+		return 0;
+	}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_apply_impulse")
+	public static function ApplyImpulse(c:Context, s:AbstractRigidBody, impulse:TVector3, position:TVector3):Void {}
 }

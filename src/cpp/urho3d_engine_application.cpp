@@ -384,7 +384,7 @@ public:
     /*=================================================================================================================*/
     /*=================================================================================================================*/
     /*=================================================================================================================*/
-protected:
+public:
     /// Logo sprite.
     SharedPtr<Sprite> logoSprite_;
     /// Scene.
@@ -506,6 +506,18 @@ HL_PRIM void HL_NAME(_application_subscribe_to_event_sender)(hl_urho3d_applicati
         proxyApp->subscribeToEvent(object,stringhash, dyn_obj, str);
     }
 }
+
+HL_PRIM bool HL_NAME(_application_is_touch_enabled)(hl_urho3d_application *app)
+{
+    Urho3D::Application *ptr_app = app->ptr;
+    if (ptr_app)
+    {
+        ProxyApp *proxyApp = (ProxyApp *)ptr_app;
+        return proxyApp->touchEnabled_;  
+    }
+    return false;
+}
+DEFINE_PRIM(_BOOL, _application_is_touch_enabled, HL_URHO3D_APPLICATION);
 
 DEFINE_PRIM(HL_URHO3D_APPLICATION, _create_application, URHO3D_CONTEXT);
 DEFINE_PRIM(_VOID, _run_application, HL_URHO3D_APPLICATION);

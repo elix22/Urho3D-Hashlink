@@ -84,6 +84,12 @@ class AnimatedModel extends Component {
 	public function GetAnimationState(i:Int):AnimationState {
 		return AbstractAnimatedModel.GetAnimationState(Context.context, _abstract, i);
 	}
+
+	public var skeleton(get,never):Skeleton;
+
+	public function get_skeleton():Skeleton {
+		return AbstractAnimatedModel.GetSkeleton(Context.context, _abstract);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -170,5 +176,10 @@ abstract AbstractAnimatedModel(HL_URHO3D_ANIMATEDMODEL) {
 	@:hlNative("Urho3D", "_graphics_animatedmodel_get_update_invisible")
 	public static function GetUpdateInvisible(c:Context, s:AbstractAnimatedModel):Bool {
 		return false;
+	}
+
+	@:hlNative("Urho3D", "_graphics_animatedmodel_get_skeleton")
+	public static function GetSkeleton(c:Context, s:AbstractAnimatedModel):Skeleton {
+		return null;
 	}
 }

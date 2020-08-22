@@ -337,6 +337,12 @@ HL_PRIM void HL_NAME(_scene_node_roll)(urho3d_context *context, hl_urho3d_scene_
     this_node->ptr->Roll(angle, (TransformSpace)space);
 }
 
+//bool LookAt(const Vector3& target, const Vector3& up = Vector3::UP, TransformSpace space = TS_WORLD);
+HL_PRIM bool HL_NAME(_scene_node_look_at)(urho3d_context *context, hl_urho3d_scene_node *this_node, Urho3D::Vector3 *target,Urho3D::Vector3 *up, int space)
+{
+    return this_node->ptr->LookAt(*target,*up, (TransformSpace)space);
+}
+
 /*
 typedef PODVector<Node *> hl_urho3d_scene_pod_node;
 #define HL_URHO3D_POD_NODE _ABSTRACT(hl_urho3d_scene_pod_node)
@@ -424,3 +430,6 @@ DEFINE_PRIM(_VOID, _scene_node_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_NODE
 DEFINE_PRIM(_VOID, _scene_node_subscribe_to_event_sender, URHO3D_CONTEXT HL_URHO3D_OBJECT HL_URHO3D_NODE HL_URHO3D_STRINGHASH _DYN _STRING);
 
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_child, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);
+
+
+DEFINE_PRIM(_BOOL, _scene_node_look_at, URHO3D_CONTEXT HL_URHO3D_NODE  HL_URHO3D_TVECTOR3 HL_URHO3D_TVECTOR3 _I32);

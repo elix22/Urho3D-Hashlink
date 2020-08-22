@@ -13,10 +13,11 @@ import urho3d.CollisionShape.AbstractCollisionShape;
 import urho3d.Skybox.AbstractSkybox;
 import urho3d.Constraint.AbstractConstraint;
 import urho3d.AnimationController.AbstractAnimationController;
+import urho3d.LogicComponent.AbstractLogicComponent;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 
-class Component {
+class Component  {
 	private var _node:Node = null;
 
 	public var node(get, set):Node;
@@ -175,10 +176,23 @@ class Component {
 			return null;
 		}
 	}
+
+	@:to
+	public inline function toLogicComponent():LogicComponent {
+		if (this != null) {
+			var abstract_ = AbstractLogicComponent.CastFromComponent(Context.context, abstractComponent);
+			if (abstract_ != null)
+				return new LogicComponent(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
 }
 
 @:hlNative("Urho3D")
-abstract AbstractComponent(HL_URHO3D_COMPONENT) {
+abstract AbstractComponent(HL_URHO3D_COMPONENT)  from Dynamic{
 	public inline function new() {
 		this = Create(Context.context);
 	}
@@ -351,6 +365,28 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) {
 				return new AnimationController(abstract_);
 			else
 				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toLogicComponent():LogicComponent {
+		if (this != null) {
+			var abstract_ = AbstractLogicComponent.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new LogicComponent(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	@:to
+	public inline function toAbstractLogicComponent():AbstractLogicComponent {
+		if (this != null) {
+			return AbstractLogicComponent.CastFromComponent(Context.context, cast this);
 		} else {
 			return null;
 		}

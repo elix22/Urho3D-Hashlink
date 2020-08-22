@@ -150,7 +150,30 @@ abstract TVariant(URHO3D_TVARIANT) {
 		return null;
 	}
 
+
+	@:to
+	public inline function GetTIntVectorBuffer():TVectorBuffer {
+		return _getTVectorBuffer(cast this);
+	}
+
+	@:hlNative("Urho3D", "_t_variant_get_vector_buffer")
+	private static function _getTVectorBuffer(variant:TVariant):TVectorBuffer {
+		return null;
+	}
 	/////////////////////////////////////////////////////////////////
+
+
+	@:from
+	public static inline function fromTVectorBuffer(m:TVectorBuffer):TVariant {
+		// trace("variant from Vector2");
+		var v = new TVariant();
+		TVariant._setTVectorBuffer(v, m);
+		return v;
+	}
+
+	@:hlNative("Urho3D", "_t_variant_set_vector_buffer")
+	private static function _setTVectorBuffer(variant:TVariant, t:TVectorBuffer):Void {}
+
 
 	@:from
 	public static inline function fromObject(m:Object):TVariant {

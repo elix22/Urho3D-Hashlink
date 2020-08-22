@@ -20,6 +20,13 @@ Urho3D::Quaternion *hl_alloc_urho3d_math_tquaternion(float x, float y, float z)
     return v;
 }
 
+Urho3D::Quaternion *hl_alloc_urho3d_math_tquaternion(float x, Vector3 & v3)
+{
+    Urho3D::Quaternion *v = &(tquaternion_stack[(++index_tquaternion_stack) % TQUATERNION_STACK_SIZE]);
+    *v = Quaternion(x, v3);
+    return v;
+}
+
 hl_urho3d_math_tquaternion *hl_alloc_urho3d_math_tquaternion(const Urho3D::Quaternion &rhs)
 {
     Urho3D::Quaternion *v = &(tquaternion_stack[(++index_tquaternion_stack) % TQUATERNION_STACK_SIZE]);
@@ -32,6 +39,12 @@ HL_PRIM hl_urho3d_math_tquaternion *HL_NAME(_math_tquaternion_create)(float x, f
 {
     return hl_alloc_urho3d_math_tquaternion(x, y, z);
 }
+
+HL_PRIM hl_urho3d_math_tquaternion *HL_NAME(_math_tquaternion_create_fv)(float x, Vector3 *v)
+{
+    return hl_alloc_urho3d_math_tquaternion(x, *v);
+}
+
 
 HL_PRIM hl_urho3d_math_tquaternion * HL_NAME(_math_tquaternion_cast_from_quaternion)(hl_urho3d_math_quaternion *hv)
 {
@@ -68,8 +81,15 @@ HL_PRIM  Urho3D::Vector3 * HL_NAME(_math_tquaternion_multiply_tvector3)(Urho3D::
     return  hl_alloc_urho3d_math_tvector3(*q * (*v));
 }
 
+HL_PRIM  Urho3D::Quaternion * HL_NAME(_math_tquaternion_multiply_tquaternion)(Urho3D::Quaternion *q , Urho3D::Quaternion * v)
+{
+    return  hl_alloc_urho3d_math_tquaternion(*q * (*v));
+}
+
 DEFINE_PRIM(HL_URHO3D_TQUATERNION, _math_tquaternion_create, _F32 _F32 _F32);
+DEFINE_PRIM(HL_URHO3D_TQUATERNION, _math_tquaternion_create_fv, _F32 HL_URHO3D_TVECTOR3);
 DEFINE_PRIM(HL_URHO3D_TQUATERNION, _math_tquaternion_cast_from_quaternion, HL_URHO3D_QUATERNION);
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _math_tquaternion_cast_to_quaternion, HL_URHO3D_TQUATERNION);
 
 DEFINE_PRIM(HL_URHO3D_TVECTOR3, _math_tquaternion_multiply_tvector3, HL_URHO3D_TQUATERNION HL_URHO3D_TVECTOR3);
+DEFINE_PRIM(HL_URHO3D_TQUATERNION, _math_tquaternion_multiply_tquaternion, HL_URHO3D_TQUATERNION HL_URHO3D_TQUATERNION);

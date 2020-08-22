@@ -13,6 +13,7 @@
 #define TSTRINGHASH_STACK_SIZE 10000
 #define TVARIANTMAP_STACK_SIZE 10000
 #define TOUCHSTATE_STACK_SIZE 100
+#define T_VECTOR_BUFFER_STACK_SIZE 1000
 
 typedef void (*hl_finalizer)(void *v);
 
@@ -556,6 +557,14 @@ hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(urho3
 hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(Urho3D::RenderSurface*);
 
 
+
+typedef Urho3D::Bone *  hl_urho3d_graphics_bone;
+#define HL_URHO3D_BONE _ABSTRACT(hl_urho3d_graphics_bone)
+
+typedef Urho3D::Skeleton *  hl_urho3d_graphics_skeleton;
+#define HL_URHO3D_SKELETON _ABSTRACT(hl_urho3d_graphics_skeleton)
+
+
 typedef struct hl_urho3d_graphics_skybox
 {
     void *finalizer;
@@ -641,9 +650,27 @@ typedef struct hl_urho3d_io_file
     SharedPtr<Urho3D::File> ptr;
     vdynamic *dyn_obj;
 } hl_urho3d_io_file;
-
 #define HL_URHO3D_FILE _ABSTRACT(hl_urho3d_io_file)
 
+
+
+typedef struct hl_urho3d_io_vector_buffer
+{
+    void *finalizer;
+    int hash;
+    Urho3D::VectorBuffer * ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_io_vector_buffer;
+hl_urho3d_io_vector_buffer *hl_alloc_urho3d_io_vector_buffer();
+hl_urho3d_io_vector_buffer *hl_alloc_urho3d_io_vector_buffer(Urho3D::VectorBuffer*);
+#define HL_URHO3D_VECTOR_BUFFER _ABSTRACT(hl_urho3d_io_vector_buffer)
+
+typedef Urho3D::VectorBuffer *  hl_urho3d_io_t_vector_buffer;
+#define HL_URHO3D_T_VECTOR_BUFFER _ABSTRACT(hl_urho3d_io_t_vector_buffer)
+Urho3D::VectorBuffer *hl_alloc_urho3d_io_t_vector_buffer(Urho3D::VectorBuffer & vb);
+
+typedef Urho3D::MemoryBuffer *  hl_urho3d_io_memory_buffer;
+#define HL_URHO3D_MEMORY_BUFFER _ABSTRACT(hl_urho3d_io_memory_buffer)
 
 //Constraint
 typedef struct hl_urho3d_physics_constraint

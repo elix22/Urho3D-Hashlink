@@ -55,6 +55,8 @@ abstract KeyPress(Int) {
 
 class Input {
 	public static var mouseMove(get, never):StructIntVector2;
+	public static var mouseMoveX(get, never):Int;
+	public static var mouseMoveY(get, never):Int;
 	public static var numTouches(get, never):Int;
 
 	public static var keyDown:KeyDown;
@@ -70,6 +72,14 @@ class Input {
 
 	private static function get_mouseMove() {
 		return {x: GetMouseMoveX(Context.context), y: GetMouseMoveY(Context.context)};
+	}
+
+	private static function get_mouseMoveX() {
+		return GetMouseMoveX(Context.context);
+	}
+
+	private static function get_mouseMoveY() {
+		return GetMouseMoveY(Context.context);
 	}
 
 	private static function get_numTouches() {

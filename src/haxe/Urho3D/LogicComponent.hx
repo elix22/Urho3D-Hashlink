@@ -35,7 +35,7 @@ class LogicComponent extends Component {
 	}
 
 	@:keep
-	public inline function new(?rhs:AbstractLogicComponent) {
+	public inline function new(?rhs:Dynamic) {
 		if (rhs != null) {
 			abstractLogicComponent = rhs;
 		} else {
@@ -186,6 +186,20 @@ class LogicComponent extends Component {
 abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
 	public inline function new(d:Dynamic, className:String) {
 		this = Create(Context.context, d, className);
+	}
+
+	@:to
+	public inline function toLogicComponent():LogicComponent {
+		if (this != null) {
+			return new LogicComponent(cast this);
+		} else {
+			return null;
+		}
+	}
+
+	@:from
+	public static inline function fromAbstractComponent(m:AbstractComponent):AbstractLogicComponent {
+		return m;
 	}
 
 	@:hlNative("Urho3D", "_scene_logic_component_create")
