@@ -52,6 +52,7 @@ class Node {
 			Scene.currentScene.nodes.push(this);
 	}
 
+	@:keep
 	public function CleanChildData() {
 		for (child in children) {
 			child.CleanChildData();
@@ -136,6 +137,7 @@ class Node {
 		return comp;
 	}
 
+	@:keep
 	public function GetLogicComponent(type:Dynamic, recursive:Bool = true):Dynamic {
 		var typeStr = Std.string(type).split("$").join("");
 

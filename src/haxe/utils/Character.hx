@@ -19,12 +19,6 @@ class Character extends LogicComponent {
 	final YAW_SENSITIVITY = 0.1;
 	final INAIR_THRESHOLD_TIME = 0.1;
 
-	 var testVar:Int = 456;
-	 var testVarSingle:Single = 567.034;
-	 var test3:hl.UI8 = 45;
-	 var test4:hl.UI16;
-	 var test5:Float;
-
 	// Character controls.
 	public var controls:Controls = new Controls();
 	// Grounded flag for movement.
