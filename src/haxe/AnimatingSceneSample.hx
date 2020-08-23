@@ -54,9 +54,11 @@ class AnimatingSceneSample extends Application {
 		var camera:Camera = cameraNode.CreateComponent("Camera");
 		camera.farClip = 100.0;
 
+		
 		var light:Light = cameraNode.CreateComponent("Light");
 		light.lightType = LIGHT_POINT;
 		light.range = 100.0;
+		
 	}
 
 	public function SetupViewport() {
@@ -120,16 +122,28 @@ class AnimatingSceneSample extends Application {
 		MoveCamera(step);
 
 		/*
-			counter++;
-			if ((counter % 1000 == 0)) {
+		counter++;
+		if ((counter % 1000 == 0)) {
+			if (reload() == true) {
 				trace("create scene");
 				CreateScene();
 				SetupViewport();
 			}
-		 */
+		}
+		*/
 	}
+
 	/*
-		@:hlNative("std","sys_check_reload")
-		static function check_reload() return false;
-	 */
+	static function reload():Bool {
+		var is_reload = check_reload();
+		// Sys.sleep(1); // make sure timestamp is different
+		Sys.command("haxe", ["-cp", "src/haxe", "-hl", "main.hl", "-main", "Main"]);
+		Sys.println(is_reload ? "Module Reloaded" : "Module not reloaded");
+		return is_reload;
+	}
+
+	@:hlNative("std", "sys_check_reload")
+	static function check_reload()
+		return false;
+	*/
 }

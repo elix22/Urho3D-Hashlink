@@ -246,7 +246,6 @@ class CharacterDemoSample extends Application {
 		var rayDir = dir * Vector3.BACK; // For indoor scenes you can use dir * Vector3(0.0, 0.0, -0.5) to prevent camera from crossing the walls
 		var rayDistance = cameraDistance;
 
-	
 		var result:PhysicsRaycastResult = scene.physicsWorld.RaycastSingle(new TRay(aimPoint, rayDir), rayDistance, 2);
 		if (result.body != null)
 			rayDistance = Math.min(rayDistance, result.distance);
@@ -261,17 +260,21 @@ class CharacterDemoSample extends Application {
 			return;
 
 		var character:Character = characterNode.GetLogicComponent(Character);
-		if (character == null)
+	//	trace(character);
+		if (character == null) {
 			return;
+		}
 
 		// Clear previous controls
 		character.controls.Set(CTRL_FORWARD | CTRL_BACK | CTRL_LEFT | CTRL_RIGHT | CTRL_JUMP, false);
 
 		// if (IsTouchEnabled() /*|| !useGyroscope*/) {
+
 		character.controls.Set(CTRL_FORWARD, Input.GetKeyDown(KEY_W));
 		character.controls.Set(CTRL_BACK, Input.GetKeyDown(KEY_S));
 		character.controls.Set(CTRL_LEFT, Input.GetKeyDown(KEY_A));
 		character.controls.Set(CTRL_RIGHT, Input.GetKeyDown(KEY_D));
+
 		// }
 
 		character.controls.Set(CTRL_JUMP, Input.GetKeyDown(KEY_SPACE));
@@ -283,5 +286,17 @@ class CharacterDemoSample extends Application {
 		character.controls.pitch = Clamp(character.controls.pitch, -80.0, 80.0);
 		// Set rotation already here so that it's updated every rendering frame instead of every physics frame
 		characterNode.rotation = new TQuaternion(character.controls.yaw, Vector3.UP);
+
+		// Check for loading / saving the scene
+		if (Input.GetKeyPress(KEY_F5)) {
+			var saved = scene.SaveXML("CharacterDemo.xml");
+			trace("SaveXML = " + saved);
+		}
+		if (Input.GetKeyPress(KEY_F7)) {
+			scene.LoadXML("CharacterDemo.xml");
+			// After loading we have to reacquire the character scene node, as it has been recreated
+			// Simply find by name as there's only one of them
+			characterNode = scene.GetChild("Jack", true);
+		}
 	}
 }

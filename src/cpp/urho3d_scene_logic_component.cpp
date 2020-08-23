@@ -14,7 +14,6 @@ extern "C"
 #include <locale>
 #include <codecvt>
 
-
 //static int counter = 0;
 static int hl_hash_start = 0;
 static int hl_hash_delayed_start = 0;
@@ -52,6 +51,13 @@ static bool IsAbstractType(vdynamic *dyn_field, const char *type)
     return false;
 }
 
+static vbyte *HLCreateVBString(String value)
+{
+    hl_buffer *b = hl_alloc_buffer();
+    hl_buffer_str(b, (uchar *)(hl_to_utf16(value.CString())));
+    return (vbyte *)hl_buffer_content(b, NULL);
+}
+
 class HashLinkLogicComponent : public LogicComponent
 {
     URHO3D_OBJECT(HashLinkLogicComponent, LogicComponent);
@@ -69,7 +75,10 @@ public:
         this->_className = className;
     }
 
-    const String &GetClassName() const { return _className; }
+    const String &GetClassName() const
+    {
+        return _className;
+    }
 
     HashLinkLogicComponent(Context *context, vdynamic *dyn = NULL, String className = "") : LogicComponent(context)
     {
@@ -229,13 +238,6 @@ public:
         }
     }
 
-    vbyte *CreateString(String value)
-    {
-        hl_buffer *b = hl_alloc_buffer();
-        hl_buffer_str(b, (uchar *)(hl_to_utf16(value.CString())));
-        return (vbyte *)hl_buffer_content(b, NULL);
-    }
-
     /// Load from XML data. Return true if successful.
     virtual bool LoadXML(const XMLElement &source)
     {
@@ -260,6 +262,8 @@ public:
             String value = attrElem.GetAttribute("value");
             if (name == String("Class Name"))
             {
+                this->_className = value;
+
                 if (dyn_node != NULL)
                 {
                     vclosure *closure = (vclosure *)hl_dyn_getp(dyn_node, hl_hash_utf8("CreateHashLinkLogicComponent"), &hlt_dyn);
@@ -271,7 +275,7 @@ public:
 
                         vdynamic arg_vbyte_name;
                         arg_vbyte_name.t = &hlt_bytes;
-                        arg_vbyte_name.v.bytes = CreateString(value);
+                        arg_vbyte_name.v.bytes = HLCreateVBString(value);
 
                         vdynamic *args[2];
                         args[0] = arg_dyn_abstract;
@@ -282,6 +286,7 @@ public:
                             this->dyn_obj = dyn_component;
                             hashlink_logic_component->dyn_obj = dyn_component;
                             hl_add_root(&dyn_obj);
+                            Start();
                         }
                     }
                 }
@@ -323,6 +328,49 @@ public:
                                 *(hl_urho3d_obj->ptr) = var;
                             }
                         }
+                        else if (HUI8 == dyn_field->t->kind)
+                        {
+                            int var = attrElem.GetVariantValue(VariantType::VAR_INT).GetInt();
+                            dyn_field->v.ui8 = var;
+                          //  printf("%s %d %d %d \n", __FUNCTION__, __LINE__, var, dyn_field->v.ui8);
+                        }
+                        else if (HUI16 == dyn_field->t->kind)
+                        {
+                            int var = attrElem.GetVariantValue(VariantType::VAR_INT).GetInt();
+                            dyn_field->v.ui16 = var;
+                           // printf("%s %d %d %d \n", __FUNCTION__, __LINE__, var, dyn_field->v.ui16);
+                        }
+                        else if (HI32 == dyn_field->t->kind)
+                        {
+                            int var = attrElem.GetVariantValue(VariantType::VAR_INT).GetInt();
+                            dyn_field->v.i = var;
+                          //  printf("%s %d %s %d %d \n", __FUNCTION__, __LINE__, name.CString(), var, dyn_field->v.i);
+                        }
+                        else if (HI64 == dyn_field->t->kind)
+                        {
+                            dyn_field->v.i64 = attrElem.GetVariantValue(VariantType::VAR_INT).GetInt64();
+                          //  printf("%s %d %s %ld \n", __FUNCTION__, __LINE__, name.CString(), dyn_field->v.i64);
+                        }
+                        else if (HF32 == dyn_field->t->kind)
+                        {
+                            float var = attrElem.GetVariantValue(VariantType::VAR_FLOAT).GetFloat();
+                            dyn_field->v.f = var;
+                         //   printf("%s %d %s %f %f \n", __FUNCTION__, __LINE__, name.CString(), var, dyn_field->v.f);
+                        }
+                        else if (HF64 == dyn_field->t->kind)
+                        {
+                            double var = attrElem.GetVariantValue(VariantType::VAR_DOUBLE).GetDouble();
+                            dyn_field->v.d = var;
+                         //   printf("%s %d %s %f %f \n", __FUNCTION__, __LINE__, name.CString(), var, dyn_field->v.d);
+                        }
+                        /*
+                        else if (HBOOL == dyn_field->t->kind)
+                        {
+                            bool var = attrElem.GetVariantValue(VariantType::VAR_BOOL).GetBool();
+                            dyn_field->v.i = var;
+                             printf("%s %d %s %d %d \n",__FUNCTION__,__LINE__,name.CString(),var,dyn_field->v.i);
+                        }
+                        */
                     }
                 }
             }
@@ -339,9 +387,11 @@ public:
     /// Save as XML data. Return true if successful.
     virtual bool SaveXML(XMLElement &dest) const
     {
+        //   printf("%s %d \n", __FUNCTION__, __LINE__);
         if (dyn_obj == NULL)
             return true;
 
+        //   printf("%s %d \n", __FUNCTION__, __LINE__);
         LogicComponent::SaveXML(dest);
 
         std::vector<const uchar *> result;
@@ -361,6 +411,7 @@ public:
 
             if (dyn_field != NULL)
             {
+                //      printf("%s %d %s %d \n", __FUNCTION__, __LINE__, name, dyn_field->t->kind);
                 if (HABSTRACT == dyn_field->t->kind && dyn_field->v.ptr != NULL && ((hl_urho3d_structure *)dyn_field->v.ptr)->hash != 0)
                 {
                     if (IsAbstractType(dyn_field, "hl_urho3d_math_vector2"))
@@ -399,10 +450,55 @@ public:
                         attrElem.SetVariantValue(*(hl_urho3d_obj->ptr));
                     }
                 }
+                else if (HUI8 == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.ui8));
+                }
+                else if (HUI16 == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.ui16));
+                }
+                else if (HI32 == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.i));
+                }
+                else if (HI64 == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.i64));
+                }
+                else if (HF32 == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.f));
+                }
+                else if (HF64 == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.d));
+                }
+                /* TBD ELI ,casuing crash during loading
+                else if (HBOOL == dyn_field->t->kind)
+                {
+                    XMLElement attrElem = dest.CreateChild("attribute");
+                    attrElem.SetAttribute("name", name);
+                    attrElem.SetVariantValue((dyn_field->v.b));
+                }
+                */
             }
         }
 
     done:
+        // printf("%s %d \n", __FUNCTION__, __LINE__);
         return true;
     }
 
@@ -609,6 +705,23 @@ public:
     hl_field_lookup *dyn_obj_field_fixed_post_update;
 };
 
+vdynamic *GetDynamicHashLinkLogicComponent(Node *node, const char *type, bool recursive)
+{
+
+    PODVector<Component *> components;
+    node->GetComponents(components, "HashLinkLogicComponent", recursive);
+    for (PODVector<Component *>::Iterator component = components.Begin(); component != components.End(); ++component)
+    {
+        HashLinkLogicComponent *logic_comp = dynamic_cast<HashLinkLogicComponent *>(*component);
+        if (logic_comp && logic_comp->GetClassName() == String(type))
+        {
+            //    printf("GetDynamicHashLinkLogicComponent dyn_obj:%p \n", logic_comp->dyn_obj);
+            return logic_comp->dyn_obj;
+        }
+    }
+    return NULL;
+}
+
 void finalize_urho3d_scene_logic_component(void *v)
 {
 
@@ -711,12 +824,27 @@ HL_PRIM int HL_NAME(_scene_logic_component_get_update_event_mask)(urho3d_context
     return component->ptr->GetUpdateEventMask().AsInteger();
 }
 
+HL_PRIM vbyte *HL_NAME(_scene_logic_component_get_class_name)(urho3d_context *context, hl_urho3d_scene_logic_component *component)
+{
+    HashLinkLogicComponent *logicComp = dynamic_cast<HashLinkLogicComponent *>(component->ptr.Get());
+    if (logicComp != NULL)
+    {
+        return HLCreateVBString(logicComp->GetClassName());
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
 DEFINE_PRIM(_VOID, _scene_logic_component_register_object, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_LOGIC_COMPONENT, _scene_logic_component_create, URHO3D_CONTEXT _DYN _STRING);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_logic_component_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT);
 DEFINE_PRIM(HL_URHO3D_LOGIC_COMPONENT, _scene_logic_component_cast_from_component, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
 DEFINE_PRIM(_VOID, _scene_logic_component_set_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT _I32);
 DEFINE_PRIM(_I32, _scene_logic_component_get_update_event_mask, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT);
+
+DEFINE_PRIM(_BYTES, _scene_logic_component_get_class_name, URHO3D_CONTEXT HL_URHO3D_LOGIC_COMPONENT);
 
 /*
                                 vclosure *closure = (vclosure *)hl_dyn_getp(dyn_obj, hl_hash_utf8("CreateVector3"), &hlt_dyn);

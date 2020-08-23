@@ -1,5 +1,6 @@
 package urho3d;
 
+import hl.Bytes;
 import urho3d.AbstractApplication.Dyn;
 import urho3d.Scene.AbstractScene;
 import urho3d.Node.AbstractNode;
@@ -45,12 +46,15 @@ class LogicComponent extends Component {
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
 	}
 
-	
+	public function GetClassName():HString {
+		var name = AbstractLogicComponent._GetClassName(Context.context, abstractLogicComponent);
+		return name;
+	}
+
 	@:keep public function GetFields() {
 		return Reflect.fields(this);
 	}
 
-	
 	@:keep public inline function GetField(name:HString):Dynamic {
 		return Reflect.field(this, name);
 	}
@@ -197,6 +201,11 @@ abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
 		}
 	}
 
+	public function GetClassName():HString {
+		var name = _GetClassName(Context.context, cast this);
+		return name;
+	}
+
 	@:from
 	public static inline function fromAbstractComponent(m:AbstractComponent):AbstractLogicComponent {
 		return m;
@@ -227,6 +236,11 @@ abstract AbstractLogicComponent(HL_URHO3D_LOGIC_COMPONENT) {
 	@:hlNative("Urho3D", "_scene_logic_component_get_update_event_mask")
 	public static function GetUpdateEventMask(c:Context, s:AbstractLogicComponent):Int {
 		return 0;
+	}
+
+	@:hlNative("Urho3D", "_scene_logic_component_get_class_name")
+	public static function _GetClassName(c:Context, s:AbstractLogicComponent):hl.Bytes {
+		return null;
 	}
 
 	@:hlNative("Urho3D", "_scene_logic_component_register_object")

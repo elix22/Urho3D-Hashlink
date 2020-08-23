@@ -35,7 +35,7 @@ class Scene extends Node {
 	}
 
 	public inline function LoadXML(?p:String):Bool {
-		nodes = [];
+		CleanChildData();
 		if (p != null) {
 			return AbstractScene.LoadXMLString(Context.context, abstractScene, p);
 		} else

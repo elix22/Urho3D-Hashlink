@@ -19,6 +19,7 @@
 
 typedef void (*hl_finalizer)(void *v);
 
+vdynamic *GetDynamicHashLinkLogicComponent(Node *node, const char *type, bool recursive=true);
 
 class HL_Urho3DEventHandler : public Object
 {

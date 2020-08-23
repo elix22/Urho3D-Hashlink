@@ -1,7 +1,9 @@
 package utils;
 
 import urho3d.*;
-
+import urho3d.Controls;
+import Type;
+import Reflect;
 
 class Character extends LogicComponent {
 	final CTRL_FORWARD = 1;
@@ -17,6 +19,12 @@ class Character extends LogicComponent {
 	final YAW_SENSITIVITY = 0.1;
 	final INAIR_THRESHOLD_TIME = 0.1;
 
+	 var testVar:Int = 456;
+	 var testVarSingle:Single = 567.034;
+	 var test3:hl.UI8 = 45;
+	 var test4:hl.UI16;
+	 var test5:Float;
+
 	// Character controls.
 	public var controls:Controls = new Controls();
 	// Grounded flag for movement.
@@ -31,8 +39,12 @@ class Character extends LogicComponent {
 	}
 
 	public override function Start() {
+	//	trace("Start");
 		this.updateEventMask = USE_FIXEDUPDATE;
 		SubscribeToEvent(node, "NodeCollision", "HandleNodeCollision");
+	}
+	public override function DelayedStart() {
+	//	trace("DelayedStart");
 	}
 
 	public override function FixedUpdate(timeStep:Float) {
