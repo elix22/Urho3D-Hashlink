@@ -11,13 +11,6 @@ extern "C"
 
 #include "global_types.inc"
 
-/*
-typedef Urho3D::PhysicsRaycastResult *  hl_urho3d_physics_raycast_result;
-#define HL_URHO3D_PHYSICS_RAYCAST_RESULT _ABSTRACT(hl_urho3d_physics_raycast_result)
-
-typedef Urho3D::PhysicsWorld *  hl_urho3d_physics_physics_world;
-#define HL_URHO3D_PHYSICS_WORLD _ABSTRACT(hl_urho3d_physics_physics_world)
-*/
 
 #define PHYSICS_RAYCAST_RESULT_STACK_SIZE 50
 static Urho3D::PhysicsRaycastResult physics_racast_result_stack[PHYSICS_RAYCAST_RESULT_STACK_SIZE] = {Urho3D::PhysicsRaycastResult()};

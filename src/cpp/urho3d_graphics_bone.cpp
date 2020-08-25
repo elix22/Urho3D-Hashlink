@@ -11,14 +11,6 @@ extern "C"
 #include "global_types.inc"
 
 
-/*
-
-typedef Urho3D::Bone *  hl_urho3d_graphics_bone;
-#define HL_URHO3D_BONE _ABSTRACT(hl_urho3d_graphics_bone)
-
-typedef Urho3D::Skeleton *  hl_urho3d_graphics_skeleton;
-#define HL_URHO3D_SKELETON _ABSTRACT(hl_urho3d_graphics_skeleton)
-*/
 
 HL_PRIM void HL_NAME(_graphics_bone_set_animated)(urho3d_context *context, Urho3D::Bone * bone, bool animated )
 {

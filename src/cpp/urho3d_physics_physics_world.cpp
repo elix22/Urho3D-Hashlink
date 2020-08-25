@@ -11,14 +11,6 @@ extern "C"
 
 #include "global_types.inc"
 
-/*
-typedef Urho3D::PhysicsRaycastResult *  hl_urho3d_physics_raycast_result;
-#define HL_URHO3D_PHYSICS_RAYCAST_RESULT _ABSTRACT(hl_urho3d_physics_raycast_result)
-
-typedef Urho3D::PhysicsWorld *  hl_urho3d_physics_physics_world;
-#define HL_URHO3D_PHYSICS_WORLD _ABSTRACT(hl_urho3d_physics_physics_world)
-*/
-
 
 HL_PRIM Urho3D::PhysicsRaycastResult *HL_NAME(_physics_physics_world_raycast_single)(urho3d_context *context, Urho3D::PhysicsWorld *world, Urho3D::Ray *ray, float maxDistance, int collisionMask)
 {

@@ -12,6 +12,7 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 
 	@:keep
 	public function Run() {
+		AbstractApplication.InitializeHashLink(cast this);
 		RunApplication(this);
 	}
 
@@ -69,4 +70,8 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 
 	@:hlNative("Urho3D", "_application_is_touch_enabled")
 	private static function _IsTouchEnabled(a:HL_URHO3D_APPLICATION):Bool {return false;}
+
+
+	@:hlNative("Urho3D", "_application_initialize_hashlink")
+	public static function InitializeHashLink(a:HL_URHO3D_APPLICATION):Void {}
 }

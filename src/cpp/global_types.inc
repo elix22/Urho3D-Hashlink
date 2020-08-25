@@ -401,7 +401,7 @@ hl_urho3d_graphics_animation_state *hl_alloc_urho3d_graphics_animation_state(urh
 hl_urho3d_graphics_animation_state *hl_alloc_urho3d_graphics_animation_state(AnimationState *animtionState);
 */
 
-typedef Urho3D::AnimationState*  hl_urho3d_graphics_tanimation_state;
+typedef Urho3D::AnimationState  hl_urho3d_graphics_tanimation_state;
 #define HL_URHO3D_TANIMATION_STATE _ABSTRACT(hl_urho3d_graphics_tanimation_state)
 hl_urho3d_graphics_tanimation_state *hl_alloc_urho3d_graphics_tanimation_state(AnimationState *animtionState);
 
@@ -566,10 +566,10 @@ hl_urho3d_graphics_render_surface *hl_alloc_urho3d_graphics_render_surface(Urho3
 
 
 
-typedef Urho3D::Bone *  hl_urho3d_graphics_bone;
+typedef Urho3D::Bone   hl_urho3d_graphics_bone;
 #define HL_URHO3D_BONE _ABSTRACT(hl_urho3d_graphics_bone)
 
-typedef Urho3D::Skeleton *  hl_urho3d_graphics_skeleton;
+typedef Urho3D::Skeleton  hl_urho3d_graphics_skeleton;
 #define HL_URHO3D_SKELETON _ABSTRACT(hl_urho3d_graphics_skeleton)
 
 
@@ -647,7 +647,7 @@ hl_urho3d_graphics_zone *hl_alloc_urho3d_graphics_zone();
 hl_urho3d_graphics_zone *hl_alloc_urho3d_graphics_zone(Zone *zone);
 
 
-typedef Urho3D::TouchState*  hl_urho3d_input_touch_state;
+typedef Urho3D::TouchState  hl_urho3d_input_touch_state;
 #define HL_URHO3D_TOUCH_STATE _ABSTRACT(hl_urho3d_input_touch_state)
 
 
@@ -673,11 +673,11 @@ hl_urho3d_io_vector_buffer *hl_alloc_urho3d_io_vector_buffer();
 hl_urho3d_io_vector_buffer *hl_alloc_urho3d_io_vector_buffer(Urho3D::VectorBuffer*);
 #define HL_URHO3D_VECTOR_BUFFER _ABSTRACT(hl_urho3d_io_vector_buffer)
 
-typedef Urho3D::VectorBuffer *  hl_urho3d_io_t_vector_buffer;
+typedef Urho3D::VectorBuffer   hl_urho3d_io_t_vector_buffer;
 #define HL_URHO3D_T_VECTOR_BUFFER _ABSTRACT(hl_urho3d_io_t_vector_buffer)
 Urho3D::VectorBuffer *hl_alloc_urho3d_io_t_vector_buffer(Urho3D::VectorBuffer & vb);
 
-typedef Urho3D::MemoryBuffer *  hl_urho3d_io_memory_buffer;
+typedef Urho3D::MemoryBuffer   hl_urho3d_io_memory_buffer;
 #define HL_URHO3D_MEMORY_BUFFER _ABSTRACT(hl_urho3d_io_memory_buffer)
 
 
@@ -707,11 +707,11 @@ typedef struct hl_urho3d_physics_collision_shape
 hl_urho3d_physics_collision_shape *hl_alloc_urho3d_physics_collision_shape(urho3d_context *context);
 hl_urho3d_physics_collision_shape *hl_alloc_urho3d_physics_collision_shape(Urho3D::CollisionShape*);
 
-typedef Urho3D::PhysicsRaycastResult *  hl_urho3d_physics_raycast_result;
+typedef Urho3D::PhysicsRaycastResult  hl_urho3d_physics_raycast_result;
 #define HL_URHO3D_PHYSICS_RAYCAST_RESULT _ABSTRACT(hl_urho3d_physics_raycast_result)
 Urho3D::PhysicsRaycastResult *hl_alloc_urho3d_physics_raycast_result();
 
-typedef Urho3D::PhysicsWorld *  hl_urho3d_physics_physics_world;
+typedef Urho3D::PhysicsWorld  hl_urho3d_physics_physics_world;
 #define HL_URHO3D_PHYSICS_WORLD _ABSTRACT(hl_urho3d_physics_physics_world)
 
 
@@ -728,7 +728,7 @@ hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(urho3d_context 
 hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(Urho3D::RigidBody*);
 
 
-typedef Urho3D::RigidBody *  hl_urho3d_physics_t_rigid_body;
+typedef Urho3D::RigidBody  hl_urho3d_physics_t_rigid_body;
 #define HL_URHO3D_T_RIGID_BODY _ABSTRACT(hl_urho3d_physics_t_rigid_body)
 
 #endif

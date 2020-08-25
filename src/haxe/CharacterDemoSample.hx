@@ -258,12 +258,8 @@ class CharacterDemoSample extends Application {
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		if (characterNode == null)
 			return;
-
+		
 		var character:Character = characterNode.GetLogicComponent(Character);
-	//	trace(character);
-		if (character == null) {
-			return;
-		}
 
 		// Clear previous controls
 		character.controls.Set(CTRL_FORWARD | CTRL_BACK | CTRL_LEFT | CTRL_RIGHT | CTRL_JUMP, false);
@@ -279,8 +275,24 @@ class CharacterDemoSample extends Application {
 
 		character.controls.Set(CTRL_JUMP, Input.GetKeyDown(KEY_SPACE));
 
-		character.controls.yaw += Input.mouseMoveX * YAW_SENSITIVITY;
-		character.controls.pitch += Input.mouseMoveY * YAW_SENSITIVITY;
+		if (Input.numTouches > 0) {
+			var camera:Camera = cameraNode.GetComponent("Camera");
+			final TOUCH_SENSITIVITY = 2.0;
+
+			if (camera != null) {
+				for (i in 0...Input.numTouches) {
+					var state = Input.GetTouch(i);
+
+					if (state.delta.x != 0 || state.delta.y != 0) {
+						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
+						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
+					}
+				}
+			}
+		} else {
+			character.controls.yaw += Input.mouseMoveX * YAW_SENSITIVITY;
+			character.controls.pitch += Input.mouseMoveY * YAW_SENSITIVITY;
+		}
 
 		// Limit pitch
 		character.controls.pitch = Clamp(character.controls.pitch, -80.0, 80.0);

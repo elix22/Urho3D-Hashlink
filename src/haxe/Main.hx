@@ -14,7 +14,7 @@ class Main {
 		// app = new SkeletalAnimationSample();
 		//	app = new BillboardsSample();
 		//	app = new DecalsSample();
-		// app = new MultipleViewportsSample();
+		 //   app = new MultipleViewportsSample();
 		// app = new RenderToTextureSample();
 		// app = new PhysicsSample();
 		//	app = new RagdollsSample();

@@ -83,14 +83,14 @@ HL_PRIM hl_urho3d_graphics_material *HL_NAME(_graphics_animatedmodel_get_materia
     return hl_alloc_urho3d_graphics_material(animatedmodel->ptr->GetMaterial());
 }
 
-HL_PRIM hl_urho3d_graphics_tanimation_state HL_NAME(_graphics_animatedmodel_add_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_animation *animation)
+HL_PRIM Urho3D::AnimationState * HL_NAME(_graphics_animatedmodel_add_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, hl_urho3d_graphics_animation *animation)
 {
     return animatedmodel->ptr->AddAnimationState(animation->ptr);
    // return state;
     //return hl_alloc_urho3d_graphics_animation_state(state);
 }
 
-HL_PRIM hl_urho3d_graphics_tanimation_state HL_NAME(_graphics_animatedmodel_get_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, int index)
+HL_PRIM Urho3D::AnimationState * HL_NAME(_graphics_animatedmodel_get_animation_state)(urho3d_context *context, hl_urho3d_graphics_animatedmodel *animatedmodel, int index)
 {
     return animatedmodel->ptr->GetAnimationState(index);
     //return hl_alloc_urho3d_graphics_animation_state(state);
