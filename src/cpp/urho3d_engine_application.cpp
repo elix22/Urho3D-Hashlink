@@ -552,7 +552,7 @@ HL_PRIM void HL_NAME(_application_initialize_hashlink)(hl_urho3d_application *ap
 
 extern "C"
 {
-    void urho3d_set_hashhlink_initialization_callback(hashlink_initialization *callbackfun)
+    EXPORT void urho3d_set_hashhlink_initialization_callback(hashlink_initialization *callbackfun)
     {
         urho3d_hashlink_initialize_callback = callbackfun;
     }
