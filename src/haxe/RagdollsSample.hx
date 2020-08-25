@@ -34,16 +34,21 @@ class CreateRagdoll extends LogicComponent {
 			CreateRagdollBone("Bip01_R_Forearm", SHAPE_CAPSULE, new Vector3(0.125, 0.4, 0.125), new Vector3(0.2, 0.0, 0.0), new Quaternion(0.0, 0.0, 90.0));
 
 			// Create Constraints between bones
-			CreateRagdollConstraint("Bip01_L_Thigh", "Bip01_Pelvis", CONSTRAINT_CONETWIST, Vector3.BACK, Vector3.FORWARD, new Vector2(45.0 , 45.0 ), Vector2.ZERO);
-			CreateRagdollConstraint("Bip01_R_Thigh", "Bip01_Pelvis", CONSTRAINT_CONETWIST, Vector3.BACK, Vector3.FORWARD, new Vector2(45.0 , 45.0 ), Vector2.ZERO);
-			CreateRagdollConstraint("Bip01_L_Calf", "Bip01_L_Thigh", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0 , 0.0 ), Vector2.ZERO);
-			CreateRagdollConstraint("Bip01_R_Calf", "Bip01_R_Thigh", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0 , 0.0 ), Vector2.ZERO);
-			CreateRagdollConstraint("Bip01_Spine1", "Bip01_Pelvis", CONSTRAINT_HINGE, Vector3.FORWARD, Vector3.FORWARD, new Vector2(45.0 , 0.0 ), new Vector2(-10.0 , 0.0 ));
-			CreateRagdollConstraint("Bip01_Head", "Bip01_Spine1", CONSTRAINT_CONETWIST, Vector3.LEFT, Vector3.LEFT, new Vector2(0.0 , 30.0 ), Vector2.ZERO);
-			CreateRagdollConstraint("Bip01_L_UpperArm", "Bip01_Spine1", CONSTRAINT_CONETWIST, Vector3.DOWN, Vector3.UP, new Vector2(45.0 , 45.0 ), Vector2.ZERO, false);
-			CreateRagdollConstraint("Bip01_R_UpperArm", "Bip01_Spine1", CONSTRAINT_CONETWIST, Vector3.DOWN, Vector3.UP, new Vector2(45.0 , 45.0 ), Vector2.ZERO, false);
-			CreateRagdollConstraint("Bip01_L_Forearm", "Bip01_L_UpperArm", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0 , 0.0 ), Vector2.ZERO);
-			CreateRagdollConstraint("Bip01_R_Forearm", "Bip01_R_UpperArm", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK,new  Vector2(90.0 , 0.0 ), Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_L_Thigh", "Bip01_Pelvis", CONSTRAINT_CONETWIST, Vector3.BACK, Vector3.FORWARD, new Vector2(45.0, 45.0),
+				Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_R_Thigh", "Bip01_Pelvis", CONSTRAINT_CONETWIST, Vector3.BACK, Vector3.FORWARD, new Vector2(45.0, 45.0),
+				Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_L_Calf", "Bip01_L_Thigh", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0, 0.0), Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_R_Calf", "Bip01_R_Thigh", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0, 0.0), Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_Spine1", "Bip01_Pelvis", CONSTRAINT_HINGE, Vector3.FORWARD, Vector3.FORWARD, new Vector2(45.0, 0.0),
+				new Vector2(-10.0, 0.0));
+			CreateRagdollConstraint("Bip01_Head", "Bip01_Spine1", CONSTRAINT_CONETWIST, Vector3.LEFT, Vector3.LEFT, new Vector2(0.0, 30.0), Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_L_UpperArm", "Bip01_Spine1", CONSTRAINT_CONETWIST, Vector3.DOWN, Vector3.UP, new Vector2(45.0, 45.0), Vector2.ZERO,
+				false);
+			CreateRagdollConstraint("Bip01_R_UpperArm", "Bip01_Spine1", CONSTRAINT_CONETWIST, Vector3.DOWN, Vector3.UP, new Vector2(45.0, 45.0), Vector2.ZERO,
+				false);
+			CreateRagdollConstraint("Bip01_L_Forearm", "Bip01_L_UpperArm", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0, 0.0), Vector2.ZERO);
+			CreateRagdollConstraint("Bip01_R_Forearm", "Bip01_R_UpperArm", CONSTRAINT_HINGE, Vector3.BACK, Vector3.BACK, new Vector2(90.0, 0.0), Vector2.ZERO);
 		}
 	}
 
@@ -87,17 +92,17 @@ class CreateRagdoll extends LogicComponent {
 
 		var constraint:Constraint = boneNode.CreateComponent("Constraint");
 		constraint.constraintType = type;
-        // Most of the constraints in the ragdoll will work better when the connected bodies don't collide against each other
-        constraint.disableCollision = disableCollision;
-        // The connected body must be specified before setting the world position
-        constraint.otherBody = parentNode.GetComponent("RigidBody");
-        // Position the constraint at the child bone we are connecting
-        constraint.worldPosition = boneNode.worldPosition;
-        // Configure axes and limits
-        constraint.axis = axis;
-        constraint.otherAxis = parentAxis;
-        constraint.highLimit = highLimit;
-        constraint.lowLimit = lowLimit;
+		// Most of the constraints in the ragdoll will work better when the connected bodies don't collide against each other
+		constraint.disableCollision = disableCollision;
+		// The connected body must be specified before setting the world position
+		constraint.otherBody = parentNode.GetComponent("RigidBody");
+		// Position the constraint at the child bone we are connecting
+		constraint.worldPosition = boneNode.worldPosition;
+		// Configure axes and limits
+		constraint.axis = axis;
+		constraint.otherAxis = parentAxis;
+		constraint.highLimit = highLimit;
+		constraint.lowLimit = lowLimit;
 	}
 }
 
@@ -109,8 +114,31 @@ class RagdollsSample extends Application {
 
 	public final NUM_OBJECTS = 200;
 
+	// Create XML patch instructions for screen joystick layout specific to this sample app
+	var patchInstructions:String = "<patch>"
+		+ "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/attribute[@name='Is Visible']\" />"
+		+
+		"    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Spawn</replace>"
+		+ "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]\">"
+		+ "        <element type=\"Text\">"
+		+ "            <attribute name=\"Name\" value=\"MouseButtonBinding\" />"
+		+ "            <attribute name=\"Text\" value=\"LEFT\" />"
+		+ "        </element>"
+		+ "    </add>"
+		+ "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/attribute[@name='Is Visible']\" />"
+		+
+		"    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Debug</replace>"
+		+ "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]\">"
+		+ "        <element type=\"Text\">"
+		+ "            <attribute name=\"Name\" value=\"KeyBinding\" />"
+		+ "            <attribute name=\"Text\" value=\"SPACE\" />"
+		+ "        </element>"
+		+ "    </add>"
+		+ "</patch>";
+
 	public override function Setup() {
 		trace("Setup");
+		SetScreenJoystickPatchString(patchInstructions);
 	}
 
 	public override function Start() {

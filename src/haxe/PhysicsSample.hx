@@ -9,8 +9,29 @@ class PhysicsSample extends Application {
 
 	public final NUM_OBJECTS = 200;
 
+	var patchInstructions:String =
+        "<patch>" +
+        "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/attribute[@name='Is Visible']\" />" +
+        "    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Spawn</replace>" +
+        "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]\">" +
+        "        <element type=\"Text\">" +
+        "            <attribute name=\"Name\" value=\"MouseButtonBinding\" />" +
+        "            <attribute name=\"Text\" value=\"LEFT\" />" +
+        "        </element>" +
+        "    </add>" +
+        "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/attribute[@name='Is Visible']\" />" +
+        "    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Debug</replace>" +
+        "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]\">" +
+        "        <element type=\"Text\">" +
+        "            <attribute name=\"Name\" value=\"KeyBinding\" />" +
+        "            <attribute name=\"Text\" value=\"SPACE\" />" +
+        "        </element>" +
+        "    </add>" +
+        "</patch>";
+
 	public override function Setup() {
 		trace("Setup");
+		SetScreenJoystickPatchString(patchInstructions);
 	}
 
 	public override function Start() {
