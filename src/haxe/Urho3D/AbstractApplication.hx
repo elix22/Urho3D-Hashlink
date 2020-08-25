@@ -16,10 +16,9 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 		RunApplication(this);
 	}
 
-	public inline function IsTouchEnabled():Bool
-		{
-			return _IsTouchEnabled(cast this);
-		}
+	public inline function IsTouchEnabled():Bool {
+		return _IsTouchEnabled(cast this);
+	}
 
 	@:keep
 	public function RegisterSetupClosure(callback_fun:Void->Void):Void {
@@ -43,6 +42,10 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 		} else {
 			_SubscribeToEvent(this, stringHash, d, s);
 		}
+	}
+
+	public inline function SetScreenJoystickPatchString(s:String) {
+		_SetScreenJoystickPatchString(cast this, s);
 	}
 
 	@:hlNative("Urho3D", "_application_subscribe_to_event")
@@ -69,9 +72,13 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 	public static function stop_closure_application(HL_URHO3D_APPLICATION, callback_fun:Void->Void):Void {}
 
 	@:hlNative("Urho3D", "_application_is_touch_enabled")
-	private static function _IsTouchEnabled(a:HL_URHO3D_APPLICATION):Bool {return false;}
-
+	private static function _IsTouchEnabled(a:HL_URHO3D_APPLICATION):Bool {
+		return false;
+	}
 
 	@:hlNative("Urho3D", "_application_initialize_hashlink")
 	public static function InitializeHashLink(a:HL_URHO3D_APPLICATION):Void {}
+
+	@:hlNative("Urho3D", "_application_set_joystick_patch_string")
+	private static function _SetScreenJoystickPatchString(ptr:HL_URHO3D_APPLICATION, s:String):Void {}
 }

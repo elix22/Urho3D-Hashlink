@@ -6,9 +6,8 @@ import utils.*;
 class CharacterDemoSample extends Application {
 	private var scene:Scene = null;
 	private var cameraNode:Node = null;
-	private var yaw:Float = 0.0;
-	private var pitch:Float = 0.0;
 	private var characterNode:Node = null;
+	var firstPerson:Bool = false;
 
 	final CTRL_FORWARD = 1;
 	final CTRL_BACK = 2;
@@ -25,8 +24,55 @@ class CharacterDemoSample extends Application {
 	final cameraDistance = 5.0;
 	final CAMERA_MIN_DIST = 1.0;
 
+	// Create XML patch instructions for screen joystick layout specific to this sample app
+	var patchInstructions:String = "<patch>"
+		+ "    <add sel=\"/element\">"
+		+ "        <element type=\"Button\">"
+		+ "            <attribute name=\"Name\" value=\"Button3\" />"
+		+ "            <attribute name=\"Position\" value=\"-120 -120\" />"
+		+ "            <attribute name=\"Size\" value=\"96 96\" />"
+		+ "            <attribute name=\"Horiz Alignment\" value=\"Right\" />"
+		+ "            <attribute name=\"Vert Alignment\" value=\"Bottom\" />"
+		+ "            <attribute name=\"Texture\" value=\"Texture2D;Textures/TouchInput.png\" />"
+		+ "            <attribute name=\"Image Rect\" value=\"96 0 192 96\" />"
+		+ "            <attribute name=\"Hover Image Offset\" value=\"0 0\" />"
+		+ "            <attribute name=\"Pressed Image Offset\" value=\"0 0\" />"
+		+ "            <element type=\"Text\">"
+		+ "                <attribute name=\"Name\" value=\"Label\" />"
+		+ "                <attribute name=\"Horiz Alignment\" value=\"Center\" />"
+		+ "                <attribute name=\"Vert Alignment\" value=\"Center\" />"
+		+ "                <attribute name=\"Color\" value=\"0 0 0 1\" />"
+		+ "                <attribute name=\"Text\" value=\"Gyroscope\" />"
+		+ "            </element>"
+		+ "            <element type=\"Text\">"
+		+ "                <attribute name=\"Name\" value=\"KeyBinding\" />"
+		+ "                <attribute name=\"Text\" value=\"G\" />"
+		+ "            </element>"
+		+ "        </element>"
+		+ "    </add>"
+		+ "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/attribute[@name='Is Visible']\" />"
+		+
+		"    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">1st/3rd</replace>"
+		+ "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button0']]\">"
+		+ "        <element type=\"Text\">"
+		+ "            <attribute name=\"Name\" value=\"KeyBinding\" />"
+		+ "            <attribute name=\"Text\" value=\"F\" />"
+		+ "        </element>"
+		+ "    </add>"
+		+ "    <remove sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/attribute[@name='Is Visible']\" />"
+		+
+		"    <replace sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]/element[./attribute[@name='Name' and @value='Label']]/attribute[@name='Text']/@value\">Jump</replace>"
+		+ "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Button1']]\">"
+		+ "        <element type=\"Text\">"
+		+ "            <attribute name=\"Name\" value=\"KeyBinding\" />"
+		+ "            <attribute name=\"Text\" value=\"SPACE\" />"
+		+ "        </element>"
+		+ "    </add>"
+		+ "</patch>";
+
 	public override function Setup() {
 		trace("Setup");
+		this.SetScreenJoystickPatchString(patchInstructions);
 	}
 
 	public override function Start() {
@@ -168,56 +214,8 @@ class CharacterDemoSample extends Application {
 		SubscribeToEvent("PostUpdate", "HandlePostUpdate");
 	}
 
-	function MoveCamera(timeStep:Float) {
-		final MOVE_SPEED = 20.0;
-
-		if (Input.numTouches > 0) {
-			var camera:Camera = cameraNode.GetComponent("Camera");
-			final TOUCH_SENSITIVITY = 2.0;
-
-			if (camera != null) {
-				for (i in 0...Input.numTouches) {
-					var state = Input.GetTouch(i);
-
-					if (state.delta.x != 0 || state.delta.y != 0) {
-						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
-						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
-						cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
-					}
-				}
-			}
-		} else {
-			final MOUSE_SENSITIVITY = 0.1;
-			yaw += MOUSE_SENSITIVITY * Input.mouseMove.x;
-			pitch += MOUSE_SENSITIVITY * Input.mouseMove.y;
-			pitch = Clamp(pitch, -90.0, 90.0);
-
-			cameraNode.rotation = new TQuaternion(pitch, yaw, 0.0);
-		}
-
-		if (Input.GetKeyDown(KEY_W))
-			cameraNode.Translate(Vector3.FORWARD * MOVE_SPEED * timeStep);
-		if (Input.GetKeyDown(KEY_S))
-			cameraNode.Translate(Vector3.BACK * MOVE_SPEED * timeStep);
-		if (Input.GetKeyDown(KEY_A))
-			cameraNode.Translate(Vector3.LEFT * MOVE_SPEED * timeStep);
-		if (Input.GetKeyDown(KEY_D))
-			cameraNode.Translate(Vector3.RIGHT * MOVE_SPEED * timeStep);
-
-		if (Input.GetKeyPress(KEY_F5)) {
-			var saved = scene.SaveXML("CharacterDemoSample.xml");
-			trace("SaveXML = " + saved);
-		}
-
-		if (Input.GetKeyPress(KEY_F7)) {
-			var loaded = scene.LoadXML("CharacterDemoSample.xml");
-			trace("LoadXML = " + loaded);
-		}
-	}
-
 	public function HandlePostUpdate(eventType:StringHash, eventData:VariantMap) {
 		// var step:Float = eventData["TimeStep"];
-		// MoveCamera(step);
 
 		if (characterNode == null)
 			return;
@@ -238,27 +236,33 @@ class CharacterDemoSample extends Application {
 		var headWorldTarget = headNode.worldPosition + headDir * new TVector3(0.0, 0.0, -1.0);
 		headNode.LookAt(headWorldTarget, new TVector3(0.0, 1.0, 0.0));
 
-		// Third person camera: position behind the character
-		var aimPoint = characterNode.position + rot * new TVector3(0.0, 1.7, 0.0);
-		// You can modify x Vector3 value to translate the fixed character position (indicative range[-2;2])
+		if (firstPerson) {
+			// First person camera: position to the head bone + offset slightly forward & up
+			cameraNode.position = headNode.worldPosition + rot * new TVector3(0.0 , 0.15 , 0.2 );
+			cameraNode.rotation = dir;
+		} else {
+			// Third person camera: position behind the character
+			var aimPoint = characterNode.position + rot * new TVector3(0.0, 1.7, 0.0);
+			// You can modify x Vector3 value to translate the fixed character position (indicative range[-2;2])
 
-		// Collide camera ray with static physics objects (layer bitmask 2) to ensure we see the character properly
-		var rayDir = dir * Vector3.BACK; // For indoor scenes you can use dir * Vector3(0.0, 0.0, -0.5) to prevent camera from crossing the walls
-		var rayDistance = cameraDistance;
+			// Collide camera ray with static physics objects (layer bitmask 2) to ensure we see the character properly
+			var rayDir = dir * Vector3.BACK; // For indoor scenes you can use dir * Vector3(0.0, 0.0, -0.5) to prevent camera from crossing the walls
+			var rayDistance = cameraDistance;
 
-		var result:PhysicsRaycastResult = scene.physicsWorld.RaycastSingle(new TRay(aimPoint, rayDir), rayDistance, 2);
-		if (result.body != null)
-			rayDistance = Math.min(rayDistance, result.distance);
-		rayDistance = Clamp(rayDistance, CAMERA_MIN_DIST, cameraDistance);
+			var result:PhysicsRaycastResult = scene.physicsWorld.RaycastSingle(new TRay(aimPoint, rayDir), rayDistance, 2);
+			if (result.body != null)
+				rayDistance = Math.min(rayDistance, result.distance);
+			rayDistance = Clamp(rayDistance, CAMERA_MIN_DIST, cameraDistance);
 
-		cameraNode.position = aimPoint + rayDir * rayDistance;
-		cameraNode.rotation = dir;
+			cameraNode.position = aimPoint + rayDir * rayDistance;
+			cameraNode.rotation = dir;
+		}
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		if (characterNode == null)
 			return;
-		
+
 		var character:Character = characterNode.GetLogicComponent(Character);
 
 		// Clear previous controls
@@ -284,8 +288,8 @@ class CharacterDemoSample extends Application {
 					var state = Input.GetTouch(i);
 
 					if (state.delta.x != 0 || state.delta.y != 0) {
-						yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
-						pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
+						character.controls.yaw += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.x;
+						character.controls.pitch += TOUCH_SENSITIVITY * camera.fov / Graphics.height * state.delta.y;
 					}
 				}
 			}
@@ -298,6 +302,10 @@ class CharacterDemoSample extends Application {
 		character.controls.pitch = Clamp(character.controls.pitch, -80.0, 80.0);
 		// Set rotation already here so that it's updated every rendering frame instead of every physics frame
 		characterNode.rotation = new TQuaternion(character.controls.yaw, Vector3.UP);
+
+		// Switch between 1st and 3rd person
+		if (Input.GetKeyPress(KEY_F))
+			firstPerson = !firstPerson;
 
 		// Check for loading / saving the scene
 		if (Input.GetKeyPress(KEY_F5)) {

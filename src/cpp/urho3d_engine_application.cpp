@@ -28,6 +28,7 @@ class ProxyApp : public Application
         callback_setup = NULL;
         callback_start = NULL;
         callback_stop = NULL;
+        screenJoystickpatchString_ = "";
     }
 
     void Setup() override
@@ -349,7 +350,12 @@ class ProxyApp : public Application
         input->SetScreenJoystickVisible(screenJoystickSettingsIndex_, true);
     }
 
-    virtual String GetScreenJoystickPatchString() const { return String::EMPTY; }
+    virtual String GetScreenJoystickPatchString() const { return screenJoystickpatchString_; }
+
+    void SetScreenJoystickPatchString(String patch_string)
+    {
+        screenJoystickpatchString_=patch_string;
+    }
 
     void CreateConsoleAndDebugHud()
     {
@@ -406,6 +412,8 @@ public:
     unsigned screenJoystickSettingsIndex_;
     /// Pause flag.
     bool paused_;
+
+    String screenJoystickpatchString_;
     /*=================================================================================================================*/
     /*=================================================================================================================*/
 };
@@ -518,6 +526,20 @@ HL_PRIM bool HL_NAME(_application_is_touch_enabled)(hl_urho3d_application *app)
     return false;
 }
 
+
+HL_PRIM void HL_NAME(_application_set_joystick_patch_string)(hl_urho3d_application *app,vstring * vpatch_string)
+{
+    const char *patch_string = (char *)hl_to_utf8(vpatch_string->bytes);
+    Urho3D::Application *ptr_app = app->ptr;
+    if (ptr_app)
+    {
+        ProxyApp *proxyApp = (ProxyApp *)ptr_app;
+        proxyApp->SetScreenJoystickPatchString(String(patch_string));
+    }
+
+}
+
+
 typedef void(hashlink_initialization)();
 static hashlink_initialization *urho3d_hashlink_initialize_callback = NULL;
 HL_PRIM void HL_NAME(_application_initialize_hashlink)(hl_urho3d_application *app)
@@ -546,4 +568,6 @@ DEFINE_PRIM(_VOID, _start_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID,
 DEFINE_PRIM(_VOID, _stop_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));
 DEFINE_PRIM(_VOID, _application_subscribe_to_event, HL_URHO3D_APPLICATION HL_URHO3D_STRINGHASH _DYN _STRING);
 DEFINE_PRIM(_VOID, _application_subscribe_to_event_sender, HL_URHO3D_APPLICATION HL_URHO3D_OBJECT HL_URHO3D_STRINGHASH _DYN _STRING);
+
+DEFINE_PRIM(_VOID, _application_set_joystick_patch_string, HL_URHO3D_APPLICATION _STRING);
 //

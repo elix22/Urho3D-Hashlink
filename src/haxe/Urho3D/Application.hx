@@ -42,7 +42,12 @@ class Application {
 		// trace("hx Application Stop called ");
 	}
 
-	public function SubscribeToEvent(?object:Object,stringHash:StringHash, s:String) {
+	// private static function SetScreenJoystickPatchString(ptr:HL_URHO3D_APPLICATION, s:String):Void
+	public inline function SetScreenJoystickPatchString(s:String) {
+		abstractApplication.SetScreenJoystickPatchString(s);
+	}
+
+	public function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
 		if (abstractApplication != null) {
 			abstractApplication.SubscribeToEvent(stringHash, this, s);
 		}
@@ -59,7 +64,7 @@ class Application {
 		}
 	}
 
-	//public function Clamp<T:Int & Single & Float>(value:T, min:T, max:T) {
+	// public function Clamp<T:Int & Single & Float>(value:T, min:T, max:T) {
 	public inline function Clamp(value:Float, min:Float, max:Float) {
 		if (value < min)
 			return min;
@@ -78,9 +83,7 @@ class Application {
 			return value;
 	}
 
-	public inline function IsTouchEnabled():Bool
-		{
-			return abstractApplication.IsTouchEnabled();
-		}
-
+	public inline function IsTouchEnabled():Bool {
+		return abstractApplication.IsTouchEnabled();
+	}
 }

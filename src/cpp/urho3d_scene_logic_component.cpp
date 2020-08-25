@@ -10,9 +10,11 @@ extern "C"
 
 #include "global_types.inc"
 #include <vector>
+/*
 #include <string>
 #include <locale>
 #include <codecvt>
+*/
 
 //static int counter = 0;
 static int hl_hash_start = 0;
@@ -387,11 +389,9 @@ public:
     /// Save as XML data. Return true if successful.
     virtual bool SaveXML(XMLElement &dest) const
     {
-        //   printf("%s %d \n", __FUNCTION__, __LINE__);
         if (dyn_obj == NULL)
             return true;
 
-        //   printf("%s %d \n", __FUNCTION__, __LINE__);
         LogicComponent::SaveXML(dest);
 
         std::vector<const uchar *> result;
@@ -399,11 +399,14 @@ public:
 
         for (int i = 0; i < result.size(); i++)
         {
-
+/*
             std::u16string source = std::u16string((char16_t *)result[i]);
             std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
             std::string str_name = convert.to_bytes(source);
             const char *name = str_name.c_str();
+*/
+            const char *name = (char *)hl_to_utf8(result[i]);
+
             if (String(name) == String("abstractComponent") || String(name) == String("abstractLogicComponent") || String(name) == String("_node"))
                 continue;
 
