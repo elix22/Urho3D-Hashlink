@@ -793,7 +793,7 @@ hl_urho3d_scene_logic_component *hl_alloc_urho3d_scene_logic_component(LogicComp
     return NULL;
 }
 
-HL_PRIM void *HL_NAME(_scene_logic_component_register_object)(urho3d_context *context)
+HL_PRIM void HL_NAME(_scene_logic_component_register_object)(urho3d_context *context)
 {
     HashLinkLogicComponent::RegisterObject(context);
 }

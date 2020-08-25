@@ -17,8 +17,8 @@ class Main {
 		 //  app = new MultipleViewportsSample();
 		// app = new RenderToTextureSample();
 		// app = new PhysicsSample();
-			app = new RagdollsSample();
-		//app = new CharacterDemoSample();
+		//	app = new RagdollsSample();
+		app = new CharacterDemoSample();
 		app.Run();
 	}
 }
