@@ -6,12 +6,16 @@ import hl.Abstract;
 import urho3d.AbstractApplication.Dyn;
 import urho3d.Component.AbstractComponent;
 import urho3d.LogicComponent.AbstractLogicComponent;
+import urho3d.Component.URHO3D_COMPONENT_PTR;
 
 typedef HL_URHO3D_NODE = hl.Abstract<"hl_urho3d_scene_node">;
 typedef HL_URHO3D_POD_NODE = hl.Abstract<"hl_urho3d_scene_pod_node">;
+typedef URHO3D_NODE_PTR = hl.Abstract<"hl_urho3d_scene_node_ptr">;
+
 
 @:hlNative("Urho3D")
 abstract PodNode(HL_URHO3D_POD_NODE) {}
+
 
 @:enum abstract CreateMode(Int) {
 	var REPLICATED = 0;
@@ -26,10 +30,12 @@ abstract PodNode(HL_URHO3D_POD_NODE) {}
 }
 
 class Node {
-	private var children:Array<Node> = [];
-	private var children_map = new Map<String, Node>();
-	private var components:Array<Component> = [];
-	private var dynamic_map = new Map<String, Array<Dynamic>>();
+	//private var children:Array<Node> = [];
+	private var children_name_map = new Map<String, Node>();
+	private var children_pointers_map = new Map<URHO3D_NODE_PTR, Node>();
+	//private var components:Array<Component> = [];
+	private var components_map = new Map<URHO3D_COMPONENT_PTR, Component>();
+	private var logic_components_map = new Map<String, Array<Dynamic>>();
 
 	public var abstractNode:AbstractNode = null;
 
@@ -38,6 +44,12 @@ class Node {
 	public var direction(get, set):TVector3;
 	public var scale(get, set):TVector3;
 	public var rotation(get, set):TQuaternion;
+
+	public var pointer(get, never):URHO3D_NODE_PTR;
+
+	function get_pointer() {
+		return AbstractNode.GetNodePointer(Context.context, abstractNode);
+	}
 
 	public inline function new(?rhs:AbstractNode) {
 		if (rhs != null) {
@@ -53,50 +65,67 @@ class Node {
 	}
 
 	@:keep
-	public function CleanChildData() {
+	public inline function CleanChildData() {
+		/*
 		for (child in children) {
 			child.CleanChildData();
 		}
-		children = [];
-		children_map.clear();
-		components = [];
-		dynamic_map.clear();
+		*/
+		for(child in children_pointers_map)
+			{
+				child.CleanChildData();
+			}
+		//children = [];
+		children_name_map.clear();
+		//components = [];
+		components_map.clear();
+		logic_components_map.clear();
+		children_pointers_map.clear();
 	}
 
 	@:keep
-	public function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
+	public inline function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
 		if (abstractNode != null) {
 			abstractNode.SubscribeToEvent(object, stringHash, this, s);
 		}
 	}
 
 	@:keep
-	public function bindComponent(component:Component) {
+	public  inline function bindComponent(component:Component) {
 		// trace ("bindComponent :" + Std.string(component));
-		components.push(component);
+		//components.push(component);
+		components_map[component.pointer] = component;
 		component.node = this;
 	}
 
 	@:keep
-	public function unbindComponent(c:Component) {
+	public inline function unbindComponent(c:Component) {
+		/*
 		for (component in components) {
 			if (component == c) {
 				components.remove(component);
 				break;
 			}
 		}
+		*/
+		logic_components_map.remove(Std.string(c));
+		return components_map.remove(c.pointer);
 	}
 
 	@:keep
-	public function unbindComponentString(c:String) {
-		for (component in components) {
+	public inline function unbindComponentString(c:String) {
+		var result:Bool = false;
+		for (component in components_map) {
 			var names = Std.string(component).split(".");
 			for (name in names) {
 				if (name == c) {
-					components.remove(component);
+					result = components_map.remove(component.pointer);
+					break;
 				}
 			}
 		}
+		logic_components_map.remove(c);
+		return result;
 	}
 
 	@:keep
@@ -107,23 +136,26 @@ class Node {
 	@:keep
 	public function CreateChildFromAbstractNode(absNode:AbstractNode):Node {
 		var node:Node = new Node(absNode);
-		//	trace("CreateChildFromAbstractNode "+this.abstractNode + ":" + absNode);
-		this.children.push(node);
+		this.children_pointers_map[node.pointer]= node;
 		return node;
+		//	trace("CreateChildFromAbstractNode "+this.abstractNode + ":" + absNode);
+		//this.children.push(node);
 	}
 
 	@:keep
-	public function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
+	public inline function CreateChild(name:String = "", mode:CreateMode = CreateMode.REPLICATED, id:Int = 0, temporary:Bool = false):Node {
 		var absNode:AbstractNode = AbstractNode.CreatChild(Context.context, abstractNode, name, mode, id, temporary);
 		var node:Node = new Node(absNode);
-		this.children.push(node);
+		//this.children.push(node);
+		//trace(node.pointer);
+		this.children_pointers_map[node.pointer]= node;
 		if (name != "")
-			children_map[name] = node;
+			children_name_map[name] = node;
 		return node;
 	}
 
 	@:keep
-	public function CreateComponent(type:String, mode:CreateMode = CreateMode.REPLICATED, id:Int = 0) {
+	public inline function CreateComponent(type:String, mode:CreateMode = CreateMode.REPLICATED, id:Int = 0) {
 		var comp:AbstractComponent = AbstractNode.CreateComponent(Context.context, abstractNode, type, mode, id);
 		return comp;
 	}
@@ -131,25 +163,25 @@ class Node {
 	// StaticModel
 
 	@:keep
-	public function GetComponent(type:String, recursive:Bool = false) {
+	public inline function GetComponent(type:String, recursive:Bool = false) {
 		var comp = AbstractNode.GetComponent(Context.context, abstractNode, type, recursive);
 		// if(comp==null)return GetLogicComponent(dynType);
 		return comp;
 	}
 
 	@:keep
-	public function GetLogicComponent(type:Dynamic, recursive:Bool = true):Dynamic {
+	public inline function GetLogicComponent(type:Dynamic, recursive:Bool = true):Dynamic {
 		var typeStr = Std.string(type).split("$").join("");
 
-		if (dynamic_map[typeStr] != null) {
-			return dynamic_map[typeStr][0];
+		if (logic_components_map[typeStr] != null) {
+			return logic_components_map[typeStr][0];
 		} else {
 			//	trace("GetLogicComponent "+abstractNode);
 			var abs_comp = AbstractNode.GetLogicComponent(Context.context, abstractNode, typeStr, recursive);
 			if (abs_comp != null) {
-				if (dynamic_map[typeStr] == null)
-					dynamic_map[typeStr] = [];
-				dynamic_map[typeStr].push(abs_comp);
+				if (logic_components_map[typeStr] == null)
+					logic_components_map[typeStr] = [];
+				logic_components_map[typeStr].push(abs_comp);
 				return abs_comp;
 			} else
 				return null;
@@ -157,119 +189,121 @@ class Node {
 	}
 
 	@:keep
-	public function AddComponent(component:Dynamic, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
+	public inline function AddComponent(component:Dynamic, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
 		// component.node = this;
 		bindComponent(component);
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
 
-		if (dynamic_map[Std.string(component)] == null)
-			dynamic_map[Std.string(component)] = [];
-		dynamic_map[Std.string(component)].push(component);
+		if (logic_components_map[Std.string(component)] == null)
+			logic_components_map[Std.string(component)] = [];
+		logic_components_map[Std.string(component)].push(component);
 	}
 
 	@:keep
-	public function AddLogicComponent(component:Dynamic, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
+	public inline function AddLogicComponent(component:Dynamic, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
 		// trace("AddLogicComponent " + Std.string(component));
 		bindComponent(component);
 		AbstractNode.AddComponent(Context.context, abstractNode, component.abstractComponent, mode, id);
 
-		if (dynamic_map[Std.string(component)] == null)
-			dynamic_map[Std.string(component)] = [];
-		dynamic_map[Std.string(component)].push(component);
+		if (logic_components_map[Std.string(component)] == null)
+			logic_components_map[Std.string(component)] = [];
+		logic_components_map[Std.string(component)].push(component);
 	}
 
 	@:keep
-	public function RemoveComponent(?strComponent:String, ?component:Component) {
+	public inline function RemoveComponent(?strComponent:String, ?component:Component) {
+		var result:Bool = false;
+
 		if (strComponent != null) {
 			AbstractNode.RemoveComponentString(Context.context, abstractNode, strComponent);
-			unbindComponentString(strComponent);
+			result = unbindComponentString(strComponent);
 		}
 		if (component != null) {
 			AbstractNode.RemoveComponent(Context.context, abstractNode, component.abstractComponent);
-			unbindComponent(component);
-			RemoveLogicComponent(component);
+			result = unbindComponent(component);
 		}
+
+		return result;
 	}
 
 	@:keep
-	public function RemoveLogicComponent(component:Component):Bool {
+	public inline function RemoveLogicComponent(component:Component):Bool {
 		AbstractNode.RemoveComponent(Context.context, abstractNode, component.abstractComponent);
-		unbindComponent(component);
+		return unbindComponent(component);
 		/*
-			if (dynamic_map[Std.string(component)] != null) {
-				var components = dynamic_map[Std.string(component)];
+			if (logic_components_map[Std.string(component)] != null) {
+				var components = logic_components_map[Std.string(component)];
 				return components.remove(component);
 			}
 		 */
-		return false;
 	}
 
-	private function get_position() {
+	private inline function get_position() {
 		return AbstractNode.GetPosition(Context.context, abstractNode);
 	}
 
-	private function set_position(p) {
+	private inline function set_position(p) {
 		AbstractNode.SetPosition(Context.context, abstractNode, p);
 		return p;
 	}
 
-	private function get_worldPosition() {
+	private inline function get_worldPosition() {
 		return AbstractNode.GetWorldtPosition(Context.context, abstractNode);
 	}
 
-	private function set_worldPosition(p) {
+	private inline function set_worldPosition(p) {
 		AbstractNode.SetWorldPosition(Context.context, abstractNode, p);
 		return p;
 	}
 
-	private function get_direction() {
+	private inline function get_direction() {
 		return AbstractNode.GetDirection(Context.context, abstractNode);
 	}
 
-	private function set_direction(p) {
+	private inline function set_direction(p) {
 		AbstractNode.SetDirection(Context.context, abstractNode, p);
 		return p;
 	}
 
-	private function get_scale() {
+	private inline function get_scale() {
 		return AbstractNode.GetSCale(Context.context, abstractNode);
 	}
 
-	private function set_scale(p) {
+	private inline function set_scale(p) {
 		AbstractNode.SetScale(Context.context, abstractNode, p);
 		return p;
 	}
 
-	private function get_rotation() {
+	private inline function get_rotation() {
 		return AbstractNode.GetRotation(Context.context, abstractNode);
 	}
 
-	private function set_rotation(r) {
+	private inline function set_rotation(r) {
 		AbstractNode.SetRotation(Context.context, abstractNode, r);
 		return r;
 	}
 
-	public function Rotate(q:TQuaternion, s:TransformSpace = TS_LOCAL) {
+	public inline function Rotate(q:TQuaternion, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Rotate(Context.context, abstractNode, q, s);
 	}
 
-	public function RotateEuler(x:Float, y:Float, z:Float, s:TransformSpace = TS_LOCAL) {
+	public inline function RotateEuler(x:Float, y:Float, z:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.RotateEuler(Context.context, abstractNode, x, y, z, s);
 	}
 
-	public function Translate(delta:TVector3, s:TransformSpace = TS_LOCAL) {
+	public inline function Translate(delta:TVector3, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Translate(Context.context, abstractNode, delta, s);
 	}
 
-	public function Yaw(a:Float, s:TransformSpace = TS_LOCAL) {
+	public inline function Yaw(a:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Yaw(Context.context, abstractNode, a, s);
 	}
 
-	public function Pitch(a:Float, s:TransformSpace = TS_LOCAL) {
+	public inline function Pitch(a:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Pitch(Context.context, abstractNode, a, s);
 	}
 
-	public function Roll(a:Float, s:TransformSpace = TS_LOCAL) {
+	public inline function Roll(a:Float, s:TransformSpace = TS_LOCAL) {
 		AbstractNode.Roll(Context.context, abstractNode, a, s);
 	}
 
@@ -286,14 +320,14 @@ class Node {
 		return node_array;
 	}
 
-	public function GetChild(name:String, recursive:Bool = false):Node {
+	public inline function GetChild(name:String, recursive:Bool = false):Node {
 		// trace("GetChild "+name + ":"+abstractNode);
-		if (children_map[name] != null) {
-			return children_map[name];
+		if (children_name_map[name] != null) {
+			return children_name_map[name];
 		} else {
-			//trace("GetChild " + name + ":" + abstractNode);
+			// trace("GetChild " + name + ":" + abstractNode);
 			var node = new Node(AbstractNode.GetChild(Context.context, abstractNode, name, recursive));
-			children_map[name] = node;
+			children_name_map[name] = node;
 			return node;
 		}
 	}
@@ -453,5 +487,10 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	@:hlNative("Urho3D", "_scene_node_look_at")
 	public static function LookAt(c:Context, n:AbstractNode, target:TVector3, up:TVector3, s:TransformSpace):Bool {
 		return false;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_get_node_pointer")
+	public static function GetNodePointer(c:Context, n:AbstractNode):URHO3D_NODE_PTR {
+		return null;
 	}
 }

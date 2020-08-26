@@ -396,6 +396,15 @@ HL_PRIM void HL_NAME(_scene_node_subscribe_to_event_sender)(urho3d_context *cont
     subscribeToEvent(context, object, this_node, stringhash, dyn_obj, str);
 }
 
+
+HL_PRIM Urho3D::Node * HL_NAME(_scene_node_get_node_pointer)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    return this_node->ptr;
+}
+
+
+DEFINE_PRIM(URHO3D_NODE_PTR, _scene_node_get_node_pointer, URHO3D_CONTEXT HL_URHO3D_NODE );
+
 DEFINE_PRIM(HL_URHO3D_POD_NODE, _scene_node_get_children_with_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TSTRINGHASH _BOOL);
 DEFINE_PRIM(_I32, _scene_node_get_pod_vector_size, URHO3D_CONTEXT HL_URHO3D_POD_NODE);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_from_pod_vector, URHO3D_CONTEXT HL_URHO3D_POD_NODE _I32);

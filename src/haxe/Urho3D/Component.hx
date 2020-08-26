@@ -16,8 +16,9 @@ import urho3d.AnimationController.AbstractAnimationController;
 import urho3d.LogicComponent.AbstractLogicComponent;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
+typedef URHO3D_COMPONENT_PTR = hl.Abstract<"hl_urho3d_scene_component_ptr">;
 
-class Component  {
+class Component {
 	private var _node:Node = null;
 
 	public var node(get, set):Node;
@@ -34,9 +35,15 @@ class Component  {
 		}
 	}
 
-	public function SubscribeToEvent(?object:Object,stringHash:StringHash, s:String) {
+	public var pointer(get, never):URHO3D_COMPONENT_PTR;
+
+	function get_pointer() {
+		return AbstractComponent.GetComponentPointer(Context.context, abstractComponent);
+	}
+
+	public function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
 		if (abstractComponent != null) {
-			abstractComponent.SubscribeToEvent(object,stringHash, this, s);
+			abstractComponent.SubscribeToEvent(object, stringHash, this, s);
 		}
 	}
 
@@ -192,7 +199,7 @@ class Component  {
 }
 
 @:hlNative("Urho3D")
-abstract AbstractComponent(HL_URHO3D_COMPONENT)  from Dynamic{
+abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 	public inline function new() {
 		this = Create(Context.context);
 	}
@@ -418,4 +425,9 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT)  from Dynamic{
 
 	@:hlNative("Urho3D", "_scene_component_subscribe_to_event_sender")
 	private static function _SubscribeToEventSender(c:Context, o:Object, comp:AbstractComponent, tringHash:StringHash, d:Dynamic, s:String):Void {}
+
+	@:hlNative("Urho3D", "_scene_component_get_component_pointer")
+	public static function GetComponentPointer(c:Context, d:AbstractComponent):URHO3D_COMPONENT_PTR {
+		return null;
+	}
 }

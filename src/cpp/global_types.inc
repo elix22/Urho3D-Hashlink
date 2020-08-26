@@ -320,6 +320,10 @@ typedef struct hl_urho3d_scene_component
 hl_urho3d_scene_component *hl_alloc_urho3d_scene_component();
 hl_urho3d_scene_component *hl_alloc_urho3d_scene_component(Component *component);
 
+typedef Urho3D::Component * hl_urho3d_scene_component_ptr;
+#define URHO3D_COMPONENT_PTR _ABSTRACT(hl_urho3d_scene_component_ptr)
+
+
 typedef struct hl_urho3d_scene_logic_component
 {
     void *finalizer;
@@ -347,6 +351,9 @@ hl_urho3d_scene_node *hl_alloc_urho3d_scene_node_no_finalizer(urho3d_context *co
 
 typedef PODVector<Node *> hl_urho3d_scene_pod_node;
 #define HL_URHO3D_POD_NODE _ABSTRACT(hl_urho3d_scene_pod_node)
+
+typedef Urho3D::Node * hl_urho3d_scene_node_ptr;
+#define URHO3D_NODE_PTR _ABSTRACT(hl_urho3d_scene_node_ptr)
 
 typedef struct hl_urho3d_scene_scene
 {

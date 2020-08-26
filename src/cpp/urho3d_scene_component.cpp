@@ -183,6 +183,18 @@ HL_PRIM void HL_NAME(_scene_component_subscribe_to_event_sender)(urho3d_context 
     subscribeToEvent(context,object, component, stringhash, dyn_obj, str);
 }
 
+
+HL_PRIM Urho3D::Component * HL_NAME(_scene_component_get_component_pointer)(urho3d_context *context, hl_urho3d_scene_component *component)
+{
+    return component->ptr;
+}
+
+/*
+typedef Urho3D::Component * hl_urho3d_scene_component_ptr;
+#define URHO3D_COMPONENT_PTR _ABSTRACT(hl_urho3d_scene_component_ptr)
+*/
+DEFINE_PRIM(URHO3D_COMPONENT_PTR, _scene_component_get_component_pointer, URHO3D_CONTEXT HL_URHO3D_COMPONENT );
+
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_component_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_component_get_node, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
 DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);
