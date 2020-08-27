@@ -234,7 +234,7 @@ HL_PRIM hl_urho3d_scene_component *HL_NAME(_scene_node_get_component)(urho3d_con
 HL_PRIM vdynamic *HL_NAME(_scene_node_get_logic_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, vstring *vtype, bool recursive)
 {
     const char *type = (char *)hl_to_utf8(vtype->bytes);
-    return GetDynamicHashLinkLogicComponent(this_node->ptr.Get(), type,recursive);
+    return GetDynamicHashLinkLogicComponent(this_node->ptr.Get(), type, recursive);
 }
 
 HL_PRIM void HL_NAME(_scene_node_add_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_scene_component *component, int id, int mode)
@@ -396,14 +396,49 @@ HL_PRIM void HL_NAME(_scene_node_subscribe_to_event_sender)(urho3d_context *cont
     subscribeToEvent(context, object, this_node, stringhash, dyn_obj, str);
 }
 
-
-HL_PRIM Urho3D::Node * HL_NAME(_scene_node_get_node_pointer)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+HL_PRIM Urho3D::Node *HL_NAME(_scene_node_get_node_pointer)(urho3d_context *context, hl_urho3d_scene_node *this_node)
 {
     return this_node->ptr;
 }
 
+HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_get_parent)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    Node *parent = this_node->ptr->GetParent();
+    if (parent)
+    {
+        hl_urho3d_scene_node *v = hl_alloc_urho3d_scene_node(context, parent);
+        return v;
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
-DEFINE_PRIM(URHO3D_NODE_PTR, _scene_node_get_node_pointer, URHO3D_CONTEXT HL_URHO3D_NODE );
+
+HL_PRIM void HL_NAME(_scene_node_remove)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    this_node->ptr->Remove();
+}
+
+HL_PRIM void HL_NAME(_scene_node_remove_child)(urho3d_context *context, hl_urho3d_scene_node *this_node,hl_urho3d_scene_node *child_node)
+{
+    this_node->ptr->RemoveChild(child_node->ptr);
+}
+
+HL_PRIM vbyte * HL_NAME(_scene_node_get_name)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    return HLCreateVBString(this_node->ptr->GetName());
+}
+
+DEFINE_PRIM(_BYTES, _scene_node_get_name, URHO3D_CONTEXT HL_URHO3D_NODE);
+
+DEFINE_PRIM(_VOID, _scene_node_remove, URHO3D_CONTEXT HL_URHO3D_NODE);
+DEFINE_PRIM(_VOID, _scene_node_remove_child, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_NODE);
+
+DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_parent, URHO3D_CONTEXT HL_URHO3D_NODE);
+
+DEFINE_PRIM(URHO3D_NODE_PTR, _scene_node_get_node_pointer, URHO3D_CONTEXT HL_URHO3D_NODE);
 
 DEFINE_PRIM(HL_URHO3D_POD_NODE, _scene_node_get_children_with_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TSTRINGHASH _BOOL);
 DEFINE_PRIM(_I32, _scene_node_get_pod_vector_size, URHO3D_CONTEXT HL_URHO3D_POD_NODE);

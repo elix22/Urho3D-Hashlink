@@ -53,12 +53,6 @@ static bool IsAbstractType(vdynamic *dyn_field, const char *type)
     return false;
 }
 
-static vbyte *HLCreateVBString(String value)
-{
-    hl_buffer *b = hl_alloc_buffer();
-    hl_buffer_str(b, (uchar *)(hl_to_utf16(value.CString())));
-    return (vbyte *)hl_buffer_content(b, NULL);
-}
 
 class HashLinkLogicComponent : public LogicComponent
 {

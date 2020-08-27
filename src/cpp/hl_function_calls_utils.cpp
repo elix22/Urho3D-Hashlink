@@ -31,6 +31,14 @@ HL_PRIM hl_type hlt_bool = {HBOOL};
 HL_PRIM hl_type hlt_abstract = {HABSTRACT, {(const uchar *)USTR("<abstract>")}};
 #endif
 
+
+vbyte *HLCreateVBString(const String & value)
+{
+    hl_buffer *b = hl_alloc_buffer();
+    hl_buffer_str(b, (uchar *)(hl_to_utf16(value.CString())));
+    return (vbyte *)hl_buffer_content(b, NULL);
+}
+
 static void fun_var_args()
 {
 	hl_error("Variable fun args was not cast to typed function ");
