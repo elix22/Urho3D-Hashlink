@@ -318,6 +318,13 @@ HL_PRIM void HL_NAME(_scene_node_rotate)(urho3d_context *context, hl_urho3d_scen
     this_node->ptr->Rotate(*(qt), (TransformSpace)space);
 }
 
+//  void RotateAround(const Vector3& point, const Quaternion& delta, TransformSpace space = TS_LOCAL);
+HL_PRIM void HL_NAME(_scene_node_rotate_around)(urho3d_context *context, hl_urho3d_scene_node *this_node,hl_urho3d_math_tvector3 *vector, hl_urho3d_math_tquaternion *qt, int space)
+{
+    this_node->ptr->RotateAround(*vector,*qt, (TransformSpace)space);
+}
+
+
 HL_PRIM void HL_NAME(_scene_node_rotate_euler)(urho3d_context *context, hl_urho3d_scene_node *this_node, float x, float y, float z, int space)
 {
     this_node->ptr->Rotate(Quaternion(x, y, z), (TransformSpace)space);
@@ -431,12 +438,19 @@ HL_PRIM vbyte * HL_NAME(_scene_node_get_name)(urho3d_context *context, hl_urho3d
     return HLCreateVBString(this_node->ptr->GetName());
 }
 
+
+HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_clone)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    return hl_alloc_urho3d_scene_node(context, this_node->ptr->Clone());
+}
+
 DEFINE_PRIM(_BYTES, _scene_node_get_name, URHO3D_CONTEXT HL_URHO3D_NODE);
 
 DEFINE_PRIM(_VOID, _scene_node_remove, URHO3D_CONTEXT HL_URHO3D_NODE);
 DEFINE_PRIM(_VOID, _scene_node_remove_child, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_NODE);
 
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_get_parent, URHO3D_CONTEXT HL_URHO3D_NODE);
+DEFINE_PRIM(HL_URHO3D_NODE, _scene_node_clone, URHO3D_CONTEXT HL_URHO3D_NODE);
 
 DEFINE_PRIM(URHO3D_NODE_PTR, _scene_node_get_node_pointer, URHO3D_CONTEXT HL_URHO3D_NODE);
 
@@ -471,6 +485,9 @@ DEFINE_PRIM(HL_URHO3D_TQUATERNION, _scene_node_get_rotation, URHO3D_CONTEXT HL_U
 
 DEFINE_PRIM(_VOID, _scene_node_rotate, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TQUATERNION _I32);
 DEFINE_PRIM(_VOID, _scene_node_rotate_euler, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _F32 _F32 _I32);
+
+//HL_PRIM void HL_NAME(_scene_node_rotate_around)(urho3d_context *context, hl_urho3d_scene_node *this_node,hl_urho3d_math_tvector3 *vector, hl_urho3d_math_tquaternion *qt, int space)
+DEFINE_PRIM(_VOID, _scene_node_rotate_around, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3 HL_URHO3D_TQUATERNION _I32);
 
 DEFINE_PRIM(_VOID, _scene_node_translate, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_TVECTOR3 _I32);
 DEFINE_PRIM(_VOID, _scene_node_yaw, URHO3D_CONTEXT HL_URHO3D_NODE _F32 _I32);

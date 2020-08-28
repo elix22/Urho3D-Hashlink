@@ -1,0 +1,74 @@
+<NotepadPlus>
+    <Project name="SamplyGame">
+        <Folder name="Scripts">
+            <File name="Data\Scripts\Aircraft.as" />
+            <File name="Data\Scripts\Assets.as" />
+            <File name="Data\Scripts\Background.as" />
+            <File name="Data\Scripts\BigWhiteCube.as" />
+            <File name="Data\Scripts\Enemy.as" />
+            <File name="Data\Scripts\EnemyBat.as" />
+            <File name="Data\Scripts\GameLoader.as" />
+            <File name="Data\Scripts\Globals.as" />
+            <File name="Data\Scripts\MachineGun.as" />
+            <File name="Data\Scripts\Missile.as" />
+            <File name="Data\Scripts\Player.as" />
+            <File name="Data\Scripts\RotateByScript.as" />
+            <File name="Data\Scripts\SamplyGame.as" />
+            <File name="Data\Scripts\StartMenu.as" />
+            <File name="Data\Scripts\Weapon.as" />
+            <Folder name="Utilities">
+                <File name="Data\Scripts\Utilities\Action.as" />
+                <File name="Data\Scripts\Utilities\ActionEase.as" />
+                <File name="Data\Scripts\Utilities\ActionManager.as" />
+                <File name="Data\Scripts\Utilities\BezierBy.as" />
+                <File name="Data\Scripts\Utilities\DelayTime.as" />
+                <File name="Data\Scripts\Utilities\EaseIn.as" />
+                <File name="Data\Scripts\Utilities\EaseOut.as" />
+                <File name="Data\Scripts\Utilities\EaseRateAction.as" />
+                <File name="Data\Scripts\Utilities\ExtraAction.as" />
+                <File name="Data\Scripts\Utilities\FiniteTimeAction.as" />
+                <File name="Data\Scripts\Utilities\Math.as" />
+                <File name="Data\Scripts\Utilities\MoveBy.as" />
+                <File name="Data\Scripts\Utilities\MoveByObject.as" />
+                <File name="Data\Scripts\Utilities\MoveTo.as" />
+                <File name="Data\Scripts\Utilities\Network.as" />
+                <File name="Data\Scripts\Utilities\RepeatForever.as" />
+                <File name="Data\Scripts\Utilities\RotateBy.as" />
+                <File name="Data\Scripts\Utilities\Sample.as" />
+                <File name="Data\Scripts\Utilities\ScaleTo.as" />
+                <File name="Data\Scripts\Utilities\Sequence.as" />
+                <File name="Data\Scripts\Utilities\Touch.as" />
+                <File name="Data\Scripts\Utilities\Parallel.as" />
+            </Folder>
+            <File name="Data\Scripts\SmallPlates.as" />
+            <File name="Data\Scripts\EnemyMonitorScreen.as" />
+            <File name="Data\Scripts\Joysticks.as" />
+            <File name="Data\Scripts\Coin.as" />
+            <File name="Data\Scripts\EnemySlotMachine.as" />
+            <File name="Data\Scripts\Coin.as" />
+            <File name="Data\Scripts\Enemies.as" />
+        </Folder>
+    </Project>
+    <Project name="Editor">
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\AttributeEditor.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorActions.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorGizmo.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorHierarchyWindow.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorImport.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorInspectorWindow.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorMaterial.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorParticleEffect.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorPreferences.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorResourceBrowser.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorScene.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorSecondaryToolbar.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorSettings.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorSoundType.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorSpawn.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorToolBar.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorUI.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorUIElement.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor\EditorView.as" />
+        <File name="E:\GAME_ENGINES\Urho3D-master-20150715\Urho3D-master\build-vs2013-opengl\bin\Data\Scripts\Editor.as" />
+    </Project>
+</NotepadPlus>

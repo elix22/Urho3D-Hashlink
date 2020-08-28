@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<configuration>
+	<general name="SamplyGame" resourcepath="Data;CoreData" scene="Scenes/MainScene.xml" />
+</configuration>

@@ -1,7 +1,5 @@
 package urho3d;
 
-import urho3d.MathDefs.Mathdefs;
-import haxe.ds.Vector;
 
 typedef HL_URHO3D_BOUNDINGBOX = hl.Abstract<"hl_urho3d_math_boundingbox">;
 

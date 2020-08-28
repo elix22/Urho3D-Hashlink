@@ -1,6 +1,5 @@
 package urho3d;
 
-import urho3d.MathDefs.Mathdefs;
 
 typedef HL_URHO3D_TVECTOR2 = hl.Abstract<"hl_urho3d_math_tvector2">
 

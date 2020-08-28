@@ -14,7 +14,7 @@ package urho3d;
 import urho3d.Node.AbstractNode;
 import urho3d.Camera.AbstractCamera;
 import urho3d.Scene.AbstractScene;
-import urho3d.MathDefs.IntMathDefs;
+import urho3d.Math.IntMathDefs;
 
 enum abstract DrawableFlags(Int) to Int from Int {
 	var DRAWABLE_UNDEFINED = 0x0;

@@ -2,13 +2,14 @@ package urho3d;
 
 import urho3d.RayQueryResult.RayQueryLevel;
 import urho3d.Drawable.DrawableFlags;
-import urho3d.MathDefs.Mathdefs;
+import urho3d.Math.Mathdefs;
+
 
 typedef HL_URHO3D_OCTREE = hl.Abstract<"hl_urho3d_graphics_octree">;
 
 @:hlNative("Urho3D")
 abstract Octree(HL_URHO3D_OCTREE) {
-	public function RaycastSingle(r:TRay, rayQueryLevel:RayQueryLevel = RAY_TRIANGLE, maxDistance:Float = M_INFINITY,
+	public function RaycastSingle(r:TRay, rayQueryLevel:RayQueryLevel = RAY_TRIANGLE, maxDistance:Float = Mathdefs.M_INFINITY,
 			drawableFlags:DrawableFlags = DRAWABLE_ANY, viewMask:DrawableFlags = DEFAULT_VIEWMASK):RayQueryResults {
 		if (this != null)
 			return _RaycastSingle(Context.context, cast this, r, rayQueryLevel, maxDistance, drawableFlags, viewMask);

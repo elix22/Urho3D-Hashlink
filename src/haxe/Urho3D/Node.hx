@@ -379,6 +379,11 @@ class Node {
 			AbstractNode.Rotate(Context.context, abstractNode, q, s);
 	}
 
+	public inline function RotateAround(p:TVector3,q:TQuaternion, s:TransformSpace = TS_LOCAL) {
+		if (abstractNode != null)
+			AbstractNode.RotateAround(Context.context, abstractNode,p, q, s);
+	}
+
 	public inline function RotateEuler(x:Float, y:Float, z:Float, s:TransformSpace = TS_LOCAL) {
 		if (abstractNode != null)
 			AbstractNode.RotateEuler(Context.context, abstractNode, x, y, z, s);
@@ -443,6 +448,12 @@ class Node {
 			return null;
 	}
 
+	public var parent(get, never):Node;
+
+	function get_parent() {
+		return GetParent();
+	}
+
 	public inline function GetParent():Node {
 		if (abstractNode != null) {
 			if (_parent == null) {
@@ -456,6 +467,16 @@ class Node {
 			return _parent;
 		} else
 			return null;
+	}
+
+	public inline function Clone():Node {
+		var abs_clone = AbstractNode.Clone(Context.context, abstractNode);
+		var clone = new Node(abs_clone);
+		if (parent != null) {
+			parent.children_pointers_map[this.pointer] = this;
+			parent.children_name_map[this.name] = this;
+		}
+		return clone;
 	}
 
 	public inline function RemoveChild(child:Node) {
@@ -594,6 +615,9 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	@:hlNative("Urho3D", "_scene_node_rotate_euler")
 	public static function RotateEuler(c:Context, n:AbstractNode, x:Single, y:Single, z:Single, s:TransformSpace):Void {}
 
+	@:hlNative("Urho3D", "_scene_node_rotate_around")
+	public static function RotateAround(c:Context, n:AbstractNode, point:TVector3, rotation:TQuaternion, s:TransformSpace):Void {}
+
 	@:hlNative("Urho3D", "_scene_node_translate")
 	public static function Translate(c:Context, n:AbstractNode, position:TVector3, s:TransformSpace):Void {}
 
@@ -655,6 +679,11 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_get_name")
 	public static function GetName(c:Context, n:AbstractNode):Bytes {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_clone")
+	public static function Clone(c:Context, n:AbstractNode):AbstractNode {
 		return null;
 	}
 }

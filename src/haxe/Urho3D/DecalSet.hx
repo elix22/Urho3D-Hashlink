@@ -1,7 +1,7 @@
 package urho3d;
 
 import urho3d.Component.AbstractComponent;
-import urho3d.MathDefs.IntMathDefs;
+import urho3d.Math.IntMathDefs;
 
 typedef HL_URHO3D_DECALSET = hl.Abstract<"hl_urho3d_graphics_decalset">;
 

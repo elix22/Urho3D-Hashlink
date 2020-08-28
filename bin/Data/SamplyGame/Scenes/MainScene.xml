@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<scene id="1">
+	<attribute name="Name" value="" />
+	<attribute name="Time Scale" value="1" />
+	<attribute name="Smoothing Constant" value="50" />
+	<attribute name="Snap Threshold" value="5" />
+	<attribute name="Elapsed Time" value="1290.44" />
+	<attribute name="Next Replicated Node ID" value="15" />
+	<attribute name="Next Replicated Component ID" value="23" />
+	<attribute name="Next Local Node ID" value="16777216" />
+	<attribute name="Next Local Component ID" value="16777216" />
+	<attribute name="Variables" />
+	<attribute name="Variable Names" value="" />
+	<component type="Octree" id="1" />
+	<component type="DebugRenderer" id="2" />
+	<component type="PhysicsWorld" id="4" />
+	<node id="3">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="camera" />
+		<attribute name="Position" value="0 0 -10" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="Camera" id="5">
+			<attribute name="Aspect Ratio" value="1.78667" />
+		</component>
+	</node>
+	<node id="4">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="SamplyGame" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="ScriptInstance" id="6">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/SamplyGame.as" />
+			<attribute name="Class Name" value="SamplyGame" />
+			<attribute name="playing" value="false" />
+		</component>
+		<component type="ScriptInstance" id="7">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/Background.as" />
+			<attribute name="Class Name" value="Background" />
+			<attribute name="frontTile" value="0" />
+			<attribute name="rearTile" value="0" />
+			<attribute name="BackgroundRotationX" value="45" />
+			<attribute name="BackgroundRotationY" value="15" />
+			<attribute name="BackgroundScale" value="40" />
+			<attribute name="BackgroundSpeed" value="0.05" />
+			<attribute name="FlightHeight" value="10" />
+			<attribute name="totalTime" value="0" />
+			<attribute name="frontTilePos" value="0 0 0" />
+			<attribute name="rearTilePos" value="0 0 0" />
+		</component>
+	</node>
+	<node id="5">
+		<attribute name="Is Enabled" value="false" />
+		<attribute name="Name" value="Plane" />
+		<attribute name="Position" value="4.55639e-008 0.868924 -0.936144" />
+		<attribute name="Rotation" value="-0.916597 0.399811 2.23063e-008 9.72976e-009" />
+		<attribute name="Scale" value="20 1 20" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="8">
+			<attribute name="Model" value="Model;Models/Plane.mdl" />
+			<attribute name="Material" value="Material;Materials/Grass.xml" />
+		</component>
+	</node>
+	<node id="6">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="Light1" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="Light" id="9">
+			<attribute name="Light Type" value="Directional" />
+		</component>
+	</node>
+	<node id="7">
+		<attribute name="Is Enabled" value="false" />
+		<attribute name="Name" value="TestBox" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="10">
+			<attribute name="Model" value="Model;Models/Box.mdl" />
+			<attribute name="Material" value="Material;Materials/Mushroom.xml" />
+		</component>
+		<component type="ScriptInstance" id="11">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/RotateByScript.as" />
+			<attribute name="Class Name" value="RotateByScript" />
+		</component>
+		<component type="ScriptInstance" id="13">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/Aircraft.as" />
+			<attribute name="Class Name" value="Aircraft" />
+			<attribute name="Health" value="0" />
+			<attribute name="MaxHealth" value="30" />
+			<attribute name="CollisionShapeSize" value="1.2 1.2 1.2" />
+		</component>
+	</node>
+	<node id="10">
+		<attribute name="Is Enabled" value="false" />
+		<attribute name="Name" value="Player" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="ScriptInstance" id="17">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/Player.as" />
+			<attribute name="Class Name" value="Player" />
+			<attribute name="Health" value="0" />
+			<attribute name="MaxHealth" value="70" />
+			<attribute name="CollisionShapeSize" value="2.1 1.2 1.2" />
+			<attribute name="rotor" value="0" />
+		</component>
+	</node>
+	<node id="12">
+		<attribute name="Is Enabled" value="false" />
+		<attribute name="Name" value="EnemyBat" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="ScriptInstance" id="20">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/EnemyBat.as" />
+			<attribute name="Class Name" value="EnemyBat" />
+			<attribute name="Health" value="0" />
+			<attribute name="MaxHealth" value="30" />
+			<attribute name="CollisionShapeSize" value="1.2 1.2 1.2" />
+		</component>
+	</node>
+	<node id="13">
+		<attribute name="Is Enabled" value="false" />
+		<attribute name="Name" value="EnemyMonitorScreen" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="ScriptInstance" id="21">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/EnemyMonitorScreen.as" />
+			<attribute name="Class Name" value="EnemyMonitorScreen" />
+			<attribute name="Health" value="0" />
+			<attribute name="MaxHealth" value="80" />
+			<attribute name="CollisionShapeSize" value="1.2 1.2 1.2" />
+			<attribute name="fromLeftSide" value="false" />
+		</component>
+	</node>
+	<node id="14">
+		<attribute name="Is Enabled" value="false" />
+		<attribute name="Name" value="EnemySlotMachine" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="ScriptInstance" id="22">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/EnemySlotMachine.as" />
+			<attribute name="Class Name" value="EnemySlotMachine" />
+			<attribute name="Health" value="0" />
+			<attribute name="MaxHealth" value="50" />
+			<attribute name="CollisionShapeSize" value="1.2 1.2 1.2" />
+		</component>
+	</node>
+</scene>

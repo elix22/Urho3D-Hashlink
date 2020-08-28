@@ -1,7 +1,5 @@
 package urho3d;
 
-import urho3d.MathDefs.Mathdefs;
-import haxe.ds.Vector;
 
 typedef HL_URHO3D_VECTOR3 = hl.Abstract<"hl_urho3d_math_vector3">;
 typedef StructVector3 = {x:Float, y:Float, z:Float};
@@ -324,7 +322,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 			defaultValue = Vector3.ZERO;
 		}
 		if (eps == null) {
-			eps = cast Mathdefs.M_LARGE_EPSILON;
+			eps = cast Math._LARGE_EPSILON_;
 		}
 		return _NormalizedOrDefault(cast this, defaultValue, eps);
 	}
@@ -339,7 +337,7 @@ abstract Vector3(HL_URHO3D_VECTOR3) {
 			defaultValue = Vector3.ZERO;
 		}
 		if (eps == null) {
-			eps = cast Mathdefs.M_LARGE_EPSILON;
+			eps = cast Math._LARGE_EPSILON_;
 		}
 		return _ReNormalized(cast this, minLength, maxLength, defaultValue, eps);
 	}

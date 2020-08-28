@@ -2,6 +2,7 @@
 import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
+import samplygame.*;
 
 
 class Main {
@@ -18,7 +19,8 @@ class Main {
 		// app = new RenderToTextureSample();
 		// app = new PhysicsSample();
 		//	app = new RagdollsSample();
-		app = new CharacterDemoSample();
+		//app = new CharacterDemoSample();
+		app = new SamplyGame();
 		app.Run();
 	}
 }

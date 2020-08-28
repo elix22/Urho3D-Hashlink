@@ -1,6 +1,5 @@
 package urho3d;
 
-import urho3d.MathDefs.Mathdefs;
 import urho3d.Vector3.StructVector3;
 
 typedef HL_URHO3D_TVECTOR3 = hl.Abstract<"hl_urho3d_math_tvector3">

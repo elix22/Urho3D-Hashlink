@@ -1,6 +1,6 @@
 package urho3d;
 
-import urho3d.MathDefs.Mathdefs;
+import urho3d.Math.Mathdefs;
 
 typedef HL_URHO3D_TINTVECTOR2 = hl.Abstract<"hl_urho3d_math_tintvector2">
 

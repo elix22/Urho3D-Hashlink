@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<material>
+	<technique name="Techniques/DiffSpec.xml" />
+	<texture unit="diffuse" name="Textures/boy_1_D.tga" />
+	<texture unit="specular" name="Textures/boy_1_S.tga" />
+	<parameter name="MatDiffColor" value="0.6 0.6 0.6 1" />
+	<parameter name="MatSpecColor" value="0.4 0.4 0.4 100" />
+	<parameter name="MatEmissiveColor" value="0 0 0 1" />
+</material>
