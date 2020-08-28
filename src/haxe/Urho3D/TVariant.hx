@@ -1,5 +1,6 @@
 package urho3d;
 
+import hl.Bytes;
 import urho3d.Component.AbstractComponent;
 
 typedef URHO3D_TVARIANT = hl.Abstract<"hl_urho3d_tvariant">;
@@ -110,6 +111,19 @@ abstract TVariant(URHO3D_TVARIANT) {
 		return 0;
 	}
 
+	///////////
+	@:to
+	public inline function GetBool():Bool {
+		return TVariant._getBool(cast this);
+	}
+
+	@:hlNative("Urho3D", "_tvariant_get_bool")
+	private static function _getBool(variant:TVariant):Bool {
+		return false;
+	}
+
+	////////////
+
 	@:to
 	public inline function GetInt():Int {
 		return TVariant._getInt(cast this);
@@ -160,7 +174,30 @@ abstract TVariant(URHO3D_TVARIANT) {
 	private static function _getTVectorBuffer(variant:TVariant):TVectorBuffer {
 		return null;
 	}
-	/////////////////////////////////////////////////////////////////
+
+	@:to
+    @:access(String)
+    public inline function GetString():String
+    {
+        return String.fromUCS2(_getString(cast this));
+    }
+
+    @:hlNative("Urho3D", "_t_variant_get_string")
+	private static function _getString(variant:TVariant):Bytes {
+        return null;
+    }
+    /////////////////////////////////////////////////////////////////
+
+    @:from
+    public static inline function fromString(m:String):TVariant
+    {
+        var v = new TVariant();
+        TVariant._setString(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_t_variant_set_string")
+	private static function _setString(variant:TVariant,s:String):Void {
+    }
 
 
 	@:from
@@ -240,6 +277,18 @@ abstract TVariant(URHO3D_TVARIANT) {
 
 	@:hlNative("Urho3D", "_tvariant_set_int")
 	private static function _setInt(variant:TVariant, v:Int):Void {}
+
+
+
+	@:from
+	public static inline function FromBool(m:Bool):TVariant {
+		var v = new TVariant();
+		TVariant._setBool(v, m);
+		return v;
+	}
+
+	@:hlNative("Urho3D", "_tvariant_set_bool")
+	private static function _setBool(variant:TVariant, v:Bool):Void {}
 
 	@:from
 	public static inline function FromFloat(m:Float):TVariant {

@@ -48,6 +48,10 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 		_SetScreenJoystickPatchString(cast this, s);
 	}
 
+	public inline function GetEngineParameters():TVariantMap {
+		return _GetEngineParameters(cast this);
+	}
+
 	@:hlNative("Urho3D", "_application_subscribe_to_event")
 	private static function _SubscribeToEvent(ptr:HL_URHO3D_APPLICATION, tringHash:StringHash, d:Dynamic, s:String):Void {}
 
@@ -81,4 +85,9 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 
 	@:hlNative("Urho3D", "_application_set_joystick_patch_string")
 	private static function _SetScreenJoystickPatchString(ptr:HL_URHO3D_APPLICATION, s:String):Void {}
+
+	@:hlNative("Urho3D", "_application_get_engine_parameters")
+	private static function _GetEngineParameters(a:HL_URHO3D_APPLICATION):TVariantMap {
+		return null;
+	}
 }

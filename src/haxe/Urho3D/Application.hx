@@ -53,6 +53,12 @@ class Application {
 		}
 	}
 
+	public var engineParameters(get, never):TVariantMap;
+
+	function get_engineParameters() {
+		return abstractApplication.GetEngineParameters();
+	}
+
 	public inline function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand:Float = Std.random(1000000) / 1000000.0;
 		if (min == null)
@@ -86,4 +92,52 @@ class Application {
 	public inline function IsTouchEnabled():Bool {
 		return abstractApplication.IsTouchEnabled();
 	}
+
+	final EP_AUTOLOAD_PATHS = "AutoloadPaths";
+	final EP_BORDERLESS = "Borderless";
+	final EP_DUMP_SHADERS = "DumpShaders";
+	final EP_EVENT_PROFILER = "EventProfiler";
+	final EP_EXTERNAL_WINDOW = "ExternalWindow";
+	final EP_FLUSH_GPU = "FlushGPU";
+	final EP_FORCE_GL2 = "ForceGL2";
+	final EP_FRAME_LIMITER = "FrameLimiter";
+	final EP_FULL_SCREEN = "FullScreen";
+	final EP_HEADLESS = "Headless";
+	final EP_HIGH_DPI = "HighDPI";
+	final EP_LOG_LEVEL = "LogLevel";
+	final EP_LOG_NAME = "LogName";
+	final EP_LOG_QUIET = "LogQuiet";
+	final EP_LOW_QUALITY_SHADOWS = "LowQualityShadows";
+	final EP_MATERIAL_QUALITY = "MaterialQuality";
+	final EP_MONITOR = "Monitor";
+	final EP_MULTI_SAMPLE = "MultiSample";
+	final EP_ORIENTATIONS = "Orientations";
+	final EP_PACKAGE_CACHE_DIR = "PackageCacheDir";
+	final EP_RENDER_PATH = "RenderPath";
+	final EP_REFRESH_RATE = "RefreshRate";
+	final EP_RESOURCE_PACKAGES = "ResourcePackages";
+	final EP_RESOURCE_PATHS = "ResourcePaths";
+	final EP_RESOURCE_PREFIX_PATHS = "ResourcePrefixPaths";
+	final EP_SHADER_CACHE_DIR = "ShaderCacheDir";
+	final EP_SHADOWS = "Shadows";
+	final EP_SOUND = "Sound";
+	final EP_SOUND_BUFFER = "SoundBuffer";
+	final EP_SOUND_INTERPOLATION = "SoundInterpolation";
+	final EP_SOUND_MIX_RATE = "SoundMixRate";
+	final EP_SOUND_STEREO = "SoundStereo";
+	final EP_TEXTURE_ANISOTROPY = "TextureAnisotropy";
+	final EP_TEXTURE_FILTER_MODE = "TextureFilterMode";
+	final EP_TEXTURE_QUALITY = "TextureQuality";
+	final EP_TIME_OUT = "TimeOut";
+	final EP_TOUCH_EMULATION = "TouchEmulation";
+	final EP_TRIPLE_BUFFER = "TripleBuffer";
+	final EP_VSYNC = "VSync";
+	final EP_WINDOW_HEIGHT = "WindowHeight";
+	final EP_WINDOW_ICON = "WindowIcon";
+	final EP_WINDOW_POSITION_X = "WindowPositionX";
+	final EP_WINDOW_POSITION_Y = "WindowPositionY";
+	final EP_WINDOW_RESIZABLE = "WindowResizable";
+	final EP_WINDOW_TITLE = "WindowTitle";
+	final EP_WINDOW_WIDTH = "WindowWidth";
+	final EP_WORKER_THREADS = "WorkerThreads";
 }

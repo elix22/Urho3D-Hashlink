@@ -3,7 +3,7 @@ package samplygame;
 
 import urho3d.*;
 import urho3d.Application;
-import samplygame.actions.*;
+import actions.*;
 
 
 
@@ -16,10 +16,20 @@ class SamplyGame extends Application {
    
     public override function Setup() {
 		trace("Setup");
+#if URHO3D_HAXE_HASHLINK
+		engineParameters[EP_RESOURCE_PATHS] = "Data/SamplyGame;Data;CoreData;";
+#else
+		engineParameters[EP_RESOURCE_PATHS] = "bin/Data/SamplyGame;bin/Data;bin/CoreData;";
+#end
+		engineParameters[EP_FULL_SCREEN] = false;
+		engineParameters[EP_WINDOW_WIDTH] = 450;
+		engineParameters[EP_WINDOW_HEIGHT] = 800;
+		engineParameters[EP_WINDOW_TITLE] = "SamplyGame";
+		engineParameters[EP_WINDOW_ICON] = "icon.png";
+		engineParameters[EP_ORIENTATIONS] = "Portrait";
 	}
 
 	public override function Start() {
-	
 		CreateScene();
 		SetupViewport();
 		SubscribeToEvents();

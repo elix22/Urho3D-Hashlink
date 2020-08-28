@@ -61,13 +61,33 @@ HL_PRIM hl_urho3d_variant * HL_NAME(_math_tvariant_cast_to_variant)(Urho3D::Vari
 }
 
 
+HL_PRIM void HL_NAME(_tvariant_set_bool)(hl_urho3d_tvariant *variant, bool i)
+{
+
+    if (variant != NULL)
+    {
+        *variant = i;
+    }
+}
+
+HL_PRIM bool HL_NAME(_tvariant_get_bool)(hl_urho3d_tvariant *variant)
+{
+
+    if (variant != NULL)
+    {
+        return variant->GetBool();
+    }
+
+    return false;
+}
+
+//////////
 HL_PRIM void HL_NAME(_tvariant_set_int)(hl_urho3d_tvariant *variant, int i)
 {
 
     if (variant != NULL)
     {
         *variant = i;
-        // printf("variant set  int:%d\n",variant->GetInt());
     }
 }
 
@@ -218,10 +238,29 @@ HL_PRIM Urho3D::VectorBuffer * HL_NAME(_t_variant_get_vector_buffer)(hl_urho3d_t
     } 
 }
 
+
+HL_PRIM void HL_NAME(_t_variant_set_string)(hl_urho3d_tvariant * variant, vstring *vstr)
+{
+    const char *str = (char *)hl_to_utf8(vstr->bytes);
+    *variant = String(str);
+}
+
+HL_PRIM vbyte *HL_NAME(_t_variant_get_string)(hl_urho3d_tvariant * variant)
+{
+    return HLCreateVBString(variant->GetString());
+}
+
+DEFINE_PRIM(_VOID, _t_variant_set_string, HL_URHO3D_TVARIANT _STRING);
+DEFINE_PRIM(_BYTES, _t_variant_get_string, HL_URHO3D_TVARIANT);
+
+
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _math_tvariant_cast_from_variant, HL_URHO3D_VARIANT);
 DEFINE_PRIM(HL_URHO3D_VARIANT, _math_tvariant_cast_to_variant, HL_URHO3D_TVARIANT);
 
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _create_tvariant, _NO_ARG);
+
+DEFINE_PRIM(_VOID, _tvariant_set_bool, HL_URHO3D_TVARIANT _BOOL);
+DEFINE_PRIM(_BOOL, _tvariant_get_bool, HL_URHO3D_TVARIANT);
 DEFINE_PRIM(_VOID, _tvariant_set_int, HL_URHO3D_TVARIANT _I32);
 DEFINE_PRIM(_I32, _tvariant_get_int, HL_URHO3D_TVARIANT);
 DEFINE_PRIM(_VOID, _tvariant_set_float, HL_URHO3D_TVARIANT _F32);

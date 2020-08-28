@@ -1,5 +1,7 @@
 package urho3d;
 
+import hl.Bytes;
+
 typedef URHO3D_VARIANT = hl.Abstract<"hl_urho3d_variant">;
 
 @:hlNative("Urho3D")
@@ -40,6 +42,16 @@ abstract Variant(URHO3D_VARIANT) {
     @:hlNative("Urho3D", "_variant_get_float")
 	private static function _getSingle(variant:Variant):Single {
         return 0;
+    }
+
+    @:to
+    public inline function GetBool():Bool
+    {
+        return Variant._getBool(cast this);
+    }
+    @:hlNative("Urho3D", "_variant_get_bool")
+	private static function _getBool(variant:Variant):Bool {
+        return false;
     }
 
     @:to
@@ -87,7 +99,29 @@ abstract Variant(URHO3D_VARIANT) {
         return null;
     }
 
+    @:to
+    @:access(String)
+    public inline function GetString():String
+    {
+        return String.fromUCS2(_getString(cast this));
+    }
+
+    @:hlNative("Urho3D", "_variant_get_string")
+	private static function _getString(variant:Variant):Bytes {
+        return null;
+    }
     /////////////////////////////////////////////////////////////////
+
+    @:from
+    public static inline function fromString(m:String):Variant
+    {
+        var v = new Variant();
+        Variant._setString(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_string")
+	private static function _setString(variant:Variant,s:String):Void {
+    }
 
 
     @:from
@@ -153,6 +187,18 @@ abstract Variant(URHO3D_VARIANT) {
     }
     @:hlNative("Urho3D", "_variant_set_int")
 	private static function _setInt(variant:Variant,v:Int):Void {
+    }
+
+    ////
+    @:from
+    public static inline function fromBool(m:Bool):Variant
+    {
+        var v = new Variant();
+        Variant._setBool(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_variant_set_bool")
+	private static function _setBool(variant:Variant,v:Bool):Void {
     }
 
     @:from
