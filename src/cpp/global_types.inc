@@ -20,6 +20,7 @@
 typedef void (*hl_finalizer)(void *v);
 
 vdynamic *GetDynamicHashLinkLogicComponent(Node *node, const char *type, bool recursive=true);
+void GetDynamicHashLinkLogicComponents(Node *node, const char *type,PODVector<vdynamic *> & hl_components, bool recursive=true);
 
 vbyte *HLCreateVBString(const String & value);
 class HL_Urho3DEventHandler : public Object

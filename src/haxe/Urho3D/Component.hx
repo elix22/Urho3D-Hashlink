@@ -14,6 +14,7 @@ import urho3d.Skybox.AbstractSkybox;
 import urho3d.Constraint.AbstractConstraint;
 import urho3d.AnimationController.AbstractAnimationController;
 import urho3d.LogicComponent.AbstractLogicComponent;
+import urho3d.PhysicsWorld;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 typedef URHO3D_COMPONENT_PTR = hl.Abstract<"hl_urho3d_scene_component_ptr">;
@@ -398,6 +399,7 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 			return null;
 		}
 	}
+
 
 	@:keep
 	public function SubscribeToEvent(?object:Object, stringHash:StringHash, d:Dynamic, s:String) {

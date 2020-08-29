@@ -249,6 +249,22 @@ class Node {
 	}
 
 	@:keep
+	public inline function GetLogicComponents(type:Dynamic, recursive:Bool = true):Array<Dynamic> {
+		if (abstractNode != null) {
+			var typeStr = Std.string(type).split("$").join("");
+			var abs_comps = AbstractNode.GetLogicComponents(Context.context, abstractNode, typeStr, recursive);
+			var res:Array<Dynamic> = [];
+			if (abs_comps != null) {
+				for (i in 0...abs_comps.length) {
+					res.push(abs_comps[i]);
+				}
+			}
+			return res;
+		} else
+			return null;
+	}
+
+	@:keep
 	public inline function AddComponent(component:Dynamic, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
 		// component.node = this;
 		if (abstractNode != null) {
@@ -379,9 +395,9 @@ class Node {
 			AbstractNode.Rotate(Context.context, abstractNode, q, s);
 	}
 
-	public inline function RotateAround(p:TVector3,q:TQuaternion, s:TransformSpace = TS_LOCAL) {
+	public inline function RotateAround(p:TVector3, q:TQuaternion, s:TransformSpace = TS_LOCAL) {
 		if (abstractNode != null)
-			AbstractNode.RotateAround(Context.context, abstractNode,p, q, s);
+			AbstractNode.RotateAround(Context.context, abstractNode, p, q, s);
 	}
 
 	public inline function RotateEuler(x:Float, y:Float, z:Float, s:TransformSpace = TS_LOCAL) {
@@ -557,6 +573,11 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_get_logic_component")
 	public static function GetLogicComponent(c:Context, n:AbstractNode, type:String, recursive:Bool):Dynamic {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_get_logic_components")
+	public static function GetLogicComponents(c:Context, n:AbstractNode, type:String, recursive:Bool):hl.NativeArray<Dynamic> {
 		return null;
 	}
 

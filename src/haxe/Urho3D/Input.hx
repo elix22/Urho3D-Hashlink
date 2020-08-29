@@ -2,7 +2,7 @@ package urho3d;
 
 import urho3d.IntVector2.StructIntVector2;
 import urho3d.KeyCode;
-import urho3d.MathDefs.IntMathDefs;
+import urho3d.Math.IntMathDefs;
 
 enum abstract MouseMode(Int) to Int from Int
 {

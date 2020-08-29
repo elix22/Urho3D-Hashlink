@@ -1,3 +1,4 @@
+import urho3d.AbstractApplication.Dyn;
 import urho3d.LogicComponent.AbstractLogicComponent;
 import urho3d.*;
 import urho3d.Application;
@@ -251,7 +252,7 @@ class CharacterDemoSample extends Application {
 
 			var result:PhysicsRaycastResult = scene.physicsWorld.RaycastSingle(new TRay(aimPoint, rayDir), rayDistance, 2);
 			if (result.body != null)
-				rayDistance = Math.min(rayDistance, result.distance);
+				rayDistance = Math.Min(rayDistance, result.distance);
 			rayDistance = Clamp(rayDistance, CAMERA_MIN_DIST, cameraDistance);
 
 			cameraNode.position = aimPoint + rayDir * rayDistance;

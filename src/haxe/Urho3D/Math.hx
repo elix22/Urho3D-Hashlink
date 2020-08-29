@@ -254,4 +254,8 @@ class Math {
 	public static inline function RandomNormal(meanValue:Float, variance:Float) {
 		return RandStandardNormal() * std.Math.sqrt(variance) + meanValue;
 	}
+
+	public static inline function ExponentialOut(time:Float):Float {
+		return time == 1.0 ? 1.0 : (-std.Math.pow(2.0, -10.0 * time / 1.0) + 1.0);
+	}
 }

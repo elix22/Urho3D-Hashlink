@@ -155,6 +155,16 @@ HL_PRIM void HL_NAME(_math_quaternion_set_euler_angles)(hl_urho3d_math_quaternio
     }
 }
 
+
+HL_PRIM void HL_NAME(_math_quaternion_normalize)(hl_urho3d_math_quaternion *hv)
+{
+    if (hv->ptr != NULL)
+    {
+        hv->ptr->Normalize();
+    }
+}
+DEFINE_PRIM(_VOID, _math_quaternion_normalize, HL_URHO3D_QUATERNION);
+
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _math_quaternion_create, _F32 _F32 _F32);
 DEFINE_PRIM(HL_URHO3D_QUATERNION, _math_quaternion_create_fv, _F32 HL_URHO3D_TVECTOR3);
 DEFINE_PRIM(_VOID, _math_quaternion_set_w, HL_URHO3D_QUATERNION _F32);

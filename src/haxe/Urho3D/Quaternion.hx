@@ -16,8 +16,36 @@ abstract Quaternion(HL_URHO3D_QUATERNION) {
 		}
 	}
 
+
+	public inline function Normalize() {
+		_Normalize(cast this);
+	}
+
+
 	public inline function SetAngles(x:Float, y:Float, z:Float):Void {
 		_SetAngles(cast this, x, y, z);
+	}
+
+	@:op(A * B)
+	public inline function mulTQuaternion(rhs:TQuaternion):TQuaternion {
+		return TQuaternion._MultiplyTQuaternion(TQuaternion._CastFromQuaternion(cast this) , rhs);
+	}
+
+	@:op(A * B)
+	public inline function mulQuaternion(rhs:Quaternion):TQuaternion {
+		return TQuaternion._MultiplyTQuaternion(TQuaternion._CastFromQuaternion(cast this), TQuaternion._CastFromQuaternion(rhs));
+	}
+
+
+
+	@:to
+	public inline function toTQuaternion():TQuaternion {
+		return TQuaternion._CastFromQuaternion(cast this);
+	}
+
+	@:from
+	public static inline function fromTQuaternion(q:TQuaternion):Quaternion {
+		return TQuaternion._CastToQuaternion(q);
 	}
 
 	@:hlNative("Urho3D", "_math_quaternion_create")
@@ -34,4 +62,7 @@ abstract Quaternion(HL_URHO3D_QUATERNION) {
 
 	@:hlNative("Urho3D", "_math_quaternion_set_euler_angles")
 	private static function _SetAngles(q:Quaternion, x:Single, y:Single, z:Single):Void {}
+
+	@:hlNative("Urho3D", "_math_quaternion_normalize")
+	private static function _Normalize(t:Quaternion):Void {}
 }

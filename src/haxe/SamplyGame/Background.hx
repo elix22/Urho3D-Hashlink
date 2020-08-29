@@ -12,7 +12,7 @@ class Background extends LogicComponent {
 
 	final BackgroundRotationX = 45.0;
 	final BackgroundRotationY = 15.0;
-	final BackgroundScale = 300.0;
+	final BackgroundScale = 40.0;
 	final BackgroundSpeed = 0.05;
 	final FlightHeight = 10.0;
 
@@ -48,10 +48,10 @@ class Background extends LogicComponent {
 		var h = (Math.Tan(BackgroundRotationX)) * moveTo;
 
 		// log.Warning("actionManager.isRunning() == false");
-		var actDef = new ActionGroup();
-		actDef.Push(new MoveBy(1 / BackgroundSpeed, new Vector3(0, -moveTo, -h)), frontTile);
-		actDef.Push(new MoveBy(1 / BackgroundSpeed, new Vector3(0, -moveTo, -h)), rearTile);
-		ActionManager.actionManager.AddActions(actDef, this.OnActionDone);
+		var actionGroup = new ActionGroup();
+		actionGroup.Push(new MoveBy(1 / BackgroundSpeed, new Vector3(0, -moveTo, -h)), frontTile);
+		actionGroup.Push(new MoveBy(1 / BackgroundSpeed, new Vector3(0, -moveTo, -h)), rearTile);
+		ActionManager.actionManager.AddActions(actionGroup, this.OnActionDone);
 	}
 
 	function SwitchTiles() {

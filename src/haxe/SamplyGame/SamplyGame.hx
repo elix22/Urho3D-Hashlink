@@ -13,6 +13,9 @@ class SamplyGame extends Application {
 	private var gameNode:Node = null;
 
 	private var cameraNode:Node = null;
+
+	var startMenu_:StartMenu = null;
+	var startMenuNode_:Node =null;
    
     public override function Setup() {
 		trace("Setup");
@@ -31,8 +34,9 @@ class SamplyGame extends Application {
 
 	public override function Start() {
 		CreateScene();
-		SetupViewport();
 		SubscribeToEvents();
+
+		CreateStartMenu();
 	}
 
 	public function CreateScene() {
@@ -40,32 +44,38 @@ class SamplyGame extends Application {
 
 		scene.CreateComponent("Octree");
 
+		var physics:PhysicsWorld = scene.CreateComponent("PhysicsWorld");
+		physics.gravity = new Vector3(0.0,0.0,0.0);
+
+		cameraNode = scene.CreateChild("Camera");
+		var camera:Camera = cameraNode.CreateComponent("Camera");
+		cameraNode.position = new Vector3(0.0, 0.0, -10.0);
+
+		var viewport = new Viewport(scene, cameraNode.GetComponent("Camera"));
+		Renderer.SetViewport(0, viewport);
+
+
+		var zoneNode = scene.CreateChild("Zone");
+		var zone:Zone = zoneNode.CreateComponent("Zone");
+        zone.boundingBox = new BoundingBox(-300.0, 300.0);
+        zone.ambientColor = new Color(1.0, 1.0, 1.0);
+  
+		scene.AddLogicComponent(new Background());
+
+
 		var lightNode = scene.CreateChild("DirectionalLight");
 		lightNode.direction = new TVector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
 		var light:Light = lightNode.CreateComponent("Light");
         light.lightType = LIGHT_DIRECTIONAL;
-       // light.color = new Color(0.5, 0.5, 0.5);
+        light.color = new Color(0.5, 0.5, 0.5);
         light.castShadows = true;
         light.shadowBias = new BiasParameters(0.00025, 0.5);
         // Set cascade splits at 10, 50 and 200 world units, fade shadows out at 80% of maximum shadow distance
 		light.shadowCascade = new CascadeParameters(10.0, 50.0, 200.0, 0.0, 0.8);
 		
 
+	
 
-		gameNode = scene.CreateChild("SampleyGame");
-		gameNode.position = new Vector3(0.0, 0.0, -5.0);
-		gameNode.AddLogicComponent(new Background());
-		
-
-		cameraNode = scene.CreateChild("Camera");
-		var camera:Camera = cameraNode.CreateComponent("Camera");
-		cameraNode.position = new Vector3(0.0, 5.0, -25.0);
-		//cameraNode.rotation = new Quaternion(-1.0);
-	}
-
-	public function SetupViewport() {
-		var viewport = new Viewport(scene, cameraNode.GetComponent("Camera"));
-		Renderer.SetViewport(0, viewport);
 	}
 
 	public function SubscribeToEvents() {
@@ -75,5 +85,16 @@ class SamplyGame extends Application {
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
 		ActionManager.actionManager.Step(step);
+	}
+
+	function CreateStartMenu()
+	{
+		// log.Warning("CreateStartMenu");
+		startMenuNode_ = scene.CreateChild("StartMenuNode");
+		if(startMenuNode_ != null)
+		{
+			startMenu_ = new StartMenu();
+			startMenuNode_.AddLogicComponent(startMenu_);
+		}
 	}
 }
