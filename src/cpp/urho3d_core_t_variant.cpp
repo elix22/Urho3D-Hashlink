@@ -191,6 +191,23 @@ HL_PRIM Urho3D::IntVector2 *HL_NAME(_tvariant_get_tintvector2)(hl_urho3d_tvarian
     }
 }
 
+HL_PRIM void HL_NAME(_tvariant_set_t_color)(hl_urho3d_tvariant *variant, Urho3D::Color *color)
+{
+
+    if (variant != NULL && color != NULL)
+    {
+        *variant = *color;
+    }
+}
+
+HL_PRIM Urho3D::Color * HL_NAME(_tvariant_get_t_color)(hl_urho3d_tvariant *variant)
+{
+    if (variant != NULL)
+    {
+        return hl_alloc_urho3d_math_tcolor(variant->GetColor());
+    }
+}
+
 
 HL_PRIM Urho3D::Object * HL_NAME(_tvariant_get_object)(hl_urho3d_tvariant * variant)
 {
@@ -250,6 +267,15 @@ HL_PRIM vbyte *HL_NAME(_t_variant_get_string)(hl_urho3d_tvariant * variant)
     return HLCreateVBString(variant->GetString());
 }
 
+
+HL_PRIM Urho3D::RefCounted *HL_NAME(_t_variant_get_pointer)(hl_urho3d_tvariant * variant)
+{
+    return variant->GetPtr();
+}
+
+DEFINE_PRIM(URHO3D_REFCOUNTED, _t_variant_get_pointer, HL_URHO3D_TVARIANT);
+
+
 DEFINE_PRIM(_VOID, _t_variant_set_string, HL_URHO3D_TVARIANT _STRING);
 DEFINE_PRIM(_BYTES, _t_variant_get_string, HL_URHO3D_TVARIANT);
 
@@ -266,6 +292,8 @@ DEFINE_PRIM(_I32, _tvariant_get_int, HL_URHO3D_TVARIANT);
 DEFINE_PRIM(_VOID, _tvariant_set_float, HL_URHO3D_TVARIANT _F32);
 DEFINE_PRIM(_F32, _tvariant_get_float, HL_URHO3D_TVARIANT);
 DEFINE_PRIM(_VOID, _tvariant_set_vector2, HL_URHO3D_TVARIANT HL_URHO3D_VECTOR2);
+DEFINE_PRIM(_VOID, _tvariant_set_t_color, HL_URHO3D_TVARIANT HL_URHO3D_TCOLOR);
+DEFINE_PRIM(HL_URHO3D_TCOLOR, _tvariant_get_t_color, HL_URHO3D_TVARIANT );
 DEFINE_PRIM(HL_URHO3D_VECTOR2, _tvariant_get_vector2, HL_URHO3D_TVARIANT);
 DEFINE_PRIM(_VOID, _tvariant_set_tvector2, HL_URHO3D_TVARIANT HL_URHO3D_TVECTOR2);
 DEFINE_PRIM(HL_URHO3D_TVECTOR2, _tvariant_get_tvector2, HL_URHO3D_TVARIANT);

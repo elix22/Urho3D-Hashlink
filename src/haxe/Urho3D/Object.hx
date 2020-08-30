@@ -20,13 +20,23 @@ abstract Object(HL_URHO3D_OBJECT) {
 		return CastFromComponent(Context.context, c.abstractComponent);
     }
 
+	@:to
+	public inline function toNode():Node {
+		return CastToNode(Context.context, cast this);
+	}
+	
+	@:from
+	public static inline function fromNode(n:Node):Object {
+		return CastFromNode(Context.context, n.abstractNode);
+    }
+
     @:to
-	public inline function toNode():AbstractNode {
+	public inline function toAbstractNode():AbstractNode {
 		return CastToNode(Context.context, cast this);
     }
     
     @:from
-	public static inline function fromNode(n:Node):Object {
+	public static inline function fromAbstractNode(n:Node):Object {
 		return CastFromNode(Context.context, n.abstractNode);
     }
     

@@ -97,6 +97,47 @@ HL_PRIM hl_urho3d_graphics_light_bias_parameters *HL_NAME(_graphics_material_get
     return hl_alloc_urho3d_graphics_light_bias_parameters(hl_material->ptr->GetDepthBias());
 }
 
+/*
+    void SetShaderParameter(const String& name, const Variant& value);
+    /// Set shader parameter animation.
+    void
+        SetShaderParameterAnimation(const String& name, ValueAnimation* animation, WrapMode wrapMode = WM_LOOP, float speed = 1.0f);
+    /// Set shader parameter animation wrap mode.
+    void SetShaderParameterAnimationWrapMode(const String& name, WrapMode wrapMode);
+    /// Set shader parameter animation speed.
+    void SetShaderParameterAnimationSpeed(const String& name, float speed);
+
+        /// Return shader parameter.
+    const Variant& GetShaderParameter(const String& name) const;
+    /// Return shader parameter animation.
+    ValueAnimation* GetShaderParameterAnimation(const String& name) const;
+    /// Return shader parameter animation wrap mode.
+    WrapMode GetShaderParameterAnimationWrapMode(const String& name) const;
+    /// Return shader parameter animation speed.
+    float GetShaderParameterAnimationSpeed(const String& name) const;
+*/
+
+HL_PRIM void HL_NAME(_graphics_material_set_shader_parameter)(urho3d_context *context, hl_urho3d_graphics_material *hl_material, vstring *str, Urho3D::Variant * variant)
+{
+    const char *ch = (char *)hl_to_utf8(str->bytes);
+    hl_material->ptr->SetShaderParameter(String(ch),*variant);
+
+}
+
+HL_PRIM Urho3D::Variant * HL_NAME(_graphics_material_get_shader_parameter)(urho3d_context *context, hl_urho3d_graphics_material *hl_material, vstring *str)
+{
+    Urho3D::Variant *variant = hl_alloc_urho3d_tvariant();
+    const char *ch = (char *)hl_to_utf8(str->bytes);
+    *variant = hl_material->ptr->GetShaderParameter(String(ch));
+
+    return  variant;
+
+}
+
+
+DEFINE_PRIM(_VOID, _graphics_material_set_shader_parameter, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING HL_URHO3D_TVARIANT);
+DEFINE_PRIM(HL_URHO3D_TVARIANT, _graphics_material_get_shader_parameter, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING );
+
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_material_create, URHO3D_CONTEXT _STRING);
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_material_create_empty, URHO3D_CONTEXT);
 DEFINE_PRIM(_VOID, _graphics_material_set_technique, URHO3D_CONTEXT HL_URHO3D_MATERIAL _I32 HL_URHO3D_TECHNIQUE _I32 _F32);

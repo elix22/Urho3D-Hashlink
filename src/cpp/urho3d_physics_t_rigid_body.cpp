@@ -165,6 +165,27 @@ HL_PRIM int HL_NAME(_physics_t_rigid_body_get_collision_event_mode)(urho3d_conte
     return t->GetCollisionEventMode();
 }
 
+/*
+	//body.kinematic = true;
+	//	body.collisionMask = CollisionLayer;
+*/
+
+HL_PRIM void HL_NAME(_physics_t_rigid_body_set_kinematic)(urho3d_context *context,  Urho3D::RigidBody *t, bool enable)
+{
+    t->SetKinematic(enable);
+}
+
+HL_PRIM bool HL_NAME(_physics_t_rigid_body_get_kinematic)(urho3d_context *context,  Urho3D::RigidBody *t)
+{
+   return t->IsKinematic();
+}
+
+
+DEFINE_PRIM(_VOID, _physics_t_rigid_body_set_kinematic, URHO3D_CONTEXT HL_URHO3D_T_RIGID_BODY _BOOL);
+DEFINE_PRIM(_BOOL, _physics_t_rigid_body_get_kinematic, URHO3D_CONTEXT HL_URHO3D_T_RIGID_BODY);
+
+
+
 DEFINE_PRIM(HL_URHO3D_RIGID_BODY, _physics_t_rigid_body_cast_to_rigid_body, URHO3D_CONTEXT HL_URHO3D_T_RIGID_BODY);
 //TBD ELI
 DEFINE_PRIM(HL_URHO3D_T_RIGID_BODY, _physics_t_rigid_body_cast_from_rigid_body, URHO3D_CONTEXT HL_URHO3D_RIGID_BODY);

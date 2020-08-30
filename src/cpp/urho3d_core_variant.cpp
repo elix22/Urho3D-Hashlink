@@ -256,6 +256,16 @@ HL_PRIM vbyte *HL_NAME(_variant_get_string)(hl_urho3d_variant *hl_var)
     return HLCreateVBString(variant->GetString());
 }
 
+
+HL_PRIM Urho3D::RefCounted *HL_NAME(_variant_get_pointer)(hl_urho3d_variant *hl_var)
+{
+    Urho3D::Variant *variant = (Urho3D::Variant *)hl_var->ptr;
+    return variant->GetPtr();
+}
+
+DEFINE_PRIM(URHO3D_REFCOUNTED, _variant_get_pointer, HL_URHO3D_VARIANT);
+
+
 DEFINE_PRIM(_VOID, _variant_set_string, HL_URHO3D_VARIANT _STRING);
 DEFINE_PRIM(_BYTES, _variant_get_string, HL_URHO3D_VARIANT);
 

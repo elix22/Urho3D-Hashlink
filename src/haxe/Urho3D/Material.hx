@@ -21,6 +21,15 @@ abstract Material(HL_URHO3D_MATERIAL) {
 		_SetTexture(Context.context, cast this, unit, texture);
 	}
 
+	public inline function SetShaderParameter(name:String,v:TVariant) {
+		_SetShaderParameter(Context.context, cast this, name, v);
+	}
+
+	public inline function GetShaderParameter(name:String):TVariant {
+		return _GetShaderParameter(Context.context, cast this, name);
+	}
+
+
 	public var depthBias(get, set):BiasParameters;
 
 	function set_depthBias(o) {
@@ -53,6 +62,14 @@ abstract Material(HL_URHO3D_MATERIAL) {
 
 	@:hlNative("Urho3D", "_graphics_material_get_depth_bias")
 	private static function _GetDepthBias(context:Context, material:Material):BiasParameters {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_material_set_shader_parameter")
+	private static function _SetShaderParameter(context:Context, material:Material, name:String, v:TVariant):Void {}
+
+	@:hlNative("Urho3D", "_graphics_material_get_shader_parameter")
+	private static function _GetShaderParameter(context:Context, material:Material, name:String):TVariant {
 		return null;
 	}
 }

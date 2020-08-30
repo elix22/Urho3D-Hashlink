@@ -13,7 +13,7 @@ extern "C"
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
-void subscribeToEvent(urho3d_context *context,Urho3D::Object *object, hl_urho3d_scene_component *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+void subscribeToEvent(urho3d_context *context, Urho3D::Object *object, hl_urho3d_scene_component *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
     if (stringhash)
     {
@@ -56,7 +56,6 @@ void subscribeToEvent(urho3d_context *context,Urho3D::Object *object, hl_urho3d_
                 hl_ptr);
         }
     }
-
 }
 
 void subscribeToEvent(urho3d_context *context, hl_urho3d_scene_component *hl_ptr, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
@@ -170,7 +169,25 @@ HL_PRIM hl_urho3d_scene_component *HL_NAME(_scene_component_create)(urho3d_conte
 
 HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_component_get_node)(urho3d_context *context, hl_urho3d_scene_component *component)
 {
-    return hl_alloc_urho3d_scene_node(context, component->ptr->GetNode());
+    Urho3D::Node *node = component->ptr->GetNode();
+
+    if (node)
+        return hl_alloc_urho3d_scene_node(context, node);
+    else
+    {
+        return NULL;
+    }
+}
+
+HL_PRIM hl_urho3d_scene_scene *HL_NAME(_scene_component_get_scene)(urho3d_context *context, hl_urho3d_scene_component *component)
+{
+    Urho3D::Scene *scene = component->ptr->GetScene();
+    if (scene)
+        return hl_alloc_urho3d_scene_scene_no_finalizer(context, scene);
+    else
+    {
+        return NULL;
+    }
 }
 
 HL_PRIM void HL_NAME(_scene_component_subscribe_to_event)(urho3d_context *context, hl_urho3d_scene_component *component, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
@@ -178,24 +195,20 @@ HL_PRIM void HL_NAME(_scene_component_subscribe_to_event)(urho3d_context *contex
     subscribeToEvent(context, component, stringhash, dyn_obj, str);
 }
 
-HL_PRIM void HL_NAME(_scene_component_subscribe_to_event_sender)(urho3d_context *context,Urho3D::Object * object, hl_urho3d_scene_component *component, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
+HL_PRIM void HL_NAME(_scene_component_subscribe_to_event_sender)(urho3d_context *context, Urho3D::Object *object, hl_urho3d_scene_component *component, hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
 {
-    subscribeToEvent(context,object, component, stringhash, dyn_obj, str);
+    subscribeToEvent(context, object, component, stringhash, dyn_obj, str);
 }
 
-
-HL_PRIM Urho3D::Component * HL_NAME(_scene_component_get_component_pointer)(urho3d_context *context, hl_urho3d_scene_component *component)
+HL_PRIM Urho3D::Component *HL_NAME(_scene_component_get_component_pointer)(urho3d_context *context, hl_urho3d_scene_component *component)
 {
     return component->ptr;
 }
 
-/*
-typedef Urho3D::Component * hl_urho3d_scene_component_ptr;
-#define URHO3D_COMPONENT_PTR _ABSTRACT(hl_urho3d_scene_component_ptr)
-*/
-DEFINE_PRIM(URHO3D_COMPONENT_PTR, _scene_component_get_component_pointer, URHO3D_CONTEXT HL_URHO3D_COMPONENT );
+DEFINE_PRIM(URHO3D_COMPONENT_PTR, _scene_component_get_component_pointer, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
 
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_component_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_NODE, _scene_component_get_node, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
+DEFINE_PRIM(HL_URHO3D_SCENE, _scene_component_get_scene, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
 DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);
 DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event_sender, URHO3D_CONTEXT HL_URHO3D_OBJECT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);

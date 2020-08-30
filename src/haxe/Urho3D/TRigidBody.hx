@@ -5,12 +5,9 @@ import urho3d.RigidBody.CollisionEventMode;
 
 typedef HL_URHO3D_T_RIGID_BODY = hl.Abstract<"hl_urho3d_physics_t_rigid_body">;
 
-
 @:hlNative("Urho3D")
 abstract TRigidBody(HL_URHO3D_T_RIGID_BODY) {
-
-
-    public var mass(get, set):Float;
+	public var mass(get, set):Float;
 
 	function set_mass(m) {
 		SetMass(Context.context, cast this, m);
@@ -19,147 +16,170 @@ abstract TRigidBody(HL_URHO3D_T_RIGID_BODY) {
 
 	function get_mass() {
 		return GetMass(Context.context, cast this);
-    }
+	}
 
-    public var friction(get, set):Float;
+	public var friction(get, set):Float;
 
 	function set_friction(m) {
-		SetFriction(Context.context, cast this , m);
+		SetFriction(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_friction() {
-		return GetFriction(Context.context, cast this );
+		return GetFriction(Context.context, cast this);
 	}
 
 	//
 	public var rollingFriction(get, set):Float;
 
 	function set_rollingFriction(m) {
-		SetRollingFriction(Context.context, cast this , m);
+		SetRollingFriction(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_rollingFriction() {
-		return GetRollingFriction(Context.context, cast this );
+		return GetRollingFriction(Context.context, cast this);
 	}
 
 	public var linearVelocity(get, set):TVector3;
 
 	function set_linearVelocity(v) {
-		SetLinearVelocity(Context.context, cast this , v);
+		SetLinearVelocity(Context.context, cast this, v);
 		return v;
 	}
 
 	function get_linearVelocity() {
-		return GetLinearVelocity(Context.context, cast this );
+		return GetLinearVelocity(Context.context, cast this);
 	}
 
 	public var trigger(get, set):Bool;
 
 	function set_trigger(m) {
-		SetTrigger(Context.context, cast this , m);
+		SetTrigger(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_trigger() {
-		return GetTrigger(Context.context, cast this );
+		return GetTrigger(Context.context, cast this);
 	}
 
 	public var linearDamping(get, set):Float;
 
 	function set_linearDamping(m) {
-		SetLinearDamping(Context.context, cast this , m);
+		SetLinearDamping(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_linearDamping() {
-		return GetLinearDamping(Context.context, cast this );
+		return GetLinearDamping(Context.context, cast this);
 	}
 
 	public var angularDamping(get, set):Float;
 
 	function set_angularDamping(m) {
-		SetAngularDamping(Context.context, cast this , m);
+		SetAngularDamping(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_angularDamping() {
-		return GetAngularDamping(Context.context, cast this );
+		return GetAngularDamping(Context.context, cast this);
 	}
 
 	public var linearRestThreshold(get, set):Float;
 
 	function set_linearRestThreshold(m) {
-		SetLinearRestThreshold(Context.context, cast this , m);
+		SetLinearRestThreshold(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_linearRestThreshold() {
-		return GetLinearRestThreshold(Context.context, cast this );
+		return GetLinearRestThreshold(Context.context, cast this);
 	}
 
 	public var angularRestThreshold(get, set):Float;
 
 	function set_angularRestThreshold(m) {
-		SetAngularRestThreshold(Context.context, cast this , m);
+		SetAngularRestThreshold(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_angularRestThreshold() {
-		return GetAngularRestThreshold(Context.context, cast this );
+		return GetAngularRestThreshold(Context.context, cast this);
 	}
 
 	public var collisionLayer(get, set):Int;
 
 	function set_collisionLayer(m) {
-		SetCollisionLayer(Context.context, cast this , m);
+		SetCollisionLayer(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_collisionLayer() {
-		return GetCollisionLayer(Context.context, cast this );
+		return GetCollisionLayer(Context.context, cast this);
 	}
 
 	public var collisionMask(get, set):Int;
 
 	function set_collisionMask(m) {
-		SetCollisionMask(Context.context, cast this , m);
+		SetCollisionMask(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_collisionMask() {
-		return GetCollisionMask(Context.context, cast this );
+		return GetCollisionMask(Context.context, cast this);
+	}
+
+	public var kinematic(get, set):Bool;
+
+	function get_kinematic() {
+		return _GetKinematic(Context.context, cast this);
+	}
+
+	function set_kinematic(k) {
+		_SetKinematic(Context.context, cast this, k);
+		return k;
 	}
 
 	public inline function ApplyImpulse(impulse:TVector3, ?position:TVector3) {
-		if(position == null)position = new TVector3();
-		_ApplyImpulse(Context.context, cast this , impulse, position);
+		if (position == null)
+			position = new TVector3();
+		_ApplyImpulse(Context.context, cast this, impulse, position);
 	}
 
 	public var angularFactor(get, set):TVector3;
 
 	function set_angularFactor(v) {
-		SetAngularFactor(Context.context, cast this , v);
+		SetAngularFactor(Context.context, cast this, v);
 		return v;
 	}
 
 	function get_angularFactor() {
-		return GetAngularFactor(Context.context, cast this );
+		return GetAngularFactor(Context.context, cast this);
 	}
 
 	//
 	public var collisionEventMode(get, set):CollisionEventMode;
 
 	function set_collisionEventMode(m) {
-		SetCollisionEventMode(Context.context, cast this , m);
+		SetCollisionEventMode(Context.context, cast this, m);
 		return m;
 	}
 
 	function get_collisionEventMode() {
-		return GetCollisionEventMode(Context.context, cast this );
+		return GetCollisionEventMode(Context.context, cast this);
 	}
-    
+
+	@:to
+	public inline function ToRigidBody():RigidBody {
+		return new RigidBody(CastToRigidBody(Context.context,cast this));
+    }
+
+    @:to
+	public inline function ToAbstractRigidBody():AbstractRigidBody {
+		return CastToRigidBody(Context.context,cast this);
+	}
+	
+
 	@:hlNative("Urho3D", "_physics_t_rigid_body_cast_from_rigid_body")
 	public static function CastFromRigidBody(c:Context, s:AbstractRigidBody):TRigidBody {
 		return null;
@@ -258,7 +278,6 @@ abstract TRigidBody(HL_URHO3D_T_RIGID_BODY) {
 		return 0;
 	}
 
-
 	@:hlNative("Urho3D", "_physics_t_rigid_body_set_angular_factor")
 	public static function SetAngularFactor(c:Context, s:TRigidBody, v:TVector3):Void {}
 
@@ -266,7 +285,6 @@ abstract TRigidBody(HL_URHO3D_T_RIGID_BODY) {
 	public static function GetAngularFactor(c:Context, s:TRigidBody):TVector3 {
 		return null;
 	}
-
 
 	@:hlNative("Urho3D", "_physics_t_rigid_body_set_collision_event_mode")
 	public static function SetCollisionEventMode(c:Context, s:TRigidBody, m:Int):Void {}
@@ -278,4 +296,12 @@ abstract TRigidBody(HL_URHO3D_T_RIGID_BODY) {
 
 	@:hlNative("Urho3D", "_physics_t_rigid_body_apply_impulse")
 	public static function _ApplyImpulse(c:Context, s:TRigidBody, impulse:TVector3, position:TVector3):Void {}
+
+	@:hlNative("Urho3D", "_physics_t_rigid_body_set_kinematic")
+	public static function _SetKinematic(c:Context, s:TRigidBody, m:Bool):Void {}
+
+	@:hlNative("Urho3D", "_physics_t_rigid_body_get_kinematic")
+	public static function _GetKinematic(c:Context, s:TRigidBody):Bool {
+		return false;
+	}
 }

@@ -734,6 +734,18 @@ void GetDynamicHashLinkLogicComponents(Node *node, const char *type,PODVector<vd
     }
 }
 
+void GetAllDynamicHashLinkLogicComponents(Node *node,PODVector<vdynamic *> & hl_components, bool recursive)
+{
+
+    PODVector<Component *> components;
+    node->GetComponents(components, "HashLinkLogicComponent", recursive);
+    for (PODVector<Component *>::Iterator component = components.Begin(); component != components.End(); ++component)
+    {
+        HashLinkLogicComponent *logic_comp = dynamic_cast<HashLinkLogicComponent *>(*component);
+        hl_components.Push(logic_comp->dyn_obj);
+    }
+}
+
 void finalize_urho3d_scene_logic_component(void *v)
 {
 

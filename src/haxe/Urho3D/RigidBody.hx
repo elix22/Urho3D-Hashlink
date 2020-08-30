@@ -172,6 +172,17 @@ class RigidBody extends Component {
 	function get_collisionEventMode() {
 		return AbstractRigidBody.GetCollisionEventMode(Context.context, _abstract);
 	}
+
+	public var kinematic(get, set):Bool;
+
+	function get_kinematic() {
+		return AbstractRigidBody._GetKinematic(Context.context, _abstract);
+	}
+
+	function set_kinematic(k) {
+		AbstractRigidBody._SetKinematic(Context.context, _abstract, k);
+		return k;
+	}
 }
 
 @:hlNative("Urho3D")
@@ -303,4 +314,12 @@ abstract AbstractRigidBody(HL_URHO3D_RIGID_BODY) {
 
 	@:hlNative("Urho3D", "_physics_rigid_body_apply_impulse")
 	public static function ApplyImpulse(c:Context, s:AbstractRigidBody, impulse:TVector3, position:TVector3):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_set_kinematic")
+	public static function _SetKinematic(c:Context, s:AbstractRigidBody, m:Bool):Void {}
+
+	@:hlNative("Urho3D", "_physics_rigid_body_get_kinematic")
+	public static function _GetKinematic(c:Context, s:AbstractRigidBody):Bool {
+		return false;
+	}
 }

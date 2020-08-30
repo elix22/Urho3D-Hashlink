@@ -263,6 +263,26 @@ HL_PRIM varray *HL_NAME(_scene_node_get_logic_components)(urho3d_context *contex
         return NULL;
 }
 
+
+HL_PRIM varray *HL_NAME(_scene_node_get_all_logic_components)(urho3d_context *context, hl_urho3d_scene_node *this_node, bool recursive)
+{
+    PODVector<vdynamic *> hl_components;
+    GetAllDynamicHashLinkLogicComponents(this_node->ptr.Get(), hl_components, recursive);
+
+    if (hl_components.Size() > 0)
+    {
+        varray *varr = hl_alloc_array(&hlt_dyn, hl_components.Size());
+
+        for (int k = 0; k < hl_components.Size(); k++)
+        {
+            hl_aptr(varr, vdynamic *)[k] = hl_components[k];
+        }
+        return varr;
+    }
+    else
+        return NULL;
+}
+
 HL_PRIM void HL_NAME(_scene_node_add_component)(urho3d_context *context, hl_urho3d_scene_node *this_node, hl_urho3d_scene_component *component, int id, int mode)
 {
     if (component->ptr)
@@ -467,6 +487,16 @@ HL_PRIM hl_urho3d_scene_node *HL_NAME(_scene_node_clone)(urho3d_context *context
     return hl_alloc_urho3d_scene_node(context, this_node->ptr->Clone());
 }
 
+//vars
+HL_PRIM const Urho3D::VariantMap *HL_NAME(_scene_node_get_vars)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+    const VariantMap& vars = this_node->ptr->GetVars();
+    return &vars;
+}
+
+
+DEFINE_PRIM(HL_URHO3D_TVARIANTMAP, _scene_node_get_vars, URHO3D_CONTEXT HL_URHO3D_NODE);
+
 DEFINE_PRIM(_BYTES, _scene_node_get_name, URHO3D_CONTEXT HL_URHO3D_NODE);
 
 DEFINE_PRIM(_VOID, _scene_node_remove, URHO3D_CONTEXT HL_URHO3D_NODE);
@@ -488,6 +518,7 @@ DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_create_component, URHO3D_CONTEXT HL
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_node_get_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);
 DEFINE_PRIM(_DYN, _scene_node_get_logic_component, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);
 DEFINE_PRIM(_ARR, _scene_node_get_logic_components, URHO3D_CONTEXT HL_URHO3D_NODE _STRING _BOOL);
+DEFINE_PRIM(_ARR, _scene_node_get_all_logic_components, URHO3D_CONTEXT HL_URHO3D_NODE _BOOL);
 DEFINE_PRIM(_VOID, _scene_node_add_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_COMPONENT _I32 _I32);
 DEFINE_PRIM(_VOID, _scene_node_remove_component, URHO3D_CONTEXT HL_URHO3D_NODE HL_URHO3D_COMPONENT);
 DEFINE_PRIM(_VOID, _scene_node_remove_component_string, URHO3D_CONTEXT HL_URHO3D_NODE _STRING);

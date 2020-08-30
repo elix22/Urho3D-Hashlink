@@ -265,6 +265,21 @@ class Node {
 	}
 
 	@:keep
+	public inline function GetAllLogicComponents(recursive:Bool = true):Array<Dynamic> {
+		if (abstractNode != null) {
+			var abs_comps = AbstractNode.GetAllLogicComponents(Context.context, abstractNode, recursive);
+			var res:Array<Dynamic> = [];
+			if (abs_comps != null) {
+				for (i in 0...abs_comps.length) {
+					res.push(abs_comps[i]);
+				}
+			}
+			return res;
+		} else
+			return null;
+	}
+
+	@:keep
 	public inline function AddComponent(component:Dynamic, id:Int = 0, mode:CreateMode = CreateMode.REPLICATED) {
 		// component.node = this;
 		if (abstractNode != null) {
@@ -525,6 +540,12 @@ class Node {
 		} else
 			return false;
 	}
+
+	public var vars(get, never):TVariantMap;
+
+	function get_vars() {
+		return AbstractNode.GetVars(Context.context, abstractNode);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -578,6 +599,11 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_get_logic_components")
 	public static function GetLogicComponents(c:Context, n:AbstractNode, type:String, recursive:Bool):hl.NativeArray<Dynamic> {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_get_all_logic_components")
+	public static function GetAllLogicComponents(c:Context, n:AbstractNode, recursive:Bool):hl.NativeArray<Dynamic> {
 		return null;
 	}
 
@@ -705,6 +731,11 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 
 	@:hlNative("Urho3D", "_scene_node_clone")
 	public static function Clone(c:Context, n:AbstractNode):AbstractNode {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_get_vars")
+	public static function GetVars(c:Context, n:AbstractNode):TVariantMap {
 		return null;
 	}
 }

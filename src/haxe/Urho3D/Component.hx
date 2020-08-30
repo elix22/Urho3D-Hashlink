@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.Scene.AbstractScene;
 import urho3d.StaticModel.AbstractStaticModel;
 import urho3d.Node.AbstractNode;
 import urho3d.Zone.AbstractZone;
@@ -21,8 +22,11 @@ typedef URHO3D_COMPONENT_PTR = hl.Abstract<"hl_urho3d_scene_component_ptr">;
 
 class Component {
 	private var _node:Node = null;
+	private var _scene:Scene = null;
 
 	public var node(get, set):Node;
+	public var scene(get, never):Scene;
+
 	public var abstractComponent:AbstractComponent = null;
 
 	public inline function new(?absComponent:AbstractComponent) {
@@ -46,6 +50,13 @@ class Component {
 		if (abstractComponent != null) {
 			abstractComponent.SubscribeToEvent(object, stringHash, this, s);
 		}
+	}
+
+	function get_scene() {
+		if (_scene == null) {
+			_scene = new Scene(AbstractComponent.GetScene(Context.context, abstractComponent));
+		}
+		return _scene;
 	}
 
 	function get_node() {
@@ -400,7 +411,6 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 		}
 	}
 
-
 	@:keep
 	public function SubscribeToEvent(?object:Object, stringHash:StringHash, d:Dynamic, s:String) {
 		if (object != null) {
@@ -420,7 +430,10 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 		return null;
 	}
 
-	// DEFINE_PRIM(_VOID, _scene_component_subscribe_to_event, URHO3D_CONTEXT HL_URHO3D_COMPONENT HL_URHO3D_STRINGHASH _DYN _STRING);
+	@:hlNative("Urho3D", "_scene_component_get_scene")
+	public static function GetScene(c:Context, d:AbstractComponent):AbstractScene {
+		return null;
+	}
 
 	@:hlNative("Urho3D", "_scene_component_subscribe_to_event")
 	private static function _SubscribeToEvent(c:Context, comp:AbstractComponent, tringHash:StringHash, d:Dynamic, s:String):Void {}

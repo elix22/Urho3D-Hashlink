@@ -2,8 +2,7 @@ package utils;
 
 import urho3d.*;
 import urho3d.Controls;
-import Type;
-import Reflect;
+
 
 class Character extends LogicComponent {
 	final CTRL_FORWARD = 1;

@@ -46,6 +46,26 @@ class LogicComponent extends Component {
 		super(AbstractLogicComponent.CastToComponent(Context.context, abstractLogicComponent));
 	}
 
+	public function IsA(type:Dynamic):Bool {
+		var class_obj:Dynamic = Type.getClass(this);
+
+		do {
+			if (Type.typeof(type) == Type.typeof(class_obj)) {
+				return true;
+			}
+
+			class_obj = Type.getSuperClass(class_obj);
+		} while (class_obj != null);
+
+		return false;
+	}
+
+	public var className(get, never):String;
+
+	function get_className() {
+		return GetClassName();
+	}
+
 	public function GetClassName():HString {
 		var name = AbstractLogicComponent._GetClassName(Context.context, abstractLogicComponent);
 		return name;

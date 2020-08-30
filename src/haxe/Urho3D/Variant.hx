@@ -20,6 +20,23 @@ abstract Variant(URHO3D_VARIANT) {
     /////////////////////////////////////////////////////////////////
 
     @:to
+	public inline function GetPtr():RefCounted {
+		return Variant._GetPtr(cast this);
+	}
+
+	@:hlNative("Urho3D", "_variant_get_pointer")
+	private static function _GetPtr(variant:Variant):RefCounted {
+		return null;
+    }
+    
+
+    @:to
+	public inline function GetNode():Node {
+		return Variant._getObject(cast this).toAbstractNode();
+    }
+
+
+    @:to
 	public inline function GetRigidBody():RigidBody {
 		return Variant._getObject(cast this).toComponent();
     }

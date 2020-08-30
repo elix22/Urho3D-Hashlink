@@ -94,6 +94,7 @@ class SamplyGame extends Application {
 		if(startMenuNode_ != null)
 		{
 			startMenu_ = new StartMenu();
+		//	trace(startMenu_.className);
 			startMenuNode_.AddLogicComponent(startMenu_);
 		}
 	}

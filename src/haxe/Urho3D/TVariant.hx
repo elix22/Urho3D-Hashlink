@@ -66,6 +66,23 @@ abstract TVariant(URHO3D_TVARIANT) {
 
 	/////////////////////////////////////////////////////////////////
 
+
+	@:to
+	public inline function GetNode():Node {
+		return TVariant._getObject(cast this).toAbstractNode();
+	}
+	
+	@:to
+	public inline function GetPtr():RefCounted {
+		return TVariant._GetPtr(cast this);
+	}
+
+	@:hlNative("Urho3D", "_t_variant_get_pointer")
+	private static function _GetPtr(variant:TVariant):RefCounted {
+		return null;
+	}
+
+
 	@:to
 	public inline function GetRigidBody():RigidBody {
 		return TVariant._getObject(cast this).toComponent();
@@ -185,8 +202,44 @@ abstract TVariant(URHO3D_TVARIANT) {
     @:hlNative("Urho3D", "_t_variant_get_string")
 	private static function _getString(variant:TVariant):Bytes {
         return null;
+	}
+	
+	@:to
+	public inline function GetColor():Color {
+		return _getTColor(cast this);
+	}
+
+	@:to
+	public inline function GetTColor():TColor {
+		return _getTColor(cast this);
+	}
+
+	@:hlNative("Urho3D", "_tvariant_get_t_color")
+	private static function _getTColor(variant:TVariant):TColor {
+		return null;
+	}
+
+	/////////////////////////////////////////////////////////////////
+	@:from
+    public static inline function fromColor(m:Color):TVariant
+    {
+        var v = new TVariant();
+        TVariant._setTColor(v,m);
+        return v;
     }
-    /////////////////////////////////////////////////////////////////
+
+	@:from
+    public static inline function fromTColor(m:TColor):TVariant
+    {
+        var v = new TVariant();
+        TVariant._setTColor(v,m);
+        return v;
+    }
+    @:hlNative("Urho3D", "_tvariant_set_t_color")
+	private static function _setTColor(variant:TVariant,s:TColor):Void {
+	}
+	
+
 
     @:from
     public static inline function fromString(m:String):TVariant

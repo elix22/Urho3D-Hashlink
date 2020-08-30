@@ -21,6 +21,7 @@ typedef void (*hl_finalizer)(void *v);
 
 vdynamic *GetDynamicHashLinkLogicComponent(Node *node, const char *type, bool recursive=true);
 void GetDynamicHashLinkLogicComponents(Node *node, const char *type,PODVector<vdynamic *> & hl_components, bool recursive=true);
+void GetAllDynamicHashLinkLogicComponents(Node *node,PODVector<vdynamic *> & hl_components, bool recursive=true);
 
 vbyte *HLCreateVBString(const String & value);
 class HL_Urho3DEventHandler : public Object
@@ -44,9 +45,12 @@ public:
 typedef Urho3D::Context urho3d_context;
 #define URHO3D_CONTEXT _ABSTRACT(urho3d_context)
 
+typedef Urho3D::RefCounted * urho3d_refcounted;
+#define URHO3D_REFCOUNTED _ABSTRACT(urho3d_refcounted)
 
 typedef Urho3D::Object  hl_urho3d_core_object;
 #define HL_URHO3D_OBJECT _ABSTRACT(hl_urho3d_core_object)
+
 
 
 typedef struct hl_urho3d_structure
@@ -350,6 +354,9 @@ typedef struct hl_urho3d_scene_node
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node();
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node(urho3d_context *context, Node *node);
 hl_urho3d_scene_node *hl_alloc_urho3d_scene_node_no_finalizer(urho3d_context *context, Node *node);
+
+typedef Urho3D::Node * hl_urho3d_scene_t_node;
+#define HL_URHO3D_T_NODE _ABSTRACT(hl_urho3d_scene_t_node)
 
 typedef PODVector<Node *> hl_urho3d_scene_pod_node;
 #define HL_URHO3D_POD_NODE _ABSTRACT(hl_urho3d_scene_pod_node)
