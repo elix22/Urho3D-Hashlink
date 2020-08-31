@@ -25,6 +25,20 @@ HL_PRIM hl_urho3d_intvector2 *HL_NAME(_input_get_mousemove)(urho3d_context *cont
     }
 }
 
+HL_PRIM Urho3D::IntVector2 * HL_NAME(_input_get_mouse_position)(urho3d_context *context)
+{
+    Input *input = context->GetSubsystem<Input>();
+    if (input)
+    {
+        return hl_alloc_urho3d_math_tintvector2(input->GetMousePosition());
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+
 HL_PRIM int HL_NAME(_input_get_mousemove_x)(urho3d_context *context)
 {
     Input *input = context->GetSubsystem<Input>();
@@ -324,3 +338,5 @@ DEFINE_PRIM(_VOID, _input_set_mouse_mode, URHO3D_CONTEXT _I32);
 
 DEFINE_PRIM(_BOOL, _input_get_mouse_button_press, URHO3D_CONTEXT _I32);
 DEFINE_PRIM(_BOOL, _input_get_mouse_button_down, URHO3D_CONTEXT _I32);
+
+DEFINE_PRIM(HL_URHO3D_TINTVECTOR2, _input_get_mouse_position, URHO3D_CONTEXT);

@@ -47,7 +47,8 @@ class Weapon extends LogicComponent {
 
 	public function Init() {}
 
-	public function CreateRigidBullet(byPlayer:Bool, collisionBox:Vector3):Node {
+	public function CreateRigidBullet(byPlayer:Bool, ?collisionBox:Vector3):Node {
+		if(collisionBox == null)collisionBox = new Vector3(1.0,1.0,1.0);
 		var carrier = node;
 		var bullet:Node = scene.CreateChild("bullet");
 		bullet.position = carrier.position;

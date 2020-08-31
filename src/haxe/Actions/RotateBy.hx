@@ -58,7 +58,7 @@ class RotateByState extends FiniteTimeActionState {
 	}
 
 	public override function Update(time:Float) {
-		if (Target != null) {
+		if (Target != null ) {
             // use TQuaternion instead of Quaternion to boost perfomance
 			var newRot:TQuaternion = Target.rotation * new TQuaternion(AngleX * time, AngleY * time, AngleZ * time);
 			newRot.Normalize();

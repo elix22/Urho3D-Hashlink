@@ -12,7 +12,7 @@ class StartMenu extends LogicComponent {
 	// private Text @ textBlock;
 	private var menuLight:Node = null;
 	var finished:Bool = true;
-	var startPlay:Bool = false;
+	public var startPlay:Bool = false;
 
 	public function new(?dyn:Dynamic) {
 		super(dyn);

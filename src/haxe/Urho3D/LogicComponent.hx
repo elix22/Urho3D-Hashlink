@@ -50,7 +50,7 @@ class LogicComponent extends Component {
 		var class_obj:Dynamic = Type.getClass(this);
 
 		do {
-			if (Type.typeof(type) == Type.typeof(class_obj)) {
+			if (type == class_obj) {
 				return true;
 			}
 

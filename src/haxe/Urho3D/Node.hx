@@ -334,7 +334,7 @@ class Node {
 		if (abstractNode != null)
 			return AbstractNode.GetPosition(Context.context, abstractNode);
 		else
-			return null;
+			return new TVector3();
 	}
 
 	private inline function set_position(p) {
@@ -342,14 +342,14 @@ class Node {
 			AbstractNode.SetPosition(Context.context, abstractNode, p);
 			return p;
 		} else
-			return null;
+			return p;
 	}
 
 	private inline function get_worldPosition() {
 		if (abstractNode != null)
 			return AbstractNode.GetWorldtPosition(Context.context, abstractNode);
 		else
-			return null;
+			return new TVector3();
 	}
 
 	private inline function set_worldPosition(p) {
@@ -357,14 +357,14 @@ class Node {
 			AbstractNode.SetWorldPosition(Context.context, abstractNode, p);
 			return p;
 		} else
-			return null;
+			return p;
 	}
 
 	private inline function get_direction() {
 		if (abstractNode != null)
 			return AbstractNode.GetDirection(Context.context, abstractNode);
 		else
-			return null;
+			return new TVector3();
 	}
 
 	private inline function set_direction(p) {
@@ -372,14 +372,14 @@ class Node {
 			AbstractNode.SetDirection(Context.context, abstractNode, p);
 			return p;
 		} else
-			return null;
+			return p;
 	}
 
 	private inline function get_scale() {
 		if (abstractNode != null)
 			return AbstractNode.GetSCale(Context.context, abstractNode);
 		else
-			return null;
+			return new TVector3();
 	}
 
 	private inline function set_scale(p) {
@@ -387,14 +387,14 @@ class Node {
 			AbstractNode.SetScale(Context.context, abstractNode, p);
 			return p;
 		} else
-			return null;
+			return p;
 	}
 
 	private inline function get_rotation() {
 		if (abstractNode != null)
 			return AbstractNode.GetRotation(Context.context, abstractNode);
 		else
-			return null;
+			return new TQuaternion();
 	}
 
 	private inline function set_rotation(r) {
@@ -402,7 +402,7 @@ class Node {
 			AbstractNode.SetRotation(Context.context, abstractNode, r);
 			return r;
 		} else
-			return null;
+			return r;
 	}
 
 	public inline function Rotate(q:TQuaternion, s:TransformSpace = TS_LOCAL) {

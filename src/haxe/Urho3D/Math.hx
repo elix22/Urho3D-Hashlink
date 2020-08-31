@@ -258,4 +258,16 @@ class Math {
 	public static inline function ExponentialOut(time:Float):Float {
 		return time == 1.0 ? 1.0 : (-std.Math.pow(2.0, -10.0 * time / 1.0) + 1.0);
 	}
+
+	public static inline function BackInOut(time:Float):Float {
+		final overshoot = 1.70158 * 1.525;
+
+		time = time * 2;
+		if (time < 1) {
+			return (time * time * ((overshoot + 1) * time - overshoot)) / 2;
+		} else {
+			time = time - 2;
+			return (time * time * ((overshoot + 1) * time + overshoot)) / 2 + 1;
+		}
+	}
 }

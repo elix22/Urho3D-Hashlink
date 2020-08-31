@@ -106,7 +106,7 @@ class Aircraft extends LogicComponent {
 		ActionManager.actionManager.RemoveAllActions(node);
 		node.scale = 0.0;
 
-		var group:ActionGroup;
+		var group:ActionGroup = new ActionGroup();
 		group.Push(new ScaleTo(1.0, 0.0), explosionNode);
 		group.Push(new DelayTime(1.0), explosionNode);
 		ActionManager.actionManager.AddActions(group, this.ExplodeDone);

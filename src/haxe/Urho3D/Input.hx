@@ -62,6 +62,12 @@ class Input {
 	public static var keyDown:KeyDown;
 	public static var keyPress:KeyPress;
 
+	public static var mousePosition(get,never):TIntVector2;
+
+	static function get_mousePosition() {
+		return GetMousePosition(Context.context);
+	}
+
 	public static function GetKeyDown(key:KeyCode):Bool{
 		return _GetKeyDown(Context.context,key);
 	}
@@ -202,5 +208,10 @@ class Input {
 	@:hlNative("Urho3D", "_input_get_mouse_button_down")
 	private static function _GetMouseButtonDown(context:Context, m:Int):Bool {
 		return false;
+	}
+
+	@:hlNative("Urho3D", "_input_get_mouse_position")
+	private static function GetMousePosition(context:Context):TIntVector2 {
+		return null;
 	}
 }
