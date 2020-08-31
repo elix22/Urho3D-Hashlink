@@ -134,9 +134,23 @@ HL_PRIM Urho3D::Variant * HL_NAME(_graphics_material_get_shader_parameter)(urho3
 
 }
 
+HL_PRIM void HL_NAME(_graphics_material_set_shader_parameter_animation)(urho3d_context *context, hl_urho3d_graphics_material *hl_material, vstring *str, hl_urho3d_scene_value_animation * va,int wrapMode,float speed)
+{
+    const char *ch = (char *)hl_to_utf8(str->bytes);
+    hl_material->ptr->SetShaderParameterAnimation(String(ch),va->ptr,Urho3D::WrapMode(wrapMode),speed);
+}
+
+HL_PRIM hl_urho3d_scene_value_animation * HL_NAME(_graphics_material_get_shader_parameter_animation)(urho3d_context *context, hl_urho3d_graphics_material *hl_material, vstring *str)
+{
+    const char *ch = (char *)hl_to_utf8(str->bytes);
+    return hl_alloc_urho3d_scene_value_animation(context,hl_material->ptr->GetShaderParameterAnimation(String(ch)));
+}
 
 DEFINE_PRIM(_VOID, _graphics_material_set_shader_parameter, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING HL_URHO3D_TVARIANT);
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _graphics_material_get_shader_parameter, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING );
+
+DEFINE_PRIM(_VOID, _graphics_material_set_shader_parameter_animation, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING HL_URHO3D_VALUE_ANIMATION _I32 _F32);
+DEFINE_PRIM(HL_URHO3D_VALUE_ANIMATION, _graphics_material_get_shader_parameter_animation, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING );
 
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_material_create, URHO3D_CONTEXT _STRING);
 DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_material_create_empty, URHO3D_CONTEXT);

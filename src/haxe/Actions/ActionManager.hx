@@ -38,7 +38,7 @@ class ActionID {
 }
 
 class ActionGroup {
-	public var _actions:Array<ActionDef> = new  Array<ActionDef>();
+	public var _actions:Array<ActionDef> = new Array<ActionDef>();
 
 	public function new() {
 		_actions = [];
@@ -181,27 +181,27 @@ class ActionManager {
 	}
 
 	public function Step(timeStep:Float):Bool {
-    
 		if (actions.length == 0) {
 			return false;
 		}
 
 		for (i in 0...actions.length) {
 			var actionCountDone = 0;
-			for (j in 0...actions[i]._action.length) {
-				if (actions[i]._action[j].IsDone() == true) {
-					actionCountDone++;
-				} else {
-					actions[i]._action[j].Step(timeStep);
-				}
-			}
-
-			if (actionCountDone == actions[i]._action.length) {
-				if (actions[i].callback != null) {
-					actions[i].callback(actions[i]);
+			if (actions[i] != null) {
+				for (j in 0...actions[i]._action.length) {
+					if (actions[i]._action[j].IsDone() == true) {
+						actionCountDone++;
+					} else {
+						actions[i]._action[j].Step(timeStep);
+					}
 				}
 
-				actions.remove(actions[i]);
+				if (actionCountDone == actions[i]._action.length) {
+					if (actions[i].callback != null) {
+						actions[i].callback(actions[i]);
+					}
+					actions.remove(actions[i]);
+				}
 			}
 		}
 

@@ -52,6 +52,28 @@ typedef Urho3D::Object  hl_urho3d_core_object;
 #define HL_URHO3D_OBJECT _ABSTRACT(hl_urho3d_core_object)
 
 
+typedef struct hl_urho3d_audio_sound
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::Sound> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_audio_sound;
+
+#define HL_URHO3D_SOUND _ABSTRACT(hl_urho3d_audio_sound)
+
+
+typedef struct hl_urho3d_audio_sound_source
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::SoundSource> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_audio_sound_source;
+
+#define HL_URHO3D_SOUND_SOURCE _ABSTRACT(hl_urho3d_audio_sound_source)
+
+
 
 typedef struct hl_urho3d_structure
 {
@@ -376,6 +398,17 @@ typedef struct hl_urho3d_scene_scene
 hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene();
 hl_urho3d_scene_scene *hl_alloc_urho3d_scene_scene_no_finalizer(urho3d_context *context,Scene *scene);
 
+//ValueAnimation
+typedef struct hl_urho3d_scene_value_animation
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::ValueAnimation> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_scene_value_animation;
+
+#define HL_URHO3D_VALUE_ANIMATION _ABSTRACT(hl_urho3d_scene_value_animation)
+hl_urho3d_scene_value_animation *hl_alloc_urho3d_scene_value_animation(urho3d_context *context, ValueAnimation * va);
 
 
 
@@ -746,5 +779,29 @@ hl_urho3d_physics_rigid_body *hl_alloc_urho3d_physics_rigid_body(Urho3D::RigidBo
 
 typedef Urho3D::RigidBody  hl_urho3d_physics_t_rigid_body;
 #define HL_URHO3D_T_RIGID_BODY _ABSTRACT(hl_urho3d_physics_t_rigid_body)
+
+//urho3d_urho2d_particle_emitter2d
+
+typedef struct hl_urho3d_urho2d_particle_emitter2d
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::ParticleEmitter2D> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_urho2d_particle_emitter2d;
+
+#define HL_URHO3D_PARTICLE_EMITTER_2D _ABSTRACT(hl_urho3d_urho2d_particle_emitter2d)
+
+
+typedef struct hl_urho3d_urho2d_particle_effect2d
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::ParticleEffect2D> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_urho2d_particle_effect2d;
+
+#define HL_URHO3D_PARTICLE_EFFECT_2D _ABSTRACT(hl_urho3d_urho2d_particle_effect2d)
+hl_urho3d_urho2d_particle_effect2d *hl_alloc_urho3d_urho2d_particle_effect2d(Urho3D::ParticleEffect2D *obj);
 
 #endif

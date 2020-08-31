@@ -2,6 +2,16 @@ package urho3d;
 
 typedef HL_URHO3D_ANIMATION = hl.Abstract<"hl_urho3d_graphics_animation">;
 
+enum abstract WrapMode(Int) to Int from Int
+{
+    /// Loop mode.
+    var WM_LOOP = 0;
+    /// Play once, when animation finished it will be removed.
+    var WM_ONCE;
+    /// Clamp mode.
+    var WM_CLAMP;
+}
+
 @:hlNative("Urho3D")
 abstract Animation(HL_URHO3D_ANIMATION) {
 	public var length(get, never):Float;

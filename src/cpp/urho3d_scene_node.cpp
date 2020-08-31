@@ -494,6 +494,18 @@ HL_PRIM const Urho3D::VariantMap *HL_NAME(_scene_node_get_vars)(urho3d_context *
     return &vars;
 }
 
+HL_PRIM void HL_NAME(_scene_node_set_enabled)(urho3d_context *context, hl_urho3d_scene_node *this_node,bool enabled)
+{
+     this_node->ptr->SetEnabled(enabled);
+}
+
+HL_PRIM bool HL_NAME(_scene_node_get_enabled)(urho3d_context *context, hl_urho3d_scene_node *this_node)
+{
+     return this_node->ptr->IsEnabled();
+}
+
+DEFINE_PRIM(_VOID, _scene_node_set_enabled, URHO3D_CONTEXT HL_URHO3D_NODE _BOOL);
+DEFINE_PRIM(_BOOL, _scene_node_get_enabled, URHO3D_CONTEXT HL_URHO3D_NODE);
 
 DEFINE_PRIM(HL_URHO3D_TVARIANTMAP, _scene_node_get_vars, URHO3D_CONTEXT HL_URHO3D_NODE);
 

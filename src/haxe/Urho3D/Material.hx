@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.Animation.WrapMode;
 import urho3d.GraphicsDefs;
 
 typedef HL_URHO3D_MATERIAL = hl.Abstract<"hl_urho3d_graphics_material">;
@@ -21,7 +22,7 @@ abstract Material(HL_URHO3D_MATERIAL) {
 		_SetTexture(Context.context, cast this, unit, texture);
 	}
 
-	public inline function SetShaderParameter(name:String,v:TVariant) {
+	public inline function SetShaderParameter(name:String, v:TVariant) {
 		_SetShaderParameter(Context.context, cast this, name, v);
 	}
 
@@ -29,6 +30,13 @@ abstract Material(HL_URHO3D_MATERIAL) {
 		return _GetShaderParameter(Context.context, cast this, name);
 	}
 
+	public inline function SetShaderParameterAnimation(name:String, va:ValueAnimation,w:WrapMode=WM_LOOP, s:Single=1.0):Void {
+		_SetShaderParameterAnimation(Context.context, cast this, name, va,w, s);
+	}
+
+	public inline function GetShaderParameterAnimation(name:String):ValueAnimation {
+		return _GetShaderParameterAnimation(Context.context, cast this, name);
+	}
 
 	public var depthBias(get, set):BiasParameters;
 
@@ -70,6 +78,14 @@ abstract Material(HL_URHO3D_MATERIAL) {
 
 	@:hlNative("Urho3D", "_graphics_material_get_shader_parameter")
 	private static function _GetShaderParameter(context:Context, material:Material, name:String):TVariant {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_material_set_shader_parameter_animation")
+	private static function _SetShaderParameterAnimation(context:Context, material:Material, name:String, va:ValueAnimation,w:Int, s:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_material_get_shader_parameter_animation")
+	private static function _GetShaderParameterAnimation(context:Context, material:Material, name:String):ValueAnimation {
 		return null;
 	}
 }

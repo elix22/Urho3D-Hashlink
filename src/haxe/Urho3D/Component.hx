@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.ParticleEmitter2D.AbstractParticleEmitter2D;
 import urho3d.Scene.AbstractScene;
 import urho3d.StaticModel.AbstractStaticModel;
 import urho3d.Node.AbstractNode;
@@ -16,9 +17,17 @@ import urho3d.Constraint.AbstractConstraint;
 import urho3d.AnimationController.AbstractAnimationController;
 import urho3d.LogicComponent.AbstractLogicComponent;
 import urho3d.PhysicsWorld;
+import urho3d.SoundSource.AbstractSoundSource;
 
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 typedef URHO3D_COMPONENT_PTR = hl.Abstract<"hl_urho3d_scene_component_ptr">;
+
+enum abstract AutoRemoveMode(Int) to Int from Int
+{
+    var REMOVE_DISABLED = 0;
+    var REMOVE_COMPONENT;
+    var REMOVE_NODE;
+}
 
 class Component {
 	private var _node:Node = null;
@@ -50,6 +59,17 @@ class Component {
 		if (abstractComponent != null) {
 			abstractComponent.SubscribeToEvent(object, stringHash, this, s);
 		}
+	}
+
+	public var enabled(get,set):Bool;
+
+	function get_enabled() {
+		return AbstractComponent.GetEnabled(Context.context,abstractComponent);
+	}
+
+	function set_enabled(e) {
+		AbstractComponent.SetEnabled(Context.context,abstractComponent,e);
+		return e;
 	}
 
 	function get_scene() {
@@ -411,6 +431,33 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 		}
 	}
 
+	@:to
+	public inline function toSoundSource():SoundSource {
+		if (this != null) {
+			var abstract_ = AbstractSoundSource.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new SoundSource(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
+	//ParticleEmitter2D
+	@:to
+	public inline function toParticleEmitter2D():ParticleEmitter2D {
+		if (this != null) {
+			var abstract_ = AbstractParticleEmitter2D.CastFromComponent(Context.context, cast this);
+			if (abstract_ != null)
+				return new ParticleEmitter2D(abstract_);
+			else
+				return null;
+		} else {
+			return null;
+		}
+	}
+
 	@:keep
 	public function SubscribeToEvent(?object:Object, stringHash:StringHash, d:Dynamic, s:String) {
 		if (object != null) {
@@ -444,5 +491,14 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 	@:hlNative("Urho3D", "_scene_component_get_component_pointer")
 	public static function GetComponentPointer(c:Context, d:AbstractComponent):URHO3D_COMPONENT_PTR {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_component_set_enabled")
+	public static function SetEnabled(c:Context, d:AbstractComponent,b:Bool):Void {
+	}
+
+	@:hlNative("Urho3D", "_scene_component_get_enabled")
+	public static function GetEnabled(c:Context, d:AbstractComponent):Bool {
+		return false;
 	}
 }

@@ -205,6 +205,19 @@ HL_PRIM Urho3D::Component *HL_NAME(_scene_component_get_component_pointer)(urho3
     return component->ptr;
 }
 
+
+HL_PRIM void HL_NAME(_scene_component_set_enabled)(urho3d_context *context, hl_urho3d_scene_component *component,bool enabled)
+{
+     component->ptr->SetEnabled(enabled);
+}
+
+HL_PRIM bool HL_NAME(_scene_component_get_enabled)(urho3d_context *context, hl_urho3d_scene_component *component)
+{
+     component->ptr->IsEnabled();
+}
+DEFINE_PRIM(_VOID, _scene_component_set_enabled, URHO3D_CONTEXT HL_URHO3D_COMPONENT _BOOL);
+DEFINE_PRIM(_BOOL, _scene_component_get_enabled, URHO3D_CONTEXT HL_URHO3D_COMPONENT );
+
 DEFINE_PRIM(URHO3D_COMPONENT_PTR, _scene_component_get_component_pointer, URHO3D_CONTEXT HL_URHO3D_COMPONENT);
 
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _scene_component_create, URHO3D_CONTEXT);

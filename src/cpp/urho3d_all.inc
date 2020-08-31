@@ -283,7 +283,6 @@
 #include <UI/UISelectable.h>
 #include <UI/View3D.h>
 #include <UI/Window.h>
-#if URHO3D_URHO2D
 #include <Urho2D/AnimatedSprite2D.h>
 #include <Urho2D/AnimationSet2D.h>
 #include <Urho2D/CollisionBox2D.h>
@@ -324,7 +323,7 @@
 #include <Urho2D/TmxFile2D.h>
 #include <Urho2D/Urho2D.h>
 #include <Urho2D/Urho2DEvents.h>
-#endif
+
 
 #include <DebugNew.h>
 

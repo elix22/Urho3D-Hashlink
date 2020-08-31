@@ -546,6 +546,17 @@ class Node {
 	function get_vars() {
 		return AbstractNode.GetVars(Context.context, abstractNode);
 	}
+
+	public var enabled(get, set):Bool;
+
+	function set_enabled(e) {
+		AbstractNode.SetEnabled(Context.context, abstractNode, e);
+		return e;
+	}
+
+	function get_enabled() {
+		return AbstractNode.GetEnabled(Context.context, abstractNode);
+	}
 }
 
 @:hlNative("Urho3D")
@@ -737,5 +748,13 @@ abstract AbstractNode(HL_URHO3D_NODE) {
 	@:hlNative("Urho3D", "_scene_node_get_vars")
 	public static function GetVars(c:Context, n:AbstractNode):TVariantMap {
 		return null;
+	}
+
+	@:hlNative("Urho3D", "_scene_node_set_enabled")
+	public static function SetEnabled(c:Context, n:AbstractNode, e:Bool):Void {}
+
+	@:hlNative("Urho3D", "_scene_node_get_enabled")
+	public static function GetEnabled(c:Context, n:AbstractNode):Bool {
+		return false;
 	}
 }

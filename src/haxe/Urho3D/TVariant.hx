@@ -266,6 +266,22 @@ abstract TVariant(URHO3D_TVARIANT) {
 
 
 	@:from
+	public static inline function fromComponent(m:Component):TVariant {
+		// trace("variant from Vector2");
+		var v = new TVariant();
+		TVariant._setObject(v, m);
+		return v;
+	}
+
+	@:from
+	public static inline function fromNode(m:Node):TVariant {
+		// trace("variant from Vector2");
+		var v = new TVariant();
+		TVariant._setObject(v, m);
+		return v;
+	}
+
+	@:from
 	public static inline function fromObject(m:Object):TVariant {
 		// trace("variant from Vector2");
 		var v = new TVariant();
