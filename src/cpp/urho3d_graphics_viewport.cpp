@@ -81,12 +81,13 @@ HL_PRIM hl_urho3d_graphics_render_path * HL_NAME(_graphics_viewport_get_render_p
    return hl_alloc_urho3d_graphics_render_path(view->ptr->GetRenderPath());
 }
 
-//ScreenToWorldPoint(int x, int y, float depth)
+
 HL_PRIM Urho3D::Vector3 * HL_NAME(_graphics_viewport_screen_to_world_point)(urho3d_context *context, hl_urho3d_graphics_viewport *view,int x, int y, float depth)
 {
     return hl_alloc_urho3d_math_tvector3(view->ptr->ScreenToWorldPoint(x,y,depth));
 
 }
+
 DEFINE_PRIM(HL_URHO3D_TVECTOR3, _graphics_viewport_screen_to_world_point, URHO3D_CONTEXT HL_URHO3D_VIEWPORT _I32 _I32 _F32);
 
 DEFINE_PRIM(HL_URHO3D_VIEWPORT, _graphics_viewport_create, URHO3D_CONTEXT HL_URHO3D_SCENE HL_URHO3D_CAMERA);

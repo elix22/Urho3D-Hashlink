@@ -22,7 +22,9 @@ class SamplyGame extends Application {
 
 	public override function Setup() {
 		trace("Setup");
+
 		mainGame = this;
+
 		#if URHO3D_HAXE_HASHLINK
 		engineParameters[EP_RESOURCE_PATHS] = "Data/SamplyGame;Data;CoreData;";
 		#else
@@ -96,18 +98,15 @@ class SamplyGame extends Application {
 			player_ = new Player();
 			playerNode.AddLogicComponent(player_);
 
-			
-				if(player_ != null)
-				{
-					DeleteStartMenu();
-					player_.Play();
-					//@enemies_ = cast<Enemies>(node.CreateScriptObject(scriptFile, "Enemies"));
-					//enemies_.SetPlayer(player_);
-					//enemies_.StartSpawning();
+			if (player_ != null) {
+				DeleteStartMenu();
+				player_.Play();
+				// @enemies_ = cast<Enemies>(node.CreateScriptObject(scriptFile, "Enemies"));
+				// enemies_.SetPlayer(player_);
+				// enemies_.StartSpawning();
 
-					SpawnCoins();
-				}
-			 
+				SpawnCoins();
+			}
 		}
 	}
 
@@ -129,44 +128,35 @@ class SamplyGame extends Application {
 		}
 	}
 
-		// spwans a coin every 4 seconds
-		public function SpawnCoins()
-		{
-			
-			if (player_ != null  && player_.IsAlive() )
-			{
-				var  coinNode = scene.CreateChild("coinNode");
-				coinNode.position =  new TVector3(Random(-2.0, 2.0), 5.0, 0);
-				var coin = new Coin();
-				coinNode.AddLogicComponent(coin);
-				coin.FireAsync(false);
-				ActionManager.AddAction(new DelayTime(4.0),coinNode,this.SpawnCoinsLoop);
-			}
+	// spwans a coin every 4 seconds
+	public function SpawnCoins() {
+		if (player_ != null && player_.IsAlive()) {
+			var coinNode = scene.CreateChild("coinNode");
+			coinNode.position = new TVector3(Random(-2.0, 2.0), 5.0, 0);
+			var coin = new Coin();
+			coinNode.AddLogicComponent(coin);
+			coin.FireAsync(false);
+			ActionManager.AddAction(new DelayTime(4.0), coinNode, this.SpawnCoinsLoop);
 		}
-		
-		
-		public function SpawnCoinsLoop(actionID:ActionID)
-		{
-			// delete coin
-			actionID.DeleteTargets();
-			
-			SpawnCoins();
-		}
+	}
 
-	public function OnCoinCollected()
-	{
-		//log.Warning("OnCoinCollected");
+	public function SpawnCoinsLoop(actionID:ActionID) {
+		// delete coin
+		actionID.DeleteTargets();
+
+		SpawnCoins();
+	}
+
+	public function OnCoinCollected() {
+		// log.Warning("OnCoinCollected");
 		coins++;
-		//trace("OnCoinCollected "+coins);
-		//coinsText.text = coins + CoinsString;
+		// trace("OnCoinCollected "+coins);
+		// coinsText.text = coins + CoinsString;
 	}
 
-	public function OnPlayerHealthUpdate( health:Float)
-	{
-		//trace("OnPlayerHealthUpdate " + health);
+	public function OnPlayerHealthUpdate(health:Float) {
+		// trace("OnPlayerHealthUpdate " + health);
 
-		//healthText.text =HealthString + int(health) + "%";
+		// healthText.text =HealthString + int(health) + "%";
 	}
-
-
 }
