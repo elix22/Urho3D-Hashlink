@@ -28,7 +28,7 @@ class StartMenu extends LogicComponent {
 		bigAircraft.scale = 1.2;
 		bigAircraft.Rotate(new Quaternion(0, 220, 40), TS_LOCAL);
 		bigAircraft.position = new Vector3(10, 2, 10);
-		ActionManager.actionManager.AddAction(new RepeatForever(new Sequence(new RotateBy(1.0, 0.0, 0.0, 0.1), new RotateBy(1.0, 0.0, 0.0, -0.1))),
+		ActionManager.AddAction(new RepeatForever(new Sequence(new RotateBy(1.0, 0.0, 0.0, 0.1), new RotateBy(1.0, 0.0, 0.0, -0.1))),
 			bigAircraft);
 
 		rotor = bigAircraft.CreateChild();
@@ -38,9 +38,9 @@ class StartMenu extends LogicComponent {
 		rotor.scale = new Vector3(0.1, 1.6, 0.1);
 		rotor.rotation = new Quaternion(0, 0, 0);
 		rotor.position = new Vector3(0, -0.15, 1);
-		ActionManager.actionManager.AddAction(new RepeatForever(new RotateBy(1.0, 0, 0, 360.0 * 3)), rotor);
+		ActionManager.AddAction(new RepeatForever(new RotateBy(1.0, 0, 0, 360.0 * 3)), rotor);
 
-        ActionManager.actionManager.AddAction(new EaseIn(new MoveBy(1.0, new Vector3(-10, -2, -10)), 2), bigAircraft);
+        ActionManager.AddAction(new EaseIn(new MoveBy(1.0, new Vector3(-10, -2, -10)), 2), bigAircraft);
         
         finished = false;
         startPlay = false;
@@ -59,7 +59,7 @@ class StartMenu extends LogicComponent {
 			 
 			// ui.root.RemoveChild(textBlock,0);
 			
-            ActionManager.actionManager.AddAction( new EaseIn( new MoveBy(1.0,  new Vector3(-10, -2, -10)), 3),bigAircraft,this.StartPlay);		
+            ActionManager.AddAction( new EaseIn( new MoveBy(1.0,  new Vector3(-10, -2, -10)), 3),bigAircraft,this.StartPlay);		
 	   }
 	}
     

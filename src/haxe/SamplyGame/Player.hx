@@ -36,17 +36,17 @@ class Player extends Aircraft {
 		rotor.scale = new Vector3(0.1, 1.4, 0.1);
 		rotor.rotation = new Quaternion(0, 0, 0);
 		rotor.position = new Vector3(0, -0.15, 1.2);
-		ActionManager.actionManager.AddAction(new RepeatForever(new RotateBy(1.0, 0, 0, 360.0 * 4)), rotor);
+		ActionManager.AddAction(new RepeatForever(new RotateBy(1.0, 0, 0, 360.0 * 4)), rotor);
 
         node.AddLogicComponent(new MachineGun());
         node.AddLogicComponent(new Missile());
 
 
-		ActionManager.actionManager.AddAction(new EaseOut(new MoveBy(0.5, new Vector3(0, 3, 0)), 2), node);
+		ActionManager.AddAction(new EaseOut(new MoveBy(0.5, new Vector3(0, 3, 0)), 2), node);
 
 		var sequence1:FiniteTimeAction = new Sequence(new EaseBackInOut(new RotateBy(1.0, 0.0, 0.0, 360.0)), new DelayTime(5));
 		var sequence2:FiniteTimeAction = new Sequence(new EaseBackInOut(new RotateBy(1.0, 0.0, 0.0, -360.0)), new DelayTime(5));
-		ActionManager.actionManager.AddAction(new RepeatForever(new Sequence(sequence1, sequence2)), node);
+		ActionManager.AddAction(new RepeatForever(new Sequence(sequence1, sequence2)), node);
 
 		MoveRandomly();
 	}
@@ -91,19 +91,19 @@ class Player extends Aircraft {
 	public function MoveRandomly() {
 		if (IsAlive()) {
 			var moveAction:FiniteTimeAction = new MoveBy(0.75, new Vector3(Random(-0.4, 0.4), Random(-0.4, 0.4), 0));
-			ActionManager.actionManager.AddAction(new Sequence(moveAction, moveAction.Reverse()), node, this.RandmoMoveDone);
+			ActionManager.AddAction(new Sequence(moveAction, moveAction.Reverse()), node, this.RandmoMoveDone);
 		}
 	}
 
 	public function RandmoMoveDone(actionID:ActionID) {
 		if (IsAlive()) {
 			var moveAction:FiniteTimeAction = new MoveBy(0.75, new Vector3(Random(-0.4, 0.4), Random(-0.4, 0.4), 0));
-			ActionManager.actionManager.AddAction(new Sequence(moveAction, moveAction.Reverse()), node, this.RandmoMoveDone);
+			ActionManager.AddAction(new Sequence(moveAction, moveAction.Reverse()), node, this.RandmoMoveDone);
 		}
 	}
 
 	public override function OnExplode(explodeNode:Node) {
-		ActionManager.actionManager.RemoveAllActions(rotor);
+		ActionManager.RemoveAllActions(rotor);
 		rotor.Remove();
 
 		explodeNode.scale = 1.5;

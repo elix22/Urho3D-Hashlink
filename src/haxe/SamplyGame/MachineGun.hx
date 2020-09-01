@@ -48,7 +48,7 @@ class MachineGun extends Weapon
 		}
 		
 		 var moveAction:FiniteTimeAction = new MoveBy(0.7,  new TVector3(0, 10, 0) * (player ? 1 : -1));
-         ActionManager.actionManager.AddAction( moveAction,bulletNode,this.bulletNodeRemove);
+         ActionManager.AddAction( moveAction,bulletNode,this.bulletNodeRemove);
 		
 	}
 	

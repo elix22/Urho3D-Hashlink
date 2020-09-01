@@ -103,13 +103,13 @@ class Aircraft extends LogicComponent {
 
 		explosionNode.position = node.worldPosition;
 		OnExplode(explosionNode);
-		ActionManager.actionManager.RemoveAllActions(node);
+		ActionManager.RemoveAllActions(node);
 		node.scale = 0.0;
 
 		var group:ActionGroup = new ActionGroup();
 		group.Push(new ScaleTo(1.0, 0.0), explosionNode);
 		group.Push(new DelayTime(1.0), explosionNode);
-		ActionManager.actionManager.AddActions(group, this.ExplodeDone);
+		ActionManager.AddActions(group, this.ExplodeDone);
 	}
 
 	public function OnExplode(explodeNode:Node) {
@@ -129,7 +129,7 @@ class Aircraft extends LogicComponent {
 				weapon.Stop();
 		}
 
-		ActionManager.actionManager.AddAction(new DelayTime(5.0), node, this.DisableNode);
+		ActionManager.AddAction(new DelayTime(5.0), node, this.DisableNode);
 	}
 
 	public function DisableNode(actionID:ActionID) {

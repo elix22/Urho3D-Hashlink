@@ -51,7 +51,7 @@ class Background extends LogicComponent {
 		var actionGroup = new ActionGroup();
 		actionGroup.Push(new MoveBy(1 / BackgroundSpeed, new Vector3(0, -moveTo, -h)), frontTile);
 		actionGroup.Push(new MoveBy(1 / BackgroundSpeed, new Vector3(0, -moveTo, -h)), rearTile);
-		ActionManager.actionManager.AddActions(actionGroup, this.OnActionDone);
+		ActionManager.AddActions(actionGroup, this.OnActionDone);
 	}
 
 	function SwitchTiles() {

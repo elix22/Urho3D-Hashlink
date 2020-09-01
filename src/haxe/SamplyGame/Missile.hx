@@ -64,7 +64,7 @@ class Missile extends Weapon
 		//group.Push(BezierBy(1.0f,bezierConfig),bulletNode);
 		group.Push(new DelayTime(2.0),bulletNode);
 		
-		ActionManager.actionManager.AddActions(group,this.bulletNodeRemove);
+		ActionManager.AddActions(group,this.bulletNodeRemove);
 		
 		
 	}
@@ -95,7 +95,7 @@ class Missile extends Weapon
 		var particleEffect = new ParticleEffect2D("Particles/MissileTrace.pex");
 		particleEmitter.effect = particleEffect;
 		
-		ActionManager.actionManager.AddAction(new Sequence(new ScaleTo(0.5, 0.0), new DelayTime(0.5)),explosionNode,this.explosionNodeRemove);
+		ActionManager.AddAction(new Sequence(new ScaleTo(0.5, 0.0), new DelayTime(0.5)),explosionNode,this.explosionNodeRemove);
 		
 	}
 	

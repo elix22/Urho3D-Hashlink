@@ -92,15 +92,9 @@ class ActionDef {
 }
 
 class ActionManager {
-	public static var actionManager:ActionManager = new ActionManager();
+	private static  var actions:Array<ActionID> = [];
 
-	private var actions:Array<ActionID>;
-
-	public function new() {
-		actions = [];
-	}
-
-	public function RemoveAllActions(?node:Node) {
+	public  static function RemoveAllActions(?node:Node) {
 		if (node == null)
 			actions = [];
 		else {
@@ -114,7 +108,7 @@ class ActionManager {
 		}
 	}
 
-	public function AddActions(?actDef:Array<ActionDef>, ?group:ActionGroup, ?callback:CALLBACK = null) {
+	public  static function AddActions(?actDef:Array<ActionDef>, ?group:ActionGroup, ?callback:CALLBACK = null) {
 		if (actDef != null) {
 			var id = new ActionID();
 			for (i in 0...actDef.length) {
@@ -135,7 +129,7 @@ class ActionManager {
 			return null;
 	}
 
-	public function AddAction(?actDef:ActionDef, ?action:FiniteTimeAction, ?target:Node, ?actionState:FiniteTimeActionState, ?callback:CALLBACK = null) {
+	public  static function AddAction(?actDef:ActionDef, ?action:FiniteTimeAction, ?target:Node, ?actionState:FiniteTimeActionState, ?callback:CALLBACK = null) {
 		if (actDef != null) {
 			var id = new ActionID(actDef, callback);
 			actions.push(id);
@@ -154,7 +148,7 @@ class ActionManager {
 			return null;
 	}
 
-	public function IsRunning(?actionID:ActionID):Bool {
+	public  static function IsRunning(?actionID:ActionID):Bool {
 		if (actionID == null) {
 			if (actions.length == 0) {
 				return false;
@@ -180,7 +174,7 @@ class ActionManager {
 		return false;
 	}
 
-	public function Step(timeStep:Float):Bool {
+	public  static function Step(timeStep:Float):Bool {
 		if (actions.length == 0) {
 			return false;
 		}

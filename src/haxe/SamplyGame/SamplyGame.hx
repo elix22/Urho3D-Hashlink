@@ -84,7 +84,7 @@ class SamplyGame extends Application {
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
-		ActionManager.actionManager.Step(step);
+		ActionManager.Step(step);
 
 		if (startMenu_ != null && startMenu_.startPlay == true && playing == false) {
 			playing = true;
@@ -140,7 +140,7 @@ class SamplyGame extends Application {
 				var coin = new Coin();
 				coinNode.AddLogicComponent(coin);
 				coin.FireAsync(false);
-				ActionManager.actionManager.AddAction(new DelayTime(4.0),coinNode,this.SpawnCoinsLoop);
+				ActionManager.AddAction(new DelayTime(4.0),coinNode,this.SpawnCoinsLoop);
 			}
 		}
 		

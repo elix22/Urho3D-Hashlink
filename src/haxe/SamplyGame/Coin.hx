@@ -25,7 +25,7 @@ class Coin extends Weapon {
 		var actions:Array<FiniteTimeAction> = [];
 		actions.push(new MoveBy(3.0, new Vector3(0, 10 * (byPlayer ? 1 : -1), 0)));
 		actions.push(new RotateBy(3.0, 0, 360 * 5, 0));
-		ActionManager.actionManager.AddAction(new Parallel(actions), bulletNode, this.bulletNodeRemove);
+		ActionManager.AddAction(new Parallel(actions), bulletNode, this.bulletNodeRemove);
 	}
 
 	public function bulletNodeRemove(actionID:ActionID) {
