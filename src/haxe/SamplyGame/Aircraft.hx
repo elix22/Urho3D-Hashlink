@@ -123,13 +123,10 @@ class Aircraft extends LogicComponent {
 	public function ExplodeDone(actionID:ActionID) {
 		actionID.DeleteTargets();
 
-		var weapons = node.GetAllLogicComponents();
+		var weapons = node.GetLogicComponents(Weapon);
 
-		for (instance in weapons) {
-			if (instance.IsA(Weapon)) {
-				var weapon:Weapon = instance;
+		for (weapon in weapons) {
 				weapon.Stop();
-			}
 		}
 
 		ActionManager.actionManager.AddAction(new DelayTime(5.0), node, this.DisableNode);

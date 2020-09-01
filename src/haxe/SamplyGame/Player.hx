@@ -38,8 +38,8 @@ class Player extends Aircraft {
 		ActionManager.actionManager.AddAction(new RepeatForever(new RotateBy(1.0, 0, 0, 360.0 * 4)), rotor);
 
         node.AddLogicComponent(new MachineGun());
-	
-		// node.CreateScriptObject(scriptFile, "Missile");
+        node.AddLogicComponent(new Missile());
+
 
 		ActionManager.actionManager.AddAction(new EaseOut(new MoveBy(0.5, new Vector3(0, 3, 0)), 2), node);
 
@@ -76,12 +76,10 @@ class Player extends Aircraft {
                 destWorldPos.z = 0;
                 node.Translate(destWorldPos - node.worldPosition, TS_WORLD);
                 
-                var weapons = node.GetAllLogicComponents();
+                var weapons = node.GetLogicComponents(Weapon);
 
-                for (instance in weapons) {
-                    if (instance.IsA(Weapon)) {
-                        instance.FireAsync(true);
-                    }
+                for (weapon in weapons) {
+                    weapon.FireAsync(true);
                 }
 			}
 

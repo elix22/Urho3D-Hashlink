@@ -249,8 +249,10 @@ class Node {
 	}
 
 	@:keep
-	public inline function GetLogicComponents(type:Dynamic, recursive:Bool = true):Array<Dynamic> {
-		if (abstractNode != null) {
+	public inline function GetLogicComponents(type:Dynamic, includeInheritedChildren:Bool = true, recursive:Bool = true):Array<Dynamic> {
+		if (includeInheritedChildren == true) {
+			return GetLogicComponentsInherited(type, recursive);
+		} else if (abstractNode != null) {
 			var typeStr = Std.string(type).split("$").join("");
 			var abs_comps = AbstractNode.GetLogicComponents(Context.context, abstractNode, typeStr, recursive);
 			var res:Array<Dynamic> = [];
@@ -261,7 +263,24 @@ class Node {
 			}
 			return res;
 		} else
-			return null;
+			return [];
+	}
+
+	@:keep
+	public inline function GetLogicComponentsInherited(type:Dynamic, recursive:Bool = true):Array<Dynamic> {
+		if (abstractNode != null) {
+			var abs_comps = AbstractNode.GetAllLogicComponents(Context.context, abstractNode, recursive);
+			var res:Array<Dynamic> = [];
+			if (abs_comps != null) {
+				for (i in 0...abs_comps.length) {
+					if (abs_comps[i].IsA(type)) {
+						res.push(abs_comps[i]);
+					}
+				}
+			}
+			return res;
+		} else
+			return [];
 	}
 
 	@:keep
@@ -276,7 +295,7 @@ class Node {
 			}
 			return res;
 		} else
-			return null;
+			return [];
 	}
 
 	@:keep

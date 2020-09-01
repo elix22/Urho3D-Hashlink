@@ -270,4 +270,14 @@ class Math {
 			return (time * time * ((overshoot + 1) * time + overshoot)) / 2 + 1;
 		}
 	}
+
+	public static inline function CubicBezier(a:Float, b:Float, c:Float, d:Float, t:Float) {
+		var t1 = 1.0 - t;
+		return ((t1 * t1 * t1) * a + 3.0  * t * (t1 * t1) * b + 3.0  * (t * t) * (t1) * c + (t * t * t) * d);
+	}
+
+	public static inline function QuadBezier(a:Float, b:Float, c:Float, t:Float) {
+		var t1 = 1.0 - t;
+		return (t1 * t1) * a + 2.0  * (t1) * t * b + (t * t) * c;
+	}
 }
