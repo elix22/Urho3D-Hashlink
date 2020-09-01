@@ -1,5 +1,6 @@
 package samplygame;
 
+import actions.ActionManager.ActionID;
 import urho3d.*;
 import urho3d.Application;
 import actions.*;
@@ -10,14 +11,18 @@ class SamplyGame extends Application {
 
 	private var cameraNode:Node = null;
 
+	public static var mainGame:SamplyGame = null;
+
 	var playing:Bool = false;
 	// Enemies @ enemies_;
 	var player_:Player;
 	var startMenu_:StartMenu = null;
 	var startMenuNode_:Node = null;
+	private var coins = 0;
 
 	public override function Setup() {
 		trace("Setup");
+		mainGame = this;
 		#if URHO3D_HAXE_HASHLINK
 		engineParameters[EP_RESOURCE_PATHS] = "Data/SamplyGame;Data;CoreData;";
 		#else
@@ -33,7 +38,7 @@ class SamplyGame extends Application {
 
 	public override function Start() {
 		Input.SetMouseVisible(true);
-		
+
 		CreateScene();
 		SubscribeToEvents();
 
@@ -100,7 +105,7 @@ class SamplyGame extends Application {
 					//enemies_.SetPlayer(player_);
 					//enemies_.StartSpawning();
 
-					//SpawnCoins();
+					SpawnCoins();
 				}
 			 
 		}
@@ -123,4 +128,45 @@ class SamplyGame extends Application {
 			startMenu_ = null;
 		}
 	}
+
+		// spwans a coin every 4 seconds
+		public function SpawnCoins()
+		{
+			
+			if (player_ != null  && player_.IsAlive() )
+			{
+				var  coinNode = scene.CreateChild("coinNode");
+				coinNode.position =  new TVector3(Random(-2.0, 2.0), 5.0, 0);
+				var coin = new Coin();
+				coinNode.AddLogicComponent(coin);
+				coin.FireAsync(false);
+				ActionManager.actionManager.AddAction(new DelayTime(4.0),coinNode,this.SpawnCoinsLoop);
+			}
+		}
+		
+		
+		public function SpawnCoinsLoop(actionID:ActionID)
+		{
+			// delete coin
+			actionID.DeleteTargets();
+			
+			SpawnCoins();
+		}
+
+	public function OnCoinCollected()
+	{
+		//log.Warning("OnCoinCollected");
+		coins++;
+		//trace("OnCoinCollected "+coins);
+		//coinsText.text = coins + CoinsString;
+	}
+
+	public function OnPlayerHealthUpdate( health:Float)
+	{
+		//trace("OnPlayerHealthUpdate " + health);
+
+		//healthText.text =HealthString + int(health) + "%";
+	}
+
+
 }

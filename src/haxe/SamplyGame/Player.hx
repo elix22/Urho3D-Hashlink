@@ -9,7 +9,8 @@ import actions.*;
 class Player extends Aircraft {
 	var rotor:Node;
 	var actionID:ActionID;
-	var offsetY = -50;
+    var offsetY = -50;
+    
 
 	public function new(?dyn:Dynamic) {
 		super(dyn);
@@ -109,5 +110,15 @@ class Player extends Aircraft {
 		var particleEmitter:ParticleEmitter2D = explodeNode.CreateComponent("ParticleEmitter2D");
 		var particleEffect:ParticleEffect2D = new ParticleEffect2D("Particles/PlayerExplosion.pex");
 		particleEmitter.effect = particleEffect;
+    }
+    
+    public override function SendHealthUpdateToSamplyGame() 
+	{
+		if(SamplyGame.mainGame != null)
+		{
+			var h = cast(Health,Float) / MaxHealth;
+			h *= 100.0;
+			SamplyGame.mainGame.OnPlayerHealthUpdate(h);
+		}
 	}
 }
