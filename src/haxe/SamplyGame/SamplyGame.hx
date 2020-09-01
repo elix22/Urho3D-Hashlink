@@ -14,7 +14,7 @@ class SamplyGame extends Application {
 	public static var mainGame:SamplyGame = null;
 
 	var playing:Bool = false;
-	// Enemies @ enemies_;
+	var enemies_:Enemies = null;
 	var player_:Player;
 	var startMenu_:StartMenu = null;
 	var startMenuNode_:Node = null;
@@ -101,13 +101,33 @@ class SamplyGame extends Application {
 			if (player_ != null) {
 				DeleteStartMenu();
 				player_.Play();
-				// @enemies_ = cast<Enemies>(node.CreateScriptObject(scriptFile, "Enemies"));
-				// enemies_.SetPlayer(player_);
-				// enemies_.StartSpawning();
+
+				enemies_ = new Enemies();
+				scene.AddLogicComponent(enemies_);
+				enemies_.SetPlayer(player_);
+				enemies_.StartSpawning();
 
 				SpawnCoins();
 			}
 		}
+		else if (player_ != null  && player_.IsAlive()== false )
+			{
+				//log.Warning("you died");
+				playing = false;
+				enemies_.KillAll();
+				enemies_.RemovePlayer();
+				player_ = null;
+				enemies_ = null;
+				
+				CreateStartMenu();
+				/*
+				DelayedExecute(1.0, false, "void CreateStartMenu()");
+	
+				//CreateStartMenu();
+				coins = 0;
+				coinsText.text = coins + CoinsString;
+				*/
+			}
 	}
 
 	function CreateStartMenu() {

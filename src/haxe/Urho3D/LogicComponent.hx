@@ -32,7 +32,10 @@ class LogicComponent extends Component {
 
 	@:keep
 	public static function CreateFactory(name:HString, ?rhs:AbstractLogicComponent):Dynamic {
-		return Type.createInstance(Type.resolveClass(name), [rhs]);
+		if (rhs != null)
+			return Type.createInstance(Type.resolveClass(name), [rhs]);
+		else
+			return Type.createInstance(Type.resolveClass(name), []);
 	}
 
 	@:keep

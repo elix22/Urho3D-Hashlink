@@ -4,7 +4,6 @@ import urho3d.Bone;
 import urho3d.Node;
 import actions.FiniteTimeAction.FiniteTimeActionState;
 
-// callback_fun:Void->Void
 
 typedef CALLBACK = ActionID->Void;
 

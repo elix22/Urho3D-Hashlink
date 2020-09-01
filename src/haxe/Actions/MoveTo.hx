@@ -16,7 +16,7 @@ class MoveTo extends MoveBy {
 	}
 
 
-	public var PositionEnd (default,never):Vector3;
+	public var PositionEnd (get,never):Vector3;
 
 	function	get_PositionEnd() { return EndPosition; }
 	

@@ -38,6 +38,10 @@ abstract Material(HL_URHO3D_MATERIAL) {
 		return _GetShaderParameterAnimation(Context.context, cast this, name);
 	}
 
+	public inline function Clone(name:String=""):Material {
+		return _Clone(Context.context, cast this, name);
+	}
+
 	public var depthBias(get, set):BiasParameters;
 
 	function set_depthBias(o) {
@@ -86,6 +90,11 @@ abstract Material(HL_URHO3D_MATERIAL) {
 
 	@:hlNative("Urho3D", "_graphics_material_get_shader_parameter_animation")
 	private static function _GetShaderParameterAnimation(context:Context, material:Material, name:String):ValueAnimation {
+		return null;
+	}
+
+	@:hlNative("Urho3D", "_graphics_material_clone")
+	private static function _Clone(context:Context, material:Material, name:String):Material {
 		return null;
 	}
 }

@@ -53,6 +53,7 @@ class Player extends Aircraft {
 
 	public override function Update(timeStep:Float) {
 		if (IsAlive()) {
+		
 			var positionX = 0;
 			var positionY = 0;
 			var hasInput = false;

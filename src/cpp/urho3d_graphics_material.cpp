@@ -146,6 +146,14 @@ HL_PRIM hl_urho3d_scene_value_animation * HL_NAME(_graphics_material_get_shader_
     return hl_alloc_urho3d_scene_value_animation(context,hl_material->ptr->GetShaderParameterAnimation(String(ch)));
 }
 
+HL_PRIM hl_urho3d_graphics_material * HL_NAME(_graphics_material_clone)(urho3d_context *context, hl_urho3d_graphics_material *hl_material, vstring *str)
+{
+    const char *ch = (char *)hl_to_utf8(str->bytes);
+    return hl_alloc_urho3d_graphics_material(hl_material->ptr->Clone(String(ch)).Get());
+}
+
+DEFINE_PRIM(HL_URHO3D_MATERIAL, _graphics_material_clone, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING);
+
 DEFINE_PRIM(_VOID, _graphics_material_set_shader_parameter, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING HL_URHO3D_TVARIANT);
 DEFINE_PRIM(HL_URHO3D_TVARIANT, _graphics_material_get_shader_parameter, URHO3D_CONTEXT HL_URHO3D_MATERIAL _STRING );
 
