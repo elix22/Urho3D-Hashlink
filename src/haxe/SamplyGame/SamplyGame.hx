@@ -2,6 +2,7 @@ package samplygame;
 
 import actions.ActionManager.ActionID;
 import urho3d.*;
+import urho3d.UIElement.HorizontalAlignment;
 import urho3d.Application;
 import actions.*;
 
@@ -19,6 +20,11 @@ class SamplyGame extends Application {
 	var startMenu_:StartMenu = null;
 	var startMenuNode_:Node = null;
 	private var coins = 0;
+
+	private var CoinsString:String = " Coins";
+	private var HealthString:String = "Health : ";
+	var coinsText:Text = null;
+	var healthText:Text = null;
 
 	public override function Setup() {
 		trace("Setup");
@@ -45,6 +51,18 @@ class SamplyGame extends Application {
 		SubscribeToEvents();
 
 		CreateStartMenu();
+
+		coinsText = new Text();
+		coinsText.text = coins + CoinsString;
+		coinsText.horizontalAlignment = HA_RIGHT;
+		coinsText.SetFont(new Font("Fonts/Font.ttf"), Graphics.width / 30);
+		UI.root.AddChild(coinsText);
+
+		healthText = new Text();
+		healthText.text = HealthString + 100 + "%";
+		healthText.horizontalAlignment = HA_LEFT;
+		healthText.SetFont(new Font("Fonts/Font.ttf"), Graphics.width / 30);
+		UI.root.AddChild(healthText);
 	}
 
 	public function CreateScene() {
@@ -70,6 +88,14 @@ class SamplyGame extends Application {
 		scene.AddLogicComponent(new Background());
 
 		var lightNode = scene.CreateChild("DirectionalLight");
+		lightNode.position = new Vector3(0, -5, -40);
+		var light:Light = lightNode.CreateComponent("Light");
+		light.lightType = LIGHT_POINT;
+		light.range = 120;
+		light.brightness = 0.8;
+		
+
+		/*
 		lightNode.direction = new TVector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
 		var light:Light = lightNode.CreateComponent("Light");
 		light.lightType = LIGHT_DIRECTIONAL;
@@ -78,6 +104,7 @@ class SamplyGame extends Application {
 		light.shadowBias = new BiasParameters(0.00025, 0.5);
 		// Set cascade splits at 10, 50 and 200 world units, fade shadows out at 80% of maximum shadow distance
 		light.shadowCascade = new CascadeParameters(10.0, 50.0, 200.0, 0.0, 0.8);
+		*/
 	}
 
 	public function SubscribeToEvents() {
@@ -90,9 +117,8 @@ class SamplyGame extends Application {
 
 		if (startMenu_ != null && startMenu_.startPlay == true && playing == false) {
 			playing = true;
-			// log.Warning("start play");
 
-			// healthText.text = HealthString + 100 + "%";
+			healthText.text = HealthString + 100 + "%";
 
 			var playerNode:Node = scene.CreateChild("PlayerNode");
 			player_ = new Player();
@@ -109,25 +135,25 @@ class SamplyGame extends Application {
 
 				SpawnCoins();
 			}
-		}
-		else if (player_ != null  && player_.IsAlive()== false )
-			{
-				//log.Warning("you died");
-				playing = false;
-				enemies_.KillAll();
-				enemies_.RemovePlayer();
-				player_ = null;
-				enemies_ = null;
-				
-				CreateStartMenu();
-				/*
+		} else if (player_ != null && player_.IsAlive() == false) {
+			// log.Warning("you died");
+			playing = false;
+			enemies_.KillAll();
+			enemies_.RemovePlayer();
+			player_ = null;
+			enemies_ = null;
+
+			CreateStartMenu();
+			coins = 0;
+			coinsText.text = coins + CoinsString;
+			/*
 				DelayedExecute(1.0, false, "void CreateStartMenu()");
-	
+
 				//CreateStartMenu();
 				coins = 0;
 				coinsText.text = coins + CoinsString;
-				*/
-			}
+			 */
+		}
 	}
 
 	function CreateStartMenu() {
@@ -168,15 +194,13 @@ class SamplyGame extends Application {
 	}
 
 	public function OnCoinCollected() {
-		// log.Warning("OnCoinCollected");
 		coins++;
-		// trace("OnCoinCollected "+coins);
-		// coinsText.text = coins + CoinsString;
+		coinsText.text = coins + CoinsString;
 	}
 
 	public function OnPlayerHealthUpdate(health:Float) {
 		// trace("OnPlayerHealthUpdate " + health);
 
-		// healthText.text =HealthString + int(health) + "%";
+		 healthText.text =HealthString + cast(health,Int) + "%";
 	}
 }

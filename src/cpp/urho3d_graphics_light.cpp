@@ -276,6 +276,19 @@ HL_PRIM float HL_NAME(_graphics_light_get_shadow_near_far_ratio)(urho3d_context 
 }
 
 
+HL_PRIM void HL_NAME(_graphics_light_set_brightness)(urho3d_context *context, hl_urho3d_graphics_light *t, float f)
+{
+    t->ptr->SetBrightness(f);
+}
+
+HL_PRIM float HL_NAME(_graphics_light_get_brightness)(urho3d_context *context, hl_urho3d_graphics_light *t)
+{
+   return t->ptr->GetBrightness();
+}
+
+DEFINE_PRIM(_VOID, _graphics_light_set_brightness, URHO3D_CONTEXT HL_URHO3D_LIGHT _F32);
+DEFINE_PRIM(_F32, _graphics_light_get_brightness, URHO3D_CONTEXT HL_URHO3D_LIGHT );
+
 
 DEFINE_PRIM(HL_URHO3D_LIGHT, _graphics_light_create, URHO3D_CONTEXT);
 DEFINE_PRIM(HL_URHO3D_COMPONENT, _graphics_light_cast_to_component, URHO3D_CONTEXT HL_URHO3D_LIGHT);

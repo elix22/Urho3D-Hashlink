@@ -68,5 +68,6 @@
         "thread": "cpp",
         "unordered_map": "cpp",
         "codecvt": "cpp"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }

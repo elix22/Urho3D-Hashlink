@@ -335,6 +335,27 @@ typedef struct hl_urho3d_uielement
 hl_urho3d_uielement *hl_alloc_urho3d_uilement();
 hl_urho3d_uielement *hl_alloc_urho3d_uielement(urho3d_context *context, Urho3D::UIElement *uielement);
 
+
+typedef struct hl_urho3d_ui_text
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::Text> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_ui_text;
+#define HL_URHO3D_UI_TEXT _ABSTRACT(hl_urho3d_ui_text)
+
+
+typedef struct hl_urho3d_ui_font
+{
+    void *finalizer;
+    int hash;
+    SharedPtr<Urho3D::Font> ptr;
+    vdynamic *dyn_obj;
+} hl_urho3d_ui_font;
+#define HL_URHO3D_UI_FONT _ABSTRACT(hl_urho3d_ui_font)
+
+
 typedef struct hl_urho3d_scene_component
 {
     void *finalizer;

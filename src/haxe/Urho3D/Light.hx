@@ -164,6 +164,17 @@ class Light extends Component {
 	function get_shadowNearFarRatio() {
 		return AbstractLight.GetShadowNearFarRatio(Context.context, _abstract);
 	}
+
+	public var brightness(get,set):Float;
+
+	function get_brightness() {
+		return AbstractLight.GetBrightness(Context.context,_abstract);
+	}
+
+	function set_brightness(b) {
+		AbstractLight.SetBrightness(Context.context,_abstract,b);
+		return b;
+	}
 }
 
 @:hlNative("Urho3D")
@@ -295,6 +306,14 @@ abstract AbstractLight(HL_URHO3D_LIGHT) {
 
 	@:hlNative("Urho3D", "_graphics_light_get_shadow_near_far_ratio")
 	public static function GetShadowNearFarRatio(c:Context, s:AbstractLight):Single {
+		return 0.0;
+	}
+
+	@:hlNative("Urho3D", "_graphics_light_set_brightness")
+	public static function SetBrightness(c:Context, s:AbstractLight, t:Single):Void {}
+
+	@:hlNative("Urho3D", "_graphics_light_get_brightness")
+	public static function GetBrightness(c:Context, s:AbstractLight):Single {
 		return 0.0;
 	}
 }
