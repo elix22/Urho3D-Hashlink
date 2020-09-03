@@ -6,7 +6,7 @@ import samplygame.Globals.CollisionLayers;
 
 class Weapon extends LogicComponent {
 	public var isInited = false;
-	public var LastLaunchDate = 0;
+	public var LastLaunchDate = 0.0;
 	public var ReloadDuration = 500;
 	public var Damage = 1;
 	public var level = 0;

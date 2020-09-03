@@ -1,9 +1,7 @@
-
 import urho3d.*;
 import urho3d.Application;
 import urho3d.Graphics.BlendMode;
 import samplygame.*;
-
 
 class Main {
 	private static var app = null;
@@ -15,20 +13,18 @@ class Main {
 		// app = new SkeletalAnimationSample();
 		//	app = new BillboardsSample();
 		//	app = new DecalsSample();
-		 //  app = new MultipleViewportsSample();
+		//  app = new MultipleViewportsSample();
 		// app = new RenderToTextureSample();
 		// app = new PhysicsSample();
 		//	app = new RagdollsSample();
-		//app = new CharacterDemoSample();
+		// app = new CharacterDemoSample();
 		app = new SamplyGame();
 		app.Run();
 	}
 }
-
-
 ///hl --hot-reload  main.hl
 /*
-class Main {
+	class Main {
 
 	macro static function randomValue() {
 		return macro $v{100000 + Std.random(1000)};
@@ -42,7 +38,7 @@ class Main {
 	static function foo() {
 		return randomValue();
 	}
-	
+
 	static function reload() {
 		Sys.sleep(1); // make sure timestamp is different
 		Sys.command("haxe",["-cp","src/haxe","-hl","main.hl","-main","Main"]);
@@ -55,8 +51,8 @@ class Main {
 			reload();
 		}
 	}
-	
+
 	#end
-	
-}
-*/
+
+	}
+ */

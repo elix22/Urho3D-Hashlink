@@ -114,7 +114,7 @@ class BillboardsSample extends Application {
 			var color = new Color(((i + 1) & 1) * 0.5 + 0.5, (((i + 1) >> 1) & 1) * 0.5 + 0.5, (((i + 1) >> 2) & 1) * 0.5 + 0.5);
 
 			lightNode.position = position;
-			lightNode.direction = new Vector3(Math.sin(angle), -1.5, Math.cos(angle));
+			lightNode.direction = new Vector3(Math.Sin(angle), -1.5, Math.Cos(angle));
 
 			light.lightType = LIGHT_SPOT;
 			light.range = 90.0;

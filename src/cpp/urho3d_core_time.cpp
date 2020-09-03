@@ -10,12 +10,9 @@ extern "C"
 
 #include "global_types.inc"
 
-
-HL_PRIM  int HL_NAME(_core_time_get_system_time)(urho3d_context *context)
+HL_PRIM double HL_NAME(_core_time_get_system_time)(urho3d_context *context)
 {
-       int i= Time::GetSystemTime();
-       if(i<0)i=0-i;
-       return i;
+       return Time::GetSystemTime();
 }
 
-DEFINE_PRIM(_I32, _core_time_get_system_time, URHO3D_CONTEXT );
+DEFINE_PRIM(_F64, _core_time_get_system_time, URHO3D_CONTEXT);

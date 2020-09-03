@@ -213,7 +213,7 @@ HL_PRIM void HL_NAME(_scene_component_set_enabled)(urho3d_context *context, hl_u
 
 HL_PRIM bool HL_NAME(_scene_component_get_enabled)(urho3d_context *context, hl_urho3d_scene_component *component)
 {
-     component->ptr->IsEnabled();
+     return component->ptr->IsEnabled();
 }
 DEFINE_PRIM(_VOID, _scene_component_set_enabled, URHO3D_CONTEXT HL_URHO3D_COMPONENT _BOOL);
 DEFINE_PRIM(_BOOL, _scene_component_get_enabled, URHO3D_CONTEXT HL_URHO3D_COMPONENT );
