@@ -30,7 +30,7 @@ static int hl_hash_on_marked_dirty = 0;
 static int hl_hash_on_node_set_enabled = 0;
 
 static int hl_hash_GetFields = 0;
-//hl_hash_utf8("GetFields")
+
 
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 // very fast function

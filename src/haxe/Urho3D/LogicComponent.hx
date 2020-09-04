@@ -145,6 +145,10 @@ class LogicComponent extends Component {
 	public function OnSceneSet(scene:Scene):Void {}
 
 	@:keep
+	@:final
+	private function OnTick(timeStep:Float):Void {}
+
+	@:keep
 	private function _OnMarkedDirty(node:AbstractNode):Void {
 		OnMarkedDirty(node);
 	}
@@ -160,39 +164,9 @@ class LogicComponent extends Component {
 	@:keep
 	public function OnNodeSetEnabled(node:Node) {}
 
+
 	@:keep
-	public function CallMethod(f:String, args:Array<Dynamic>) {
-		try {
-			var fn = Reflect.field(this, f);
-			if (fn != null) {
-				Reflect.callMethod(this, fn, args);
-			}
-		} catch (e) {}
-	}
-
-	/* reflection doesnlt work on iOS
-		@:keep
-		public function CallMethod(f:String, args:Array<Dynamic>) {
-			try {
-				var fn = Reflect.field(this, f);
-				if (fn != null) {
-					Reflect.callMethod(this, fn, args);
-				}
-			} catch (e) {}
-		}
-
-
-		@:keep
-		public function CallObjectMethod(dyn:Dynamic, f:String, args:Array<Dynamic>) {
-			try {
-				var fn = Reflect.field(dyn, f);
-				if (fn != null) {
-					Reflect.callMethod(dyn, fn, args);
-				}
-			} catch (e) {}
-		}
-	 */
-	@:keep
+	@:final
 	public function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand = Std.random(100000) / 100000.0;
 		if (min == null)
@@ -204,6 +178,7 @@ class LogicComponent extends Component {
 		}
 	}
 
+	@:keep
 	public static function RegisterObject():Void {
 		AbstractLogicComponent.RegisterObject(Context.context);
 	}

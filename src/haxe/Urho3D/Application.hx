@@ -8,6 +8,31 @@ typedef HLDynEvent = {
 	var dynStringHash:Dynamic;
 }
 
+/// Delay-executed function or method call.
+class DelayedCall {
+	public function new() {
+		period_ = 0.0;
+		delay_ = 0.0;
+		repeat_ = false;
+		obj_ = null;
+		declaration_ = "";
+		parameters_ = [];
+	}
+
+	/// Period for repeating calls.
+	public var period_:Float;
+	/// Delay time remaining until execution.
+	public var delay_:Float;
+	/// Repeat flag.
+	public var repeat_:Bool;
+	// Instance that has the function.
+	public var obj_:Dynamic;
+	/// Function declaration.
+	public var declaration_:String;
+	/// Parameters.
+	public var parameters_:Array<Dynamic>;
+}
+
 class Application {
 	public static var application:Application = null;
 
@@ -15,9 +40,11 @@ class Application {
 
 	public static var context = null;
 
+	var delayedCalls:Array<DelayedCall> = [];
+
 	public inline function new() {
 		context = new urho3d.Context();
-		abstractApplication = new AbstractApplication(context);
+		abstractApplication = new AbstractApplication(context, this);
 		abstractApplication.RegisterSetupClosure(Setup);
 		abstractApplication.RegisterStartClosure(Start);
 		abstractApplication.RegisterStopClosure(Stop);
@@ -42,23 +69,50 @@ class Application {
 		// trace("hx Application Stop called ");
 	}
 
+	@:keep
+	@:final
+	private function OnTick(timeStep:Float):Void {
+		//	trace("OnTick " + timeStep);
+
+		// Execute delayed calls
+		for (call in delayedCalls) {
+			var remove:Bool = false;
+
+			call.delay_ -= timeStep;
+			if (call.delay_ <= 0.0) {
+				if (!call.repeat_)
+					remove = true;
+				else
+					call.delay_ += call.period_;
+
+				InvokeObject(call.obj_, call.declaration_, call.parameters_);
+			}
+
+			if (remove)
+				delayedCalls.remove(call);
+		}
+	}
+
 	// private static function SetScreenJoystickPatchString(ptr:HL_URHO3D_APPLICATION, s:String):Void
 	public inline function SetScreenJoystickPatchString(s:String) {
 		abstractApplication.SetScreenJoystickPatchString(s);
 	}
 
+	@:final
 	public function SubscribeToEvent(?object:Object, stringHash:StringHash, s:String) {
 		if (abstractApplication != null) {
 			abstractApplication.SubscribeToEvent(stringHash, this, s);
 		}
 	}
 
+	@:final
 	public var engineParameters(get, never):TVariantMap;
 
 	function get_engineParameters() {
 		return abstractApplication.GetEngineParameters();
 	}
 
+	@:final
 	public inline function Random(?min:Null<Float>, ?max:Null<Float>):Float {
 		var rand:Float = Std.random(1000000) / 1000000.0;
 		if (min == null)
@@ -70,6 +124,8 @@ class Application {
 		}
 	}
 
+	@:final
+
 	// public function Clamp<T:Int & Single & Float>(value:T, min:T, max:T) {
 	public inline function Clamp(value:Float, min:Float, max:Float) {
 		if (value < min)
@@ -80,6 +136,7 @@ class Application {
 			return value;
 	}
 
+	@:final
 	public inline function IClamp(value:Int, min:Int, max:Int) {
 		if (value < min)
 			return min;
@@ -89,8 +146,77 @@ class Application {
 			return value;
 	}
 
+	@:final
 	public inline function IsTouchEnabled():Bool {
 		return abstractApplication.IsTouchEnabled();
+	}
+
+	@:keep
+	@:final
+	public function Invoke(f:String, args:Array<Dynamic>) {
+		try {
+			var fn = Reflect.field(this, f);
+			if (fn != null) {
+				Reflect.callMethod(this, fn, args);
+			}
+		} catch (e) {}
+	}
+
+	@:keep
+	@:final
+	public function InvokeObject(obj:Dynamic, f:String, args:Array<Dynamic>) {
+		try {
+			if (obj != null) {
+				var fn = Reflect.field(obj, f);
+				if (fn != null) {
+					Reflect.callMethod(obj, fn, args);
+				}
+			}
+		} catch (e) {}
+	}
+
+	@:keep
+	@:final
+	public function InvokeDelayed(delay:Float = 0.0, repeat:Bool = false, func:String, args:Array<Dynamic>) {
+		InvokeDelayedObject(delay, repeat, this, func, args);
+	}
+
+	@:keep
+	@:final
+	public function InvokeDelayedObject(delay:Float = 0.0, repeat:Bool = false, obj:Dynamic, func:String, args:Array<Dynamic>) {
+		if (delay == 0.0) {
+			InvokeObject(obj, func, args);
+		} else {
+			var call:DelayedCall = new DelayedCall();
+			call.period_ = call.delay_ = Math.Max(delay, 0.0);
+			call.repeat_ = repeat;
+			call.declaration_ = func;
+			call.parameters_ = args;
+			call.obj_ = obj;
+			delayedCalls.push(call);
+		}
+	}
+
+	public function ClearInvokeDelayed(declaration:String = "") {
+		for (call in delayedCalls) {
+			if (call.declaration_ == declaration && call.obj_ == this) {
+				delayedCalls.remove(call);
+			} else if (declaration == "" && call.obj_ == this) {
+				delayedCalls.remove(call);
+			}
+		}
+	}
+
+	public function ClearInvokeDelayedObject(obj:Dynamic, declaration:String = "") {
+		if (obj != null) {
+			for (call in delayedCalls) {
+				if (call.declaration_ == declaration && call.obj_ == obj) {
+					delayedCalls.remove(call);
+				} else if (declaration == "" && call.obj_ == obj) {
+					delayedCalls.remove(call);
+				}
+			}
+		}
 	}
 
 	final EP_AUTOLOAD_PATHS = "AutoloadPaths";

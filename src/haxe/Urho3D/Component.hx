@@ -22,11 +22,10 @@ import urho3d.SoundSource.AbstractSoundSource;
 typedef HL_URHO3D_COMPONENT = hl.Abstract<"hl_urho3d_scene_component">;
 typedef URHO3D_COMPONENT_PTR = hl.Abstract<"hl_urho3d_scene_component_ptr">;
 
-enum abstract AutoRemoveMode(Int) to Int from Int
-{
-    var REMOVE_DISABLED = 0;
-    var REMOVE_COMPONENT;
-    var REMOVE_NODE;
+enum abstract AutoRemoveMode(Int) to Int from Int {
+	var REMOVE_DISABLED = 0;
+	var REMOVE_COMPONENT;
+	var REMOVE_NODE;
 }
 
 class Component {
@@ -61,14 +60,56 @@ class Component {
 		}
 	}
 
-	public var enabled(get,set):Bool;
+	@:keep
+	@:final
+	public function Invoke(f:String, args:Array<Dynamic>) {
+		try {
+			var fn = Reflect.field(this, f);
+			if (fn != null) {
+				Reflect.callMethod(this, fn, args);
+			}
+		} catch (e) {}
+	}
+
+	@:keep
+	@:final
+	public function InvokeDelayed(delay:Float = 0.0, repeat:Bool = false, func:String, args:Array<Dynamic>) {
+		Application.application.InvokeDelayedObject(delay, repeat, this, func, args);
+	}
+
+	@:keep
+	@:final
+	public function InvokeObject(obj:Dynamic, f:String, args:Array<Dynamic>) {
+		try {
+			var fn = Reflect.field(obj, f);
+			if (fn != null) {
+				Reflect.callMethod(obj, fn, args);
+			}
+		} catch (e) {}
+	}
+
+	@:keep
+	@:final
+	public function InvokeDelayedObject(delay:Float = 0.0, repeat:Bool = false, obj:Dynamic, func:String, args:Array<Dynamic>) {
+		Application.application.InvokeDelayedObject(delay, repeat, obj, func, args);
+	}
+
+	public function ClearInvokeDelayed(declaration:String = "") {
+		Application.application.ClearInvokeDelayedObject(this, declaration);
+	}
+
+	public function ClearInvokeDelayedObject(obj:Dynamic, declaration:String = "") {
+		Application.application.ClearInvokeDelayedObject(obj, declaration);
+	}
+
+	public var enabled(get, set):Bool;
 
 	function get_enabled() {
-		return AbstractComponent.GetEnabled(Context.context,abstractComponent);
+		return AbstractComponent.GetEnabled(Context.context, abstractComponent);
 	}
 
 	function set_enabled(e) {
-		AbstractComponent.SetEnabled(Context.context,abstractComponent,e);
+		AbstractComponent.SetEnabled(Context.context, abstractComponent, e);
 		return e;
 	}
 
@@ -444,7 +485,8 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 		}
 	}
 
-	//ParticleEmitter2D
+	// ParticleEmitter2D
+
 	@:to
 	public inline function toParticleEmitter2D():ParticleEmitter2D {
 		if (this != null) {
@@ -494,8 +536,7 @@ abstract AbstractComponent(HL_URHO3D_COMPONENT) from Dynamic {
 	}
 
 	@:hlNative("Urho3D", "_scene_component_set_enabled")
-	public static function SetEnabled(c:Context, d:AbstractComponent,b:Bool):Void {
-	}
+	public static function SetEnabled(c:Context, d:AbstractComponent, b:Bool):Void {}
 
 	@:hlNative("Urho3D", "_scene_component_get_enabled")
 	public static function GetEnabled(c:Context, d:AbstractComponent):Bool {

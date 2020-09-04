@@ -94,17 +94,6 @@ class SamplyGame extends Application {
 		light.range = 120;
 		light.brightness = 0.8;
 		
-
-		/*
-		lightNode.direction = new TVector3(0.6, -1.0, 0.8); // The direction vector does not need to be normalized
-		var light:Light = lightNode.CreateComponent("Light");
-		light.lightType = LIGHT_DIRECTIONAL;
-		light.color = new Color(0.5, 0.5, 0.5);
-		light.castShadows = true;
-		light.shadowBias = new BiasParameters(0.00025, 0.5);
-		// Set cascade splits at 10, 50 and 200 world units, fade shadows out at 80% of maximum shadow distance
-		light.shadowCascade = new CascadeParameters(10.0, 50.0, 200.0, 0.0, 0.8);
-		*/
 	}
 
 	public function SubscribeToEvents() {
@@ -143,16 +132,9 @@ class SamplyGame extends Application {
 			player_ = null;
 			enemies_ = null;
 
-			CreateStartMenu();
+			InvokeDelayed(1.0,"CreateStartMenu",[]);
 			coins = 0;
 			coinsText.text = coins + CoinsString;
-			/*
-				DelayedExecute(1.0, false, "void CreateStartMenu()");
-
-				//CreateStartMenu();
-				coins = 0;
-				coinsText.text = coins + CoinsString;
-			 */
 		}
 	}
 

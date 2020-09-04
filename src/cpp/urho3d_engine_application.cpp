@@ -13,22 +13,30 @@ extern "C"
 vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
+static int hl_hash_on_tick = 0;
+
 class ProxyApp : public Application
 {
     // Enable type information.
     URHO3D_OBJECT(ProxyApp, Application);
 
-    explicit ProxyApp(Context *context) : Application(context),
-                                          touchEnabled_(false),
-                                          useMouseMode_(MM_ABSOLUTE),
-                                          screenJoystickIndex_(M_MAX_UNSIGNED),
-                                          screenJoystickSettingsIndex_(M_MAX_UNSIGNED),
-                                          paused_(false)
+    explicit ProxyApp(Context *context, vdynamic *dyn_obj) : Application(context),
+                                                             touchEnabled_(false),
+                                                             useMouseMode_(MM_ABSOLUTE),
+                                                             screenJoystickIndex_(M_MAX_UNSIGNED),
+                                                             screenJoystickSettingsIndex_(M_MAX_UNSIGNED),
+                                                             paused_(false)
     {
         callback_setup = NULL;
         callback_start = NULL;
         callback_stop = NULL;
         screenJoystickpatchString_ = "";
+
+        this_dyn_obj_app = dyn_obj;
+
+        dyn_obj_field_on_tick = NULL;
+        if (hl_hash_on_tick == 0)
+            hl_hash_on_tick = hl_hash_utf8("OnTick");
     }
 
     void Setup() override
@@ -49,6 +57,20 @@ class ProxyApp : public Application
         engineParameters_[EP_WINDOW_TITLE] = "UrhoHaxe";
         engineParameters_[EP_WINDOW_ICON] = "Textures/UrhoIcon.png";
 
+        if (GetPlatform() == "Android" || GetPlatform() == "iOS")
+            // On mobile platform, enable touch by adding a screen joystick
+            InitTouchInput();
+        else if (GetSubsystem<Input>()->GetNumJoysticks() == 0)
+            // On desktop platform, do not detect touch when we already got a joystick
+            SubscribeToEvent(E_TOUCHBEGIN, URHO3D_HANDLER(ProxyApp, HandleTouchBegin));
+
+        // Subscribe key down event
+        SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(ProxyApp, HandleKeyDown));
+        // Subscribe key up event
+        SubscribeToEvent(E_KEYUP, URHO3D_HANDLER(ProxyApp, HandleKeyUp));
+
+        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(ProxyApp, HandleUpdate));
+
         if (callback_setup)
         {
             hl_dyn_call(callback_setup, NULL, 0);
@@ -57,19 +79,8 @@ class ProxyApp : public Application
 
     void Start() override
     {
-        if (GetPlatform() == "Android" || GetPlatform() == "iOS")
-            // On mobile platform, enable touch by adding a screen joystick
-            InitTouchInput();
-        else if (GetSubsystem<Input>()->GetNumJoysticks() == 0)
-            // On desktop platform, do not detect touch when we already got a joystick
-            SubscribeToEvent(E_TOUCHBEGIN, URHO3D_HANDLER(ProxyApp, HandleTouchBegin));
 
         CreateConsoleAndDebugHud();
-
-        // Subscribe key down event
-        SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(ProxyApp, HandleKeyDown));
-        // Subscribe key up event
-        SubscribeToEvent(E_KEYUP, URHO3D_HANDLER(ProxyApp, HandleKeyUp));
 
         /*============*/
         if (callback_start)
@@ -102,6 +113,21 @@ class ProxyApp : public Application
         }
     }
 
+    void HandleUpdate(StringHash eventType, VariantMap &eventData)
+    {
+        using namespace Update;
+
+        // Take the frame time step, which is stored as a float
+        float timeStep = eventData[P_TIMESTEP].GetFloat();
+
+        if (this_dyn_obj_app)
+        {
+            vclosure closure;
+            hl_dyn_getp_internal(this_dyn_obj_app, &dyn_obj_field_on_tick, hl_hash_on_tick, &closure);
+            ((void (*)(vdynamic *, double))closure.fun)((vdynamic *)closure.value, (double)timeStep);
+        }
+    }
+
     void subscribeToEvent(hl_urho3d_stringhash *stringhash, vdynamic *dyn_obj, vstring *str)
     {
         if (stringhash)
@@ -111,7 +137,10 @@ class ProxyApp : public Application
             {
                 const char *closure_name = (char *)hl_to_utf8(str->bytes);
                 hl_event_closures[*urho3d_stringhash] = new HL_Urho3DEventHandler(context_, dyn_obj, String(closure_name));
-
+                if (*urho3d_stringhash == E_UPDATE || *urho3d_stringhash == E_TOUCHBEGIN || *urho3d_stringhash == E_KEYDOWN || *urho3d_stringhash == E_KEYUP)
+                {
+                    UnsubscribeFromEvent(*urho3d_stringhash);
+                }
                 SubscribeToEvent(*urho3d_stringhash, URHO3D_HANDLER(ProxyApp, HandlEvents));
             }
         }
@@ -161,6 +190,18 @@ class ProxyApp : public Application
             hl_dyn_abstract_call(callback_fn, args, 2);
             */
             ((void (*)(vdynamic *, vdynamic *, vdynamic *))closure.fun)((vdynamic *)closure.value, (vdynamic *)(*(void **)(&dyn_urho3d_stringhash->v)), (vdynamic *)(*(void **)(&dyn_urho3d_variantmap->v)));
+        }
+
+        if (eventType == E_UPDATE)
+        {
+            using namespace Update;
+            float timeStep = eventData[P_TIMESTEP].GetFloat();
+            if (this_dyn_obj_app)
+            {
+                vclosure closure;
+                hl_dyn_getp_internal(this_dyn_obj_app, &dyn_obj_field_on_tick, hl_hash_on_tick, &closure);
+                ((void (*)(vdynamic *, double))closure.fun)((vdynamic *)closure.value, (double)timeStep);
+            }
         }
     }
 
@@ -354,7 +395,7 @@ class ProxyApp : public Application
 
     void SetScreenJoystickPatchString(String patch_string)
     {
-        screenJoystickpatchString_=patch_string;
+        screenJoystickpatchString_ = patch_string;
     }
 
     void CreateConsoleAndDebugHud()
@@ -373,7 +414,7 @@ class ProxyApp : public Application
         debugHud->SetDefaultStyle(xmlFile);
     }
 
-    VariantMap * GetEngineParameters()
+    VariantMap *GetEngineParameters()
     {
         return &engineParameters_;
     }
@@ -419,19 +460,22 @@ public:
     bool paused_;
 
     String screenJoystickpatchString_;
+
+    vdynamic *this_dyn_obj_app;
+    hl_field_lookup *dyn_obj_field_on_tick;
     /*=================================================================================================================*/
     /*=================================================================================================================*/
 };
 
-hl_urho3d_application *hl_alloc_urho3d_application(hl_finalizer finalizer, urho3d_context *context)
+hl_urho3d_application *hl_alloc_urho3d_application(hl_finalizer finalizer, urho3d_context *context, vdynamic *dyn_obj)
 {
     //printf("hl_alloc_urho3d_application enter \n");
     hl_urho3d_application *p = (hl_urho3d_application *)hl_gc_alloc_finalizer(sizeof(hl_urho3d_application));
     memset(p, 0, sizeof(hl_urho3d_application));
 
     p->finalizer = finalizer ? (void *)finalizer : 0;
-    p->ptr = new ProxyApp(context);
-    p->dyn_obj = NULL;
+    p->ptr = new ProxyApp(context, dyn_obj);
+    p->dyn_obj = dyn_obj;
     return p;
 }
 
@@ -450,10 +494,10 @@ void finalize_urho3d_application(void *v)
     }
 }
 
-HL_PRIM hl_urho3d_application *HL_NAME(_create_application)(urho3d_context *context)
+HL_PRIM hl_urho3d_application *HL_NAME(_create_application)(urho3d_context *context, vdynamic *dyn_obj)
 {
     // printf("_create_application enter \n");
-    hl_urho3d_application *v = hl_alloc_urho3d_application(finalize_urho3d_application, context);
+    hl_urho3d_application *v = hl_alloc_urho3d_application(finalize_urho3d_application, context, dyn_obj);
     return v;
 }
 
@@ -531,8 +575,7 @@ HL_PRIM bool HL_NAME(_application_is_touch_enabled)(hl_urho3d_application *app)
     return false;
 }
 
-
-HL_PRIM void HL_NAME(_application_set_joystick_patch_string)(hl_urho3d_application *app,vstring * vpatch_string)
+HL_PRIM void HL_NAME(_application_set_joystick_patch_string)(hl_urho3d_application *app, vstring *vpatch_string)
 {
     const char *patch_string = (char *)hl_to_utf8(vpatch_string->bytes);
     Urho3D::Application *ptr_app = app->ptr;
@@ -541,25 +584,22 @@ HL_PRIM void HL_NAME(_application_set_joystick_patch_string)(hl_urho3d_applicati
         ProxyApp *proxyApp = (ProxyApp *)ptr_app;
         proxyApp->SetScreenJoystickPatchString(String(patch_string));
     }
-
 }
 
 //  VariantMap engineParameters_;
-HL_PRIM VariantMap * HL_NAME(_application_get_engine_parameters)(hl_urho3d_application *app)
+HL_PRIM VariantMap *HL_NAME(_application_get_engine_parameters)(hl_urho3d_application *app)
 {
     Urho3D::Application *ptr_app = app->ptr;
     if (ptr_app)
     {
         ProxyApp *proxyApp = (ProxyApp *)ptr_app;
-        return  proxyApp->GetEngineParameters();
+        return proxyApp->GetEngineParameters();
     }
     else
     {
         return NULL;
     }
-    
 }
-
 
 typedef void(hashlink_initialization)();
 static hashlink_initialization *urho3d_hashlink_initialize_callback = NULL;
@@ -583,7 +623,7 @@ DEFINE_PRIM(HL_URHO3D_TVARIANTMAP, _application_get_engine_parameters, HL_URHO3D
 DEFINE_PRIM(_VOID, _application_initialize_hashlink, HL_URHO3D_APPLICATION);
 
 DEFINE_PRIM(_BOOL, _application_is_touch_enabled, HL_URHO3D_APPLICATION);
-DEFINE_PRIM(HL_URHO3D_APPLICATION, _create_application, URHO3D_CONTEXT);
+DEFINE_PRIM(HL_URHO3D_APPLICATION, _create_application, URHO3D_CONTEXT _DYN);
 DEFINE_PRIM(_VOID, _run_application, HL_URHO3D_APPLICATION);
 DEFINE_PRIM(_VOID, _setup_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));
 DEFINE_PRIM(_VOID, _start_closure_application, HL_URHO3D_APPLICATION _FUN(_VOID, _NO_ARG));

@@ -9,8 +9,7 @@ import actions.*;
 class Player extends Aircraft {
 	var rotor:Node;
 	var actionID:ActionID;
-    var offsetY = -50;
-    
+	var offsetY = -50;
 
 	public function new(?dyn:Dynamic) {
 		super(dyn);
@@ -38,9 +37,8 @@ class Player extends Aircraft {
 		rotor.position = new Vector3(0, -0.15, 1.2);
 		ActionManager.AddAction(new RepeatForever(new RotateBy(1.0, 0, 0, 360.0 * 4)), rotor);
 
-        node.AddLogicComponent(new MachineGun());
-        node.AddLogicComponent(new Missile());
-
+		node.AddLogicComponent(new MachineGun());
+		node.AddLogicComponent(new Missile());
 
 		ActionManager.AddAction(new EaseOut(new MoveBy(0.5, new Vector3(0, 3, 0)), 2), node);
 
@@ -53,7 +51,6 @@ class Player extends Aircraft {
 
 	public override function Update(timeStep:Float) {
 		if (IsAlive()) {
-		
 			var positionX = 0;
 			var positionY = 0;
 			var hasInput = false;
@@ -62,27 +59,26 @@ class Player extends Aircraft {
 				var touchPosition = state.position;
 				positionX = touchPosition.x;
 				positionY = touchPosition.y + offsetY;
-                hasInput = true;
-              
+				hasInput = true;
 			}
 
 			if (Input.GetMouseButtonDown(MOUSEB_LEFT)) {
 				var mousePos = Input.mousePosition;
 				positionX = mousePos.x;
 				positionY = mousePos.y + offsetY;
-                hasInput = true;
+				hasInput = true;
 			}
 
 			if (hasInput) {
 				var destWorldPos = Renderer.viewports[0].ScreenToWorldPoint(positionX, positionY, 10);
-                destWorldPos.z = 0;
-                node.Translate(destWorldPos - node.worldPosition, TS_WORLD);
-                
-                var weapons = node.GetLogicComponents(Weapon);
+				destWorldPos.z = 0;
+				node.Translate(destWorldPos - node.worldPosition, TS_WORLD);
 
-                for (weapon in weapons) {
-                    weapon.FireAsync(true);
-                }
+				var weapons = node.GetLogicComponents(Weapon);
+
+				for (weapon in weapons) {
+					weapon.FireAsync(true);
+				}
 			}
 
 			node.LookAt(new TVector3(0, node.worldPosition.y + 10, 10), new TVector3(0, 1, -1), TS_WORLD);
@@ -111,13 +107,11 @@ class Player extends Aircraft {
 		var particleEmitter:ParticleEmitter2D = explodeNode.CreateComponent("ParticleEmitter2D");
 		var particleEffect:ParticleEffect2D = new ParticleEffect2D("Particles/PlayerExplosion.pex");
 		particleEmitter.effect = particleEffect;
-    }
-    
-    public override function SendHealthUpdateToSamplyGame() 
-	{
-		if(SamplyGame.mainGame != null)
-		{
-			var h = cast(Health,Float) / MaxHealth;
+	}
+
+	public override function SendHealthUpdateToSamplyGame() {
+		if (SamplyGame.mainGame != null) {
+			var h = cast(Health, Float) / MaxHealth;
 			h *= 100.0;
 			SamplyGame.mainGame.OnPlayerHealthUpdate(h);
 		}

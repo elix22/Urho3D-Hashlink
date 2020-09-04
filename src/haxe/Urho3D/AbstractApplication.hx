@@ -6,8 +6,8 @@ abstract Dyn<T>(Dynamic) from T to T {}
 @:hlNative("Urho3D")
 abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 	@:keep
-	public function new(context:urho3d.Context) {
-		this = CreateApplication(context);
+	public function new(context:urho3d.Context,d:Dynamic) {
+		this = CreateApplication(context,d);
 	}
 
 	@:keep
@@ -59,7 +59,7 @@ abstract AbstractApplication(HL_URHO3D_APPLICATION) {
 	private static function _SubscribeToEventSender(ptr:HL_URHO3D_APPLICATION, object:Object, tringHash:StringHash, d:Dynamic, s:String):Void {}
 
 	@:hlNative("Urho3D", "_create_application")
-	private static function CreateApplication(ptr:urho3d.Context):HL_URHO3D_APPLICATION {
+	private static function CreateApplication(ptr:urho3d.Context,d:Dynamic):HL_URHO3D_APPLICATION {
 		return null;
 	}
 
