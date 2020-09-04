@@ -57,6 +57,28 @@ class Application {
 		abstractApplication.Run();
 	}
 
+	@:final
+	private function PreSetup() {
+		var args = Sys.args();
+		var is_hl:Bool = false;
+		var rpp:String = "";
+		for (i in 0...args.length) {
+			if (args[i] == "-hl") {
+				is_hl = true;
+			}
+			if (args[i] == "-rpp" && (i+1)<args.length) {
+				rpp = args[i+1];
+			}
+		}
+
+		if (is_hl == true) {
+			engineParameters[EP_RESOURCE_PREFIX_PATHS] = Sys.getCwd() + "/bin";
+		}
+		if (rpp != "") {
+			engineParameters[EP_RESOURCE_PREFIX_PATHS] = rpp;
+		}
+	}
+
 	public function Setup():Void {
 		// trace("hx Application setup called ");
 	}

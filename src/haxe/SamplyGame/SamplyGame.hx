@@ -30,12 +30,7 @@ class SamplyGame extends Application {
 		trace("Setup");
 
 		mainGame = this;
-
-		#if URHO3D_HAXE_HASHLINK
 		engineParameters[EP_RESOURCE_PATHS] = "Data/SamplyGame;Data;CoreData;";
-		#else
-		engineParameters[EP_RESOURCE_PATHS] = "bin/Data/SamplyGame;bin/Data;bin/CoreData;";
-		#end
 		engineParameters[EP_FULL_SCREEN] = false;
 		engineParameters[EP_WINDOW_WIDTH] = 450;
 		engineParameters[EP_WINDOW_HEIGHT] = 800;

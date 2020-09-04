@@ -13,7 +13,8 @@
 			"preLaunchTask": "haxe: build.hxml",
 			"hxml": "build.hxml",
 			"cwd": "${workspaceFolder}",
-			"program": "main.hl"
+			"program": "main.hl",
+			"args": ["-hl" ,"eli"]
 		},
 	]
 }

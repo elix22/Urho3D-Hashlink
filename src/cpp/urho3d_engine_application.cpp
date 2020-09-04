@@ -14,6 +14,7 @@ vdynamic *hl_dyn_abstract_call(vclosure *c, vdynamic **args, int nargs);
 void *hl_dyn_getp_internal(vdynamic *d, hl_field_lookup **f, int hfield, vclosure *c = NULL);
 
 static int hl_hash_on_tick = 0;
+static int hl_hash_pre_setup = 0;
 
 class ProxyApp : public Application
 {
@@ -37,6 +38,10 @@ class ProxyApp : public Application
         dyn_obj_field_on_tick = NULL;
         if (hl_hash_on_tick == 0)
             hl_hash_on_tick = hl_hash_utf8("OnTick");
+
+        dyn_obj_field_pre_setup = NULL;
+        if (hl_hash_pre_setup == 0)
+            hl_hash_pre_setup = hl_hash_utf8("PreSetup");
     }
 
     void Setup() override
@@ -71,6 +76,13 @@ class ProxyApp : public Application
 
         SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(ProxyApp, HandleUpdate));
 
+        if (this_dyn_obj_app)
+        {
+            vclosure closure;
+            hl_dyn_getp_internal(this_dyn_obj_app, &dyn_obj_field_pre_setup, hl_hash_pre_setup, &closure);
+            ((void (*)(vdynamic *))closure.fun)((vdynamic *)closure.value);
+        }
+        
         if (callback_setup)
         {
             hl_dyn_call(callback_setup, NULL, 0);
@@ -463,6 +475,7 @@ public:
 
     vdynamic *this_dyn_obj_app;
     hl_field_lookup *dyn_obj_field_on_tick;
+    hl_field_lookup *dyn_obj_field_pre_setup;
     /*=================================================================================================================*/
     /*=================================================================================================================*/
 };
