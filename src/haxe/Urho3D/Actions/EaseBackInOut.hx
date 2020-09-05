@@ -1,8 +1,9 @@
-package actions;
-import actions.ActionEase;
-import actions.ActionEase.ActionEaseState;
+package urho3d.actions;
+
+import urho3d.actions.ActionEase;
+import urho3d.actions.ActionEase.ActionEaseState;
 import urho3d.*;
-import actions.FiniteTimeAction;
+import urho3d.actions.FiniteTimeAction;
 
 	class EaseBackInOut extends ActionEase
 	{

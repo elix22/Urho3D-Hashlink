@@ -62,6 +62,23 @@ class ProxyApp : public Application
         engineParameters_[EP_WINDOW_TITLE] = "UrhoHaxe";
         engineParameters_[EP_WINDOW_ICON] = "Textures/UrhoIcon.png";
 
+        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(ProxyApp, HandleUpdate));
+
+        if (this_dyn_obj_app)
+        {
+            vclosure closure;
+            hl_dyn_getp_internal(this_dyn_obj_app, &dyn_obj_field_pre_setup, hl_hash_pre_setup, &closure);
+            ((void (*)(vdynamic *))closure.fun)((vdynamic *)closure.value);
+        }
+
+        if (callback_setup)
+        {
+            hl_dyn_call(callback_setup, NULL, 0);
+        }
+    }
+
+    void Start() override
+    {
         if (GetPlatform() == "Android" || GetPlatform() == "iOS")
             // On mobile platform, enable touch by adding a screen joystick
             InitTouchInput();
@@ -73,24 +90,6 @@ class ProxyApp : public Application
         SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(ProxyApp, HandleKeyDown));
         // Subscribe key up event
         SubscribeToEvent(E_KEYUP, URHO3D_HANDLER(ProxyApp, HandleKeyUp));
-
-        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(ProxyApp, HandleUpdate));
-
-        if (this_dyn_obj_app)
-        {
-            vclosure closure;
-            hl_dyn_getp_internal(this_dyn_obj_app, &dyn_obj_field_pre_setup, hl_hash_pre_setup, &closure);
-            ((void (*)(vdynamic *))closure.fun)((vdynamic *)closure.value);
-        }
-        
-        if (callback_setup)
-        {
-            hl_dyn_call(callback_setup, NULL, 0);
-        }
-    }
-
-    void Start() override
-    {
 
         CreateConsoleAndDebugHud();
 

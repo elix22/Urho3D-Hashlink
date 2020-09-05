@@ -1,11 +1,11 @@
 package samplygame;
 
-import actions.BezierBy.BezierConfig;
-import actions.ActionManager;
+import urho3d.actions.BezierBy.BezierConfig;
+import urho3d.actions.ActionManager;
 import samplygame.Globals.CollisionLayers;
-import actions.ActionManager.ActionID;
+import urho3d.actions.ActionManager.ActionID;
 import urho3d.*;
-import actions.*;
+import urho3d.actions.*;
 
 class Missile extends Weapon
 {

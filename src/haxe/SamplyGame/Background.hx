@@ -1,9 +1,9 @@
 package samplygame;
 
 import urho3d.*;
-import actions.*;
-import actions.ActionManager.ActionID;
-import actions.ActionManager.ActionGroup;
+import urho3d.actions.*;
+import urho3d.actions.ActionManager.ActionID;
+import urho3d.actions.ActionManager.ActionGroup;
 import urho3d.LogicComponent;
 
 class Background extends LogicComponent {

@@ -1,10 +1,10 @@
 package samplygame;
 
-import actions.ActionManager;
+import urho3d.actions.ActionManager;
 import samplygame.Globals.CollisionLayers;
-import actions.ActionManager.ActionID;
+import urho3d.actions.ActionManager.ActionID;
 import urho3d.*;
-import actions.*;
+import urho3d.actions.*;
 
 class MachineGun extends Weapon
 {

@@ -1,5 +1,6 @@
 package urho3d;
 
+import urho3d.UIElement.VerticalAlignment;
 import urho3d.UIElement.HorizontalAlignment;
 import hl.Bytes;
 
@@ -42,6 +43,18 @@ abstract Text(HL_URHO3D_UI_TEXT) {
 
 	function set_horizontalAlignment(a) {
 		SetHorizontalAlignment(Context.context, cast this, a);
+		return a;
+	}
+
+	public var verticalAlignment(get, set):VerticalAlignment;
+
+
+	function get_verticalAlignment() {
+		return GetVerticalAlignment(Context.context, cast this);
+	}
+
+	function set_verticalAlignment(a) {
+		SetVerticalAlignment(Context.context, cast this, a);
 		return a;
 	}
 
@@ -88,9 +101,18 @@ abstract Text(HL_URHO3D_UI_TEXT) {
 		return 0;
     }
     
+	@:hlNative("Urho3D", "_ui_text_set_vertical_alignment")
+	private static function SetVerticalAlignment(context:Context, t:Text, a:Int) {}
+
+	@:hlNative("Urho3D", "_ui_text_get_vertical_alignment")
+	private static function GetVerticalAlignment(c:Context, n:Text):Int {
+		return 0;
+    }
+
     @:hlNative("Urho3D", "_ui_text_cast_to_uielement")
     private static function CastToUIElement(context:Context, t:Text):UIElement {return null;}
     
     @:hlNative("Urho3D", "_ui_text_cast_from_uielement")
 	private static function CastFromUIElement(context:Context, t:UIElement):Text {return null;}
+
 }

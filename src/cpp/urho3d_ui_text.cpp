@@ -102,6 +102,20 @@ HL_PRIM int HL_NAME(_ui_text_get_horizontal_alignment)(urho3d_context *context, 
 }
 
 
+////
+HL_PRIM void HL_NAME(_ui_text_set_vertical_alignment)(urho3d_context *context, hl_urho3d_ui_text *this_, int alignment)
+{
+    // TBD ELI , add null ptr protection;
+    this_->ptr->SetVerticalAlignment(Urho3D::VerticalAlignment(alignment));
+}
+
+HL_PRIM int HL_NAME(_ui_text_get_vertical_alignment)(urho3d_context *context, hl_urho3d_ui_text *this_)
+{
+    // TBD ELI , add null ptr protection;
+    return this_->ptr->GetVerticalAlignment();
+}
+
+
 HL_PRIM hl_urho3d_uielement *HL_NAME(_ui_text_cast_to_uielement)(urho3d_context *context, hl_urho3d_ui_text *this_)
 {
     return hl_alloc_urho3d_uielement(context, this_->ptr);
@@ -125,6 +139,9 @@ DEFINE_PRIM(HL_URHO3D_UI_TEXT, _ui_text_cast_from_uielement, URHO3D_CONTEXT HL_U
 
 DEFINE_PRIM(_VOID, _ui_text_set_horizontal_alignment, URHO3D_CONTEXT HL_URHO3D_UI_TEXT _I32);
 DEFINE_PRIM(_I32, _ui_text_get_horizontal_alignment, URHO3D_CONTEXT HL_URHO3D_UI_TEXT);
+
+DEFINE_PRIM(_VOID, _ui_text_set_vertical_alignment, URHO3D_CONTEXT HL_URHO3D_UI_TEXT _I32);
+DEFINE_PRIM(_I32, _ui_text_get_vertical_alignment, URHO3D_CONTEXT HL_URHO3D_UI_TEXT);
 
 DEFINE_PRIM(_VOID, _ui_text_set_text_alignment, URHO3D_CONTEXT HL_URHO3D_UI_TEXT _I32);
 DEFINE_PRIM(_I32, _ui_text_get_text_alignment, URHO3D_CONTEXT HL_URHO3D_UI_TEXT);

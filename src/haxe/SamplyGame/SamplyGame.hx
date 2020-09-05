@@ -1,10 +1,10 @@
 package samplygame;
 
-import actions.ActionManager.ActionID;
+import urho3d.actions.ActionManager.ActionID;
 import urho3d.*;
 import urho3d.UIElement.HorizontalAlignment;
 import urho3d.Application;
-import actions.*;
+import urho3d.actions.*;
 
 class SamplyGame extends Application {
 	private var scene:Scene = null;
@@ -25,6 +25,8 @@ class SamplyGame extends Application {
 	private var HealthString:String = "Health : ";
 	var coinsText:Text = null;
 	var healthText:Text = null;
+
+	var drawDebug:Bool = false;
 
 	public override function Setup() {
 		trace("Setup");
@@ -64,6 +66,7 @@ class SamplyGame extends Application {
 		scene = new Scene();
 
 		scene.CreateComponent("Octree");
+		scene.CreateComponent("DebugRenderer");
 
 		var physics:PhysicsWorld = scene.CreateComponent("PhysicsWorld");
 		physics.gravity = new Vector3(0.0, 0.0, 0.0);
@@ -88,16 +91,16 @@ class SamplyGame extends Application {
 		light.lightType = LIGHT_POINT;
 		light.range = 120;
 		light.brightness = 0.8;
-		
 	}
 
 	public function SubscribeToEvents() {
 		SubscribeToEvent("Update", "HandleUpdate");
+		SubscribeToEvent("PostRenderUpdate", "HandlePostRenderUpdate");
 	}
 
 	public function HandleUpdate(eventType:StringHash, eventData:VariantMap) {
 		var step:Float = eventData["TimeStep"];
-		ActionManager.Step(step);
+		
 
 		if (startMenu_ != null && startMenu_.startPlay == true && playing == false) {
 			playing = true;
@@ -127,10 +130,19 @@ class SamplyGame extends Application {
 			player_ = null;
 			enemies_ = null;
 
-			InvokeDelayed(1.0,"CreateStartMenu",[]);
+			InvokeDelayed(1.0, "CreateStartMenu", []);
 			coins = 0;
 			coinsText.text = coins + CoinsString;
 		}
+
+		// Toggle debug geometry with space
+		if (Input.GetKeyPress(KEY_SPACE))
+			drawDebug = !drawDebug;
+	}
+
+	public function HandlePostRenderUpdate(eventType:StringHash, eventData:VariantMap) {
+		if (drawDebug)
+			Renderer.DrawDebugGeometry(true);
 	}
 
 	function CreateStartMenu() {
@@ -178,6 +190,6 @@ class SamplyGame extends Application {
 	public function OnPlayerHealthUpdate(health:Float) {
 		// trace("OnPlayerHealthUpdate " + health);
 
-		 healthText.text =HealthString + cast(health,Int) + "%";
+		healthText.text = HealthString + cast(health, Int) + "%";
 	}
 }

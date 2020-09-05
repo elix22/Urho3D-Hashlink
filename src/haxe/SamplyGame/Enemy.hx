@@ -1,8 +1,8 @@
 package samplygame;
 
-import actions.*;
-import actions.ActionManager;
-import actions.ActionManager.ActionID;
+import urho3d.actions.*;
+import urho3d.actions.ActionManager;
+import urho3d.actions.ActionManager.ActionID;
 import urho3d.*;
 import samplygame.Globals.CollisionLayers;
 
@@ -23,7 +23,7 @@ class Enemy extends Aircraft
 	
 	public function InitializedDone( actionID)
 	{
-		MoveRandomly(1,  2,  -3,  3,  1.5);
+		MoveRandomly(1,  2,  -3,  3,  1.0);
 		StartShooting();	
 	}
 	
@@ -63,7 +63,7 @@ class Enemy extends Aircraft
 	{
 		if(IsAlive())
 		{
-			MoveRandomly(1, 2, -3,  3,  1.5);
+			MoveRandomly(1, 2, -3,  3,  1);
 		}
 	}
 	

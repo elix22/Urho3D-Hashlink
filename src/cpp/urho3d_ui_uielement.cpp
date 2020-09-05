@@ -59,15 +59,22 @@ HL_PRIM  hl_urho3d_uielement  * HL_NAME(_create_uielement)(urho3d_context *conte
     return v;
 }
 
-HL_PRIM  void HL_NAME(_ui_uielement_addchild)(urho3d_context *context, hl_urho3d_uielement  * this_, hl_urho3d_uielement  * ui_child)
+HL_PRIM  void HL_NAME(_ui_uielement_add_child)(urho3d_context *context, hl_urho3d_uielement  * this_, hl_urho3d_uielement  * ui_child)
 {
     // TBD ELI , add null ptr protection
     this_->ptr->AddChild(ui_child->ptr);
 }
 //
 
+//   void RemoveChild(UIElement* element, unsigned index = 0);
 //
+HL_PRIM  void HL_NAME(_ui_uielement_remove_child)(urho3d_context *context, hl_urho3d_uielement  * this_, hl_urho3d_uielement  * ui_child , int index)
+{
+    // TBD ELI , add null ptr protection
+    this_->ptr->RemoveChild(ui_child->ptr,index);
+}
 
 
 DEFINE_PRIM(HL_URHO3D_UIELEMENT, _create_uielement, URHO3D_CONTEXT );
-DEFINE_PRIM(_VOID, _ui_uielement_addchild, URHO3D_CONTEXT HL_URHO3D_UIELEMENT HL_URHO3D_UIELEMENT);
+DEFINE_PRIM(_VOID, _ui_uielement_add_child, URHO3D_CONTEXT HL_URHO3D_UIELEMENT HL_URHO3D_UIELEMENT);
+DEFINE_PRIM(_VOID, _ui_uielement_remove_child, URHO3D_CONTEXT HL_URHO3D_UIELEMENT HL_URHO3D_UIELEMENT _I32);

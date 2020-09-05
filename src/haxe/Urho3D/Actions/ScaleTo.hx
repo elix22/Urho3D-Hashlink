@@ -1,6 +1,7 @@
-package actions;
+package urho3d.actions;
+
 import urho3d.*;
-import actions.FiniteTimeAction.FiniteTimeActionState;
+import urho3d.actions.FiniteTimeAction.FiniteTimeActionState;
 
 class ScaleTo extends FiniteTimeAction
 {

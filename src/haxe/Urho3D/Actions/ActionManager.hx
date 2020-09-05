@@ -1,8 +1,8 @@
-package actions;
+package urho3d.actions;
 
 import urho3d.Bone;
 import urho3d.Node;
-import actions.FiniteTimeAction.FiniteTimeActionState;
+import urho3d.actions.FiniteTimeAction.FiniteTimeActionState;
 
 
 typedef CALLBACK = ActionID->Void;

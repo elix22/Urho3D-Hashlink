@@ -1,7 +1,7 @@
-package actions;
+package urho3d.actions;
 
 import urho3d.*;
-import actions.FiniteTimeAction.FiniteTimeActionState;
+import urho3d.actions.FiniteTimeAction.FiniteTimeActionState;
 
 class MoveBy extends FiniteTimeAction {
 	public var PositionDelta:Vector3;

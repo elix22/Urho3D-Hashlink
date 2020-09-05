@@ -25,6 +25,7 @@ enum abstract IntMathDefs(Int) to Int from Int {
 
 class Math {
 	public static final _PI_ = 3.1415926535897932384626433832795028;
+	public static final _TWO_PI_ = 3.1415926535897932384626433832795028 * 2;
 	public static final _HALF_PI_ = 3.1415926535897932384626433832795028 * 0.5;
 	public static final _EPSILON_ = 0.000001;
 	public static final _LARGE_EPSILON_ = 0.00005;
@@ -255,8 +256,17 @@ class Math {
 		return RandStandardNormal() * std.Math.sqrt(variance) + meanValue;
 	}
 
-	public static inline function ExponentialOut(time:Float):Float {
-		return time == 1.0 ? 1.0 : (-std.Math.pow(2.0, -10.0 * time / 1.0) + 1.0);
+	public static inline function BackIn(time:Float):Float {
+		final overshoot = 1.70158;
+
+		return time * time * ((overshoot + 1) * time - overshoot);
+	}
+
+	public static inline function BackOut(time:Float):Float {
+		final overshoot = 1.70158;
+
+		time = time - 1;
+		return time * time * ((overshoot + 1) * time + overshoot) + 1;
 	}
 
 	public static inline function BackInOut(time:Float):Float {
@@ -271,13 +281,141 @@ class Math {
 		}
 	}
 
+	public inline static function BounceOut(time:Float):Float {
+		var result:Float = 0.0;
+
+		if (time < 1 / 2.75) {
+			result = 7.5625 * time * time;
+		} else if (time < 2 / 2.75) {
+			time -= 1.5 / 2.75;
+			result = 7.5625 * time * time + 0.75;
+		} else if (time < 2.5 / 2.75) {
+			time -= 2.25 / 2.75;
+			result = 7.5625 * time * time + 0.9375;
+		} else {
+			time -= 2.625 / 2.75;
+			result = 7.5625 * time * time + 0.984375;
+		}
+
+		return result;
+	}
+
+	public static inline function BounceIn(time:Float):Float {
+		return 1 - BounceOut(1 - time);
+	}
+
+	public static inline function BounceInOut(time:Float):Float {
+		if (time < 0.5) {
+			time = time * 2;
+			return (1 - BounceOut(1 - time)) * 0.5;
+		}
+		return BounceOut(time * 2 - 1) * 0.5 + 0.5;
+	}
+
+	public static inline function SineOut(time:Float):Float {
+		return std.Math.sin(time * _HALF_PI_);
+	}
+
+	public static inline function SineIn(time:Float):Float {
+		return -1 * std.Math.cos(time * _HALF_PI_) + 1.0;
+	}
+
+	public static inline function SineInOut(time:Float):Float {
+		return -0.5 * (std.Math.cos(Math._PI_ * time) - 1.0);
+	}
+
+	public static inline function ExponentialOut(time:Float):Float {
+		return time == 1.0 ? 1.0 : (-std.Math.pow(2.0, -10.0 * time / 1.0) + 1.0);
+	}
+
+	public static inline function ExponentialIn(time:Float):Float {
+		return time == 0.0 ? 0.0 : std.Math.pow(2.0, 10.0 * (time / 1.0 - 1.0)) - 1.0 * 0.001;
+	}
+
+	public static inline function ExponentialInOut(time:Float):Float {
+		time /= 0.5;
+		if (time < 1.0) {
+			return 0.5 * std.Math.pow(2.0, 10.0 * (time - 1.0));
+		} else {
+			return 0.5 * (-std.Math.pow(2.0, -10.0 * (time - 1.0)) + 2.0);
+		}
+	}
+
+	public static inline function ElasticIn(time:Float, period:Float) {
+		if (time == 0 || time == 1) {
+			return time;
+		} else {
+			var s:Float = period / 4;
+			time = time - 1;
+			return -(std.Math.pow(2, 10 * time) * std.Math.sin((time - s) * _PI_ * 2.0 / period));
+		}
+	}
+
+	public static inline function ElasticOut(time:Float, period:Float) {
+		if (time == 0 || time == 1) {
+			return time;
+		} else {
+			var s:Float = period / 4;
+			return (std.Math.pow(2, -10 * time) * std.Math.sin((time - s) * _PI_ * 2.0 / period) + 1);
+		}
+	}
+
+	public static inline function ElasticInOut(time:Float, period:Float) {
+		if (time == 0 || time == 1) {
+			return time;
+		} else {
+			time = time * 2;
+			if (period == 0) {
+				period = 0.3 * 1.5;
+			}
+
+			var s:Float = period / 4;
+
+			time = time - 1;
+			if (time < 0) {
+				return (-0.5 * std.Math.pow(2, 10 * time) * std.Math.sin((time - s) * _TWO_PI_ / period));
+			} else {
+				return (std.Math.pow(2, -10 * time) * std.Math.sin((time - s) * _TWO_PI_ / period) * 0.5 + 1.0);
+			}
+		}
+	}
+
+	public static inline function   CardinalSplineAt( p0:TVector2,  p1:TVector2,  p2:TVector2,  p3:TVector2,  tension:Float,  t:Float):TVector2
+	{
+		if (tension < 0)
+		{
+			tension = 0;
+		}
+		if (tension > 1)
+		{
+			tension = 1;
+		}
+		var t2:Float = t * t;
+		var t3:Float = t2 * t;
+
+		/*
+		 * Formula: s(-ttt + 2tt - t)P1 + s(-ttt + tt)P2 + (2ttt - 3tt + 1)P2 + s(ttt - 2tt + t)P3 + (-2ttt + 3tt)P3 + s(ttt - tt)P4
+		 */
+		var s:Float = (1 - tension) / 2;
+
+		var b1:Float = s * ((-t3 + (2 * t2)) - t); // s(-t3 + 2 t2 - t)P1
+		var b2:Float = s * (-t3 + t2) + (2 * t3 - 3 * t2 + 1); // s(-t3 + t2)P2 + (2 t3 - 3 t2 + 1)P2
+		var b3:Float = s * (t3 - 2 * t2 + t) + (-2 * t3 + 3 * t2); // s(t3 - 2 t2 + t)P3 + (-2 t3 + 3 t2)P3
+		var b4:Float = s * (t3 - t2); // s(t3 - t2)P4
+
+		var x:Float = (p0.x * b1 + p1.x * b2 + p2.x * b3 + p3.x * b4);
+		var y:Float = (p0.y * b1 + p1.y * b2 + p2.y * b3 + p3.y * b4);
+
+		return new TVector2(x, y);
+	}
+
 	public static inline function CubicBezier(a:Float, b:Float, c:Float, d:Float, t:Float) {
 		var t1 = 1.0 - t;
-		return ((t1 * t1 * t1) * a + 3.0  * t * (t1 * t1) * b + 3.0  * (t * t) * (t1) * c + (t * t * t) * d);
+		return ((t1 * t1 * t1) * a + 3.0 * t * (t1 * t1) * b + 3.0 * (t * t) * (t1) * c + (t * t * t) * d);
 	}
 
 	public static inline function QuadBezier(a:Float, b:Float, c:Float, t:Float) {
 		var t1 = 1.0 - t;
-		return (t1 * t1) * a + 2.0  * (t1) * t * b + (t * t) * c;
+		return (t1 * t1) * a + 2.0 * (t1) * t * b + (t * t) * c;
 	}
 }

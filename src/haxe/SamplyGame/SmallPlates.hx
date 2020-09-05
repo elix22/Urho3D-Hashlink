@@ -1,8 +1,8 @@
 package samplygame;
 
-import actions.*;
-import actions.ActionManager;
-import actions.ActionManager.ActionID;
+import urho3d.actions.*;
+import urho3d.actions.ActionManager;
+import urho3d.actions.ActionManager.ActionID;
 import urho3d.*;
 import samplygame.Globals.CollisionLayers;
 

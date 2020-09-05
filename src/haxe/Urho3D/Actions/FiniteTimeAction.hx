@@ -1,5 +1,6 @@
-package actions;
+package urho3d.actions;
 
+import urho3d.*;
 import urho3d.Node;
 import urho3d.Bone;
 
@@ -82,7 +83,7 @@ class FiniteTimeActionState {
 			elapsed += dt;
 		}
 
-		Update(Math.max(0.0, Math.min(1.0, elapsed / Math.max(Duration, 0.0000001))));
+		Update(Math.Max(0.0, Math.Min(1.0, elapsed / Math.Max(Duration, 0.0000001))));
 	}
 
 	public function Stop() {

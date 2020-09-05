@@ -1,8 +1,8 @@
-package actions;
+package urho3d.actions;
 
 import urho3d.*;
-import actions.FiniteTimeAction.FiniteTimeActionState;
-import actions.MoveBy.MoveByState;
+import urho3d.actions.FiniteTimeAction.FiniteTimeActionState;
+import urho3d.actions.MoveBy.MoveByState;
 
 class MoveTo extends MoveBy {
 

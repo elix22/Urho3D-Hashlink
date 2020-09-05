@@ -1,5 +1,7 @@
 package urho3d;
 
+import urho3d.actions.ActionManager;
+
 typedef Long = haxe.Int64;
 
 typedef HLDynEvent = {
@@ -66,8 +68,8 @@ class Application {
 			if (args[i] == "-hl") {
 				is_hl = true;
 			}
-			if (args[i] == "-rpp" && (i+1)<args.length) {
-				rpp = args[i+1];
+			if (args[i] == "-rpp" && (i + 1) < args.length) {
+				rpp = args[i + 1];
 			}
 		}
 
@@ -95,6 +97,10 @@ class Application {
 	@:final
 	private function OnTick(timeStep:Float):Void {
 		//	trace("OnTick " + timeStep);
+
+		if (ActionManager.IsRunning()) {
+			ActionManager.Step(timeStep);
+		}
 
 		// Execute delayed calls
 		for (call in delayedCalls) {

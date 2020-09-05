@@ -10,7 +10,7 @@ class Main {
 		//	 app = new SpritesSample();
 		//	app = new AnimatingSceneSample();
 		//	 app = new StaticSceneSample();
-		// app = new SkeletalAnimationSample();
+		 //app = new SkeletalAnimationSample();
 		//	app = new BillboardsSample();
 		//	app = new DecalsSample();
 		//  app = new MultipleViewportsSample();

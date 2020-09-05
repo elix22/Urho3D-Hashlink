@@ -1,9 +1,9 @@
 package samplygame;
 
 import haxe.extern.AsVar;
-import actions.*;
-import actions.ActionManager;
-import actions.ActionManager.ActionID;
+import urho3d.actions.*;
+import urho3d.actions.ActionManager;
+import urho3d.actions.ActionManager.ActionID;
 import urho3d.*;
 import samplygame.Globals.CollisionLayers;
 
@@ -31,7 +31,7 @@ class EnemyBat extends Enemy
 		model.model = new Model("Models/Enemy1.mdl");
 		model.material  = new Material("Materials/Enemy1.xml").Clone("");
 		node.scale = Random(0.5, 0.8);
-		node.position =  new Vector3(Random(-2.0,2.0), 5.0, 0.0);
+		node.position =  new Vector3(Random(-1.5,1.5), 7.0, 0.0);
 		
 		
 		// load weapons:	
