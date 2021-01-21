@@ -4,6 +4,10 @@ This project aims to run Urho3D on the Haxe hashlink runtime .
 It's in a very early stage  and I am doing it at my spare time .
 I already did some p.o.c.
 
+Android APK with some samples  can be dowloaded from :
+https://drive.google.com/file/d/1B2BZ4hStr6rTzJevyaWnvMgffkOeekGk/view?usp=sharing
+
+
 Links to some sample applications:
 
 https://github.com/elix22/Urho3D/tree/hashlink-poc/Source/Samples/71_HashLinkSprites
